@@ -1,0 +1,564 @@
+body {
+    margin:0px 0px 0px 0px;
+    padding:0px;
+    text-align: left;
+    font-family:Calibri;
+    font-size:12px;
+}
+.gold {
+    color:#FDD017;
+}
+.silver {
+    color:#808080;
+}
+
+#main_banner {
+    width:1000px;
+    height:80px;
+    text-align:left;
+    margin: 0px 0px 0px 0px;
+    border-bottom:#FD9A00 1px solid;
+    background:url("../images/bg_header7.bmp") top;
+}
+.right_header {
+    float:right;
+    text-align:right;
+    width:700px;
+    padding:0px 0 0 0;
+    margin: 0px 0px 0px 0px;
+    border:#000000 0px solid;
+}
+.padding6{
+    padding:6px 0 0 0;
+}
+#main_logo {
+    width:auto;
+    height: auto;
+    padding:2px 0 0 4px;
+    margin: 0px 0px 0px 0px;
+    float:left;
+}
+.links {
+    padding:0px 0px 0px 0px;
+    font:bold 14px Calibri;
+    color:#000080;
+}
+
+.links:hover {
+    padding:0px 0px 0px 0px;
+    font:bold 14px Calibri;
+    color:#800000;
+}
+/* ---------------------------- Sub Menu --------------------------------------*/
+/*Main Menu*/
+.main_sub_menu {
+    width:650px;
+    float:right;
+}
+#sub_menu {
+    width:650px;
+    height:5px;
+    float:right;
+    padding:10px 5px 0 0;
+}
+#sub_menu ul {
+    list-style:none;
+    padding:0px;
+    margin:0px;
+    display:block;
+    font:bold 12px Calibri;
+    color:#FF0000;
+    float:right;
+}
+#sub_menu ul li {
+    list-style:none;
+    display:inline;
+    float:left;
+    width:110px;
+    height:10px;
+    padding:0px;
+    line-height:35px;
+    font-size:13px;
+    margin:0 3px 0 3px;
+    font:bold 12px Calibri;
+    color:#FF0000;
+}
+#sub_menu ul li a {
+    height:10px;
+    width:110px;
+    float:right;
+    text-decoration:none;
+    padding:0px;
+    margin:0px;
+    color:#6c7b83;
+    text-align:center;
+    font:bold 12px Calibri;
+    color:#FF0000;
+}
+#sub_menu ul li a:hover {
+    height:10px;
+    width:110px;
+    text-decoration:none;
+    font:bold 12px Calibri;
+    color:#FFFFFF;	
+}
+#sub_menu ul li a.current {
+    height:10px;
+    width:110px;
+    float:right;
+    text-decoration:none;
+    padding:0px;
+    margin:0px;
+    font:bold 12px Calibri;
+    color:#FF0000;
+}
+/* ---------------------------- Start Ajax Loading Div ------------------------*/
+#main_ajax_loading_div {
+    width:auto;
+    height:auto;
+    vertical-align:middle;
+}
+/* ---------------------------- End Ajax Loading Div ------------------------*/
+#cust_middle_body{
+    width:auto;
+    min-height: 300px;
+}
+.main_center{
+    width:989px;
+    height:auto;
+    clear:both;
+    margin:0px;
+    padding:0px;
+    /*background:url(../images/bg.gif) top repeat;*/
+}
+.main_middle{
+    width:995px;
+    min-height: 300px;
+    text-align: left;
+    float:left;
+    padding:0px 0px 0px 5px;
+    margin:0px;
+    border:#FD9A00 0px solid;
+    /*background:url(../images/bg_middle1.gif) top;*/
+}
+.main_middle_height_auto{
+    width:989px;
+    height:auto;
+    text-align: left;
+    float:left;
+    padding:0px 0px 0px 5px;
+    margin:0px;
+    border:#FD9A00 0px solid;
+    /*background:url(../images/bg_middle1.gif) top;*/
+}
+.main_analysis_chart{
+    width:auto;
+    height:296px;
+    text-align: center;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border:#FD9A00 0px solid;
+}
+.main_middle_analysis_chart_con{
+    width:684px;
+    height:297px;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border-right:#FD9A00 1px solid;
+    border-bottom:#FD9A00 1px solid;
+    /*background:url(../images/goldPlate1.gif);*/
+}
+.main_middle_analysis{
+    width:331px;
+    height:297px;
+    float:left;
+    text-align: left;
+    padding:0px;
+    margin:0px;
+    border-right:#FD9A00 1px solid;
+    border-bottom:#FD9A00 1px solid;
+    /*background:url(../images/goldPlate1.gif);*/
+}
+.analysis_div_rows{
+    width:auto;
+    height:auto;
+    vertical-align:middle;
+    padding:0px 0px 0px 0px;
+}
+.analysis_content{
+    width:auto;
+    height:auto;
+    padding:10px 0px 0px 20px;
+}
+.main_middle_stock{
+    width:331px;
+    height:297px;
+    text-align: left;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border-left:#FD9A00 1px solid;
+    border-bottom:#FD9A00 1px solid;
+    /*background:url(../images/silverPlate1.gif);*/
+}
+.stock_content{
+    width:auto;
+    height:auto;
+    padding:10px 0px 0px 20px;
+}
+.main_middle_girvi{
+    width:331px;
+    height:297px;
+    text-align: left;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border-top:#FD9A00 1px solid;
+    border-right:#FD9A00 1px solid;
+    /*background:url(../images/silverPlate1.gif);*/
+}
+.main_middle_alert{
+    width:331px;
+    height:297px;
+    text-align: left;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border-top:#FD9A00 1px solid;
+    border-left:#FD9A00 1px solid;
+    /*background:url(../images/silverPlate1.gif);*/
+}
+.main_middle_cust_list{
+    width:989px;
+    min-height: 300px;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border:#FD9A00 0px solid;
+}
+.main_middle_cust_header{
+    width:989px;
+    height:auto;
+    float:left;
+    padding:0px 0px 0px 10px;
+    border:#0000FF 0px solid;
+}
+.main_middle_cust_content{
+    width:745px;
+    height:auto;
+    float:left;
+    padding:0px 0px 0px 5px;
+    border:#0000FF 0px solid;
+}
+.main_middle_cust_list_content{
+    width:400px;
+    height:auto;
+    float:left;
+    padding:0px 0px 0px 5px;
+    border:#0000FF 0px solid;
+}
+.firmList
+{
+    height:auto;
+}
+.main_right{
+    width:202px;
+    height:auto;
+    float:right;
+    TEXT-ALIGN: left;
+    border:#FD9A00 2px solid;
+    /*background:url(../images/silverRight1.gif);*/
+}
+.right_div_box{
+    width:auto;
+    height:auto;
+    TEXT-ALIGN: left;
+    BORDER: #00020A 1px solid;
+
+}
+.right_div_Main_headings{
+    width:auto;
+    height:auto;
+    vertical-align:middle;
+    padding:10px 0px 0px 15px;
+}
+.right_div_main_headings_content{
+    width:auto;
+    height:auto;
+    vertical-align:middle;
+    padding:7px 0px 0px 0px;
+}
+.right_div_headings{
+    width:auto;
+    height:auto;
+    vertical-align:middle;
+    padding:3px 0px 0px 5px;
+}
+.right_div_content_headings{
+    width:auto;
+    height:auto;
+    vertical-align:middle;
+    padding:3px 0px 0px 10px;
+}
+.right_div_headings_content{
+    width:auto;
+    height:auto;
+    vertical-align:middle;
+    padding:2px 0px 0px 5px;
+}
+.right_div_content{
+    width:auto;
+    height:auto;
+    TEXT-ALIGN: left;
+    BORDER: #00020A 1px solid;
+}
+.right_div_header{
+    width:auto;
+    height:auto;
+    TEXT-ALIGN: left;
+    BORDER: #00020A 1px solid;
+}
+/*.girvi_head_maron_left {
+    color:#800000;
+    font-size:14px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_maron_left16 {
+    color:#800000;
+    font-size:16px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_green_left {
+    color:#008000;
+    font-size:13px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_green_14 {
+    color:#008000;
+    font-size:14px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_green_12 {
+    color:#008000;
+    font-size:12px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_14 {
+    color:#000080;
+    font-size:14px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_brown_14 {
+    color:#800000;
+    font-size:14px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_15 {
+    color:#000080;
+    font-size:15px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_16 {
+    color:#000080;
+    font-size:16px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_20 {
+    color:#000080;
+    font-size:20px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_24 {
+    color:#000080;
+    font-size:24px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_12 {
+    color:#000080;
+    font-size:12px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_right {
+    color:#000080;
+    font-size:13px;
+    float:right;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_maron_right {
+    color:#800000;
+    font-size:13px;
+    float:right;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_black_left {
+    color:#000000;
+    font-size:14px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_black_left16 {
+    color:#000000;
+    font-size:16px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_blue_left16 {
+    color:#0000FF;
+    font-size:16px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_red_left {
+    color:#ff0000;
+    font-size:14px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_red {
+    color:#ff0000;
+    font-size:12px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_red14 {
+    color:#ff0000;
+    font-size:14px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_red12 {
+    color:#ff0000;
+    font-size:12px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_green_left {
+    color:#008000;
+    font-size:14px;
+    float:left;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_green {
+    color:#008000;
+    font-size:14px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+
+.girvi_head_maron {
+    color:#800000;
+    font-size:12px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_maron16 {
+    color:#800000;
+    font-size:16px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_maron14 {
+    color:#800000;
+    font-size:14px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_black {
+    color:#000000;
+    font-size:12px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_black14 {
+    color:#000000;
+    font-size:14px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.girvi_head_black16 {
+    color:#000000;
+    font-size:16px;
+    font-weight:bold;
+    font-family: Calibri;
+}
+.boxdatabx-t{
+    background-image: url(../images/boxtop-t.gif);
+    background-repeat: repeat-x;
+    background-position: left  bottom;	
+    width:100%;
+    height:auto;
+}
+
+.boxdatabx-b{
+    background-image: url(../images/boxbottom-b.gif);
+    background-repeat: repeat-x;
+    background-position: left top;	
+    width:100%;
+    height:auto;
+}
+.boxdatabx-r{
+    background-image: url(../images/boxright-r.gif);
+    background-repeat: repeat-y;
+    background-position: right top;	
+    width:3px;
+    height:100%;
+}
+.boxdatabx-l{
+    background-image: url(../images/boxleft-l.gif);
+    background-repeat: repeat-y;
+    background-position: left top;	
+    width:3px;
+    height:100%;
+}* COMMNET TO ADD IT IN INDEX CSS FILE BY @AUTHOR: SANDY10DEC13******/
+@media print {
+    body * {
+        display:none;
+    }
+    body .printable {
+        display:block;
+    }
+}
+/* START CODE SUPPLIER LIST    PRIYA02 */
+.main_middle_supp_list{
+    width:978px;
+    height:auto;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border:#FD9A00 0px solid;
+}
+/* END CODE SUPPLIER LIST    PRIYA02 */
+/* START CODE SUPPLIER LIST PRIYA02 */
+.main_middle_staff_list{
+    width:978px;
+    min-height: 300px;
+    float:left;
+    padding:0px;
+    margin:0px;
+    border:#FD9A00 0px solid;
+}
+/* END CODE SUPPLIER LIST PRIYA02 */
