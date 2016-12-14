@@ -2527,18 +2527,6 @@ function showSuppHomePurchaseDetails(name, updPanelname) {
     var totRemBal = document.getElementById('totRemBal').value;
     var transDate = document.getElementById('transDate').value;
     var userId = document.getElementById('userId').value;
-
-//    alert('transDate='+transDate);
-//    var isinId = document.getElementById('isinId').value;
-//    var suppId = document.getElementById('suppId').value;
-//    var payPreInvoiceNo = document.getElementById('payPreInvoiceNo').value;
-//    var payInvoiceNo = document.getElementById('payInvoiceNo').value;
-//    var totFinGdWt = document.getElementById('totFinGdWt').value;
-//    var silverTotFFineWt = document.getElementById('silverTotFFineWt').value;
-//    var goldTotFFineWtType = document.getElementById('goldTotFFineWtType').value;
-//    var silverTotFFineWtType = document.getElementById('silverTotFFineWtType').value;
-//    var firmId = document.getElementById('firmId').value;
-//    var leftAmount = document.getElementById('leftAmount').value;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2548,7 +2536,7 @@ function showSuppHomePurchaseDetails(name, updPanelname) {
             document.getElementById("stockPanelSubDiv").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogpayment.php?paymentPanelName=" + updPanelname + "&goldTotWt=" + goldTotWt + "&goldTotWtType=" + goldTotWtType + "&silverTotWt=" + silverTotWt + "&silverTotWtType=" + silverTotWtType + "&totRemBal=" + totRemBal + "&userId=" + userId, true);
+    xmlhttp.open("POST", "include/php/ogsuppaym.php?paymentPanelName=" + updPanelname + "&goldTotWt=" + goldTotWt + "&goldTotWtType=" + goldTotWtType + "&silverTotWt=" + silverTotWt + "&silverTotWtType=" + silverTotWtType + "&totRemBal=" + totRemBal + "&userId=" + userId, true);
     xmlhttp.send();
 }
 //stockPanelSubDiv
@@ -6405,3 +6393,238 @@ function getCryItemDetails(itemPreId, stockType) {
     xmlhttp.send();
 }
 /**********END ADD crystal item pre id  @Author: GAUR08DEC16*********/
+/***********START Code To add itemsaleSuppRateCut @Author: GAUR13DEC16***************/
+function itemsaleSuppRateCut(rateCutId, goldPrevWeight, goldPrevWeightType, silverPrevWeight, silverPrevWeightType, goldFinalWeight, goldFinalWeightType, silverFinalWeight, silverFinalWeightType,goldRate, silverRate, payPanelName, userId, preInvNo, invNo, payOpt, totalFinalBalance) {
+    document.getElementById('stockPurPriceCut').value = rateCutId;
+    var poststr = "rateCutOpt=" + encodeURIComponent(rateCutId) +
+            "&goldPrevWeight=" + encodeURIComponent(goldPrevWeight) +
+            "&goldPrevWeightType=" + encodeURIComponent(goldPrevWeightType) +
+            "&silverPrevWeight=" + encodeURIComponent(silverPrevWeight) +
+            "&silverPrevWeightType=" + encodeURIComponent(silverPrevWeightType) +
+            "&goldFinalWeight=" + encodeURIComponent(goldFinalWeight) +
+            "&silverFinalWeight=" + encodeURIComponent(silverFinalWeight) +
+            "&goldFinalWeightType=" + encodeURIComponent(goldFinalWeightType) +
+            "&silverFinalWeightType=" + encodeURIComponent(silverFinalWeightType) +
+            "&goldRate=" + encodeURIComponent(goldRate) +
+            "&silverRate=" + encodeURIComponent(silverRate) +
+            "&payPanelName=" + encodeURIComponent(payPanelName) +
+            "&preInvId=" + encodeURIComponent(preInvNo) +
+            "&invId=" + encodeURIComponent(invNo) +
+            "&userId=" + encodeURIComponent(userId) +
+            "&payOpt=" + encodeURIComponent(payOpt) +
+            "&totalFinalBalance=" + encodeURIComponent(totalFinalBalance);
+    alert('poststr=' + poststr);
+    itemsale_Supp_rate_cut("include/php/ogsuppaym.php", poststr);
+}
+function itemsale_Supp_rate_cut(url, parameters) {
+
+    loadXMLDoc();
+
+    xmlhttp.onreadystatechange = alertItemsaleSuppRateCut;
+
+    xmlhttp.open('POST', url, true);
+    xmlhttp.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+    xmlhttp.setRequestHeader("Content-length", parameters.length);
+    xmlhttp.setRequestHeader("Connection", "close");
+    xmlhttp.send(parameters);
+
+}
+function alertItemsaleSuppRateCut() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+        document.getElementById("rateCutDiv").innerHTML = xmlhttp.responseText;
+        var prefix = document.getElementById('prefix').value;
+        var metCount = 0;
+        var metalVal = 0;
+//        if (document.getElementById("payPanelName").value == 'SuppPayment') {
+//            metCount = getMetalDiv;
+//            metalVal = document.getElementById(prefix + 'PayMetal1Val' + metCount).value;
+//        } else if (document.getElementById("payPanelName").value == 'SuppPayUp') {
+//            metCount = document.getElementById("noOfRawMet").value;
+//            if (metCount > 0)
+//                metalVal = 1;
+//        }
+//        if (metCount > 0 && (metalVal != '' || metalVal != 0)) {
+//            calcStockItemBalance();
+//        } else {
+//            calcMetalRateCut(prefix);
+//        }
+
+        if (document.getElementById('stockPurPriceCut').value == 'RateCut')
+          calcSuppMetalWholeSaleRateCut(prefix);
+
+        calcSuppMtStockRrCtCashBalance(prefix);
+    } else {
+        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+
+    }
+}
+
+
+
+
+var goldRateCutWeight = 0;
+var silverRateCutWeight = 0;
+/********Start to add condidtion for NaN @Author:GAUR24MAY16****************/
+function calcSuppMetalWholeSaleRateCut(prefix) {
+//    alert('prefix=' + prefix)
+    var gdRtCt = 0;
+    var metalType;
+    if ((document.getElementById(prefix + 'Metal1WtPrevBal').value).trim() == '' || document.getElementById(prefix + 'Metal1WtPrevBal').value == 'NaN') {
+        document.getElementById(prefix + 'Metal1WtPrevBal').value = 0;
+    }
+    if ((document.getElementById(prefix + 'GoldTotFineWt').value).trim() == '' || document.getElementById(prefix + 'GoldTotFineWt').value == 'NaN') {
+        document.getElementById(prefix + 'GoldTotFineWt').value = 0;
+    }
+    if ((document.getElementById(prefix + 'Metal1WtRecBal').value).trim() == '' || document.getElementById(prefix + 'Metal1WtRecBal').value == 'NaN') {
+        document.getElementById(prefix + 'Metal1WtRecBal').value = 0;
+    }
+    var gdBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal').value);
+    var goldWtType = document.getElementById(prefix + 'GoldTotFineWtType').value;
+    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if ((document.getElementById(prefix + 'Metal1RtCtWtBal').value).trim() == '' || document.getElementById(prefix + 'Metal1RtCtWtBal').value == 'NaN') {
+            document.getElementById(prefix + 'Metal1RtCtWtBal').value = 0;
+        }
+        var gdRtCt = parseFloat(document.getElementById(prefix + 'Metal1RtCtWtBal').value);
+//        alert('gdRtCt='+gdRtCt);
+        var goldRtCtWtType = document.getElementById(prefix + 'Metal1RtCtWtBalType').value;
+        if (gdBal == '' || gdBal == null) {
+            gdBal = 0;
+        }
+        gdRtCt = convertWeight(gdRtCt, goldWtType, goldRtCtWtType);
+        document.getElementById('metal1RtCtWtBal').value = gdRtCt + ' ' + goldWtType;
+    }
+    document.getElementById('metal1WtBal').value = parseFloat(gdBal - gdRtCt).toFixed(3) + ' ' + goldWtType;
+    document.getElementById('metal1WtFinBal').value = parseFloat(gdBal - gdRtCt).toFixed(3) + ' ' + goldWtType;
+//    alert(document.getElementById('metal1WtFinBal').value);
+    if ((document.getElementById(prefix + 'Metal2WtPrevBal').value).trim() == '' || document.getElementById(prefix + 'Metal2WtPrevBal').value == 'NaN') {
+        document.getElementById(prefix + 'Metal2WtPrevBal').value = 0;
+    }
+    if ((document.getElementById(prefix + 'SilverTotFineWt').value).trim() == '' || document.getElementById(prefix + 'SilverTotFineWt').value == 'NaN') {
+        document.getElementById(prefix + 'SilverTotFineWt').value = 0;
+    }
+    if ((document.getElementById(prefix + 'Metal2WtRecBal').value).trim() == '' || document.getElementById(prefix + 'Metal2WtRecBal').value == 'NaN') {
+        document.getElementById(prefix + 'Metal2WtRecBal').value = 0;
+    }
+    var silverRtCt = 0;
+    var silverBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal').value);
+    var silverWtType = document.getElementById(prefix + 'SilverTotFineWtType').value;
+//    alert('sl wt:' + silverBal +'Rate Cut Opt : '+ document.getElementById('stockPurPriceCut').value);
+    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if ((document.getElementById(prefix + 'Metal2RtCtWtBal').value).trim() == '' || document.getElementById(prefix + 'Metal2RtCtWtBal').value == 'NaN') {
+            document.getElementById(prefix + 'Metal2RtCtWtBal').value = 0;
+        }
+        var silverRtCt = parseFloat(document.getElementById(prefix + 'Metal2RtCtWtBal').value);
+        var silverRtCtWtType = document.getElementById(prefix + 'Metal2RtCtWtBalType').value;
+//        alert(silverRtCtWtType);
+        if (silverBal == '' || silverBal == null) {
+            silverBal = 0;
+        }
+        silverRtCt = convertWeight(silverRtCt, silverWtType, silverRtCtWtType);
+        document.getElementById('metal2RtCtWtBal').value = silverRtCt + ' ' + silverWtType;
+    }
+    document.getElementById('metal2WtBal').value = parseFloat(silverBal - silverRtCt).toFixed(3) + ' ' + silverWtType;
+    document.getElementById('metal2WtFinBal').value = parseFloat(silverBal - silverRtCt).toFixed(3) + ' ' + silverWtType;
+//    calcRawMetStock(prefix);
+    calcSuppMtStockRrCtCashBalance(prefix);
+}
+
+
+function calcSuppMtStockRrCtCashBalance(prefix) {
+//    alert('rate cut cash');
+    var finalCashBal;
+    var finBalLabel = 'FINAL CASH BALANCE :';
+    var totalCashPaidAmt = document.getElementById(prefix + 'PayCashAmtRec').value;
+    if (totalCashPaidAmt == null || totalCashPaidAmt == '') {
+        totalCashPaidAmt = 0;
+    }
+    var totalChequeAmt = document.getElementById(prefix + 'PayChequeAmt').value;
+    if (totalChequeAmt == null || totalChequeAmt == '') {
+        totalChequeAmt = 0;
+    }
+    var totalCardAmt = document.getElementById(prefix + 'PayCardAmt').value;
+    if (totalCardAmt == null || totalCardAmt == '') {
+        totalCardAmt = 0;
+    }
+    document.getElementById(prefix + 'PayCashRecDisp').value = Math.round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
+    document.getElementById(prefix + 'PayTotCashAmt').value = Math.round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
+
+
+    var totalAmt = 0;
+    var crystalAmnt = 0;
+//    alert(document.getElementById('stockPurPriceCut').value);
+    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if (document.getElementById(prefix + 'PayTotAmt').value == '' || document.getElementById(prefix + 'PayTotAmt').value == 'NaN') {
+            document.getElementById(prefix + 'PayTotAmt').value = 0;
+        }
+//        alert(document.getElementById(prefix + 'PayTotAmt').value);
+//        alert(document.getElementById(prefix + 'PayTotOthChgs').value);
+        totalAmt = parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayTotOthChgs').value) + crystalAmnt;
+    }else if (document.getElementById('stockPurPriceCut').value == 'ByCash') {
+        if (document.getElementById(prefix + 'PayTotMetAmtRec').value == '' || document.getElementById(prefix + 'PayTotMetAmtRec').value == 'NaN') {
+            document.getElementById(prefix + 'PayTotMetAmtRec').value = 0;
+        }
+//        alert(document.getElementById(prefix + 'PayTotAmt').value);
+//        alert(document.getElementById(prefix + 'PayTotMetAmtRec').value);
+        totalAmt = parseFloat(document.getElementById(prefix + 'PayTotAmt').value) - parseFloat(document.getElementById(prefix + 'PayTotMetAmtRec').value);
+    } else {
+        totalAmt = parseFloat(document.getElementById(prefix + 'PayTotAmt').value);
+    }
+    var newTotalAmount = totalAmt;
+    document.getElementById('taxOnTotAmt').value = Math.round((parseFloat(totalAmt))).toFixed(2);
+
+    var totalValuation = document.getElementById('taxOnTotAmt').value;
+    if (totalValuation == null || totalValuation == '') {
+        totalValuation = 0;
+    }
+    if (document.getElementById(prefix + 'VATTax').value == '') {
+        document.getElementById(prefix + 'VATTax').value = 0;
+    }
+    var totTax = parseFloat(document.getElementById(prefix + 'VATTax').value) / 100;
+    document.getElementById(prefix + 'PayVATAmtDisp').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
+    document.getElementById(prefix + 'PayVATAmt').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
+    if (document.getElementById(prefix + 'PayVATAmt').value == 'NaN' || document.getElementById(prefix + 'PayVATAmt').value == '') {
+        document.getElementById(prefix + 'PayVATAmt').value = 0.00;
+    }
+
+    if (document.getElementById(prefix + 'PayPrevTotAmt').value == 'NaN' || document.getElementById(prefix + 'PayPrevTotAmt').value == '') {
+        document.getElementById(prefix + 'PayPrevTotAmt').value = 0;
+    }
+    if (document.getElementById(prefix + 'PayPrevTotAmt').value != '' || document.getElementById(prefix + 'PayPrevTotAmt').value != 0) {
+        if (document.getElementById(prefix + 'PayPrevTotAmt').value > 0) {
+            totalAmt = totalAmt + parseFloat(document.getElementById(prefix + 'PayPrevTotAmt').value);
+        } else {
+            totalAmt = totalAmt - Math.abs(parseFloat(document.getElementById(prefix + 'PayPrevTotAmt').value));
+        }
+    }
+    if (document.getElementById(prefix + 'PayVATAmt').value == '' || document.getElementById(prefix + 'PayVATAmt').value == 'NaN') {
+        document.getElementById(prefix + 'PayVATAmt').value = 0;
+    }
+    if (document.getElementById(prefix + 'PayDiscount').value == '' || document.getElementById(prefix + 'PayDiscount').value == 'NaN') {
+        document.getElementById(prefix + 'PayDiscount').value = 0;
+    }
+    if (document.getElementById(prefix + 'PayTotCashAmt').value == '' || document.getElementById(prefix + 'PayTotCashAmt').value == 'NaN') {
+        document.getElementById(prefix + 'PayTotCashAmt').value = 0;
+    }
+    document.getElementById(prefix + 'PayDiscountDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+    if (document.getElementById('stockPurPriceCut').value == 'ByCash') {
+        document.getElementById(prefix + 'PayTotFinalAmt').value = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
+    }
+    document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
+
+    finalCashBal = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+    if (finalCashBal <= 0) {
+        finBalLabel = 'FINAL CASH DEPOSIT :';
+    }
+    document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math.abs(finalCashBal).toFixed(2);
+    document.getElementById('finCashBalTd').innerHTML = finBalLabel;
+    document.getElementById(prefix + 'PayTotAmtBal').value = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+    document.getElementById(prefix + 'PayTotRemAmtBal').value = Math.round((parseFloat(newTotalAmount) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+//    alert(document.getElementById(prefix + 'PayVATAmt').value);
+//    alert(document.getElementById(prefix + 'VATTax').value);
+}
+/***********END Code To add itemsaleSuppRateCut @Author: GAUR13DEC16***************/
+
+
+

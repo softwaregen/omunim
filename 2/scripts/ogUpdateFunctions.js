@@ -687,6 +687,7 @@ function alertAddEmpAccess() {
 /***************Start code to add circle access @Author:PRIYA03DEC14*******************/
 /***************Start code to add crystal access  in omgold @Author:SHE11MAR15 *******************/
 /***************Start code to add Imitation for add update and delete access @Author:ANUJA11MAR15*******************/
+/***************Start code to add data backup access @Author:SANT09NOV16*******************/
 function addEmpAccess(panelName, staffId) {
     empPanelName = panelName;
     empId = staffId;
@@ -785,6 +786,13 @@ function addEmpAccess(panelName, staffId) {
                     + "&updateGirviAccessIntTyp=" + document.getElementById("updateGirviAccessIntTyp").checked
                     + "&updateGirviAccessDelGrvDep=" + document.getElementById("updateGirviAccessDelGrvDep").checked
                     + "&updateGirviAccessDepMny=" + document.getElementById("updateGirviAccessDepMny").checked
+                    + "&updateGirviAccessSimDepMny=" + document.getElementById("updateGirviAccessSimDepMny").checked
+                    + "&updateGirviAccessSimDepMnyInt=" + document.getElementById("updateGirviAccessSimDepMnyInt").checked
+                    + "&updateGirviAccessNewLoanDateChange=" + document.getElementById("updateGirviAccessNewLoanDateChange").checked
+                    + "&updateGirviAccessDepPrinFullInt=" + document.getElementById("updateGirviAccessDepPrinFullInt").checked
+                    + "&updateGirviAccessDepPrinIntWithDisc=" + document.getElementById("updateGirviAccessDepPrinIntWithDisc").checked
+                    + "&updateGirviAccessDepPrinIntLeftAdjInPrin=" + document.getElementById("updateGirviAccessDepPrinIntLeftAdjInPrin").checked
+                    + "&updateGirviAccessDepPrinIntLeft=" + document.getElementById("updateGirviAccessDepPrinIntLeft").checked
                     + "&releaseGirvi=" + document.getElementById("releaseGirvi").checked
                     + "&releaseGirviDate=" + document.getElementById("releaseGirviDate").checked
                     + "&updateGirviAccessRoi=" + document.getElementById("updateGirviAccessRoi").checked
@@ -799,7 +807,6 @@ function addEmpAccess(panelName, staffId) {
                     + "&loanPanelLossGirvi=" + document.getElementById("loanPanelLossGirvi").checked
                     + "&loanPanelGvSearch=" + document.getElementById("loanPanelGvSearch").checked
                     + "&loanPanelTPExGirvi=" + document.getElementById("loanPanelTPExGirvi").checked
-                    + "&loanPanelAunctionList=" + document.getElementById("loanPanelAunctionList").checked // Added @Author:SANT16NOV16
                     + "&finance=" + document.getElementById("finance").checked
                     + "&addFinance=" + document.getElementById("addFinance").checked
                     + "&updateFinance=" + document.getElementById("updateFinance").checked
@@ -839,6 +846,7 @@ function addEmpAccess(panelName, staffId) {
                     + "&trialBalAccess=" + document.getElementById("trialBalAccess").checked
                     + "&profitNLossAccess=" + document.getElementById("profitNLossAccess").checked
                     + "&balSheetAccess=" + document.getElementById("balSheetAccess").checked
+                    + "&databackup=" + document.getElementById("databackup").checked
                     + "&addMetalRateAccess=" + document.getElementById("addMetalRateAccess").checked
                     + "&addItemNameAccess=" + document.getElementById("addItemNameAccess").checked
                     + "&addTunchAccess=" + document.getElementById("addTunchAccess").checked
@@ -872,6 +880,7 @@ function addEmpAccess(panelName, staffId) {
         return false;
     }
 }
+/***************End code to add data backup access @Author:SANT09NOV16*******************/
 /***************End code to add Imitation for add update and delete access @Author:ANUJA11MAR15*******************/
 /***************End code to add circle access @Author:PRIYA03DEC14*******************/
 /***************End code to add loan list access @Author:PRIYA05OCT14**************/

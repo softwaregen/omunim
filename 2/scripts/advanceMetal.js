@@ -3148,6 +3148,7 @@ function calcStockRrCtCashBalance(prefix) {
     var crystalAmnt = 0;
 //    alert(document.getElementById('stockPurPriceCut').value);
     if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        alert('hiiii');
         if (document.getElementById(prefix + 'PayCrystalAmt').value == '' || document.getElementById(prefix + 'PayCrystalAmt').value == 'NaN') {
             document.getElementById(prefix + 'PayCrystalAmt').value = 0;
         }
