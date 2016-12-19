@@ -2350,67 +2350,72 @@ function getFirmRawAccNo(selectedFirmNo, rawmCount, prefix, panelName, metalType
 /*************Start code to add function @Author:PRIYA06FEB14********************/
 /*************Start code to add function @Author:SHE20JAN16********************/
 function addRawStock() {
-    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-    document.getElementById("addRawStockSubButtDiv").style.visibility = "hidden";
-    var stockDateDay = document.getElementById("addRawStockDOBDay").value;
-    var stockDateMMM = document.getElementById("addRawStockDOBMonth").value;
-    var stockDateYY = document.getElementById("addRawStockDOBYear").value;
-    var stockDateStr = document.getElementById("addRawStockDOBMonth").value + ' ' + document.getElementById("addRawStockDOBDay").value + ', ' + document.getElementById("addRawStockDOBYear").value;
-    var stockDate = new Date(stockDateStr); // stock Date
-    var todayDate = new Date(); // Today Date
-
-    var milliStockDate = stockDate.getTime();
-    var milliTodayDate = todayDate.getTime();
-    var datesDiff = milliTodayDate - milliStockDate;
-    if (datesDiff < 0) {
-        alert('Please Select the correct Date!');
-        document.getElementById("addRawStockDOBDay").focus();
-        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-        document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-    }
-    else {
-        if (stockDateMMM == 'FEB' || stockDateMMM == 'APR' || stockDateMMM == 'JUN' || stockDateMMM == 'SEP' || stockDateMMM == 'NOV') {
-            if (stockDateMMM == 'FEB' && stockDateDay > 29 && stockDateYY % 4 == 0) {
-                alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 29 days.');
-                document.getElementById("addRawStockDOBDay").focus();
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-            }
-            if (stockDateMMM == 'FEB' && stockDateDay > 28 && stockDateYY % 4 != 0) {
-                alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 28 days.');
-                document.getElementById("addRawStockDOBDay").focus();
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-            }
-            if (stockDateDay > 30) {
-                alert('Please select correct Date, Month ' + stockDateMMM + ' has only max 30 days.');
-                document.getElementById("addRawStockDOBDay").focus();
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-            }
-        }
-        if (document.getElementById('payButClickId').value == 'true') {
-            var prefix = document.getElementById("prefix").value;
-            var payPanelName = document.getElementById("upPanel").value;
-            if (payPanelName == 'AddPanel') {
-                document.getElementById("totMetal").value = getMetalDiv;
-            } else if (payPanelName == 'UpPanel') {
-                document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
-            }
-            return true;
-        } else {
-            if (document.getElementById("mainPanel").value == 'Supplier') {
-                functionName = validateAddSuppRawStockInputs;
-            } else {
-                var functionName = validateAddRawStockInputs;
-            }
-            if (functionName()) {
-                return true;
-            }
-        }
-        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-        document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+    if (document.getElementById("rawPanelName").value == 'RawPayUp' || document.getElementById("rawPanelName").value == 'RawDetUpPanel') {
+        alert('You Can Not Update This Item');
         return false;
+    } else {
+        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        document.getElementById("addRawStockSubButtDiv").style.visibility = "hidden";
+        var stockDateDay = document.getElementById("addRawStockDOBDay").value;
+        var stockDateMMM = document.getElementById("addRawStockDOBMonth").value;
+        var stockDateYY = document.getElementById("addRawStockDOBYear").value;
+        var stockDateStr = document.getElementById("addRawStockDOBMonth").value + ' ' + document.getElementById("addRawStockDOBDay").value + ', ' + document.getElementById("addRawStockDOBYear").value;
+        var stockDate = new Date(stockDateStr); // stock Date
+        var todayDate = new Date(); // Today Date
+
+        var milliStockDate = stockDate.getTime();
+        var milliTodayDate = todayDate.getTime();
+        var datesDiff = milliTodayDate - milliStockDate;
+        if (datesDiff < 0) {
+            alert('Please Select the correct Date!');
+            document.getElementById("addRawStockDOBDay").focus();
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+        }
+        else {
+            if (stockDateMMM == 'FEB' || stockDateMMM == 'APR' || stockDateMMM == 'JUN' || stockDateMMM == 'SEP' || stockDateMMM == 'NOV') {
+                if (stockDateMMM == 'FEB' && stockDateDay > 29 && stockDateYY % 4 == 0) {
+                    alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 29 days.');
+                    document.getElementById("addRawStockDOBDay").focus();
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+                }
+                if (stockDateMMM == 'FEB' && stockDateDay > 28 && stockDateYY % 4 != 0) {
+                    alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 28 days.');
+                    document.getElementById("addRawStockDOBDay").focus();
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+                }
+                if (stockDateDay > 30) {
+                    alert('Please select correct Date, Month ' + stockDateMMM + ' has only max 30 days.');
+                    document.getElementById("addRawStockDOBDay").focus();
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+                }
+            }
+            if (document.getElementById('payButClickId').value == 'true') {
+                var prefix = document.getElementById("prefix").value;
+                var payPanelName = document.getElementById("upPanel").value;
+                if (payPanelName == 'AddPanel') {
+                    document.getElementById("totMetal").value = getMetalDiv;
+                } else if (payPanelName == 'UpPanel') {
+                    document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
+                }
+                return true;
+            } else {
+                if (document.getElementById("userMainPanel").value == 'Supplier') {
+                    functionName = validateAddSuppRawStockInputs;
+                } else {
+                    var functionName = validateAddRawStockInputs;
+                }
+                if (functionName()) {
+                    return true;
+                }
+            }
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+            return false;
+        }
     }
 }
 //}

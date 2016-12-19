@@ -2960,7 +2960,9 @@ function valKeyPressedForNumNDotNDash(evt) {
 /************End code To Add  Validn Func For umNDotNDash @Author:PRIYA24AUG13**********/
 /************Start Code To Add Fun For Search Item In SP Panel @Author:PRIYA24AUG13*********/
 /************Start Code To Add Fun For Search Item In SP Panel @Author:PRIYA21JAN14*********/
+/**************Start code for pass txtType parameter for delete Author:SANT16DEC16***************************/
 function searchItemByItemId(searchItemId, autoEntryValue, custId) {
+//    alert(searchItemId);
     var searchItemIdLen = searchItemId.length;
     var searchItemIdTemp = searchItemId;
     var tempLen = searchItemIdLen;
@@ -2982,7 +2984,8 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
     var searchItemIdNumPart = searchItemId.substr(charLen);
     document.getElementById('srchItemPreId').value = searchItemIdCharPart;
     document.getElementById('srchItemPostId').value = searchItemIdNumPart;
-
+    document.getElementById('srchdelItemPreId').value = searchItemIdCharPart;
+    document.getElementById('srchdelItemPostId').value = searchItemIdNumPart;
     if (autoEntryValue == 'YES') {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
@@ -3011,6 +3014,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
         return false;
     }
 }
+/**************End code for pass txtType parameter for delete Author:SANT16DEC16***************************/
 /************End Code To Add Fun For Search Item In SP Panel @Author:PRIYA21JAN14*********/
 /************End Code To Add Fun For Search Item In SP Panel @Author:PRIYA24AUG13*********/
 /***********Start Code To Select FirmId In Account Balance Details Panel @AUTHOR: GAUR11JAN16********/

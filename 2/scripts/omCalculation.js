@@ -1465,7 +1465,7 @@ function  calRawMetalFinVal() {
         document.getElementById('addRawStockFineWeight').value = 0;
     }
     if (document.getElementById('addRawStockFFineWeight').value == '' || document.getElementById('addRawStockFFineWeight').value == 'NaN') {
-        document.getElementById('addRawStockFFineWeight').value = '';
+        document.getElementById('addRawStockFFineWeight').value = 0;
     }
     var finalFineWeight = parseFloat(document.getElementById('addRawStockFFineWeight').value);
     var itemsQTY = parseInt(document.getElementById('addRawStockItemPieces').value);

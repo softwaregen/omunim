@@ -2452,7 +2452,7 @@ function calcStockItemBalance() {
                     if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
                         document.getElementById(prefix + 'PayMetal1WtBal').value = gdBal;
                         document.getElementById(prefix + 'PayMetal1WtBalType').value = payMetalDueWeightType1;
-                        if ((document.getElementById('metalPanel').value != 'SuppOrderUp' && document.getElementById('metalPanel').value != 'NwOrPayUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'NwOrDelPaymentUp' && document.getElementById('metalPanel').value != 'SuppOrderDeliveryUp' && document.getElementById('metalPanel').value != 'StockPayUp' && document.getElementById('metalPanel').value != 'SellPayUp') && document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
+                        if ((document.getElementById('metalPanel').value != 'SuppOrderUp' && document.getElementById('metalPanel').value != 'NwOrPayUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'NwOrDelPaymentUp' && document.getElementById('metalPanel').value != 'SuppOrderDeliveryUp' && document.getElementById('metalPanel').value != 'StockPayUp' && document.getElementById('metalPanel').value != 'RawPayUp' && document.getElementById('metalPanel').value != 'SellPayUp') && document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
                             document.getElementById(prefix + 'Metal1RtCtWtBal').value = gdBal;
                             document.getElementById(prefix + 'Metal1RtCtWtBalType').value = payMetalDueWeightType1;
                             document.getElementById('metal1RtCtWtBal').value = gdBal + '' + payMetalDueWeightType1;//Add Value this variable:Author:SANT24OCT16
@@ -2521,7 +2521,7 @@ function calcStockItemBalance() {
                 if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
                     document.getElementById(prefix + 'PayMetal2WtBal').value = slBal;
                     document.getElementById(prefix + 'PayMetal2WtBalType').value = payMetalDueWeightType1;
-                    if ((document.getElementById('metalPanel').value != 'NwOrPayUp' && document.getElementById('metalPanel').value != 'SuppOrderUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'NwOrDelPaymentUp' && document.getElementById('metalPanel').value != 'StockPayUp' && document.getElementById('metalPanel').value != 'SuppOrderDeliveryUp' && document.getElementById('metalPanel').value != 'SellPayUp') && document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
+                    if ((document.getElementById('metalPanel').value != 'NwOrPayUp' && document.getElementById('metalPanel').value != 'RawPayUp' && document.getElementById('metalPanel').value != 'SuppOrderUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'NwOrDelPaymentUp' && document.getElementById('metalPanel').value != 'StockPayUp' && document.getElementById('metalPanel').value != 'SuppOrderDeliveryUp' && document.getElementById('metalPanel').value != 'SellPayUp') && document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
                         document.getElementById(prefix + 'Metal2RtCtWtBal').value = slBal;
                         document.getElementById(prefix + 'Metal2RtCtWtBalType').value = payMetalDueWeightType1;
                         document.getElementById('metal2RtCtWtBal').value = slBal + '' + payMetalDueWeightType1;//Add Value this variable:Author:SANT24OCT16
@@ -2563,8 +2563,8 @@ function calcStockItemBalance() {
                 document.getElementById(prefix + 'PayTotMetAmtRec').value = parseFloat(totAmtRec).toFixed(2);
                 document.getElementById(prefix + 'PayTotAmtRecDisp').value = parseFloat(totAmtRec).toFixed(2);
             }
-             document.getElementById(prefix + 'PayTotMet1AmtRec').value = parseFloat(totGoldAmt).toFixed(2);
-             document.getElementById(prefix + 'PayTotMet2AmtRec').value = parseFloat(totSilverAmt).toFixed(2);
+            document.getElementById(prefix + 'PayTotMet1AmtRec').value = parseFloat(totGoldAmt).toFixed(2);
+            document.getElementById(prefix + 'PayTotMet2AmtRec').value = parseFloat(totSilverAmt).toFixed(2);
 
             if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
                 calcWholeSaleRateCut(prefix);
@@ -3148,7 +3148,6 @@ function calcStockRrCtCashBalance(prefix) {
     var crystalAmnt = 0;
 //    alert(document.getElementById('stockPurPriceCut').value);
     if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-        alert('hiiii');
         if (document.getElementById(prefix + 'PayCrystalAmt').value == '' || document.getElementById(prefix + 'PayCrystalAmt').value == 'NaN') {
             document.getElementById(prefix + 'PayCrystalAmt').value = 0;
         }
@@ -3933,7 +3932,7 @@ function calcSellStockItemBalance() {
                     goldWtBal = parseFloat(gdBal).toFixed(3);
                     GoldWtType = payMetalDueWeightType1;
                     totRecGd += parseFloat(goldWeight);
-                    
+
                 }
             }
             if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Silver') {
@@ -4677,10 +4676,10 @@ function autoLessWeight(cryCount, autoChk, gsWtId, wtTypId, cryPanel, sellPanel)
 //        alert(remWt);
         document.getElementById(gsWtId).value = parseFloat(remWt).toFixed(3);
         document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
-        
+
         if (document.getElementById('addPanel').value != 'UpdateStock')
             changeNetWeightByPktWt();
-        
+
         if (sellPanel == 'AddStock') {
             calStockItemPrice();
         } else if (sellPanel == 'ItemSell') {
@@ -4909,30 +4908,37 @@ function calcMetalRateCut(prefix) {
     gdBal = parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal').value);
     if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
         document.getElementById(prefix + 'PayMetal1WtBal').value = gdBal;
+        if (document.getElementById(prefix + 'PayMetal1WtBal').value == 'NaN' || document.getElementById(prefix + 'PayMetal1WtBal').value == '') {
+            document.getElementById(prefix + 'PayMetal1WtBal').value = 0;
+        }
         document.getElementById(prefix + 'PayMetal1WtBalType').value = gdMetalTyp;
-        if ((document.getElementById("payPanelName").value != 'InvoicePayUp' && 
-                document.getElementById("payPanelName").value != 'NwOrDelPaymentUp' && 
-                document.getElementById("payPanelName").value != 'SuppOrderDeliveryUp' && 
-                document.getElementById("payPanelName").value != 'StockPayUp' && 
-                document.getElementById("payPanelName").value != 'SellPayUp' && 
-                document.getElementById("payPanelName").value != 'SuppOrderUp' && 
-                document.getElementById("payPanelName").value != 'NwOrPayUp') && 
+        if ((document.getElementById("payPanelName").value != 'InvoicePayUp' &&
+                document.getElementById("payPanelName").value != 'NwOrDelPaymentUp' &&
+                document.getElementById("payPanelName").value != 'SuppOrderDeliveryUp' &&
+                document.getElementById("payPanelName").value != 'StockPayUp' &&
+                document.getElementById("payPanelName").value != 'SellPayUp' &&
+                document.getElementById("payPanelName").value != 'RawPayUp' &&
+                document.getElementById("payPanelName").value != 'SuppOrderUp' &&
+                document.getElementById("payPanelName").value != 'NwOrPayUp') &&
                 document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
             document.getElementById(prefix + 'Metal1RtCtWtBal').value = gdBal;
             document.getElementById(prefix + 'Metal1RtCtWtBalType').value = gdMetalTyp;
             document.getElementById('metal1RtCtWtBal').value = gdBal + '' + gdMetalTyp;//Add Value this variable:Author:SANT24OCT16
         }
 
-
         document.getElementById(prefix + 'PayMetal2WtBal').value = slBal;
+        if (document.getElementById(prefix + 'PayMetal2WtBal').value == 'NaN' || document.getElementById(prefix + 'PayMetal2WtBal').value == '') {
+            document.getElementById(prefix + 'PayMetal2WtBal').value = 0;
+        }
         document.getElementById(prefix + 'PayMetal2WtBalType').value = slMetalTyp;
-        if ((document.getElementById("payPanelName").value != 'InvoicePayUp' && 
-                document.getElementById("payPanelName").value != 'NwOrDelPaymentUp' && 
-                document.getElementById("payPanelName").value != 'SuppOrderDeliveryUp' && 
-                document.getElementById("payPanelName").value != 'StockPayUp' && 
-                document.getElementById("payPanelName").value != 'SellPayUp' && 
-                document.getElementById("payPanelName").value != 'SuppOrderUp' && 
-                document.getElementById("payPanelName").value != 'NwOrPayUp') && 
+        if ((document.getElementById("payPanelName").value != 'InvoicePayUp' &&
+                document.getElementById("payPanelName").value != 'NwOrDelPaymentUp' &&
+                document.getElementById("payPanelName").value != 'SuppOrderDeliveryUp' &&
+                document.getElementById("payPanelName").value != 'StockPayUp' &&
+                document.getElementById("payPanelName").value != 'SellPayUp' &&
+                document.getElementById("payPanelName").value != 'RawPayUp' &&
+                document.getElementById("payPanelName").value != 'SuppOrderUp' &&
+                document.getElementById("payPanelName").value != 'NwOrPayUp') &&
                 document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
             document.getElementById(prefix + 'Metal2RtCtWtBal').value = slBal;
             document.getElementById(prefix + 'Metal2RtCtWtBalType').value = slMetalTyp;
@@ -5016,8 +5022,8 @@ function showSlPrInvDiv_1(srchItemPreId, srchItemPostId, custId, panelName) {
     xmlhttp.send();
 }
 /**************END code to add new function *******DISH14NOV16*********************************/
-function showSlPrJewelleryInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
-//    alert(panelName);
+/**************Start code for pass txtType parameter for delete Author:SANT16DEC16***************************/
+function showSlPrJewelleryInvDiv(srchItemPreId, srchItemPostId, custId, panelName, txtType) {
     var firstChar = srchItemPreId.charAt(0);
     var res = firstChar.toUpperCase();//chnaged @OMMODTAG PRIYA_05MAY15
     loadXMLDoc();
@@ -5037,10 +5043,11 @@ function showSlPrJewelleryInvDiv(srchItemPreId, srchItemPostId, custId, panelNam
     };
 
 //         if (panelName == 'StockPurchasePanel') {
-    xmlhttp.open("POST", "include/php/ogspjsdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName, true);
+    xmlhttp.open("POST", "include/php/ogspjsdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&txtType=" + txtType, true);
 //        } 
     xmlhttp.send();
 }
+/**************End code for pass txtType parameter for delete Author:SANT16DEC16***************************/
 function showSlPrImitationInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
 //    alert(panelName);
     var firstChar = srchItemPreId.charAt(0);
@@ -5193,4 +5200,76 @@ function calculateTotalWeight() {
     document.getElementById('goldFineWeight').value = parseFloat(totGdWeight).toFixed(3) + ' ' + totGdWeightTyp;
     document.getElementById('silverGrossWeight').value = parseFloat(totSlGsWeight).toFixed(3) + ' ' + totSlGsWeightTyp;
     document.getElementById('silverFineWeight').value = parseFloat(totSlWeight).toFixed(3) + ' ' + totSlWeightTyp;
+}
+function getSuppMetalPurchaseList(suppId, panelName, mainPanel) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("supplierCrystalPurchasePanel").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ogrwwsprlt.php?panelName=" + panelName + "&userId=" + suppId + "&mainPanel=" + mainPanel, true);
+    xmlhttp.send();
+}
+function showRawStockPanel(panel, userId) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+//    if (panel == 'MetalPurchaseList')
+    xmlhttp.open("POST", "include/php/ogrwwscprlt.php?panel=" + panel + "&userId=" + userId, true);
+//    else
+//        xmlhttp.open("POST", "include/php/ogiamsdv.php?panel=" + panel, true);
+    xmlhttp.send();
+}
+function showMetalNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, nwOrPanel, custId, mainPanel)
+{
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("SuppMetalPurchaseDiv").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwwsprlt.php?rowsPerPage=" + rowsPerPage + "&panelName=" + nwOrPanel + "&stockUpdateRows=" + upRowsPanel + "&userId=" + custId + "&mainPanel=" + mainPanel, true);
+    xmlhttp.send();
+}
+function showUserRawMetalDetails(rawId, panelName, userId, mainPanel) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("supp_middle_body").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ogrwmomf.php?rwprId=" + rawId + "&payPanelName=" + panelName + "&rawPanelName=" + panelName + "&suppPanelName=addMetalByCash&userId=" + userId + "&mainPanel=" + mainPanel, true);
+    xmlhttp.send();
+}
+function showCustTransactions(userId) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("custHomeTransDiv").innerHTML = xmlhttp.responseText;
+        }else{
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ogwsprdt.php?userId=" + userId + "&panelName=custAllTrans", true);
+    xmlhttp.send();
 }

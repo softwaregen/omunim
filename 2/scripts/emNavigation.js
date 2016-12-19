@@ -3152,7 +3152,7 @@ function alertSearchItemNames() {
         else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
-    }else if(panelNameForItemNames == 'ImitationStock'){
+    } else if (panelNameForItemNames == 'ImitationStock') {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("categoryListDivToAddStock").innerHTML = xmlhttp.responseText;
@@ -3776,7 +3776,7 @@ function setDefLangGetFormEight(defLang, defSize, panel) {                      
 /**********Start code to change param name @Author:PRIYA30SEP14******************/
 /******Start code to add stock type parameter in else condition  @OMMODTAG SHRI_09JAN16*****/
 /**********Start code to add if else condition for Imitation Panel @Author:ANUJA07JAN16******************/
-function showStockItemDetailsDiv(documentRootPath, itprId, panelName, stockType) {
+function showStockItemDetailsDiv(documentRootPath, itprId, panelName, stockType, mainPanel,transactionPanel) {
 //    alert(panelName);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -3792,7 +3792,7 @@ function showStockItemDetailsDiv(documentRootPath, itprId, panelName, stockType)
     };
 
     if (panelName == 'RawDetUpPanel') {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwiadv.php?rwprId=" + itprId + "&panelName=RawStock" + "&rawPanelName=" + panelName, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwiadv.php?rwprId=" + itprId + "&panelName=RawStock" + "&rawPanelName=" + panelName + "&mainPanel=" + mainPanel+"&transactionPanel="+transactionPanel, true);
     } else if (panelName == 'addByItems') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwprinv.php?itprId=" + itprId + "&itemMainPanel=" + panelName + "&itemSubPanel=itemsAddUp", true);
         /**Star Code to Add Condition for Panel Name during updation @Author:SHE21FEB15 **/

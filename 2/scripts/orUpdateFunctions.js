@@ -3,6 +3,7 @@
 /**************Start code to upadte customizedImtInvoice @Author:GAUR19SEP16*******************/
 /**************Start code to upadte soldOutImtInv @Author:GAUR18OCT16*******************/
 /**************Start code to upadte soldOutImtInv @Author:GAUR19OCT16*******************/
+//************Start code to purchase invoice Customise @Author:SANT17DEC16**********/-->
 function getMainSellPurchasePanel(panel)
 {
     loadXMLDoc();
@@ -20,10 +21,12 @@ function getMainSellPurchasePanel(panel)
         xmlhttp.open("GET", "include/php/ogspsblt.php?panel=" + panel, true);
     else if (panel == 'soldOutImtInv')
         xmlhttp.open("GET", "include/php/ogsipsblt.php?panel=" + panel, true);
-     else if (panel == 'soldOutImtList')
+    else if (panel == 'soldOutImtList')
         xmlhttp.open("GET", "include/php/ogspisldt.php?panel=" + panel, true);
     else if (panel == 'customizedInvoice')
         xmlhttp.open("GET", "include/php/omcuform.php?panel=" + panel, true);
+    else if (panel == 'customizedPurInvoice')
+        xmlhttp.open("GET", "include/php/omcpform.php?panel=" + panel, true);
     else if (panel == 'customizedImtInvoice')
         xmlhttp.open("GET", "include/php/omimtcufm.php?panel=" + panel, true);
     else if (panel == 'customizedCryInvoice')
@@ -34,6 +37,7 @@ function getMainSellPurchasePanel(panel)
         xmlhttp.open("GET", "include/php/ogspsblt.php", true);
     xmlhttp.send();
 }
+//************End code to purchase invoice Customise @Author:SANT17DEC16**********/-->
 /**************End code to upadte soldOutImtInv @Author:GAUR19OCT16*******************/
 /**************End code to upadte customizedImtInvoice @Author:GAUR19SEP16*******************/
 /**************End code to add panel @Author:PRIYA06APR15*******************/
@@ -53,12 +57,12 @@ function numberOfRowsEPanel(documentRootPath, rowsPerPage, selFirmId, sortKeywor
             //document.getElementById("ajaxLoadNextGirviPanelListButt").style.visibility = "hidden";
         }
     };
- if (soldoutPanel == 'soldOutImtList'){
+    if (soldoutPanel == 'soldOutImtList') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisldt.php?rowsPerPage=" + rowsPerPage + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&page=" + pageNum + "&panel=" + panel + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&updateRows=" + 'updateImtRows', true);
-                } else {
+    } else {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspsldt.php?rowsPerPage=" + rowsPerPage + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&page=" + pageNum + "&panel=" + panel + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&updateRows=" + 'updateRows', true);
-                }
-        xmlhttp.send();
+    }
+    xmlhttp.send();
 }
 /*****************END code to add soldoutPanel @Author:GAUR19OCT16**************/
 //**************End code to item sold out list @Author:DEEP08JUL14*******************/
@@ -118,7 +122,7 @@ function showSelectPage(pageNo, panel, rowsPerPage, noOfPagesAsLink, selFirmId, 
         } else if (panel == 'soldOutImtInv') {
             xmlhttp.open("POST", "include/php/ogsipsblt.php?page=" + pageNo + "&empLoginId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
                     "&panel=" + panel, true);  //add panel Imitation @Author: GAUR19OCT16
-        }  else if (panel == 'StockPanel') {
+        } else if (panel == 'StockPanel') {
             xmlhttp.open("POST", "include/php/ogismnlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
                     "&panel=" + panel, true);
         } else if (panel == 'ItemRepairList') {

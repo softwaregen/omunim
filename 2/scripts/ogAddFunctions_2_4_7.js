@@ -75,11 +75,6 @@ function validateAddWItemInputs() {
         document.getElementById("addItemName").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemPieces").value, "Please enter Item Pieces!") == false ||
-            validateNum(document.getElementById("addItemPieces").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemPieces").focus();
-        return false;
-    }
     else if (validateEmptyField(document.getElementById("addItemGrossWeight").value, "Please enter Gross Weight!") == false ||
             validateNumWithDot(document.getElementById("addItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("addItemGrossWeight").focus();
@@ -597,7 +592,7 @@ function getMetalType(div, id, keyCodeInput, mainPanel) {
 /*************Start code to change condition PurchaseList panel file ogiaprlt to ogwaprlt.php @Author:GAUR05MAY16*********************/
 /*************Start code to add condition stockListByParticularItem and add parameter itemName @Author: GAUR26JUL16*********************/
 /*************START code to add condition RetailPurchaseList @Author: GAUR04AUG16*********************/
-function searchStockList(documentRootPath, searchColumn, searchValue, selFirmId, div, panel, itemCategory, metalType, itemName) {
+function searchStockList(documentRootPath, searchColumn, searchValue, selFirmId, div, panel, itemCategory, metalType, itemName, userId) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
@@ -640,6 +635,9 @@ function searchStockList(documentRootPath, searchColumn, searchValue, selFirmId,
     else if (panel == 'RawMetalPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmpslt.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId, true);
+    else if (panel == 'MetalToCashPurchaseList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwwscprlt.php?searchColumn="
+                + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
     else
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspsblt.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
@@ -647,7 +645,7 @@ function searchStockList(documentRootPath, searchColumn, searchValue, selFirmId,
 }
 /*************END code to add condition RetailPurchaseList @Author: GAUR04AUG16*********************/
 /*************START code to add condition RetailPurchaseList @Author: GAUR2AUG16*********************/
-function sortStockList(documentRootPath, sortKeyword, selFirmId, div, panel, itemCategory, metalType, itemName) {
+function sortStockList(documentRootPath, sortKeyword, selFirmId, div, panel, itemCategory, metalType, itemName, userId) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -682,6 +680,8 @@ function sortStockList(documentRootPath, sortKeyword, selFirmId, div, panel, ite
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmsllt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId, true);
     else if (panel == 'RawMetalPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmpslt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId, true);
+    else if (panel == 'MetalToCashPurchaseList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwwscprlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
     else
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspsblt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     xmlhttp.send();

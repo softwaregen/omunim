@@ -2321,8 +2321,8 @@ function alertChangeItemTunchOption() {
 function changeItemTunchOption(selectedMetalType, divCount, metalSellType) {
 
     var poststr = "metalType=" + encodeURIComponent(selectedMetalType.value)
-                 + "&itemDivCount=" + encodeURIComponent(divCount)
-                 + "&metalSellType=" + encodeURIComponent(metalSellType);
+            + "&itemDivCount=" + encodeURIComponent(divCount)
+            + "&metalSellType=" + encodeURIComponent(metalSellType);
     selMetalType = selectedMetalType.value;
     addStockMetalType = selMetalType;
     itemTunchDivCount = divCount;
@@ -2590,7 +2590,7 @@ function changeStockItemId(selectedMetalType, panelName, metalSType) {
             + "&panelName=" + encodeURIComponent(panelName)
             + "&metalSell=" + encodeURIComponent(metalSType);
     change_stock_item_id('include/php/ogiaiddv.php', poststr);
-   return false;
+    return false;
 }
 /***************END update @Author:GAUR06DEC16***********/
 /*******End Code To Add Div For Supp Add Stock @AUTHOR:PRIYA28MAY13***********/
@@ -2620,7 +2620,7 @@ function change_add_stock_metal_rate(url, parameters) {
 /***************Start code to add addstockDiv @Author:PRIYA14APR15***********/
 /***************Start code to add check AddInvoice PanelName @Author:SANT05OCT16***********/
 /***************START update @Author:GAUR06DEC16***********/
-var metalSType; 
+var metalSType;
 function alertChangeAddStockMetalRate() {
     if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -2636,7 +2636,7 @@ function alertChangeAddStockMetalRate() {
 //                document.getElementById('addItemVATTax').value = strArr[1];
                 calStockItemPrice();
             }
-            if(addstockDiv == 'addRawStock'){
+            if (addstockDiv == 'addRawStock') {
                 document.getElementById('addRawStockItemMetalRate').focus();
             }
         }         /**Start for item repair panel @author: SANDY26AUG13 **/
@@ -4058,13 +4058,14 @@ function alertGetFirmAccountNo() {
 /*********************End to add Condition for AddRtStockMain @Author:SHRI19MAR16****************/
 /**********************End code to hide trans account div @Author:PRIYA22MAY14************/
 /***********************End code to change Id @Author:PRIYA26NOV13*************************/
-function getFirmAccountNo(selectedFirmNo, panelName, nextFieldId) {
-//alert(panelName);
+function getFirmAccountNo(selectedFirmNo, panelName, nextFieldId, metalType) {
+//alert(metalType);
     nextFieldFirmAccId = nextFieldId;
     panelNameDiv = panelName;
 
     var poststr = "firmNo=" + encodeURIComponent(selectedFirmNo) +
-            "&panelName=" + encodeURIComponent(panelName);
+            "&panelName=" + encodeURIComponent(panelName) +
+            "&metalType=" + encodeURIComponent(metalType);
 
     get_firm_account_no('include/php/ommpfacc.php', poststr);
 
@@ -5837,7 +5838,7 @@ function getSuppForNewOrderStatus(suppId, suppPanelName) {
     } else if (suppPanelName == 'AddSuppImtInvoice') {
         xmlhttp.open("GET", "include/php/ogijssdv.php?suppId=" + suppId + "&panel=" + suppPanelName, true);
     } else if (suppPanelName == 'AddSuppMetal') {
-        xmlhttp.open("GET", "include/php/ogrwmomf.php?suppId=" + suppId + "&panel=" + suppPanelName + "&suppPanelName=addByMetal" + "&metType=BUY", true);
+        xmlhttp.open("GET", "include/php/ogrwmomf.php?userId=" + suppId + "&panel=" + suppPanelName + "&suppPanelName=addByMetal&metType=BUY&mainPanel=Supplier", true);
     }
     xmlhttp.send();
 }
@@ -6106,7 +6107,7 @@ function getCustForSalePurchase(custId, panelName, custType) {
     if (panelName == 'PurchasePanel') {
         xmlhttp.open("GET", "include/php/ogspisdv.php?custId=" + custId + "&custType=" + custType, true);
     } else if (panelName == 'SellPanel') {
-        xmlhttp.open("GET", "include/php/ogprmndv.php?custId=" + custId, true);
+        xmlhttp.open("GET", "include/php/ogprmndv.php?userId=" + custId + "&mainPanel=Customer&suppPanelName=addByMetal&metType=SELL", true);
     }
 
     xmlhttp.send();

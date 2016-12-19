@@ -92,7 +92,7 @@ function validateAddNewSuppInvoice(payPanelName) {
 /*********Start Code To add panel @Author:SANT14OCT16************/
 /*********Start Code To add panel @Author:SANT30NOV16************/
 function addPayment() {
-    if ((document.getElementById('payPanelName').value == 'ImitationSellPayUp' || document.getElementById('payPanelName').value == 'SellPayUp') && document.getElementById('noOfPayInv').value > 0) {
+    if (((document.getElementById('payPanelName').value == 'ImitationSellPayUp' || document.getElementById('payPanelName').value == 'SellPayUp') && document.getElementById('noOfPayInv').value > 0) || document.getElementById('payPanelName').value == 'RawPayUp') {
         alert('You can not update this item');
         return false;
     } else {
