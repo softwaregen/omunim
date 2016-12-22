@@ -5247,7 +5247,7 @@ function showMetalNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, 
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwwsprlt.php?rowsPerPage=" + rowsPerPage + "&panelName=" + nwOrPanel + "&stockUpdateRows=" + upRowsPanel + "&userId=" + custId + "&mainPanel=" + mainPanel, true);
     xmlhttp.send();
 }
-function showUserRawMetalDetails(rawId, panelName, userId, mainPanel) {
+function showUserRawMetalDetails(rawId, panelName, userId, mainPanel, metType, transPanel) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -5257,7 +5257,7 @@ function showUserRawMetalDetails(rawId, panelName, userId, mainPanel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogrwmomf.php?rwprId=" + rawId + "&payPanelName=" + panelName + "&rawPanelName=" + panelName + "&suppPanelName=addMetalByCash&userId=" + userId + "&mainPanel=" + mainPanel, true);
+    xmlhttp.open("POST", "include/php/ogrwmomf.php?rwprId=" + rawId + "&payPanelName=" + panelName + "&rawPanelName=" + panelName + "&suppPanelName=addMetalByCash&userId=" + userId + "&mainPanel=" + mainPanel + "&metType=" + metType + "&transactionPanel=" + transPanel, true);
     xmlhttp.send();
 }
 function showCustTransactions(userId) {
@@ -5266,10 +5266,24 @@ function showCustTransactions(userId) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("custHomeTransDiv").innerHTML = xmlhttp.responseText;
-        }else{
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
     xmlhttp.open("POST", "include/php/ogwsprdt.php?userId=" + userId + "&panelName=custAllTrans", true);
+    xmlhttp.send();
+}
+function getMetalByCashItemList(suppId, panelName, mainPanel) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("SuppMetalItemListDiv").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ogrwwscslt.php?transType=" + panelName + "&userId=" + suppId + "&mainPanel=" + mainPanel, true);
     xmlhttp.send();
 }

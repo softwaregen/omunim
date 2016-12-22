@@ -27,6 +27,8 @@ function getMainSellPurchasePanel(panel)
         xmlhttp.open("GET", "include/php/omcuform.php?panel=" + panel, true);
     else if (panel == 'customizedPurInvoice')
         xmlhttp.open("GET", "include/php/omcpform.php?panel=" + panel, true);
+    else if (panel == 'customizedSellInvoice')
+        xmlhttp.open("GET", "include/php/omcsform.php?panel=" + panel, true);
     else if (panel == 'customizedImtInvoice')
         xmlhttp.open("GET", "include/php/omimtcufm.php?panel=" + panel, true);
     else if (panel == 'customizedCryInvoice')
