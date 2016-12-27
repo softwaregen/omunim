@@ -5822,13 +5822,13 @@ function getSuppForNewOrderStatus(suppId, suppPanelName) {
     if (suppPanelName == 'SuppInvLayout') {
         xmlhttp.open("GET", "include/php/ogwhinly.php?suppId=" + suppId + "&panelName=" + suppPanelName, true);
     } else if (suppPanelName == 'SuppNewOrder') {
-        xmlhttp.open("GET", "include/php/ogwhordv.php?suppId=" + suppId + "&panelName=" + suppPanelName, true);
+        xmlhttp.open("GET", "include/php/ogwsnwor.php?suppId=" + suppId + "&panelName=" + suppPanelName, true);
     } else if (suppPanelName == 'OrderList' || suppPanelName == 'PendingOrder') {
-        xmlhttp.open("GET", "include/php/ogwhpodv.php?suppId=" + suppId + "&panelName=" + suppPanelName, true);
+        xmlhttp.open("GET", "include/php/ogwsnwor.php?suppId=" + suppId + "&panelName=" + suppPanelName, true);
     } else if (suppPanelName == 'suppPurchase') {
         xmlhttp.open("GET", "include/php/ogwprmdv.php?suppId=" + suppId + "&panelName=" + suppPanelName, true);
     } else if (suppPanelName == 'SuppAddOrder') {
-        xmlhttp.open("GET", "include/php/ogwhiadv.php?suppId=" + suppId + "&payPanelName=" + suppPanelName, true);
+        xmlhttp.open("GET", "include/php/ogwsnwor.php?suppId=" + suppId + "&payPanelName=" + suppPanelName, true);
     } else if (suppPanelName == 'InvoicePayment') {
         xmlhttp.open("GET", "include/php/ogwadinv.php?suppId=" + suppId + "&payPanelName=" + suppPanelName, true);
     } else if (suppPanelName == 'addByInv' || suppPanelName == 'addByItems') {

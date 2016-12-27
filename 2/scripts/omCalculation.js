@@ -23,12 +23,15 @@ function calculateSellPrice() {
     var itemPurity = parseFloat(document.getElementById('slPrCustWastage').value);//changed @Author:SHRI31AUG16
     var panelName = document.getElementById('panelName').value;
 
+    if (document.getElementById('slPrCustWastage').value == '' || document.getElementById('slPrCustWastage').value == 'NaN') {
+        document.getElementById('slPrCustWastage').value = 0;
+    }
     if (document.getElementById('slPrItemTunch').value != '') {
-        document.getElementById('slPrItemFineWeight').value = ((document.getElementById('slPrItemTunch').value * wt) / 100).toFixed(3);
+        document.getElementById('slPrItemFineWeight').value = (((document.getElementById('slPrItemTunch').value) * wt) / 100).toFixed(3);
     }
 
     if (document.getElementById('slPrFinalTunch').value != '') {
-        document.getElementById('slPrItemFFineWeight').value = ((document.getElementById('slPrFinalTunch').value * wt) / 100).toFixed(3);
+        document.getElementById('slPrItemFFineWeight').value = (((parseFloat(document.getElementById('slPrFinalTunch').value) + parseFloat(document.getElementById('slPrCustWastage').value)) * wt) / 100).toFixed(3);
     }
 
     if (document.getElementById('slPrItemFineWeight').value == '' || document.getElementById('slPrItemFineWeight').value == 'NaN') {
@@ -37,9 +40,7 @@ function calculateSellPrice() {
     if (document.getElementById('slPrItemFFineWeight').value == '' || document.getElementById('slPrItemFFineWeight').value == 'NaN') {
         document.getElementById('slPrItemFFineWeight').value = 0;
     }
-    if (document.getElementById('slPrCustWastage').value == '' || document.getElementById('slPrCustWastage').value == 'NaN') {
-        document.getElementById('slPrCustWastage').value = 0;
-    }
+
 
     var finalFineWeight = parseFloat(document.getElementById('slPrItemFFineWeight').value);
     if (document.getElementById('valueAdd').value == 'false') {
@@ -1460,7 +1461,7 @@ function  calRawMetalFinVal() {
     if (document.getElementById('addRawStockItemFinalTunch').value != '') {
         document.getElementById('addRawStockFFineWeight').value = ((document.getElementById('addRawStockItemFinalTunch').value * wt) / 100).toFixed(3);
     }
-    
+
     if (document.getElementById('addRawStockFineWeight').value == 'NaN') {
         document.getElementById('addRawStockFineWeight').value = 0;
     }
@@ -1473,7 +1474,7 @@ function  calRawMetalFinVal() {
     var labChargesType = document.getElementById('addRawStockLabChargesType').value;
     var totalLabNOthCharges = 0;
     var totVal;
-    
+
     var labChargesBy = finalFineWeight;
     if (document.getElementById('addRawStockFFineWeight').value != '' && document.getElementById('addRawStockFFineWeight').value != 0) {
         if (labCharges != '') {

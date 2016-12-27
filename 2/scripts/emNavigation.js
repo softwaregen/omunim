@@ -2973,27 +2973,27 @@ function printBarCodeA4Sheet(obj) {
 var adnum = 6;
 function adsNavigation() {
     if (adnum == 6) {
-        url = "<a href='http://www.softwaregen.com' target='_blank'><img src='images/ads/softwaregen-offers.png' /></a>";
+        url = "<a href='http://www.onlinemunim.com' target='_blank'><img src='images/ads/kirana-store-software.png' /></a>";
         adnum = 1;
     }
     else if (adnum == 5) {
-        url = "<a href='http://www.flipkart.com/offers/fashion?affid=infosoftw' target='_blank'><img src='images/ads/flipkart-camera-offers.png' /></a>";
+        url = "<a href='http://www.softwaregen.com' target='_blank'><img src='images/ads/website-design-softwaregen.png' /></a>";
         adnum = adnum + 1;
     }
     else if (adnum == 4) {
-        url = "<a href='http://www.snapdeal.com?utm_source=aff_prog&utm_campaign=afts&offer_id=17&aff_id=45930' target='_blank'><img src='images/ads/snapdeal_elec_728x90.png' /></a>";
+        url = "<a href='http://www.onlinemunim.com' target='_blank'><img src='images/ads/mobile-shop-software.png' /></a>";
         adnum = adnum + 1;
     }
     else if (adnum == 3) {
-        url = "<a href='http://dl.flipkart.com/dl/offers?affid=infosoftw' target='_blank'><img src='images/ads/flipkart-offers-zone.png' /></a>";
+        url = "<a href='http://www.softwaregen.com' target='_blank'><img src='images/ads/web-hosting-softwaregen.png' /></a>";
         adnum = adnum + 1;
     }
     else if (adnum == 2) {
-        url = "<a href='http://www.softwaregen.com' target='_blank'><img src='images/ads/softwaregen-festive-offers.png' /></a>";
+        url = "<a href='http://www.onlinemunim.com' target='_blank'><img src='images/ads/ready-made-garments-billing-software.png' /></a>";
         adnum = adnum + 1;
     }
     else if (adnum == 1) {
-        url = "<a href='http://www.omunim.com/' target='_blank'><img src='images/ads/online-munim-offers.png' /></a>";
+        url = "<a href='http://www.omunim.com/' target='_blank'><img src='images/ads/medical-store-billing-software.png' /></a>";
         adnum = adnum + 1;
     }
     else {
@@ -3001,7 +3001,7 @@ function adsNavigation() {
         adnum = adnum + 1;
     }
     document.getElementById('newOmunimAdsDiv').innerHTML = url;
-    setTimeout("adsNavigation()", 15000);
+    setTimeout("adsNavigation()", 4000);
 }
 //********* Ads Navigation *****
 var adMainIntroNum = 1;
@@ -3776,7 +3776,7 @@ function setDefLangGetFormEight(defLang, defSize, panel) {                      
 /**********Start code to change param name @Author:PRIYA30SEP14******************/
 /******Start code to add stock type parameter in else condition  @OMMODTAG SHRI_09JAN16*****/
 /**********Start code to add if else condition for Imitation Panel @Author:ANUJA07JAN16******************/
-function showStockItemDetailsDiv(documentRootPath, itprId, panelName, stockType, mainPanel,transactionPanel) {
+function showStockItemDetailsDiv(documentRootPath, itprId, panelName, stockType, mainPanel, transactionPanel) {
 //    alert(panelName);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -3792,7 +3792,7 @@ function showStockItemDetailsDiv(documentRootPath, itprId, panelName, stockType,
     };
 
     if (panelName == 'RawDetUpPanel') {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwiadv.php?rwprId=" + itprId + "&panelName=RawStock" + "&rawPanelName=" + panelName + "&mainPanel=" + mainPanel+"&transactionPanel="+transactionPanel, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwiadv.php?rwprId=" + itprId + "&panelName=RawStock" + "&rawPanelName=" + panelName + "&mainPanel=" + mainPanel + "&transactionPanel=" + transactionPanel, true);
     } else if (panelName == 'addByItems') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwprinv.php?itprId=" + itprId + "&itemMainPanel=" + panelName + "&itemSubPanel=itemsAddUp", true);
         /**Star Code to Add Condition for Panel Name during updation @Author:SHE21FEB15 **/
@@ -4116,3 +4116,146 @@ function getOnlinePaymentPanel(amount) {
 function closeProdExpMessDiv() {
     document.getElementById("prodExpMessMainDiv").innerHTML = '';
 }
+//*********Start code for delete multiple loans in loan panel:Author:SANT23DEC16
+
+//Start code to add selectall sms option @Author:SHE20FEB15
+//Start Code to add function for delete selected and multiple loan : Author:SANT24DEC16
+function selectDeleteOne(panelName, trnasId, girviId, custId) {
+    var counter = parseFloat(document.getElementById('counter').value);
+    var delId = document.getElementById(delId).value;
+    var deleteChkAll = new Array();
+    var chk = 0;
+    for (var i = 1; i <= counter; i++) {
+        deleteChkAll[i] = document.getElementById('deletecheck' + i).checked;
+        if (deleteChkAll[i] == false)
+        {
+            chk = 1;
+            break;
+        }
+    }
+    if (chk == 1)
+        document.getElementById('deleteallcheck').checked = false;
+    else
+        document.getElementById('deleteallcheck').checked = true;
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            for (var i = 1; i <= counter; i++) {
+                var deleteChk = document.getElementById('deletecheck' + i).checked;
+                if (deleteChk == true) {
+                    usertransId[i] = document.getElementById('girviIdForDelete' + i).value;
+                }
+                else if (deleteChk != true) {
+                    usertransId[i] = '';
+                }
+            }
+        }
+    };
+    if (panelName == 'loansList')
+        xmlhttp.open("POST", "include/php/orgpllpn.php?panelName=" + panelName, true);
+    if (panelName == 'releaseGirviList')
+        xmlhttp.open("POST", "include/php/orgpregl.php?panelName=" + panelName, true);
+    xmlhttp.send();
+
+}
+function sendDeleteLoan(counter, userType, itemId, itemType, amount1, amount2, amount3, amount4) {
+    var deleteChk = new Array();
+    var usertransId = new Array();
+    var counter = parseFloat(document.getElementById('counter').value);
+    var chk = 0;
+    var chkvar = 'false';
+    var cnt = 0;
+    for (var i = 1; i <= counter; i++) {
+        deleteChk[i] = document.getElementById('deletecheck' + i).checked;
+        usertransId[i] = document.getElementById('girviIdForDelete' + i).value;
+        if (deleteChk[i] == false) {
+            chk++;
+        }
+    }
+    if (chk == counter) {
+        alert('Please select Loan to Delete ');
+        document.getElementById("deleteButt").style.visibility = "visible";
+    }
+    else {
+        var poststr = "counter=" + encodeURIComponent(counter)
+                + "&itemId=" + encodeURIComponent(itemId)
+                + "&itemType=" + encodeURIComponent(itemType)
+                + "&deleteChk=" + encodeURIComponent(deleteChk)
+                + "&usertransId=" + encodeURIComponent(usertransId);
+        send_delete_loan('include/php/ollondel.php', poststr);
+    }
+}
+function send_delete_loan(url, parameters)
+{
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = alertSendDeleteLoan;
+    xmlhttp.open('POST', url, true);
+    xmlhttp.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+    xmlhttp.setRequestHeader("Content-length", parameters.length);
+    xmlhttp.setRequestHeader("Connection", "close");
+    xmlhttp.send(parameters);
+}
+function alertSendDeleteLoan()
+{
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("deleteButt").style.visibility = "hidden";
+            if (xmlhttp.responseText == 'SUCCESS') {
+                document.getElementById("deleteButt").style.visibility = "visible";
+            } else {
+                document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
+                alert('Deleted Successfully!');
+                document.getElementById("deleteButt").style.visibility = "visible";
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+}
+
+var usertransId = new Array();
+
+function selectAllDelete(panelName) {
+    var deleteDel = document.getElementById('deleteallcheck').checked;
+    var counter = parseFloat(document.getElementById('counter').value);
+    if (deleteDel == true) {
+        confirm_box = confirm("You have selected all loan's to delete!\n Do you really want to continue!");
+    }
+    if (confirm_box == true) {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                if (deleteDel == true) {
+                    for (var i = 1; i <= counter; i++) {
+                        document.getElementById('deletecheck' + i).checked = true;
+                        usertransId[i] = document.getElementById('girviIdForDelete' + i).value;
+                    }
+                }
+                else {
+                    for (var i = 1; i <= counter; i++) {
+                        document.getElementById('deletecheck' + i).checked = false;
+                    }
+                }
+            }
+
+        };
+
+    }
+    else
+    {
+        document.getElementById('deleteallcheck').checked = false;
+    }
+
+    if (panelName == 'lossGirviList')
+        xmlhttp.open("POST", "include/php/orgplglp.php?panelName=" + panelName, true);
+    else if (panelName == 'loansList')
+        xmlhttp.open("POST", "include/php/orgpllpn.php?panelName=" + panelName, true);
+    else if (panelName == 'releaseGirviList')
+        xmlhttp.open("POST", "include/php/orgpregl.php?panelName=" + panelName, true);
+    xmlhttp.send();
+
+}
+//End Code to add function for delete selected and multiple loan : Author:SANT24DEC16

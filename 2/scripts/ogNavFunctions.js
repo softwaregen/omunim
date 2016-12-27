@@ -2984,6 +2984,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
     var searchItemIdNumPart = searchItemId.substr(charLen);
     document.getElementById('srchItemPreId').value = searchItemIdCharPart;
     document.getElementById('srchItemPostId').value = searchItemIdNumPart;
+//    alert(document.getElementById('srchItemPostId').value);
     document.getElementById('srchdelItemPreId').value = searchItemIdCharPart;
     document.getElementById('srchdelItemPostId').value = searchItemIdNumPart;
     if (autoEntryValue == 'YES') {
@@ -2993,7 +2994,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 var status = xmlhttp.responseText;
                 if (status != 'SUCCESS' && status != '') {
-                    alert(status);
+//                    alert(status);
                     // document.getElementById("autoEntryMessDisplayDiv").value = status; 
                     document.getElementById("srchItemId").value = '';
                 }
