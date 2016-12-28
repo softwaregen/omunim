@@ -2994,7 +2994,8 @@ function alertGetStockRawMetalDiv() {
 //}
 
 
-function deleteRawMetalItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, rowsPerPage) {
+function deleteRawMetalItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, rowsPerPage, mainPanelNew, metType, userId) {
+//    alert(rwprId + '-' + mainPanel + '-' + payPanelName + '-' + mainPanelNew + '-' + metType);
     confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");//change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
@@ -3003,7 +3004,6 @@ function deleteRawMetalItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, 
         if (confirm_box_for_raw_metal == true)
         {
             rawDeleteConfirm = 'yes';
-            var panelName = 'RawMetalList';
         }
 //     alert(rawDeleteConfirm);
         loadXMLDoc();
@@ -3011,7 +3011,10 @@ function deleteRawMetalItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, 
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 if (mainPanel == 'RawPurchaseList') {
-                    document.getElementById("rawMetalStockListDiv").innerHTML = xmlhttp.responseText;
+                    document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(rawMetalFunctionCloseDiv, 1000);
+                } else if (mainPanel == 'RawSellList') {
+                    document.getElementById("stockPanelSellList").innerHTML = xmlhttp.responseText;
                     window.setTimeout(rawMetalFunctionCloseDiv, 1000);
                 }
                 else if (panelName == 'RawMetalList') {
@@ -3019,23 +3022,24 @@ function deleteRawMetalItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, 
                     window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
                 }
                 else if (payPanelName == 'RawPayment' || mainPanel == 'AddRawStock') {
-                    document.getElementById("rawMetalAddDiv").innerHTML = xmlhttp.responseText;
+                    document.getElementById("addRawStockInvoice").innerHTML = xmlhttp.responseText;
                     window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                }
-
-                else {
+                } else {
                     document.getElementById("addRawStockInvoice").innerHTML = xmlhttp.responseText;
                     window.setTimeout(rawMetalFunctionCloseDiv, 1000);
                 }
-
-//                alert(document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText);
             }
             else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
-        xmlhttp.open("POST", "include/php/ogrmdelt.php?rwprId=" + rwprId + "&rwmtdrId=" + rwmtdrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel +
-                "&payPanelName=" + payPanelName + "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&rawDeleteConfirm=" + rawDeleteConfirm, true);
+        if (metType == 'SELL') {
+            xmlhttp.open("POST", "include/php/ogrwsldel.php?rwprId=" + rwprId + "&rwmtdrId=" + rwmtdrId + "&mainPanelNew=" + mainPanelNew + "&mainPanel=" + mainPanel +
+                    "&payPanelName=" + payPanelName + "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+        } else {
+            xmlhttp.open("POST", "include/php/ogrmdelt.php?rwprId=" + rwprId + "&rwmtdrId=" + rwmtdrId + "&mainPanelNew=" + mainPanelNew + "&mainPanel=" + mainPanel +
+                    "&payPanelName=" + payPanelName + "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+        }
         xmlhttp.send();
     }
 }
