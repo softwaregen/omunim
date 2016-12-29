@@ -6781,7 +6781,7 @@ function calcSuppMetRawMetStock(prefix) {
 /***********END Code To add itemsaleSuppRateCut @Author: GAUR14DEC16***************/
 
 /***********START Code To add itemsaleSuppRateCut @Author: GAUR16DEC16***************/
-function deleteSuppAllTransList(transId, suppId) {
+function deleteSuppAllTransList(transId, suppId, utransType) {
     confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?");//add variables of alert msgs @AUTHOR: SANDY29JAN14
     if (confirm_box == true)
     {
@@ -6789,7 +6789,10 @@ function deleteSuppAllTransList(transId, suppId) {
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
+                if(utransType == 'SuppPayment')
+                document.getElementById("suppHomeDiv").innerHTML = xmlhttp.responseText;
+            else
+                 document.getElementById("customerHomePage").innerHTML = xmlhttp.responseText;
 //                    closeMessDiv('messDisplayDiv', 'DELETED');
             } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
