@@ -4161,10 +4161,12 @@ function selectDeleteOne(panelName, trnasId, girviId, custId, sellPresent) {
         xmlhttp.open("POST", "include/php/orgpregl.php?panelName=" + panelName, true);
     if (panelName == 'releasePurchaseList')
         xmlhttp.open("POST", "include/php/ogwaprlt.php?panelName=" + panelName, true);
+        if (panelName == 'stockPanelPurchaseList')
+        xmlhttp.open("POST", "include/php/ogwastlt.php?panelName=" + panelName, true);
     xmlhttp.send();
 }
 }
-function sendDeleteMultiple(counter, userType, itemId, itemType, amount1, amount2, amount3, panelName) {
+function sendDeleteMultiple(counter, userType, itemId, itemType, amount1, itemCategory, metalType, panelName) {
     var deleteChk = new Array();
     var usertransId = new Array();
 //    var counter = parseFloat(document.getElementById('counter').value);
@@ -4175,6 +4177,7 @@ function sendDeleteMultiple(counter, userType, itemId, itemType, amount1, amount
     if (confirm_box == true)
         {
             var counter = parseFloat(document.getElementById('counter').value);
+
     for (var i = 1; i <= counter; i++) {
         deleteChk[i] = document.getElementById('deletecheck' + i).checked;
         usertransId[i] = document.getElementById('IdForDelete' + i).value;
@@ -4190,18 +4193,18 @@ function sendDeleteMultiple(counter, userType, itemId, itemType, amount1, amount
        panel = panelName;
         var poststr = "counter=" + encodeURIComponent(counter)
                 + "&panelName=" + encodeURIComponent(panelName)
-                + "&itemId=" + encodeURIComponent(itemId)
-                + "&itemType=" + encodeURIComponent(itemType)
+                + "&itemCategory=" + encodeURIComponent(itemCategory)
+                + "&metalType=" + encodeURIComponent(metalType)
                 + "&deleteChk=" + encodeURIComponent(deleteChk)
                 + "&usertransId=" + encodeURIComponent(usertransId);
-        send_delete_loan('include/php/ollondel.php', poststr);
+        send_delete_multiple('include/php/ollondel.php', poststr);
     }
         }
 }
-function send_delete_loan(url, parameters)
+function send_delete_multiple(url, parameters)
 {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = alertSendDeleteLoan;
+    xmlhttp.onreadystatechange = alertSendDeleteMultiple;
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -4210,7 +4213,7 @@ function send_delete_loan(url, parameters)
     xmlhttp.send(parameters);
 }
  var panel;
-function alertSendDeleteLoan()
+function alertSendDeleteMultiple()
 {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -4223,6 +4226,9 @@ function alertSendDeleteLoan()
                 document.getElementById("deleteButt").style.visibility = "visible";
             } else if(panel == 'releaseCustomerList'){
                 document.getElementById("customerDetailsDiv").innerHTML = xmlhttp.responseText;
+                document.getElementById("deleteButt").style.visibility = "visible";
+            } else if(panel == 'stockPanelPurchaseList'){
+                document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
                 document.getElementById("deleteButt").style.visibility = "visible";
             } else {
                 document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
@@ -4251,6 +4257,10 @@ function selectAllDelete(panelName) {
     } else if (panelName == 'releasePurchaseList') {
         if (deleteDel == true) {
             confirm_box = confirm("You have selected all Purchase List to delete!\n Do you really want to continue!");
+        }
+    } else if (panelName == 'stockPanelPurchaseList') {
+        if (deleteDel == true) {
+            confirm_box = confirm("You have selected all Stock Purchase List to delete!\n Do you really want to continue!");
         }
     }
     if (confirm_box == true) {
@@ -4287,6 +4297,8 @@ function selectAllDelete(panelName) {
         xmlhttp.open("POST", "include/php/omccdtlt.php?panelName=" + panelName, true);
     else if (panelName == 'releasePurchaseList')
         xmlhttp.open("POST", "include/php/ogwaprlt.php?panelName=" + panelName, true);
+    else if (panelName == 'stockPanelPurchaseList')
+        xmlhttp.open("POST", "include/php/ogwastlt.php?panelName=" + panelName, true);
     xmlhttp.send();
 
 }

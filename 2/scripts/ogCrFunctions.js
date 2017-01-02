@@ -3701,7 +3701,7 @@ function addSuppRawStock() {
         return false;
     }
 }
-function validateAddSuppRawMetalInputs(){
+function validateAddSuppRawMetalInputs() {
     if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please Select Date Day!") == false) {
         document.getElementById("addItemDOBDay").focus();
         return false;
@@ -3720,10 +3720,10 @@ function validateAddSuppRawMetalInputs(){
     } else if (validateSelectField(document.getElementById("firmId").value, "Please Select Firm Id!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    }else if (validateSelectField(document.getElementById("accountId").value, "Please Select Metal Account!") == false) {
+    } else if (validateSelectField(document.getElementById("accountId").value, "Please Select Metal Account!") == false) {
         document.getElementById("accountId").focus();
         return false;
-    }  else if (validateEmptyField(document.getElementById("slItemName").value, "Please Enter Item Name!") == false) {
+    } else if (validateEmptyField(document.getElementById("slItemName").value, "Please Enter Item Name!") == false) {
         document.getElementById("slItemName").focus();
         return false;
     }
@@ -3742,4 +3742,39 @@ function validateAddSuppRawMetalInputs(){
         return false;
     }
     return true;
+}
+
+function deleteRawMetalList(utransId, panelName, mainPanel, payPanelName, userId, metType) {
+//    alert('utransId:' + utransId + 'panelName:' + panelName + 'mainPanel:' + mainPanel + 'payPanelName:' + payPanelName + 'userId:' + userId + 'metType:' + metType);
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");
+    if (confirm_box == true)
+    {
+        var rawDeleteConfirm = '';
+        confirm_box_for_raw_metal = confirm(deleteItemAlertMess + "\n\nDo you want to delete this Item From Raw Metal Stock?");
+        if (confirm_box_for_raw_metal == true)
+        {
+            rawDeleteConfirm = 'yes';
+        }
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (panelName == 'ItemDelete') {
+                    document.getElementById("SuppMetalPurchaseDiv").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
+                }
+            }
+            else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        if (metType == 'BUY') {
+            xmlhttp.open("POST", "include/php/ogrwmtdel.php?utransId=" + utransId + "&mainPanel=" + mainPanel +
+                    "&payPanelName=" + payPanelName + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+        } else {
+            xmlhttp.open("POST", "include/php/ogrwmtsldel.php?utransId=" + utransId + "&mainPanel=" + mainPanel +
+                    "&payPanelName=" + payPanelName + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+        }
+        xmlhttp.send();
+    }
 }

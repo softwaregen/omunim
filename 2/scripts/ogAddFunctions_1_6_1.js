@@ -1525,64 +1525,67 @@ function getItemDetailsPanel(documentRootPath, preId, postId, panelName, page) {
 /*********Start code to add sell item del func @Author:PRIYA30JAN14*********************/
 /*********Start code to add Imitation Panel for del func @Author:ANUJA30MAR15*********************/
 /*********Start code to add slPrInfo param @Author:SHRI23JUN16 *************************/
-function deleteSellItem(custId, slPrId, panelName, mainPanel, panel, slPrInfo) {
+function deleteSellItem(custId, slPrId, panelName, mainPanel, panel, slPrInfo, count) {
 //    alert(mainPanel);
-//    alert(panelName);
-    var addToStock = 'no';
-    var stock_add_confirm;
-    if (mainPanel == 'SellItemReturn' && panelName == 'ItemReturn') {
-        confirm_box = confirm("Do you really want to Return this Item?");
-    } else if (mainPanel == 'SellItemReturn' && panelName == 'ItemActive') {
-        confirm_box = confirm("Do you really want to Reactive this Item?");
+    if ((document.getElementById("upPanel").value == 'ItemSoldOutList' || document.getElementById("upPanel").value == 'SellPayUp' || document.getElementById("upPanel").value == 'SellDetUpPanel') && parseFloat(document.getElementById("invoiceRow" + count).value) > 0) {
+        alert('You can not delete this Item');
     } else {
-        confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
-    }
-
-    if (confirm_box == true)
-    {
-        if (panel != 'ImitationStock' && panelName != 'ItemActive')
-            stock_add_confirm = confirm(addItemAlertMess + "\n\nDo you want to add this item in stock?");
-
-        if (stock_add_confirm == true) {
-            addToStock = 'yes';
+        var addToStock = 'no';
+        var stock_add_confirm;
+        if (mainPanel == 'SellItemReturn' && panelName == 'ItemReturn') {
+            confirm_box = confirm("Do you really want to Return this Item?");
+        } else if (mainPanel == 'SellItemReturn' && panelName == 'ItemActive') {
+            confirm_box = confirm("Do you really want to Reactive this Item?");
+        } else {
+            confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
         }
-        loadXMLDoc();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                if (mainPanel == 'SellItemReturn') {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                } else if (panelName == 'soldOutListDel') {
-                    document.getElementById("sellMainDiv").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(sellFunctionToCloseDiv, 1000);
-                } else if (mainPanel == 'SlPrPayment' && panelName == 'SlPrPayment') {
-                    document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                } else if (mainPanel == 'SlPrPayment' && panelName == '') {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(sellFunctionToCloseDiv, 1000);
-                } else if (mainPanel == 'MainSoldOutListDel' && panelName == '') {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(sellFunctionToCloseDiv, 1000);
-                } else if (mainPanel == 'ImitationSellPayment' && panelName == 'ImitationSellPayment') {
-                    document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                } else if (mainPanel == 'ImitationSellPayment' && panelName == '') {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                } else {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(sellFunctionToCloseDiv, 1000);
-                }
-            } else {
-                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+
+        if (confirm_box == true)
+        {
+            if (panel != 'ImitationStock' && panelName != 'ItemActive')
+                stock_add_confirm = confirm(addItemAlertMess + "\n\nDo you want to add this item in stock?");
+
+            if (stock_add_confirm == true) {
+                addToStock = 'yes';
             }
-        };
-        if (panel == 'ImitationStock')
-            xmlhttp.open("GET", "include/php/ogspimdl.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&panel=" + panel, true); // filename changed @SHRI09MAR16
-        else
-            xmlhttp.open("GET", "include/php/ogspidel.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&slPrInfo=" + slPrInfo + "&panel=" + panel + "&stockAdd=" + addToStock, true);
-        xmlhttp.send();
+            loadXMLDoc();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    if (mainPanel == 'SellItemReturn') {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                    } else if (panelName == 'soldOutListDel') {
+                        document.getElementById("sellMainDiv").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    } else if (mainPanel == 'SlPrPayment' && panelName == 'SlPrPayment') {
+                        document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
+                    } else if (mainPanel == 'SlPrPayment' && panelName == '') {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    } else if (mainPanel == 'MainSoldOutListDel' && panelName == '') {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    } else if (mainPanel == 'ImitationSellPayment' && panelName == 'ImitationSellPayment') {
+                        document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
+                    } else if (mainPanel == 'ImitationSellPayment' && panelName == '') {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
+                    } else {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    }
+                } else {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+                }
+            };
+            if (panel == 'ImitationStock')
+                xmlhttp.open("GET", "include/php/ogspimdl.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&panel=" + panel, true); // filename changed @SHRI09MAR16
+            else
+                xmlhttp.open("GET", "include/php/ogspidel.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&slPrInfo=" + slPrInfo + "&panel=" + panel + "&stockAdd=" + addToStock, true);
+            xmlhttp.send();
+        }
     }
 }
 /*********End code to add slPrInfo param @Author:SHRI23JUN16 *************************/

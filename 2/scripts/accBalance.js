@@ -6792,7 +6792,7 @@ function deleteSuppAllTransList(transId, suppId, utransType) {
                 if(utransType == 'SuppPayment')
                 document.getElementById("suppHomeDiv").innerHTML = xmlhttp.responseText;
             else
-                 document.getElementById("customerHomePage").innerHTML = xmlhttp.responseText;
+                 document.getElementById("mainMiddleCustHome").innerHTML = xmlhttp.responseText;
 //                    closeMessDiv('messDisplayDiv', 'DELETED');
             } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
@@ -6943,7 +6943,11 @@ function showCustHomePurchaseDetails(name, updPanelname, rateCutOpt, userId) {
 }
 //END add function for CUST ALL TARNSACTION @Author:GAUR21DEC16
 
-function updateSuppAllTransList(transId, suppId) {
+function updateSuppAllTransList(transId, suppId, utransType) {
+    if (utransType == 'SuppPayment')
+        var uType = 'SuppPaymentUp';
+    else
+        var uType = 'CustPaymentUp';
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -6953,6 +6957,6 @@ function updateSuppAllTransList(transId, suppId) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogsuppaym.php?transId=" + transId + "&userId=" + suppId + "&paymentPanelName=SuppPaymentUp", true);
+    xmlhttp.open("POST", "include/php/ogsuppaym.php?transId=" + transId + "&userId=" + suppId + "&paymentPanelName=" + uType, true);
     xmlhttp.send();
 }

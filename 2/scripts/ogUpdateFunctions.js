@@ -826,6 +826,7 @@ function addEmpAccess(panelName, staffId) {
                     + "&updateCustomerAccess=" + document.getElementById("updateCustomerAccess").checked
                     + "&deleteCustomerAccess=" + document.getElementById("deleteCustomerAccess").checked
                     + "&customerListAccess=" + document.getElementById("customerListAccess").checked
+                    + "&customerListDeleteAccess=" + document.getElementById("customerListDeleteAccess").checked
                     + "&addFirmAccess=" + document.getElementById("addFirmAccess").checked
                     + "&updateFirmAccess=" + document.getElementById("updateFirmAccess").checked
                     + "&deleteFirmAccess=" + document.getElementById("deleteFirmAccess").checked
