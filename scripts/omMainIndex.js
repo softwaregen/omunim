@@ -498,3 +498,62 @@ function showLoginPanelDiv(versionNo, divPanel) {
     xmlhttp2.open("POST", versionNo + "/include/php/omppmsdv.php?divPanel=" + divPanel, true);
     xmlhttp2.send();
 }
+//
+function loginWithFingerScan(id, fingerId) {
+    versionNo = '2';
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+//            alert(req.responseText);
+            //document.getElementById("ajax_loading_lg_div").style.visibility = "hidden";
+            if (id == "verifyButt") {
+//                alert(str);
+                var str = req.responseText;
+//                alert(str);
+                var strArray = new Array();
+                strArray = str.split(":");
+                if (strArray.length > 1) {
+                    document.getElementById("ajax_loading_lg_div").style.visibility = "hidden";
+                    var fileName = strArray[1];
+                    var custIdArr = new Array();
+                    custIdArr = fileName.split(".");
+                    fingerId = custIdArr[0];
+//                    alert(fingerId);
+                    if (fingerId != '' || fingerId != null) {
+                        goLoginByFingerScan(fingerId);
+                    }
+                } else {
+                    document.getElementById('ajax_loading_lg_div').innerHTML = 'Finger Print Device Error OR Finger Prints Not Matched!';
+                }
+            }
+            else {
+                document.getElementById("ajax_loading_lg_div").style.visibility = "hidden";
+            }
+        } else {
+            document.getElementById("ajax_loading_lg_div").style.visibility = "visible";
+        }
+    }
+
+    if (id == "captureButt") {
+        req.open("GET", versionNo + "/include/php/ommpfgsccapture.php?custId=" + fingerId, true);
+    } else {
+        req.open("GET", versionNo + "/include/php/ommpfgscverify.php?checkSession=NO", true);
+    }
+    req.send();
+}
+//
+function goLoginByFingerScan(fingerId) {
+    versionNo = '2';
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("ajax_loading_lg_div").style.visibility = "hidden";
+            window.location.href = xmlhttp.responseText;
+        }
+        else {
+            document.getElementById("ajax_loading_lg_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", versionNo + "/include/php/owner/omollogn.php?ownerId=" + fingerId, true);
+    xmlhttp.send();
+}

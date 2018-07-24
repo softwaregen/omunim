@@ -679,7 +679,7 @@ function updateOMDongle(dgHWId, versionNo) {
                 }
             };
 
-            xmlhttp.open("POST", versionNo + "/include/php/omssupdg.php", true);
+            xmlhttp.open("POST", versionNo + "/include/php/system/omssupdg.php", true);
             xmlhttp.send();
         }
     }
@@ -811,7 +811,7 @@ function updateSoftwareWithoutDongleForm(versionNo, prodKey, loginId)
                 document.getElementById("updateSoftwareWithoutDongleDiv").innerHTML = "<img src='images/ajaxSearch.png' style='vertical-align: middle;' />";
             }
         };
-        xmlhttp.open("POST", versionNo +"/include/php/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
+        xmlhttp.open("POST", versionNo +"/include/php/system/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
         xmlhttp.send();
     }
 }
@@ -840,7 +840,7 @@ function updateSoftwareWithoutDongle(prodKey, loginId, versionNo)
                 document.getElementById("updateSoftwareWithoutDongleDiv").innerHTML = "<img src='images/ajaxSearch.png' style='vertical-align: middle;' />";
             }
         };
-        xmlhttp.open("POST", versionNo + "/include/php/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
+        xmlhttp.open("POST", versionNo + "/include/php/system/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
         xmlhttp.send();
     }
 }
