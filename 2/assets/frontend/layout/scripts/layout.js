@@ -43,7 +43,7 @@ var Layout = function () {
             var url = jQuery(this).attr("data-url");
             var error = $(this).attr("data-error-display");
             if (url) {
-                Metronic.blockUI({target: el, iconOnly: true});
+                Omtheme.blockUI({target: el, iconOnly: true});
                 $.ajax({
                     type: "GET",
                     cache: false,
@@ -51,12 +51,12 @@ var Layout = function () {
                     dataType: "html",
                     success: function(res) 
                     {                        
-                        Metronic.unblockUI(el);
+                        Omtheme.unblockUI(el);
                         el.html(res);
                     },
                     error: function(xhr, ajaxOptions, thrownError)
                     {
-                        Metronic.unblockUI(el);
+                        Omtheme.unblockUI(el);
                         var msg = 'Error on reloading the content. Please check your connection and try again.';
                         if (error == "toastr" && toastr) {
                             toastr.error(msg);
@@ -70,9 +70,9 @@ var Layout = function () {
                 });
             } else {
                 // for demo purpose
-                Metronic.blockUI({target: el, iconOnly: true});
+                Omtheme.blockUI({target: el, iconOnly: true});
                 window.setTimeout(function () {
-                    Metronic.unblockUI(el);
+                    Omtheme.unblockUI(el);
                 }, 1000);
             }            
         });
