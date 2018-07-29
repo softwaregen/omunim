@@ -16,15 +16,15 @@ function getMainSellPurchasePanel(panel)
         }
     };
     if (panel == 'soldOutList' || panel == 'returnedList')
-        xmlhttp.open("GET", "include/php/ogspsldt.php?panel=" + panel, true);
+        xmlhttp.open("GET", "include/php/ogcrspst.php?panel=" + panel, true);
     else if (panel == 'soldOutInv')
         xmlhttp.open("GET", "include/php/ogspsblt.php?panel=" + panel, true);
-    else if (panel == 'soldOutImtInv')
-        xmlhttp.open("GET", "include/php/ogsipsblt.php?panel=" + panel, true);
+    else if (panel == 'soldOutImtInv') //AUTH:AMOL 5 JUNE 2017
+        xmlhttp.open("GET", "include/php/ogspsblt.php?panel=" + panel, true);
     else if (panel == 'soldOutImtList')
-        xmlhttp.open("GET", "include/php/ogspisldt.php?panel=" + panel, true);
-    else if (panel == 'customizedInvoice')
-        xmlhttp.open("GET", "include/php/omcuform.php?panel=" + panel, true);
+        xmlhttp.open("GET", "include/php/ogcrspst.php?panel=" + panel, true);
+    else if (panel == 'customizedInvoice' || panel == 'customizedRoughInvoice' || panel == 'customizedApprovalInvoice' || panel == 'customizedRoughEstimateInvoice' )
+        xmlhttp.open("GET", "include/php/omcuform.php?panel=" + panel, true);      // start code to add customizedRoughInvoice @auth:athu29may17
     else if (panel == 'customizedPurInvoice')
         xmlhttp.open("GET", "include/php/omcpform.php?panel=" + panel, true);
     else if (panel == 'customizedSellInvoice')
@@ -34,6 +34,16 @@ function getMainSellPurchasePanel(panel)
     else if (panel == 'customizedCryInvoice')
         xmlhttp.open("GET", "include/php/ogcrcufm.php?panel=" + panel, true);
     else if (panel == 'CrystalSoldOutList')
+        xmlhttp.open("GET", "include/php/ogcrspst.php?panel=" + panel, true);
+    else if (panel == 'soldOutPurList')
+        xmlhttp.open("GET", "include/php/ogcrspst.php?panel=" + panel, true);
+    else if (panel == 'soldOutSellList')
+        xmlhttp.open("GET", "include/php/ogcrspst.php?panel=" + panel, true);
+    else if (panel == 'itemApproval' || panel == 'itemApprovalRec')
+        xmlhttp.open("GET", "include/php/ogcrspst.php?panel=" + panel, true);
+    else if (panel == 'soldOutPendingImtList')
+        xmlhttp.open("GET", "include/php/ogsppsldt.php?panel=" + panel, true);
+    else if (panel == 'soldOutDeletedList')
         xmlhttp.open("GET", "include/php/ogcrspst.php?panel=" + panel, true);
     else
         xmlhttp.open("GET", "include/php/ogspsblt.php", true);
@@ -110,7 +120,7 @@ function showSelectPage(pageNo, panel, rowsPerPage, noOfPagesAsLink, selFirmId, 
             xmlhttp.open("POST", "include/php/ogilsbdv.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
                     "&panel=" + panel, true); //add panel Imitation @Author:ANUJA17Feb15
         } else if (panel == 'ImitationStockList') {
-            xmlhttp.open("POST", "include/php/ogilsbdv.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
+            xmlhttp.open("POST", "include/php/ogijsbdv.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
                     "&panel=" + panel + "&stockPanel=ImitationStock", true); //add panel Imitation @Author:ANUJA17Feb15
         } else if (panel == 'PurchaseList') {
             xmlhttp.open("POST", "include/php/ogwaprlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
@@ -144,9 +154,25 @@ function showSelectPage(pageNo, panel, rowsPerPage, noOfPagesAsLink, selFirmId, 
         else if (panel == 'RawDetailMetalListDet') {
             xmlhttp.open("POST", "include/php/ogrmsdlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
                     "&panel=" + panel, true);
+        } else if (panel == 'MetalToCashInvoicePurchaseList') {
+            xmlhttp.open("POST", "include/php/ogrwspprlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
+                    "&panel=" + panel, true);
+        } else if (panel == 'MetalToCashInvoiceSellList') {
+            xmlhttp.open("POST", "include/php/ogrwspsrlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
+                    "&panel=" + panel, true);
         } else if (panel == 'WholeSaleStockList') {
-            xmlhttp.open("POST", "include/php/ogwastlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
+            xmlhttp.open("POST", "include/php/ogilimlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
                     "&panel=" + panel + "&panelName=" + panelName, true);
+        } else if (panel == 'imitationPurchaseList') {
+            panelName = 'stockList';
+            displayDivName = 'No';
+            xmlhttp.open("POST", "include/php/ogilimlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
+                    "&divPanel=" + panel + "&panelName=" + panelName + "&displayDivName=" + displayDivName, true);
+        } else if (panel == 'imitationPurchaseTagList') {
+            panelName = 'stockList';
+            displayDivName = 'No';
+            xmlhttp.open("POST", "include/php/ogijstlt.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue +
+                    "&divPanel=" + panel + "&panelName=" + panelName + "&displayDivName=" + displayDivName, true);
         }
         xmlhttp.send();
     }

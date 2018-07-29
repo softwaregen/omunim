@@ -321,7 +321,7 @@ function getCustAddGirviPanel() {
 /*****************Start code to change Func @Author:PRIYA28DEC13****************************/
 /*****************Start code to add func to hide mess @Author:PRIYA19FEB14**********/
 /*****************Start code to add check for all tables @Author:PRIYA04JUL14******************/
-function deleteCustomer() {
+function deleteCustomer(custId) {
     confirm_box = confirm(delCustAlertMess + "\n\nDo you really want to delete this customer?");//change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
@@ -446,6 +446,17 @@ function custGirviDetails(obj) {
     }
 
 }
+function custNewFinanceDetails(obj) {
+
+    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+    if (obj) {
+        var poststr = "custId=" + custId
+                + "&firmId=" + encodeURIComponent(document.getElementById("custFirmId").value);
+
+        cust_girvi_details('include/php/olggcgdt_1.php', poststr);//changes in navigation AS per new filename @AUTHOR: SANDY20NOV13
+    }
+
+}
 /**
  * ******************** Customer Released Girvi Details
  * ****************************************************************
@@ -565,6 +576,16 @@ function updateGirviDetails(custId, girviId) {
 
 
 }
+function updateNewFinanceGirviDetails(custId, girviId) {
+    document.getElementById("girviUpdateButDiv").style.visibility = "hidden";
+    document.getElementById("ajaxLdGirviInfoBelowButtPanelDiv").style.visibility = "visible";
+
+    var poststr = "custId=" + custId + "&girviId=" + girviId;
+
+    update_girvi_details('include/php/olgugvdt_1.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+
+
+}
 //********* Delete Girvi Details **********************************
 function delete_girvi_details(url, parameters) {
 
@@ -662,6 +683,69 @@ function releaseGirviDetails(custId, girviId, pageNo, totalTransLoan, dateCompar
         }
     }
 }
+//
+// Start function to Release loan by another customer finger scan
+function releaseLoanByFingerScan(custId, girviId, pageNo, totalTransLoan, dateCompare) {
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+//            alert(req.responseText);
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+//                alert(str);
+            var str = req.responseText;
+//                alert(str);
+            var strArray = new Array();
+            strArray = str.split(":");
+            if (strArray.length > 1) {
+                var fileName = strArray[1];
+                var custIdArr = new Array();
+                custIdArr = fileName.split(".");
+                custIdOfFingerScan = custIdArr[0];
+                //alert(custIdOfFingerScan);
+                if (custIdOfFingerScan != '' || custIdOfFingerScan != null) {
+                    releaseGirviDetailsByFingerScan(custId, girviId, pageNo, totalTransLoan, dateCompare, custIdOfFingerScan);
+                }
+            } else {
+                document.getElementById('releaseGirviErrorMessageDiv').innerHTML = 'Finger Print Device Error OR Finger Prints Not Matched!';
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    }
+
+    req.open("GET", "include/php/ommpfgscverify.php", true);
+
+    req.send();
+}
+function releaseGirviDetailsByFingerScan(custId, girviId, pageNo, totalTransLoan, dateCompare, custIdOfFingerScan) {
+    document.getElementById("girviReleaseDetailsButDiv").style.visibility = "hidden";
+    document.getElementById("ajaxLdGirviInfoBelowButtPanelDiv").style.visibility = "visible";
+    //var confirm_box;
+    if (totalTransLoan > 0) {
+        confirm_box = confirm("First Release Transferred Loan!\nDo You Really Want To Continue?");
+        if (confirm_box != true) {
+            document.getElementById("girviReleaseDetailsButDiv").style.visibility = "visible";
+            document.getElementById("ajaxLdGirviInfoBelowButtPanelDiv").style.visibility = "hidden";
+        }
+    } else {
+        confirm_box = true;
+    }
+    if (confirm_box == true || totalTransLoan == 0 || totalTransLoan == '0' || totalTransLoan == NULL) {
+        if (confirm_box == true) {
+            var poststr = "custId=" + custId +
+                    "&girviId=" + girviId +
+                    "&pageNo=" + pageNo +
+                    "&grvRelPayDetails=TRUE" +
+                    "&dateCompare=" + dateCompare +
+                    "&custIdOfFingerScan=" + custIdOfFingerScan;
+            release_girvi_details('include/php/olgrgvdt.php', poststr);
+        } else {
+            document.getElementById("girviReleaseDetailsButDiv").style.visibility = "visible";
+            document.getElementById("ajaxLdGirviInfoBelowButtPanelDiv").style.visibility = "hidden";
+        }
+    }
+}
+//
 /***************End code to change function @Author:PRIYA27JAN14**************/
 /*****End to change function @AUTHOR: SANDY28JAN14*********************/
 /***************End code to add alert for trans release loan @Author:PRIYA17OCT13************/
@@ -771,18 +855,19 @@ function validateUpdateCustomerInputs(obj) {
     } else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm Name!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("firstName").value, "Please enter First Name!") == false ||
-            validateAlphaWithSpace(document.getElementById("firstName").value, "Accept only alpha characters!") == false) {
+    } else if (validateEmptyField(document.getElementById("firstName").value, "Please enter First Name!") == false) {
         document.getElementById("firstName").focus();
         return false;
     } else if ((document.getElementById("lastName").value != '') && (validateAlphaWithSpace(document.getElementById("lastName").value, "Accept only alpha characters!") == false)) {
         document.getElementById("lastName").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("fatherOrSpouseName").value, "Please enter Father/Spouse Name!") == false ||
-            validateAlphaWithSpace(document.getElementById("fatherOrSpouseName").value, "Accept only alpha characters!") == false) {
-        document.getElementById("fatherOrSpouseName").focus();
-        return false;
-    } else if ((document.getElementById("motherName").value != '') && (validateAlphaWithSpace(document.getElementById("motherName").value, "Accept only alpha characters!") == false)) {
+    }
+//    else if (validateEmptyField(document.getElementById("fatherOrSpouseName").value, "Please enter Father/Spouse Name!") == false ||
+//            validateAlphaWithSpace(document.getElementById("fatherOrSpouseName").value, "Accept only alpha characters!") == false) {
+//        document.getElementById("fatherOrSpouseName").focus();
+//        return false;
+//    }
+    else if ((document.getElementById("motherName").value != '') && (validateAlphaWithSpace(document.getElementById("motherName").value, "Accept only alpha characters!") == false)) {
         document.getElementById("motherName").focus();
         return false;
     } else if (validateSelectField(document.getElementById("city").value, "Please select City Name!") == false) {
@@ -1849,6 +1934,7 @@ function updateDeleteCountry(obj) {
     if (buttId == 'Update') {
         if (validateAddCountryInputs(obj)) {
             poststr = "countryName=" + encodeURIComponent(document.getElementById("countryName").value)
+                    + "&countryCurrency=" + encodeURIComponent(document.getElementById("countryCurrency").value)
                     + "&countryComments=" + encodeURIComponent(document.getElementById("countryComments").value)
                     + "&countryId=" + encodeURIComponent(document.getElementById("countryId").value);
 
@@ -2277,6 +2363,8 @@ function getMultipleItemNames(selectedMetalType) {
 var itemTunchDivCount;
 var addstockDiv;
 var addStockMetalType;
+var transType;
+var userId;
 function change_Item_Tunch_Option(url, parameters) {
 
     loadXMLDoc2();
@@ -2302,10 +2390,14 @@ function alertChangeItemTunchOption() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         if (addstockDiv == 'StockPanel' || addstockDiv == 'SuppOrder' || addstockDiv == 'SuppAddStock' || addstockDiv == 'ItemRepair' || addstockDiv == 'addRawStock' ||
                 addstockDiv == 'NewOrder' || addstockDiv == 'custSlItem' || addstockDiv == 'SuppPurByItem' || addstockDiv == 'SuppAddOrder' || addstockDiv == 'WholeSale' ||
-                addstockDiv == 'AddStockPanel' || addstockDiv == 'AddWhStockPanel' || addstockDiv == 'AddInvoice' || addstockDiv == 'SellPurchase')//change in condition to check for wholesale & retail panel @OMMODTAG SHRI_16DEC15
+                addstockDiv == 'AddStockPanel' || addstockDiv == 'AddWhStockPanel' || addstockDiv == 'SellPurchase')//change in condition to check for wholesale & retail panel @OMMODTAG SHRI_16DEC15
         {
             document.getElementById("itemTunchDiv" + itemTunchDivCount).innerHTML = xmlhttp2.responseText;
             changeAddStockMetalRate(addStockMetalType);
+        } else if (addstockDiv == 'AddInvoice') {
+//            alert(xmlhttp2.responseText);
+            document.getElementById('itemFineTunchDiv').innerHTML = xmlhttp2.responseText; //added for fine invoice @Author:SHRI24FEB17
+            changeAddStockSuppWastage(addStockMetalType, document.getElementById('suppId').value);
         } else {
             document.getElementById("itemTunchDiv" + itemTunchDivCount).innerHTML = xmlhttp2.responseText;
             document.getElementById("itemName" + itemTunchDivCount).focus();
@@ -2318,31 +2410,36 @@ function alertChangeItemTunchOption() {
 /*******End Code To change Div For Supp new order @Author:PRIYA14SEP13***********/
 /*******START update @Author:GAUR06DEC16***********/
 
-function changeItemTunchOption(selectedMetalType, divCount, metalSellType) {
-
+function changeItemTunchOption(selectedMetalType, divCount, metalSellType, metalTransType, userIdNew) {
+//alert(divCount); 
+// addRawStock
     var poststr = "metalType=" + encodeURIComponent(selectedMetalType.value)
             + "&itemDivCount=" + encodeURIComponent(divCount)
             + "&metalSellType=" + encodeURIComponent(metalSellType);
     selMetalType = selectedMetalType.value;
     addStockMetalType = selMetalType;
     itemTunchDivCount = divCount;
+    transType = metalTransType;
+    userId = userIdNew;
     /************Start code to add div @Author:PRIYA07OCT14********/
     /********Start code to add divCount WholeSale @Author:PRIYA14APR15*********/
+    /********Start code to change ids WholeSale @Author:athu8jun17*********/
     if (divCount == 'StockPanel' || divCount == 'SuppOrder' || divCount == 'WholeSale' || divCount == 'AddStockPanel' || divCount == 'AddWhStockPanel') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
         addstockDiv = divCount;
         itemTunchDivCount = '';
-        poststr += "&tunchDivId=addItemTunch" +
-                "&nextFieldId=addItemWastage" +
-                "&prevFieldId=addItemNetWeightType" +
-                "&netWeightFieldId=addItemNetWeight" +
-                "&fineWeightFieldId=addItemFineWeight" +
-                "&finalFineWeightFieldId=addItemFFineWeight" +
+        poststr += "&tunchDivId=sttr_purity" +
+                "&nextFieldId=sttr_wastage" +
+                "&prevFieldId=sttr_nt_weight_type" +
+                "&netWeightFieldId=sttr_nt_weight" +
+                "&fineWeightFieldId=sttr_fine_weight" +
+                "&finalFineWeightFieldId=sttr_final_fine_weight" +
                 "&tunchDivClass=form-control-select20-font12 placeholderClass";
-        change_Item_Tunch_Option('include/php/ogiatnch.php', poststr);
+        change_Item_Tunch_Option('http://' + documentRootPath + '/include/php/ogiatnch.php', poststr);
     } else if (divCount == 'SellPurchase') {
         addstockDiv = divCount;
         itemTunchDivCount = '';
-        poststr += "&tunchDivId=slPrItemTunch" +
+        poststr += "&tunchDivId=sttr_purity" +
                 "&nextFieldId=slPrItemWastage" +
                 "&prevFieldId=slPrItemNTWT" +
                 "&netWeightFieldId=slPrItemNTW" +
@@ -2419,12 +2516,12 @@ function changeItemTunchOption(selectedMetalType, divCount, metalSellType) {
         addstockDiv = 'addRawStock';
         itemTunchDivCount = '';
 
-        poststr += "&tunchDivId=addRawStockItemTunch" +
-                "&nextFieldId=addRawStockWastage" +
-                "&nextReqFieldId=addRawStockWastage" +
-                "&prevFieldId=addRawStockItemNetWeightType" +
-                "&netWeightFieldId=addRawStockItemNetWeight" +
-                "&fineWeightFieldId=addRawStockFineWeight" +
+        poststr += "&tunchDivId=sttr_purity" +
+                "&nextFieldId=sttr_wastage" +
+                "&nextReqFieldId=sttr_wastage" +
+                "&prevFieldId=sttr_nt_weight_type" +
+                "&netWeightFieldId=sttr_nt_weight" +
+                "&fineWeightFieldId=sttr_fine_weight" +
                 "&tunchDivClass=select_border_red";
 
         change_Item_Tunch_Option('include/php/ogiatndv.php', poststr);
@@ -2467,22 +2564,19 @@ function changeItemTunchOption(selectedMetalType, divCount, metalSellType) {
 
     }
     /********end code to change class @Author: GAUR28OCT16************/ else if (divCount == 'AddInvoice') {
-        /********Start code to change class @Author:SANT05OCT16************/
-        /********Start code to change class @Author:SANT25OCT16************/
-        /********Start code to change class @Author:SANT27OCT16************/
+        /********Start code to change class @Author:SANT15JUN17************/
         addstockDiv = 'AddInvoice';
         itemTunchDivCount = '';
-        poststr += "&tunchDivId=addInvoiceTunch1" +
-                "&nextFieldId=suppItemwstg1" +
-                "&nextReqFieldId=suppItemFnWt1" +
-                "&prevFieldId=suppItemNtWtType1" +
-                "&netWeightFieldId=suppItemNtWt1" +
-                "&fineWeightFieldId=suppItemFnWt1" +
-                "&tunchDivClass=form-control-select20-font12 placeholderClass";
+        poststr += "&tunchDivId=sttr_purity" +
+                "&nextFieldId=sttr_wastage" +
+                "&nextReqFieldId=sttr_fine_weight" +
+                "&prevFieldId=sttr_final_fine_weight" +
+                "&netWeightFieldId=sttr_nt_weight" +
+                "&fineWeightFieldId=sttr_fine_weight" +
+                "&tunchDivClass=form-control-select20-font12 placeholderClass" +
+                "&suppId=" + encodeURIComponent(document.getElementById('suppId').value);
         change_Item_Tunch_Option('include/php/ogiatnch.php', poststr);
-        /********End code to change class @Author:SANT27OCT16************/
-        /********End code to change class @Author:SANT25OCT16************/
-        /********End code to change class @Author:SANT05OCT16************/
+        /********End code to change class @Author:SANT15JUN17************/
     } else if (selMetalType != 'Other') {
         change_Item_Tunch_Option('include/php/omigittn.php', poststr);
     } else {
@@ -2529,14 +2623,14 @@ function alertChangeStockItemId() {
                 var strValue = new Array();
                 strValue = str.split("*");
 
-                document.getElementById("addItemPreId").value = strValue[0].trim();//trim added @OMMODTAG SHRI_12JAN16
-                document.getElementById("addItemId").value = strValue[1];
+                document.getElementById("sttr_item_pre_id").value = strValue[0].trim();//trim added @OMMODTAG SHRI_12JAN16
+                document.getElementById("sttr_item_id").value = strValue[1];
 
                 if (addstockDiv == 'AddStockPanel' || addstockDiv == 'AddWhStockPanel') {
                     document.getElementById('changedItemPreId').value = strValue[0].trim();
                     document.getElementById('changedItemId').value = strValue[1];
                 }
-                document.getElementById("addItemPreId").focus();
+                document.getElementById("sttr_item_pre_id").focus();
             } else {
                 document.getElementById("addStockItemIdDiv").innerHTML = xmlhttp.responseText;
                 if (addstockDiv == 'SuppPurByItem' || addstockDiv == 'SuppAddOrder') {
@@ -2586,10 +2680,16 @@ function alertChangeStockItemId() {
 /********End of changes in function to add code for ADD raw stock panel @AUTHOR: SANDY24SEP13 *************/
 /***************START update @Author:GAUR06DEC16***********/
 function changeStockItemId(selectedMetalType, panelName, metalSType) {
+//    alert(panelName);
     var poststr = "metalType=" + encodeURIComponent(selectedMetalType)
             + "&panelName=" + encodeURIComponent(panelName)
             + "&metalSell=" + encodeURIComponent(metalSType);
-    change_stock_item_id('include/php/ogiaiddv.php', poststr);
+    if (panelName == 'AddStockPanel' || panelName == 'AddWhStockPanel') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
+        change_stock_item_id('http://' + documentRootPath + '/include/php/ogiaiddv.php', poststr);
+    } else {
+        change_stock_item_id('include/php/ogiaiddv.php', poststr);
+    }
     return false;
 }
 /***************END update @Author:GAUR06DEC16***********/
@@ -2625,20 +2725,19 @@ function alertChangeAddStockMetalRate() {
     if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         if (addstockDiv == 'StockPanel' || addstockDiv == 'SuppOrder' || addstockDiv == 'NewOrder' || addstockDiv == 'SuppAddStock' || addstockDiv == 'custSlItem' ||
-                addstockDiv == 'addRawStock' || addstockDiv == 'SuppPurByItem' || addstockDiv == 'SuppAddOrder' || addstockDiv == 'WholeSale' || addstockDiv == 'AddStockPanel' || addstockDiv == 'AddWhStockPanel' || addstockDiv == 'AddInvoice') {
+                addstockDiv == 'SellPurchase' || addstockDiv == 'addRawStock' || addstockDiv == 'SuppPurByItem' || addstockDiv == 'SuppAddOrder' || addstockDiv == 'WholeSale' || addstockDiv == 'AddStockPanel' || addstockDiv == 'AddWhStockPanel' || addstockDiv == 'AddInvoice') {
             document.getElementById("metalRateDiv").innerHTML = xmlhttp2.responseText;
             if (addstockDiv == 'AddStockPanel' || addstockDiv == 'AddWhStockPanel') {
                 var str = document.getElementById('metalRateWithTax').value;
-//                alert(str);
                 var strArr = str.split("*");
-//                document.getElementById('metalRateCalculation').value = strArr[0];
-//                alert('alertChangeAddStockMetalRate = ' + document.getElementById('metalRateCalculation').value);
-//                document.getElementById('addItemVATTax').value = strArr[1];
                 calStockItemPrice();
             }
             if (addstockDiv == 'addRawStock') {
-                document.getElementById('addRawStockItemMetalRate').focus();
+                document.getElementById('sttr_metal_rate').focus();
             }
+//            if (addstockDiv == 'SellPurchase') { // commented @Author:SHRI19JUN17
+//                changeSlPrInvoiceNo('sellStock', document.getElementById('firmId').value);
+//            }
         }         /**Start for item repair panel @author: SANDY26AUG13 **/
         else if (addstockDiv == 'ItemRepair') {
             document.getElementById("itemRepMetalRateDiv").innerHTML = xmlhttp2.responseText;
@@ -2663,10 +2762,16 @@ function alertChangeAddStockMetalRate() {
 /****************End Code To change div for new order @Author:PRIYA27SEP13********/
 /*****End Code To Add Item Pre Id For New Order Panel @AUTHOR:PRIYA11MAY13********/
 function changeAddStockMetalRate(metalType) {
+
     var poststr = "metalType=" + encodeURIComponent(metalType) +
             "&panelName=" + encodeURIComponent(addstockDiv);
 //    alert('changeAddStockMetalRate=' + metalRateId1);
-    change_add_stock_metal_rate('include/php/ommrggdr.php', poststr);
+    if (addstockDiv == 'AddStockPanel' || addstockDiv == 'AddWhStockPanel') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
+        change_add_stock_metal_rate('http://' + documentRootPath + '/include/php/ommrggdr.php', poststr);
+    } else {
+        change_add_stock_metal_rate('include/php/ommrggdr.php', poststr);
+    }
 
     return false;
 }
@@ -2749,10 +2854,13 @@ function alertReleaseGirvi() {
 /**************Start code to add acc ID at release  @Author:PRIYA14MAY14**********************/
 /********Start code to remove hindi date code @Author:PRIYA21APR15************************/
 /*********Start code to add validation for accounts @Author:SHRI10JUL15********************/
-function releaseGirvi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid, interestPaid, discountPaid, relDD, relMM, relYY,
+function releaseGirvi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid, interestPaid, itotalAmount, itotalInterest, ototalAmount, ototalInterest, discountPaid, relDD, relMM, relYY,
         simpleOrCompIntOption, girviCompoundedOption, monthlyInterestType, interestType, girviFirmId, girviJrnlId, girviAccId,
-        girviLoanAccId, girviCashRecAccId, girviIntRecAccId, girviDiscAccId, smsTemplateId) {
-
+        girviLoanAccId, girviCashRecAccId, girviIntRecAccId, girviDiscAccId, smsTemplateId, custIdOfFingerScanDetails, loanRelByFingerScanUserId) {
+//alert(ototalAmount);
+//alert(ototalInterest);
+//alert(itotalAmount);
+//alert(itotalInterest);
     document.getElementById("girviReleaseButDiv").style.visibility = "hidden";
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
 
@@ -2829,13 +2937,14 @@ function releaseGirvi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid,
         if (confirm_box == true)
         {
             var poststr = "custId=" + custId + "&girviId=" + girviId + "&pageNo=" + pageNo
-                    + "&totalPrincipalAmount=" + totalPrincipalAmount + "&amountPaid=" + amountPaid.value + "&interestPaid=" + interestPaid.value + "&discountPaid=" + discountPaid.value
+                    + "&totalPrincipalAmount=" + totalPrincipalAmount + "&amountPaid=" + amountPaid.value + "&interestPaid=" + interestPaid.value + "&itotalAmount=" + itotalAmount + "&itotalInterest=" + itotalInterest + "&ototalAmount=" + ototalAmount + "&ototalInterest=" + ototalInterest + "&discountPaid=" + discountPaid.value
                     + "&relDD=" + relDD.value + "&relMM=" + relMM.value + "&relYY=" + relYY.value + "&simpleOrCompIntOption=" + simpleOrCompIntOption +
                     "&girviCompoundedOption=" + girviCompoundedOption + "&gMonthIntOption=" + monthlyInterestType + "&interestType=" + interestType + "&girviFirmId=" + girviFirmId +
                     "&girviJrnlId=" + girviJrnlId + "&girviAccId=" + girviAccId + "&girviLoanAccId=" + girviLoanAccId
                     + "&girviCashRecAccId=" + girviCashRecAccId + "&girviIntRecAccId=" + girviIntRecAccId
-                    + "&girviDiscAccId=" + girviDiscAccId + "&smsTemplateId=" + smsTemplateId;
-
+                    + "&girviDiscAccId=" + girviDiscAccId + "&loanRelByFingerScanUserId=" + loanRelByFingerScanUserId
+                    + "&custIdOfFingerScanDetails=" + custIdOfFingerScanDetails + "&smsTemplateId=" + smsTemplateId;
+            //alert(poststr);
             release_girvi('include/php/olgrgvrl.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
         } else {
             document.getElementById("girviReleaseButDiv").style.visibility = "visible";
@@ -3525,7 +3634,7 @@ function changeItemOrPacketAddDiv(itemOrPacketAddOption) {
             document.getElementById("ajaxLoadGetItemListDiv").style.visibility = "hidden";
             document.getElementById("itemOrPacketDiv").innerHTML = xmlhttp.responseText;
             //to add condition to set focus @AUTHOR: SANDY31JAN14
-            if (itemOrPacketAddOpt == 'PackGirvi') {
+            if (itemOrPacketAddOpt == 'UnSec.Loan') {
                 document.getElementById('girviPaySelAccountId').focus();
             }
         } else {
@@ -3533,7 +3642,7 @@ function changeItemOrPacketAddDiv(itemOrPacketAddOption) {
         }
     };
 
-    if (itemOrPacketAddOpt == 'OpenGirvi') {
+    if (itemOrPacketAddOpt == 'Sec.Loan') {
         xmlhttp.open("GET", "include/php/olganidv.php", true);//Change in filename @AUTHOR: SANDY22NOV13
     } else {
         xmlhttp.open("GET", "include/php/ombbblnk.php?message=" + itemOrPacketAddOpt, true);
@@ -3576,9 +3685,11 @@ function showAddUdhaarItemDiv(selectUdhaarType, obj) {
     if (udhaarOption == 'OnPurchase') {
         getUdhaarItemDiv = 1;
         udahaarItemCount = 1;
-        document.getElementById("hrVisible").style.visibility = "visible";
+        document.getElementById("hrVisible").style.visibility = "visible";  // HIDE PAY TO CASH OPTION@RATNAKAR15MAR2018
+        document.getElementById("directudhaarSubmit").style.visibility = "hidden";
         show_Udhaar_Add_Item_Opt('include/php/omuuiadv.php');//filename changed @Author:PRIYA18MAR14
     } else {
+        document.getElementById("directudhaarSubmit").style.visibility = "visible"; // DISPLAY PAY TO CASH OPTION@RATNAKAR15MAR2018
         document.getElementById("hrVisible").style.visibility = "hidden";
         show_Udhaar_Add_Item_Opt('include/php/ombbblnk.php');
     }
@@ -3666,42 +3777,50 @@ function alertUdhaarDepositMoney() {
 /**************Start code to add var @Author:PRIYA19MAR14*********/
 /*********Start code to add var @Author:PRIYA14APR14************************/
 /*********Start code to add var @Author:SHE20OCT15************************/
-function udhaarDepositMoney(obj, udhaarId, firmId, udhaarSerialNum) {
-    document.getElementById("ajaxLoadUdhaarDepositMonSubmit" + udhaarId).style.visibility = "visible";
-    document.getElementById("udhaarDepMoneySubButDiv" + udhaarId).style.visibility = "hidden";
+function udhaarDepositMoney(obj, udhaarId, firmId, count) {
+
+//    document.getElementById("ajaxLoadUdhaarDepositMonSubmit" + count).style.visibility = "visible";
+//    document.getElementById("udhaarDepMoneySubButDiv" + count).style.visibility = "hidden";
 
 
-    var depositAmt = parseInt(document.getElementById("udhaarDepositAmount" + udhaarId).value);
-    var udhaarLeftAmt = parseInt(document.getElementById("udhaarAmtLeft" + udhaarId).value);
-    var discAmt = parseInt(document.getElementById("udhaarDiscountAmount" + udhaarId).value);
+    var depositAmt = parseInt(document.getElementById("depositAmt" + count).value);
+    var udhaarLeftAmt = parseInt(document.getElementById("udhaarAmt" + count).textContent);
+    var discAmt = parseInt(document.getElementById("depositDisc" + count).value);
 
     //alert("Deposit amount(" + depositAmt + ") & udhaar amount(" + udhaarLeftAmt + ")!");
 
     if (depositAmt > udhaarLeftAmt) {
 
-        alert("Deposit amount(" + depositAmt + ") should not more than udhaar amount(" + udhaarLeftAmt + ")!");
+        alert("Deposit amount " + depositAmt + "  should not more than udhaar amount " + udhaarLeftAmt + "!");
 
-        document.getElementById("ajaxLoadUdhaarDepositMonSubmit" + udhaarId).style.visibility = "hidden";
-        document.getElementById("udhaarDepMoneySubButDiv" + udhaarId).style.visibility = "visible";
+//        document.getElementById("ajaxLoadUdhaarDepositMonSubmit" + count).style.visibility = "hidden";
+//        document.getElementById("udhaarDepMoneySubButDiv" + count).style.visibility = "visible";
     } else {
-        if (validateUdhaarDepositMoneyInputs(obj, udhaarId)) {
-            var poststr = "custId=" + encodeURIComponent(document.getElementById("custId" + udhaarId).value)
-                    + "&firmId=" + firmId
-                    + "&udhaarSerialNum=" + udhaarSerialNum
-                    + "&udhaarId=" + encodeURIComponent(document.getElementById("udhaarId" + udhaarId).value)
-                    + "&udhaarDepositAmount=" + encodeURIComponent(document.getElementById("udhaarDepositAmount" + udhaarId).value)
-                    + "&udhaarDiscountAmount=" + encodeURIComponent(document.getElementById("udhaarDiscountAmount" + udhaarId).value)
-                    + "&DOBDay=" + encodeURIComponent(document.getElementById("DOBDay").value) //Date Id Changed @AUTHOR:PRIYA22JUNE13
-                    + "&DOBMonth=" + encodeURIComponent(document.getElementById("DOBMonth").value)  //Date Id Changed @AUTHOR:PRIYA22JUNE13
-                    + "&DOBYear=" + encodeURIComponent(document.getElementById("DOBYear").value)
-                    + "&udhaarDepPanel=" + encodeURIComponent(document.getElementById("udhaarDepPanel").value)
-                    + "&udhaarDepId=" + encodeURIComponent(document.getElementById("udhaarDepId").value)  //Date Id Changed @AUTHOR:PRIYA22JUNE13
-                    + "&udhaarOtherInfo=" + encodeURIComponent(document.getElementById("udhaarOtherInfo").value);
-            udhaar_deposit_money('include/php/omuudpmn.php', poststr);
-        } else {
-            document.getElementById("ajaxLoadUdhaarDepositMonSubmit" + udhaarId).style.visibility = "hidden";
-            document.getElementById("udhaarDepMoneySubButDiv" + udhaarId).style.visibility = "visible";
-        }
+//        if (validateUdhaarDepositMoneyInputs(obj, udhaarId)) {
+//        alert(document.getElementById("DOBDay" + count).value);
+//        alert(document.getElementById("DOBMonth" + count).value);
+//        alert(document.getElementById("DOBYear" + count).value);
+
+        var poststr = "custId=" + obj
+                + "&firmId=" + firmId
+//                    + "&udhaarSerialNum=" + udhaarSerialNum
+                + "&udhaarId=" + udhaarId
+                + "&udhaarDepositAmount=" + depositAmt
+                + "&udhaarDiscountAmount=" + discAmt
+                + "&DOBDay=" + encodeURIComponent(document.getElementById("DOBDay" + count).value) //Date Id Changed @AUTHOR:PRIYA22JUNE13
+                + "&DOBMonth=" + encodeURIComponent(document.getElementById("DOBMonth" + count).value)  //Date Id Changed @AUTHOR:PRIYA22JUNE13
+                + "&DOBYear=" + encodeURIComponent(document.getElementById("DOBYear" + count).value)
+                + "&udhaarOtherInfo=" + encodeURIComponent(document.getElementById("udhaarOtherInfo").value);
+//                + "&udhaarDepPanel=" + encodeURIComponent(document.getElementById("udhaarDepPanel").value)
+//                + "&udhaarDepId=" + encodeURIComponent(document.getElementById("udhaarDepId").value)  //Date Id Changed @AUTHOR:PRIYA22JUNE13
+//                + "&udhaarOtherInfo=" + encodeURIComponent(document.getElementById("udhaarOtherInfo").value);
+//        var poststr = "firmId=" + firmId + " & udhaarId = " + udhaarId + " & udhaarDepositAmount = " + depositAmt + " & udhaarDiscountAmount = " + discAmt;
+
+        udhaar_deposit_money('include/php/omuudpmn.php', poststr);
+//        } else {
+//            document.getElementById("ajaxLoadUdhaarDepositMonSubmit" + udhaarId).style.visibility = "hidden";
+//            document.getElementById("udhaarDepMoneySubButDiv" + udhaarId).style.visibility = "visible";
+//        }
     }
 }
 /*********End code to add var @Author:SHE20OCT15************************/
@@ -4046,10 +4165,49 @@ function alertGetFirmAccountNo() {
             var splitResponse = xmlhttp.responseText.split("[BRK]");
             document.getElementById("selCrAccountDiv").innerHTML = splitResponse[0];
             document.getElementById("selAccountDiv").innerHTML = splitResponse[1];
+        } else if (panelNameDiv == 'sellStock') {
+            document.getElementById("selAccountDiv").innerHTML = xmlhttp.responseText;
+            getInvoiceNum(encodeURIComponent(document.getElementById('custId').value), panelNameDiv, transType, selFirmNo, encodeURIComponent(document.getElementById('slPrItemMetal').value)); //commented @Author:SHRI19JUN17 "&custId=" + encodeURIComponent(document.getElementById('custId').value)
         } else {
             document.getElementById("selAccountDiv").innerHTML = xmlhttp.responseText;
         }
+        if (panelNameDiv == 'AddNewGirvi') {
+            getROIValueByFirm(selFirmNo, 'AddNewGirvi');
+        }
         document.getElementById(nextFieldFirmAccId).focus();
+
+    } else {
+        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+    }
+}
+//
+function getInvoiceNum(userId, panelName, transType, firmId, metalType) {
+//    alert('userId'+userId);
+
+    var poststr = "panelName=" + encodeURIComponent(panelName) +
+            "&firmId=" + encodeURIComponent(firmId) +
+            "&transType=" + encodeURIComponent(document.getElementById('sttr_transaction_type').value) +
+            "&custId=" + encodeURIComponent(userId) +
+            "&metalType=" + encodeURIComponent(metalType);
+    change_get_invoice_num('include/php/omgetinvno.php', poststr);
+
+    return false;
+}
+function change_get_invoice_num(url, parameters) {
+    loadXMLDoc4();
+    xmlhttp4.onreadystatechange = alertGetInvoiceNum;
+
+    xmlhttp4.open('POST', url, true);
+    xmlhttp4.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+    xmlhttp4.setRequestHeader("Content-length", parameters.length);
+    xmlhttp4.setRequestHeader("Connection", "close");
+    xmlhttp4.send(parameters);
+}
+function alertGetInvoiceNum() {
+    if (xmlhttp4.readyState == 4 && xmlhttp4.status == 200) { //alert(xmlhttp2.responseText);
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+        document.getElementById("slPrInvoiceNoDiv").innerHTML = xmlhttp4.responseText;
     } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
@@ -4062,12 +4220,19 @@ function getFirmAccountNo(selectedFirmNo, panelName, nextFieldId, metalType) {
 //alert(metalType);
     nextFieldFirmAccId = nextFieldId;
     panelNameDiv = panelName;
+    selFirmNo = selectedFirmNo;
 
     var poststr = "firmNo=" + encodeURIComponent(selectedFirmNo) +
             "&panelName=" + encodeURIComponent(panelName) +
             "&metalType=" + encodeURIComponent(metalType);
 
-    get_firm_account_no('include/php/ommpfacc.php', poststr);
+    if (panelName == 'AddRtStockMain' || panelName == 'AddWhStockMain') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
+        get_firm_account_no("http://" + documentRootPath + "/include/php/ommpfacc.php", poststr);
+        //get_add_stock_div(selectedFirmNo);
+    } else {
+        get_firm_account_no('include/php/ommpfacc.php', poststr);
+    }
 
 }
 /***********End Code To Add Supp New Order div @AUTHOR:PRIYA30MAY13***********/
@@ -4122,6 +4287,7 @@ function alertGetFirmPacketNo() {
         document.getElementById("ajaxLoadGetItemListDiv").style.visibility = "hidden";
         document.getElementById("packetNumber").value = xmlhttp.responseText;
         getFirmSerialNo(selFirmNo);
+
     } else {
         document.getElementById("ajaxLoadGetItemListDiv").style.visibility = "visible";
     }
@@ -4132,6 +4298,19 @@ function getFirmPacketNo(selectedFirmNo) {
 
     get_firm_packet_no('include/php/ommpgtpk.php', poststr);
 
+}
+//
+function getROIValueByFirm(selectedFirmNo, panel) {
+    loadXMLDoc2();
+    xmlhttp2.onreadystatechange = function () {
+        if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {//alert(xmlhttp2.responseText);
+            document.getElementById("ROIOption").innerHTML = xmlhttp2.responseText;
+        }
+    };
+    var poststr = "firmId=" + encodeURIComponent(selectedFirmNo) +
+            "&panelName=" + encodeURIComponent(panel);
+    xmlhttp2.open("POST", "include/php/olggroim.php?" + poststr, true);
+    xmlhttp2.send();
 }
 /****End code to change Serial No According To firm @AUTHOR:PRIYA15MAR13****/
 /****Start to change function @AUTHOR: SANDY29JAN14****************************/
@@ -4605,7 +4784,7 @@ function alertUpdatePrincipalAmount() {
 }
 /***************START CODE TO Add Journal ID @AUTHOR:PRIYA03FEB13******************/
 /***************Start code to add param @Author:PRIYA12APR14*************************/
-function updatePrincipalAmount(documentRootPath, custId, girviId, prinAmount, girviJrnlId, girviDOB, girviFirmId, girviSerialNum) {
+function updatePrincipalAmount(documentRootPath, custId, girviId, prinAmount, girviJrnlId, girviDOB, girviFirmId, girviSerialNum, panelName) {
 
     document.getElementById("updatePrincipalButton").style.visibility = "hidden";
 
@@ -4626,8 +4805,37 @@ function updatePrincipalAmount(documentRootPath, custId, girviId, prinAmount, gi
             var poststr = "custId=" + custId + "&girviId=" + girviId
                     + "&principalAmount=" + principalAmount
                     + "&girviJrnlId=" + girviJrnlId
-                    + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId + "&girviSerialNum=" + girviSerialNum;
+                    + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId + "&girviSerialNum=" + girviSerialNum + "&panelName=" + panelName;
+            update_principal_amount('http://' + documentRootPath + '/include/php/olgupnam.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+        }
+    }
+    document.getElementById("updatePrincipalButton").style.visibility = "visible";
+    return false;
+}
+/***************End code to add param @Author:PRIYA12APR14*************************/
+/***************Start code to add param @Author:PRIYA12APR14*************************/
+function updateFinancePanelPrincipalAmount(documentRootPath, custId, girviId, prinAmount, girviJrnlId, girviDOB, girviFirmId, girviSerialNum, panelName) {
 
+    document.getElementById("updatePrincipalButton").style.visibility = "hidden";
+
+    var principalAmount = prinAmount.value;
+
+    if (validateEmptyField(principalAmount, "Please enter Principal Amount!") == false ||
+            validateNum(principalAmount, "Accept only numeric characters without space character!") == false) {
+        document.getElementById("updatePrincipalAmount").focus();
+        document.getElementById("updatePrincipalButton").style.visibility = "visible";
+        return false;
+    } else {
+
+        confirm_box = confirm("Do you really want to update Principal Amount?");
+
+        if (confirm_box == true)
+        {
+
+            var poststr = "custId=" + custId + "&girviId=" + girviId
+                    + "&principalAmount=" + principalAmount
+                    + "&girviJrnlId=" + girviJrnlId
+                    + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId + "&girviSerialNum=" + girviSerialNum + "&panelName=" + panelName;
             update_principal_amount('http://' + documentRootPath + '/include/php/olgupnam.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
         }
     }
@@ -5230,6 +5438,27 @@ function updateGirviOtherInfo(documentRootPath, custId, girviId, girviOtherInfo,
     return false;
 }
 /************End Code To Add Validation For for Girvi Other Info @Author:PRIYA06SEP13******/
+/************Start Code To Add Validation For for Girvi Other Info @Author:SANT28APR17******/
+function updateFinanceGirviOtherInfo(documentRootPath, custId, girviId, girviOtherInfo, girviDOB, girviFirmId, girviSerialNum) {
+    // document.getElementById("ajaxUpdateGirviOtherInfoButt").innerHTML = "<img src='images/loading16.gif' />";
+    confirm_box = confirm(updateAlertMess + "\n\nDo you really want to add or update other info?");//change in line @AUTHOR: SANDY28JAN14
+
+    if (confirm_box == true)
+    {
+        if (validateUpdateGirviOtherInfo()) {
+            var poststr = "custId=" + custId + "&girviId=" + girviId
+                    + "&girviOtherInfo=" + girviOtherInfo + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId
+                    + "&girviSerialNum=" + girviSerialNum;
+
+            update_girvi_other_info('http://' + documentRootPath + '/include/php/olguotin_1.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+        }
+    } else {
+        document.getElementById("ajaxUpdateGirviOtherInfoButt").innerHTML = "<img src='images/updateButt.png' />";
+
+    }
+    return false;
+}
+/************End Code To Add Validation For for Girvi Other Info @Author:SANT28APR17******/
 // *********** Change changeIntTypeOpt ******************
 function change_int_type_opt(url, parameters) {
 
@@ -5765,7 +5994,7 @@ function getSupplierDetails(suppPanelOption) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("GET", "include/php/ogwhmndv.php?suppId=" + suppId + "&suppPanelOption=" + suppPanelOption, true);//File Name Changed @AUTHOR:PRIYA21MAY13
+    xmlhttp.open("GET", "include/php/ogwhmndv.php?suppId=" + suppId, true);//File Name Changed @AUTHOR:PRIYA21MAY13
     xmlhttp.send();
 }
 /*********END CODE TO ADD Supplier Details @AUTHOR:PRIYA14JAN13**********/
@@ -5799,6 +6028,7 @@ function getSuppHome() {
 /****************Start code to add condition AddSuppInvoice  panel @Author:SANT04OCT16************/
 /****************Start code to add condition AddSuppMetal  panel @Author:GAUR25OCT16************/
 /****************Start code to add condition AddSuppMetal  panel @Author:GAUR26OCT16************/
+//**********Start code to add crystalPurchase in supplier panel:Author:SANT13JAN17
 function getSuppForNewOrderStatus(suppId, suppPanelName) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -5839,9 +6069,14 @@ function getSuppForNewOrderStatus(suppId, suppPanelName) {
         xmlhttp.open("GET", "include/php/ogijssdv.php?suppId=" + suppId + "&panel=" + suppPanelName, true);
     } else if (suppPanelName == 'AddSuppMetal') {
         xmlhttp.open("GET", "include/php/ogrwmomf.php?userId=" + suppId + "&panel=" + suppPanelName + "&suppPanelName=addByMetal&metType=BUY&mainPanel=Supplier", true);
+    } else if (suppPanelName == 'AddSuppCrystal') {
+        xmlhttp.open("GET", "include/php/ogijssdv.php?suppId=" + suppId + "&panel=" + suppPanelName, true);
+    } else if (suppPanelName == 'ItemApprovalRec') {
+        xmlhttp.open("GET", "include/php/ogaprinv.php?suppId=" + suppId + "&payPanelName=" + suppPanelName, true);
     }
     xmlhttp.send();
 }
+//**********End code to add crystalPurchase in supplier panel:Author:SANT13JAN17
 /****************End code to add condition AddSuppMetal  panel @Author:GAUR26OCT16************/
 /****************End code to add condition AddSuppMetal  panel @Author:GAUR25OCT16************/
 /****************End code to add condition AddSuppInvoice  panel @Author:SANT04OCT16************/
@@ -5889,6 +6124,7 @@ function getSuppDetailsForUpdate() {
 /********Start Code To Change FileName For Delete Supplier @AUTHOR:PRIYA10MAY13**********/
 /********Start Code To Add Delay Func For Display Del Message @Author:PRIYA02JUL13************/
 /********Start Code To change function @Author:PRIYA27DEC13*******************/
+/********Start Code To change for supp order udhar @Author:SANT01MAR17*******************/
 function deleteSupplier() {
     confirm_box = confirm(delSuppAlertMess + "\n\nDo you really want to delete this supplier?");//change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
@@ -5901,6 +6137,8 @@ function deleteSupplier() {
                     alert("Please first delete all Invoices of this Supplier!");
                 } else if (xmlhttp.responseText == 'SuppUdhaarPresent') {
                     alert("Please first delete all Udhaar of this Supplier!");
+                } else if (xmlhttp.responseText == 'SuppOrderPresent') {
+                    alert("Please first delete all Order of this Supplier!");
                 } else if (xmlhttp.responseText == 'SuppRawInvPresent') {
                     alert("Please first delete all Raw Invoices of this Supplier!");
                 } else {
@@ -5918,6 +6156,7 @@ function closeSuppMessDivDelay()
 {
     document.getElementById("suppMessDiv").innerHTML = "";
 }
+/********End Code To change for supp order udhar @Author:SANT01MAR17*******************/
 /********End Code To change function @Author:PRIYA27DEC13*******************/
 /********End Code To Add Delay Func For Display Del Message @Author:PRIYA02JUL13************/
 /********End Code To Change FileName For Delete Supplier @AUTHOR:PRIYA10MAY13**********/
@@ -6107,7 +6346,7 @@ function getCustForSalePurchase(custId, panelName, custType) {
     if (panelName == 'PurchasePanel') {
         xmlhttp.open("GET", "include/php/ogspisdv.php?custId=" + custId + "&custType=" + custType, true);
     } else if (panelName == 'SellPanel') {
-        xmlhttp.open("GET", "include/php/ogprmndv.php?userId=" + custId + "&mainPanel=Customer&suppPanelName=addByMetal&metType=SELL", true);
+        xmlhttp.open("GET", "include/php/ogprmndv.php?userId=" + custId + "&mainPanel=Customer&suppPanelName=addByMetal&metType=BUY", true);
     }
 
     xmlhttp.send();
@@ -6877,3 +7116,98 @@ function releaseSelectedLoans(custId, allLoanIds, DOBDay, DOBMonth, DOBYear, rel
 
 }
 //***************************** End Code to release multiple loans ******************************
+
+//*******************************************************************************************
+//******* START CODE TO CHANGE OR DELETE CUSTOMER AND CUSTOMER TRANSACTION @RATNAKAR02FEB2018
+//*******************************************************************************************
+// MODIFICATION :
+// 1. MOVED FROM ADVANCEMETAL.JS TO EMUPDATEOWNER.JS AFTER DISCUSSION WITH LOVER SIR @RATNAKAR 12FEB2018
+
+function userDelete(counter, panel, userId, action) {
+    loadXMLDoc()
+//    alert(panel);
+
+    // IT WILL STORE BOOLEAN VALUE FOR CUSTOMER RELASE AND PARMANENT CUSTOMER, TRANSACTION DELETE
+    confirm_box_customer_release = false; // FOR CUSTOMER DEACTIVATION
+    confirm_box_customer_delete_per = false; // FOR CUSTOMER DEACTIVATION
+    confirm_box_customer_delete_trans = false; // FOR CUSTOMER DEACTIVATION
+
+    // IT WILL SET CUSTOMER STATUS ACCORDING CUSTOMER CHOOSED OPTIONS
+    customerDeactivate = false; // FOR CUSTOMER DEACTIVATION
+    customerDelete = false; // FOR CUSTOMER PERMANENT DELETE
+    customertransdelete = false; // FOR TRANSACTION PERMANENT DELETE
+
+    // IT WILL SET VARIABLE FOR MULTIPLE DELETE
+    var deleteChk = new Array(); // FOR MULTIPLE SELECTION CHECKBOX
+    var usertransId = new Array(); // FOR SELECTED CHECKBOX
+
+
+    if (panel == 'customerDelete' || panel == 'releaseCustomerList') {
+        confirm_box_customer_release = confirm("\n\n Do you really want to release this customer?");
+
+        if (confirm_box_customer_release) {
+            customerDeactivate = 'Yes';
+            confirm_box_customer_delete_per = confirm("\n\n Do you really want to permanent delete this customer?");
+
+            if (confirm_box_customer_delete_per)
+                customerDelete = 'Yes';
+            else
+                customerDelete = 'No';
+        } else {
+            customerDeactivate = 'No';
+        }
+    }
+
+    if (panel == 'custAllTransDelete' || customerDeactivate == 'Yes') {
+        confirm_box_customer_delete_trans = confirm("\n\n Do you really want to permanent delete this customer transaction?");
+        if (confirm_box_customer_delete_trans) {
+            customertransdelete = 'Yes';
+        } else {
+            customertransdelete = 'No';
+        }
+    }
+
+    if (customerDeactivate == 'Yes' || customerDelete == 'Yes' || customertransdelete == 'Yes') {
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (panel == 'customerDelete' || panel == 'custAllTransDelete') {
+                    document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
+                } else if (panel == 'releaseCustomerList') {
+                    document.getElementById("customerDetailsDiv").innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText;
+                }
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+
+        };
+    }
+
+    if (panel == 'releaseCustomerList') {
+        var chk = 0;
+        userId = '';
+        var counter = parseFloat(document.getElementById('counter').value);
+        for (var i = 1; i <= counter; i++) {
+            deleteChk[i] = document.getElementById('deletecheck' + i).checked;
+            usertransId[i] = document.getElementById('IdForDelete' + i).value;
+            if (deleteChk[i]) {
+                if (userId == '') {
+                    userId = usertransId[i];
+                } else {
+                    userId = userId + "," + usertransId[i];
+                }
+            }
+        }
+    }
+//    alert('Great R D');
+////     ('111111'+userId);
+    xmlhttp.open("POST", "include/php/omlondel.php?userId=" + userId + "&panelName=" + panel + "&customerDelete=" + customerDelete + "&customertransdelete=" + customertransdelete + "&customerDeactivate=" + customerDeactivate, true);
+    xmlhttp.send();
+}
+
+//*******************************************************************************************
+//******* END CODE TO CHANGE OR DELETE CUSTOMER AND CUSTOMER TRANSACTION @RATNAKAR02FEB2018
+//*******************************************************************************************

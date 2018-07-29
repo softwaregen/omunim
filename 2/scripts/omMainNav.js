@@ -75,6 +75,33 @@ function loadXMLDoc3() {
         return false;
     }
 }
+
+function loadXMLDoc4() {
+    if (window.XMLHttpRequest) { // Mozilla, Safari,...
+        xmlhttp4 = new XMLHttpRequest();
+        if (xmlhttp4.overrideMimeType) {
+            // set type accordingly to anticipated content type
+            // http_request.overrideMimeType('text/xml');
+            xmlhttp4.overrideMimeType('text/html');
+        }
+    }
+    else if (window.ActiveXObject) { // IE
+        try {
+            xmlhttp4 = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch (e) {
+            try {
+                xmlhttp4 = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e) {
+            }
+        }
+    }
+    if (!xmlhttp4) {
+        alert('Cannot create XMLHTTP instance');
+        return false;
+    }
+}
 function loadXMLMetalRates() {
     if (window.XMLHttpRequest) { // Mozilla, Safari,...
         xmlhttpMetalRates = new XMLHttpRequest();

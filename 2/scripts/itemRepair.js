@@ -6,7 +6,7 @@
 /**********Start code to add function to get repair item pre id div @Author:SHRI29DEC14*********/
 function getItemRepPreIdDiv(preId, metalType, div, id, keyCodeInput, mainPanel) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var str = xmlhttp.responseText;
             if (str == '') {
@@ -30,7 +30,7 @@ function getItemRepPreIdDiv(preId, metalType, div, id, keyCodeInput, mainPanel) 
 function getRepItmMetalType(div, id, keyCodeInput, mainPanel) {
     //alert("hello=="+mainPanel);
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById(div).innerHTML = xmlhttp.responseText;
             if (keyCodeInput == 40 || keyCodeInput == 38) {
@@ -46,7 +46,7 @@ function getRepItmMetalType(div, id, keyCodeInput, mainPanel) {
 /*************Start code to add param @Author:SHRI10JAN15********************/
 function getRepItemMetalRateDiv(metalType, div, id, keyCodeInput) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById(div).innerHTML = xmlhttp.responseText;
             if (keyCodeInput == 40 || keyCodeInput == 38) {
@@ -63,7 +63,7 @@ function getRepItemMetalRateDiv(metalType, div, id, keyCodeInput) {
 //var noOfCrystal;
 function getRepItemCrystalFunc(crystalCount, div, commonPanel) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             if (crystalCount == '') {
@@ -92,7 +92,7 @@ function closeRepItemCrystalFunc(cryCount, panelName, repairCryId, repairId) {
 }
 function deleteRepItemCrystalDiv(repairCryId, repairId, panelName) {
     loadXMLDoc2();
-    xmlhttp2.onreadystatechange = function() {
+    xmlhttp2.onreadystatechange = function () {
         if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
             document.getElementById("suppPurByItemSubDiv").innerHTML = xmlhttp2.responseText;
             closeMessDiv('messDisplayDiv', 'CRYSTAL DELETED');
@@ -105,7 +105,7 @@ function deleteRepItemCrystalDiv(repairCryId, repairId, panelName) {
 /****************Start to change function to change repairId @AUTHOR: SHRI09JAN15 ********/
 function updateRepairItem(documentRootPath, repairId, panelName, custId) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             if (panelName == 'RawDetUpPanel') {
                 document.getElementById("rawMetalAddDiv").innerHTML = xmlhttp.responseText;
@@ -137,7 +137,7 @@ function deleteRepairItem(repairId, panelName, mainPanel, pageNo, sellPresent) {
         if (confirm_box == true)
         {
             loadXMLDoc();
-            xmlhttp.onreadystatechange = function() {
+            xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                     if (panelName == 'ItemDetailPanel') {
@@ -172,7 +172,7 @@ function deleteRepairItem(repairId, panelName, mainPanel, pageNo, sellPresent) {
 /**********Start code to add function to get calc by for labour charges @Author:SHRI09JAN15*********/
 function getRepItemDetailsByPreId(preId, mainPanel) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var str = xmlhttp.responseText;
             var strArray = new Array();
@@ -208,7 +208,7 @@ function getRepItemDetailsByPreId(preId, mainPanel) {
 /*************Start code to add function for item purchase panel @Author:SHRI12JAN15*********************/
 function searchItemRepList(documentRootPath, searchColumn, searchValue, selFirmId, div, panel) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
         {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -231,7 +231,7 @@ function searchItemRepList(documentRootPath, searchColumn, searchValue, selFirmI
 }
 function sortItemRepList(documentRootPath, sortKeyword, selFirmId, div, panel) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById(div).innerHTML = xmlhttp.responseText;
@@ -254,7 +254,7 @@ function sortItemRepList(documentRootPath, sortKeyword, selFirmId, div, panel) {
 function showRepItemNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, nwOrPanel, custId)
 {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 //            alert(documentRootPath);
             if (nwOrPanel == 'ItemRepairList') {
@@ -275,7 +275,7 @@ function showRepItemNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel
 /***************Start cdoe to add panel @Author:SHRI12JAN15*************/
 function showRepItemPanel(panel) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("itemRepairDiv").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
@@ -294,7 +294,7 @@ function showRepItemPanel(panel) {
 /***************Start to change function @AUTHOR:SHRI12JAN15****************/
 function showRepItemJournalEntryListDiv(documentRootPath, jrnlId, jrnlDrDesc, jrnlUserId, jrnlUserType, jrnlTransId, jrnlTransType, accMainId) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
@@ -552,7 +552,7 @@ function calcRepairItemBal()
 function showRepairList(panel)
 {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("custListForAddGirviDiv").innerHTML = xmlhttp.responseText;
@@ -569,7 +569,7 @@ function showRepairList(panel)
 /******************Start code to add function for repair panel search list item @Author:SHRI14MAR15**************/
 function searchRepairList(documentRootPath, searchColumn, searchValue, selFirmId, custId, empLoginId, panelName) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
 
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
         {
@@ -587,7 +587,7 @@ function searchRepairList(documentRootPath, searchColumn, searchValue, selFirmId
 }
 function sortRepairList(documentRootPath, sortKeyword, selFirmId, custId, empLoginId, panelName) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
 
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -603,7 +603,7 @@ function sortRepairList(documentRootPath, sortKeyword, selFirmId, custId, empLog
 
 function showRepairItemDetails(documentRootPath, custId, preInvoiceNo, postInvoiceNo, panelName, repairId) {
     loadXMLDoc();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
@@ -621,12 +621,12 @@ function showRepairItemDetails(documentRootPath, custId, preInvoiceNo, postInvoi
 /*************Start code to add function @Author:SHE01APR16********************/
 
 /*************Start code to add condition for jewelry panel @Author:SHRI05APR16************/
-function navigationMainBigMiddleImageJewelleryList(divPanel, imageName, imageContent) {
+///Start code to add condition for jewelry PURCHASE LIST panel @Author:ATHU2JUN17
+function navigationMainBigMiddleImageJewelleryList(divPanel, stockType, imageName, imageContent, panelName) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-//            document.getElementById(divPanel).innerHTML = "<img src='images/" + imageName + "' title='" + imageContent + "' />";
             document.barcode_search.barcode_text.focus();
             document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
             checkPlaceHolder();
@@ -634,17 +634,26 @@ function navigationMainBigMiddleImageJewelleryList(divPanel, imageName, imageCon
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    if (divPanel == 'retailStockList') {
-        xmlhttp.open("POST", "include/php/ogrtprlt.php?divPanel=" + divPanel, true);
-    } else if (divPanel == 'wholeSaleStockList') {
-        xmlhttp.open("POST", "include/php/ogwtprlt.php?divPanel=" + divPanel, true);
-    } else if (divPanel == 'imitationStockList') {
-        xmlhttp.open("POST", "include/php/ogilimlt.php?divPanel=" + divPanel, true);
+    if ((divPanel == 'Stock') && (stockType != 'retail' && stockType != 'wholesale')) {
+        xmlhttp.open("POST", "include/php/ompurchase.php?panelName=" + divPanel + "&stockType=" + stockType, true);
+        //
+    } else if ((divPanel == 'Stock') && (stockType == 'retail' || stockType == 'wholesale')) {
+        xmlhttp.open("POST", "include/php/ompurchaselist.php?panelName=" + divPanel + "&stockType=" + stockType, true);
+        //
+    } else if (divPanel == 'imitationPurchaseList' || divPanel == 'PurchaseList') {
+        xmlhttp.open("POST", "include/php/ompurchase.php?panelName=" + divPanel + "&listType=Stock", true);
+        //
+    } else if (divPanel == 'imitationStockList' || divPanel == 'WholsaleImitationStockList' || divPanel == 'imitationPurchaseTagList' ||
+            (divPanel == 'StockList' && panelName!=undefined) || divPanel == 'WholsaleStockList' || divPanel == 'PurchaseTagList') {
+        xmlhttp.open("POST", "include/php/ogilimlt.php?divPanel=" + divPanel + "&panelName=" + panelName, true);
+        //
+    } else if (divPanel == 'imitation') {
+        xmlhttp.open("POST", "include/php/ogwgstlt.php?divPanel=" + divPanel, true);
     } else {
         xmlhttp.open("POST", "include/php/ogilstlt.php?divPanel=" + divPanel, true);
     }
     xmlhttp.send();
 }
-/*************End code to add condition for jewelry panel @Author:SHRI05APR16************/
+/*************End code to add condition for jewelry panel @Author:SHRI05APR16************//*************End code to add condition for jewelry panel @Author:SHRI05APR16************/
 /*************End code to add function @Author:SHE01APR16********************/
 /*************End code to add function @Author:SHRI30APR15********************/

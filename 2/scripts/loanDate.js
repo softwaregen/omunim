@@ -41,7 +41,7 @@ function addNewGirviHindi() {
             exit();
         }
         /***** START CODE TO ADD ItemEntered @AUTHOR:PRIYA26JAN13*******/
-        if (girviType == 'OpenGirvi') {
+        if (girviType == 'Sec.Loan') {
             if (validateAddGirviInputs()) {
                 document.getElementById("itemEntered").value = itemEntered;
                 return true;
@@ -307,7 +307,9 @@ function releasePrincipalAmountHindi(documentRootPath, custId, girviId, principa
 /********End code to add code for add Principal release @Author:PRIYA21APR15************************/
 /********Start code to add code for release loan @Author:PRIYA21APR15************************/
 /*********Start code to add validation for accounts @Author:SHRI10JUL15********************/
-function releaseGirviHindi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid, interestPaid, discountPaid, relDD, relMM, relYY,
+/**********Start code to add itotalAmount,itotalInterest,ototalAmount,ototalInterest  releaseGirviHindi fun @Author:BAJRANG5JAN1************/
+
+function releaseGirviHindi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid, interestPaid,itotalAmount, itotalInterest,ototalAmount, ototalInterest, discountPaid, relDD, relMM, relYY,
         simpleOrCompIntOption, girviCompoundedOption, monthlyInterestType, interestType, girviFirmId, girviJrnlId, girviAccId,
         girviLoanAccId, girviCashRecAccId, girviIntRecAccId, girviDiscAccId, smsTemplateId, girviDOB, latestDate) {
     document.getElementById("girviReleaseButDiv").style.visibility = "hidden";
@@ -404,6 +406,8 @@ function releaseGirviHindi(custId, girviId, pageNo, totalPrincipalAmount, amount
         }
     }
 }
+/**********End code to add itotalAmount,itotalInterest,ototalAmount,ototalInterest  releaseGirviHindi fun @Author:BAJRANG5JAN1************/
+
 /*********End code to add validation for accounts @Author:SHRI10JUL15********************/
 /********End code to add code for release loan @Author:PRIYA21APR15************************/
 
@@ -745,6 +749,7 @@ function girviDepositMoneySubmitHindi(documentRootPath, custId, girviId, newPrin
                 "&girviHindiDepositDate=" + girviHDepositDate +
                 "&newHindiGirviDate=" + newHGirviDate +
                 "&intAmtLeftBefore=" + intAmtLeftBefore;
+        //alert(poststr);
         girvi_deposit_money_submit('http://' + documentRootPath + '/include/php/olgugdmd.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
     }
 
@@ -1210,7 +1215,7 @@ function addNewGirviHindiVikSam() {
         exit();
     }
     /***** START CODE TO ADD ItemEntered @AUTHOR:PRIYA26JAN13*******/
-    if (girviType == 'OpenGirvi') {
+    if (girviType == 'Sec.Loan') {
         if (validateAddGirviInputs()) {
             searchHindiDate("add_new_girvi_frm", "display_girvi_eng_date");//function called @ANUJA18JUN15
             document.getElementById("itemEntered").value = itemEntered;
@@ -1307,8 +1312,10 @@ function changeLoanRelDateTithi(documentRootPath, relDateDDValue, relDateMMValue
 /********Start code to add code for release loan @Author:PRIYA21APR15************************/
 /**************Start code to add validations for accounts @Author:SHRI10JUL15***************/
 /******Start code to add New function searchHindiDate & functionToSubmitReleseDate @Author:ANUJA25JUN15**************/
+/******Start code to add itotalAmount,itotalInterest,ototalAmount,ototalInterest  releaseGirviVikSamHindi fun @Author:BAJRANG5JAN18*********/
+                     
 var poststr2='';
-function releaseGirviVikSamHindi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid, interestPaid, discountPaid, relDD, relMM, relYY,
+function releaseGirviVikSamHindi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid, interestPaid, itotalAmount, itotalInterest,ototalAmount, ototalInterest, discountPaid, relDD, relMM, relYY,
         simpleOrCompIntOption, girviCompoundedOption, monthlyInterestType, interestType, girviFirmId, girviJrnlId, girviAccId,
         girviLoanAccId, girviCashRecAccId, girviIntRecAccId, girviDiscAccId, smsTemplateId, girviDOB, latestDate, girviRelTithi, girviRelPaksh) {
     document.getElementById("girviReleaseButDiv").style.visibility = "hidden";
@@ -1388,7 +1395,7 @@ function releaseGirviVikSamHindi(custId, girviId, pageNo, totalPrincipalAmount, 
                     var str = "&DOBHDayForRelease=" + document.getElementById('DOBHDayForRelease').value + "&DOBHMonthForRelease=" + document.getElementById('DOBHMonthForRelease').value +
                             "&DOBHYearForRelease=" + document.getElementById('DOBHYearForRelease').value;
                     var poststr = "custId=" + custId + "&girviId=" + girviId + "&pageNo=" + pageNo
-                            + "&totalPrincipalAmount=" + totalPrincipalAmount + "&amountPaid=" + amountPaid.value + "&interestPaid=" + interestPaid.value + "&discountPaid=" + discountPaid.value
+                            + "&totalPrincipalAmount=" + totalPrincipalAmount + "&amountPaid=" + amountPaid.value + "&interestPaid=" + interestPaid.value +  "&itotalAmount=" + itotalAmount +  "&itotalInterest=" + itotalInterest +"&ototalAmount=" + ototalAmount +  "&ototalInterest=" + ototalInterest  + "&discountPaid=" + discountPaid.value
                             + "&relDD=" + relDD.value + "&relMM=" + relMM.value + "&relYY=" + relYY.value + "&simpleOrCompIntOption=" + simpleOrCompIntOption +
                             "&girviCompoundedOption=" + girviCompoundedOption + "&gMonthIntOption=" + monthlyInterestType + "&interestType=" + interestType + "&girviFirmId=" + girviFirmId +
                             "&girviJrnlId=" + girviJrnlId + "&girviAccId=" + girviAccId + "&girviLoanAccId=" + girviLoanAccId
@@ -1406,6 +1413,8 @@ function releaseGirviVikSamHindi(custId, girviId, pageNo, totalPrincipalAmount, 
         }
     }
 }
+/**********End code to add itotalAmount,itotalInterest,ototalAmount,ototalInterest  releaseGirviVikSamHindi fun @Author:BAJRANG5JAN1************/
+                     
 /**************End code to add validations for accounts @Author:SHRI10JUL15***************/
 function functionToSubmitReleseDate()
 {
@@ -2174,6 +2183,7 @@ function girviDepositMoneySubmitHindiVikSam(documentRootPath, custId, girviId, n
                 "&girviTithi=" + girviTithi +
                 "&girviPaksh=" + girviPaksh +
                 "&intAmtLeftBefore=" + intAmtLeftBefore;
+        //alert(poststr);
         girvi_deposit_money_submit('http://' + documentRootPath + '/include/php/olgugdmd.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
     }
 

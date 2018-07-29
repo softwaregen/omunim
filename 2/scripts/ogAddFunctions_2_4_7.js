@@ -17,6 +17,7 @@ function commonNavigationFunction(div, panel) {
     xmlhttp.send();
 }
 /*************End code to add function for stock navigations @Author:PRIYA06OCT14*****************/
+/*********Start code to change ID's @Author:PRIYANKA-05-06-17*********/
 function validateAddWItemInputs() {
     if (document.getElementById('upPanel').value == 'UpPanel') {
         if (noOfCrystal == '' || noOfCrystal == undefined) {
@@ -35,74 +36,58 @@ function validateAddWItemInputs() {
         document.getElementById("addItemDOBYear").focus();
         return false;
     }
-//    else if (validateEmptyField(document.getElementById("addItemInvoiceNo").value, "Please enter Invoice Number!") == false ||
-//            validateNum(document.getElementById("addItemInvoiceNo").value, "Accept only numeric characters without space character!") == false) {
-//        document.getElementById("addItemInvoiceNo").focus();
-//        return false;
-//    } 
     else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
         document.getElementById("firmId").focus();
         return false;
     }
-//    else if (validateSelectField(document.getElementById("accountId").value, "Please select Stock Account Name!") == false) {
-//        document.getElementById("accountId").focus();
-//        return false;
-//    } else if (validateSelectField(document.getElementById("crAccountId").value, "Please select Supplier Account Name!") == false) {
-//        document.getElementById("crAccountId").focus();
-//        return false;
-//    }
-    else if (validateEmptyField(document.getElementById("addItemMetal").value, "Please select Metal!") == false) {
-        document.getElementById("addItemMetal").focus();
+    else if (validateEmptyField(document.getElementById("sttr_metal_type").value, "Please select Metal!") == false) {
+        document.getElementById("sttr_metal_type").focus();
         return false;
     }
-    else if ((document.getElementById("addItemMetal").value != 'Other') && validateEmptyField(document.getElementById("addItemMetalRate").value, "Please enter Metal Rate!") == false) {
-        document.getElementById("addItemMetalRate").focus();
+    else if ((document.getElementById("sttr_metal_type").value != 'Other') && validateEmptyField(document.getElementById("sttr_metal_rate").value, "Please enter Metal Rate!") == false) {
+        document.getElementById("sttr_metal_rate").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemPreId").value, "Please enter Item Pre Id!") == false) {
-        document.getElementById("addItemPreId").focus();
-        return false;
-    }
-//    else if (validateEmptyField(document.getElementById("addItemId").value, "Please enter Item Id!") == false ||
-//            validateNum(document.getElementById("addItemId").value, "Accept only numeric characters without space character!") == false) {
-//        document.getElementById("addItemId").focus();
-//        return false;
-//    }
-    else if (validateEmptyField(document.getElementById("addItemCategory").value, "Please enter Item Category!") == false) {
-        document.getElementById("addItemCategory").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_pre_id").value, "Please enter Item Pre Id!") == false ||
+            validateAlphaNum(document.getElementById("sttr_item_pre_id").value, "Please enter characters & number without space in item pre id!") == false) {
+        document.getElementById("sttr_item_pre_id").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemName").value, "Please enter Item Name!") == false) {
-        document.getElementById("addItemName").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_category").value, "Please enter Item Category!") == false) {
+        document.getElementById("sttr_item_category").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemGrossWeight").value, "Please enter Gross Weight!") == false ||
-            validateNumWithDot(document.getElementById("addItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemGrossWeight").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please enter Item Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
+        return false;
+    }
+    else if (validateEmptyField(document.getElementById("sttr_gs_weight").value, "Please enter Gross Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_gs_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_gs_weight").focus();
         return false;
     }
     else if (document.getElementById('panelSimilarDiv').value != 'NoSimilarItem') {
-        if (document.getElementById("addItemNetWeight").value == '') {
-            document.getElementById("addItemNetWeight").value = document.getElementById("addItemGrossWeight").value;
+        if (document.getElementById("sttr_nt_weight").value == '') {
+            document.getElementById("sttr_nt_weight").value = document.getElementById("sttr_gs_weight").value;
         }
-        if ((document.getElementById("addItemMetal").value == 'Gold' || document.getElementById("addItemMetal").value == 'Silver') && validateSelectField(document.getElementById("addItemTunch").value, "Please select Item Tunch or Purity!") == false) {
-            document.getElementById("addItemTunch").focus();
+        if ((document.getElementById("sttr_metal_type").value == 'Gold' || document.getElementById("sttr_metal_type").value == 'Silver') && validateSelectField(document.getElementById("sttr_purity").value, "Please select Item Tunch or Purity!") == false) {
+            document.getElementById("sttr_purity").focus();
             return false;
         }
         if (noOfCrystal != '' && noOfCrystal != undefined && noOfCrystal != '0') {
             suppCryEntered = 0;
             for (var cry = 1; cry <= noOfCrystal; cry++) {
                 if (document.getElementById("del" + cry).value != 'Deleted') {
-                    if (validateEmptyField(document.getElementById("addItemCryId" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
-                        document.getElementById("addItemCryId" + cry).focus();
+                    if (validateEmptyField(document.getElementById("sttr_item_category" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
+                        document.getElementById("sttr_item_category" + cry).focus();
                         return false;
-                    } else if (validateEmptyField(document.getElementById("addItemCryGSW" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
-                        document.getElementById("addItemCryGSW" + cry).focus();
+                    } else if (validateEmptyField(document.getElementById("sttr_gs_weight" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
+                        document.getElementById("sttr_gs_weight" + cry).focus();
                         return false;
-                    } else if (validateEmptyField(document.getElementById("addItemCryRate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
-                        document.getElementById("addItemCryRate" + cry).focus();
+                    } else if (validateEmptyField(document.getElementById("sttr_purchase_rate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
+                        document.getElementById("sttr_purchase_rate" + cry).focus();
                         return false;
-                    } else if (validateEmptyField(document.getElementById("addItemCryVal" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
-                        document.getElementById("addItemCryVal" + cry).focus();
+                    } else if (validateEmptyField(document.getElementById("sttr_valuation" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
+                        document.getElementById("sttr_valuation" + cry).focus();
                         return false;
                     }
                     suppCryEntered++;
@@ -110,34 +95,34 @@ function validateAddWItemInputs() {
             }
             document.getElementById("addItemCryCount").value = suppCryEntered;
         }
-        calItemPrice();
+        calStockItemPrice();
         return true;
-    } else if (validateEmptyField(document.getElementById("addItemNetWeight").value, "Please enter Net Weight!") == false ||
-            validateNumWithDot(document.getElementById("addItemNetWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemNetWeight").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_nt_weight").value, "Please enter Net Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_nt_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_nt_weight").focus();
         return false;
-    } else if ((document.getElementById("addItemMetal").value == 'Gold' || document.getElementById("addItemMetal").value == 'Silver') && validateSelectField(document.getElementById("addItemTunch").value, "Please select Item Tunch or Purity!") == false) {
-        document.getElementById("addItemTunch").focus();
+    } else if ((document.getElementById("sttr_metal_type").value == 'Gold' || document.getElementById("sttr_metal_type").value == 'Silver') && validateSelectField(document.getElementById("sttr_purity").value, "Please select Item Tunch or Purity!") == false) {
+        document.getElementById("sttr_purity").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemFinalVal").value, "Please enter Item Final Valuation!") == false ||
-            validateNumWithDot(document.getElementById("addItemFinalVal").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemFinalVal").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_final_valuation").value, "Please enter Item Final Valuation!") == false ||
+            validateNumWithDot(document.getElementById("sttr_final_valuation").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_final_valuation").focus();
         return false;
     } else if (noOfCrystal != '' && noOfCrystal != undefined && noOfCrystal != '0') {
         suppCryEntered = 0;
         for (var cry = 1; cry <= noOfCrystal; cry++) {
             if (document.getElementById("del" + cry).value != 'Deleted') {
-                if (validateEmptyField(document.getElementById("addItemCryId" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
-                    document.getElementById("addItemCryId" + cry).focus();
+                if (validateEmptyField(document.getElementById("sttr_item_category" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
+                    document.getElementById("sttr_item_category" + cry).focus();
                     return false;
-                } else if (validateEmptyField(document.getElementById("addItemCryGSW" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
-                    document.getElementById("addItemCryGSW" + cry).focus();
+                } else if (validateEmptyField(document.getElementById("sttr_gs_weight" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
+                    document.getElementById("sttr_gs_weight" + cry).focus();
                     return false;
-                } else if (validateEmptyField(document.getElementById("addItemCryRate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
-                    document.getElementById("addItemCryRate" + cry).focus();
+                } else if (validateEmptyField(document.getElementById("sttr_purchase_rate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
+                    document.getElementById("sttr_purchase_rate" + cry).focus();
                     return false;
-                } else if (validateEmptyField(document.getElementById("addItemCryVal" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
-                    document.getElementById("addItemCryVal" + cry).focus();
+                } else if (validateEmptyField(document.getElementById("sttr_valuation" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
+                    document.getElementById("sttr_valuation" + cry).focus();
                     return false;
                 }
                 suppCryEntered++;
@@ -152,12 +137,21 @@ function validateAddWItemInputs() {
         return true;
     }
 }
+/*********End code to change ID's @Author:PRIYANKA-05-06-17*********/
 /*********Start code to add validation for tunch field @OMMODTAG SHRI_05OCT15*****************/
 /*********Start code to add validation for supplier account @Author:SHRI19MAY16*********/
+/*********Start code to change ID's @Author:PRIYANKA-05-06-17*********/
 function validateAddItemInputs() {
+
     if (document.getElementById('upPanel').value == 'UpPanel') {
         if (noOfCrystal == '' || noOfCrystal == undefined) {
             noOfCrystal = document.getElementById("noOfCry").value;
+        }
+    }
+    if (document.getElementById('panelName').value == 'SuppOrderUp') {
+        if (validateSelectField(document.getElementById("sttr_purity").value, "Please select Item Tunch or Purity!") == false) {
+            document.getElementById("sttr_purity").focus();
+            return false;
         }
     }
     if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please select Day!") == false) {
@@ -188,63 +182,69 @@ function validateAddItemInputs() {
 //        document.getElementById("crAccountId").focus();
 //        return false;
 //    }
-    else if (validateEmptyField(document.getElementById("addItemMetal").value, "Please select Metal!") == false) {
-        document.getElementById("addItemMetal").focus();
+    else if (validateEmptyField(document.getElementById("sttr_metal_type").value, "Please select Metal!") == false) {
+        document.getElementById("sttr_metal_type").focus();
         return false;
     }
-    else if ((document.getElementById("addItemMetal").value != 'Other') && validateEmptyField(document.getElementById("addItemMetalRate").value, "Please enter Metal Rate!") == false) {
-        document.getElementById("addItemMetalRate").focus();
+    else if ((document.getElementById("sttr_metal_type").value != 'Other') && validateEmptyField(document.getElementById("sttr_metal_rate").value, "Please enter Metal Rate!") == false) {
+        document.getElementById("sttr_metal_rate").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemPreId").value, "Please enter Item Pre Id!") == false) {
-        document.getElementById("addItemPreId").focus();
-        return false;
-    }
-    else if (validateEmptyField(document.getElementById("addItemId").value, "Please enter Item Id!") == false ||
-            validateNum(document.getElementById("addItemId").value, "Accept only numeric characters without space character!") == false) {
-        document.getElementById("addItemId").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_pre_id").value, "Please enter Item Pre Id!") == false ||
+            validateAlpha(document.getElementById("sttr_item_pre_id").value, "Please Enter Only Characters Without Space In Pre Id!") == false) {
+        document.getElementById("sttr_item_pre_id").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCategory").value, "Please enter Item Category!") == false) {
-        document.getElementById("addItemCategory").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_id").value, "Please enter Item Id!") == false ||
+            validateNum(document.getElementById("sttr_item_id").value, "Accept only numeric characters without space character!") == false) {
+        document.getElementById("sttr_item_id").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemName").value, "Please enter Item Name!") == false) {
-        document.getElementById("addItemName").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_category").value, "Please enter Item Category!") == false) {
+        document.getElementById("sttr_item_category").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemPieces").value, "Please enter Item Pieces!") == false ||
-            validateNum(document.getElementById("addItemPieces").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemPieces").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please enter Item Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemGrossWeight").value, "Please enter Gross Weight!") == false ||
-            validateNumWithDot(document.getElementById("addItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemGrossWeight").focus();
+    else if (validateEmptyField(document.getElementById("sttr_quantity").value, "Please enter Item Pieces!") == false ||
+            validateNum(document.getElementById("sttr_quantity").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_quantity").focus();
+        return false;
+    }
+    else if (validateEmptyField(document.getElementById("sttr_gs_weight").value, "Please enter Gross Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_gs_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_gs_weight").focus();
         return false;
     }
     else if (document.getElementById('panelSimilarDiv').value != 'NoSimilarItem') {
-        if (document.getElementById("addItemNetWeight").value == '') {
-            document.getElementById("addItemNetWeight").value = document.getElementById("addItemGrossWeight").value;
+        if (document.getElementById("sttr_nt_weight").value == '') {
+            document.getElementById("sttr_nt_weight").value = document.getElementById("sttr_gs_weight").value;
         }
-        if ((document.getElementById("addItemMetal").value == 'Gold' || document.getElementById("addItemMetal").value == 'Silver') && validateSelectField(document.getElementById("addItemTunch").value, "Please select Item Tunch or Purity!") == false) {
-            document.getElementById("addItemTunch").focus();
+        if ((document.getElementById("sttr_metal_type").value == 'Gold' || document.getElementById("sttr_metal_type").value == 'Silver') && validateSelectField(document.getElementById("sttr_purity").value, "Please select Item Tunch or Purity!") == false) {
+            document.getElementById("sttr_purity").focus();
             return false;
         }
+        //
         if (noOfCrystal != '' && noOfCrystal != undefined && noOfCrystal != '0') {
             suppCryEntered = 0;
             for (var cry = 1; cry <= noOfCrystal; cry++) {
                 if (document.getElementById("del" + cry).value != 'Deleted') {
-                    if (validateEmptyField(document.getElementById("addItemCryId" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
-                        document.getElementById("addItemCryId" + cry).focus();
+                    //
+                    if (validateEmptyField(document.getElementById("sttr_item_category" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
+                        document.getElementById("sttr_item_category" + cry).focus();
                         return false;
-                    } else if (validateEmptyField(document.getElementById("addItemCryGSW" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
-                        document.getElementById("addItemCryGSW" + cry).focus();
+                    } else if (validateEmptyField(document.getElementById("sttr_item_name" + cry).value, "Please enter Crystal Name " + cry + "!") == false) {
+                        document.getElementById("sttr_item_name" + cry).focus();
                         return false;
-                    } else if (validateEmptyField(document.getElementById("addItemCryRate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
-                        document.getElementById("addItemCryRate" + cry).focus();
+                    } else if (validateEmptyField(document.getElementById("sttr_gs_weight" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
+                        document.getElementById("sttr_gs_weight" + cry).focus();
                         return false;
-                    } else if (validateEmptyField(document.getElementById("addItemCryVal" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
-                        document.getElementById("addItemCryVal" + cry).focus();
+                    } else if (validateEmptyField(document.getElementById("sttr_purchase_rate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
+                        document.getElementById("sttr_purchase_rate" + cry).focus();
+                        return false;
+                    } else if (validateEmptyField(document.getElementById("sttr_valuation" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
+                        document.getElementById("sttr_valuation" + cry).focus();
                         return false;
                     }
                     suppCryEntered++;
@@ -252,34 +252,43 @@ function validateAddItemInputs() {
             }
             document.getElementById("addItemCryCount").value = suppCryEntered;
         }
-        calItemPrice();
+        calStockItemPrice();
         return true;
-    } else if (validateEmptyField(document.getElementById("addItemNetWeight").value, "Please enter Net Weight!") == false ||
-            validateNumWithDot(document.getElementById("addItemNetWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemNetWeight").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_nt_weight").value, "Please enter Net Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_nt_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_nt_weight").focus();
         return false;
-    } else if ((document.getElementById("addItemMetal").value == 'Gold' || document.getElementById("addItemMetal").value == 'Silver') && validateSelectField(document.getElementById("addItemTunch").value, "Please select Item Tunch or Purity!") == false) {
-        document.getElementById("addItemTunch").focus();
+    } else if ((document.getElementById("sttr_metal_type").value == 'Gold' || document.getElementById("sttr_metal_type").value == 'Silver') && validateSelectField(document.getElementById("sttr_purity").value, "Please select Item Tunch or Purity!") == false) {
+        document.getElementById("sttr_purity").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemFinalVal").value, "Please enter Item Final Valuation!") == false ||
-            validateNumWithDot(document.getElementById("addItemFinalVal").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemFinalVal").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_final_valuation").value, "Please enter Item Final Valuation!") == false ||
+            validateNumWithDot(document.getElementById("sttr_final_valuation").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_final_valuation").focus();
         return false;
     } else if (noOfCrystal != '' && noOfCrystal != undefined && noOfCrystal != '0') {
         suppCryEntered = 0;
+        //
         for (var cry = 1; cry <= noOfCrystal; cry++) {
             if (document.getElementById("del" + cry).value != 'Deleted') {
-                if (validateEmptyField(document.getElementById("addItemCryId" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
-                    document.getElementById("addItemCryId" + cry).focus();
+                //
+                if (validateEmptyField(document.getElementById("sttr_item_category" + cry).value, "Please enter Crystal Id " + cry + "!") == false) {
+                    document.getElementById("sttr_item_category" + cry).focus();
+                    return false; // Added by @PRIYANKA-18FEB18 for validating crystal name
+                } else if (validateEmptyField(document.getElementById("sttr_item_name" + cry).value, "Please enter Crystal Name " + cry + "!") == false) {
+                    document.getElementById("sttr_item_name" + cry).focus();
                     return false;
-                } else if (validateEmptyField(document.getElementById("addItemCryGSW" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
-                    document.getElementById("addItemCryGSW" + cry).focus();
+                } else if (validateEmptyField(document.getElementById("sttr_gs_weight" + cry).value, "Please enter Crystal Weight " + cry + "!") == false) {
+                    document.getElementById("sttr_gs_weight" + cry).focus();
                     return false;
-                } else if (validateEmptyField(document.getElementById("addItemCryRate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
-                    document.getElementById("addItemCryRate" + cry).focus();
-                    return false;
-                } else if (validateEmptyField(document.getElementById("addItemCryVal" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
-                    document.getElementById("addItemCryVal" + cry).focus();
+                } else if (document.getElementById('sttr_wt_auto_less' + cry).checked != true) {
+                    // Added by @PRIYANKA-22MAR18 for Validating CRYSTAL RATE
+                    if (validateEmptyField(document.getElementById("sttr_purchase_rate" + cry).value, "Please enter Crystal Rate " + cry + "!") == false) {
+                        document.getElementById("sttr_purchase_rate" + cry).focus();
+                        return false;
+                    }
+                    //
+                } else if (validateEmptyField(document.getElementById("sttr_valuation" + cry).value, "Please enter Crystal Valuation " + cry + "!") == false) {
+                    document.getElementById("sttr_valuation" + cry).focus();
                     return false;
                 }
                 suppCryEntered++;
@@ -287,150 +296,175 @@ function validateAddItemInputs() {
         }
         document.getElementById("addItemCryCount").value = suppCryEntered;
     }
+
     if (document.getElementById('mainPanel').value == 'StockPanel' && document.getElementById('autoBcPrint').value == 'YES') {
         document.getElementById("auto_barcode_label_print").style.visibility = "hidden";
         return true;
     } else {
         return true;
     }
+
 }
+/*********End code to change ID's @Author:PRIYANKA-05-06-17*********/
 /*********End code to add validation for supplier account @Author:SHRI19MAY16*********/
 /*********End code to add validation for tunch field @OMMODTAG SHRI_05OCT15*****************/
-function callAutoBcPrint() {
+/*********Start code for pass barocde id for print barocode:Author:SANT14FEB17***************/
+function callAutoBcPrint(documentRootPath) {
     loadXMLDoc2();
     xmlhttp2.onreadystatechange = function () {
         if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
             document.getElementById("auto_barcode_label_print").innerHTML = xmlhttp2.responseText;
             printDirectDiv("itemTagSel");
-            window.setTimeout(addItemFormSubmit, 7000);
         }
     };
-    var poststr = 'stockFirmId=' + document.getElementById("firmId").value
-            + '&newPreItemId=' + document.getElementById("addItemPreId").value
-            + '&newItemId=' + document.getElementById("addItemId").value
-            + '&newItemName=' + document.getElementById("addItemName").value
-            + '&newItemMetal=' + document.getElementById("addItemMetal").value
-            + '&newItemGSW=' + document.getElementById("addItemGrossWeight").value
-            + '&newItemGSQT=' + document.getElementById("addItemGrossWeightType").value
-            + '&newItemNTW=' + document.getElementById("addItemNetWeight").value
-            + '&newItemNTWT=' + document.getElementById("addItemNetWeightType").value
-            + '&newItemTunch=' + document.getElementById("addItemTunch").value
-            + '&bisMarkVal=' + document.getElementById("addItemBisMark").value
-            + '&mkngCharges=' + document.getElementById("addItemCustCharges").value
-            + '&mkngChargesType=' + document.getElementById("addItemCustChargesType").value
-            + '&panel=' + 'autoPrint';
-    xmlhttp2.open("POST", "include/php/ogitemtg.php?" + poststr, true);
+    var poststr = 'stockFirmId=' + document.getElementById("bcFirmId").value
+            + '&newPreItemId=' + document.getElementById("bcAddItemPreId").value
+            + '&newItemId=' + document.getElementById("bcAddItemId").value
+            + '&newItemName=' + document.getElementById("bcAddItemName").value
+            + '&newItemMetal=' + document.getElementById("bcAddItemMetal").value
+            + '&newItemGSW=' + document.getElementById("bcAddItemGrossWeight").value
+            + '&newItemGSQT=' + document.getElementById("bcAddItemGrossWeightType").value
+            + '&newItemNTW=' + document.getElementById("bcAddItemNetWeight").value
+            + '&newItemNTWT=' + document.getElementById("bcAddItemNetWeightType").value
+            + '&newItemTunch=' + document.getElementById("bcAddItemTunch").value
+            + '&bisMarkVal=' + document.getElementById("bcAddItemBisMark").value
+            + '&mkngCharges=' + document.getElementById("bcAddItemCustCharges").value
+            + '&mkngChargesType=' + document.getElementById("bcAddItemCustChargesType").value
+            + '&panel=' + 'autoPrint'
+            + '&itstId=' + document.getElementById('bcItemStocId').value;
+    xmlhttp2.open("POST", "http://" + documentRootPath + "/include/php/ogitemtg.php?" + poststr, true);
     xmlhttp2.send();
 }
+/*********End code for pass barocde id for print barocode:Author:SANT14FEB17***************/
 function addItemFormSubmit() {
     document.getElementById("add_item").submit();
 }
 /*******Start  code to add if condition for wholesale @Author:ANUJA17AUG15********************/
-function addItem() {
-//    alert(document.getElementById("stockPanelName").value+"--"+document.getElementById("invoiceRow").value);
+function addItem(documentRootPath) {
+    if (documentRootPath == '' || documentRootPath == null || documentRootPath == 'undefined') { //added @Author:SHRI22MAR17
+        documentRootPath = document.getElementById('documentRootPath').value;
+    }
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-    if (document.getElementById("stockPanelName").value == 'StockPayUp' && document.getElementById("invoiceRow").value > 0) {
-        alert('You Can Not Update This Item');
+
+    if (document.getElementById("sttr_item_ent_type").value == 'purchaseOnCash')
+    {
+        document.getElementById("sttr_transaction_type").value = 'PURONCASH';
+    }
+
+    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+    if (document.getElementById('mainPanel').value == 'StockPanel' && document.getElementById('custPurPresent').value > 0) {
+        alert('To Modify ,First Delete This Item From Customer Purchase Panel!');
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         return false;
     } else
     {
-        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-        if (document.getElementById('mainPanel').value == 'StockPanel' && document.getElementById('custPurPresent').value > 0) {
-            alert('To Modify ,First Delete This Item From Customer Purchase Panel!');
+        if (document.getElementById('sttr_wastage').value == '') {
+            document.getElementById('sttr_wastage').value = 0;
+        }
+        document.getElementById("addItemSubButtDiv").style.visibility = "hidden";
+        document.getElementById("addItemSimButtDiv").style.visibility = "hidden";
+        document.getElementById("addItemExItButtDiv").style.visibility = "hidden";
+        document.getElementById("addItemAddStockItButtDiv").style.visibility = "hidden";
+        document.getElementById("addItemHelpButtDiv").style.visibility = "hidden";
+        var itemDateDay = document.getElementById("addItemDOBDay").value;
+        var itemDateMMM = document.getElementById("addItemDOBMonth").value;
+        var itemDateYY = document.getElementById("addItemDOBYear").value;
+        var itemDateStr = document.getElementById("addItemDOBMonth").value + ' ' + document.getElementById("addItemDOBDay").value + ', ' + document.getElementById("addItemDOBYear").value;
+        var itemDate = new Date(itemDateStr); // stock Date
+        var todayDate = new Date(); // Today Date
+
+        var milliStockDate = itemDate.getTime();
+        var milliTodayDate = todayDate.getTime();
+        var datesDiff = milliTodayDate - milliStockDate;
+        if (datesDiff < 0) {
+            alert('Please Select the correct Date!');
+            document.getElementById("addItemDOBDay").focus();
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            // return false;
-            // }
+            document.getElementById("addItemSubButtDiv").style.visibility = "visible";
+            document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+            document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+            document.getElementById("addItemAddStockItButtDiv").style.visibility = "visible";
+            document.getElementById("addItemHelpButtDiv").style.visibility = "visible";
             return false;
-        } else
-        {
-            if (document.getElementById('addItemWastage').value == '') {
-                document.getElementById('addItemWastage').value = 0;
-            }
-            document.getElementById("addItemSubButtDiv").style.visibility = "hidden";
-            document.getElementById("addItemSimButtDiv").style.visibility = "hidden";
-            var itemDateDay = document.getElementById("addItemDOBDay").value;
-            var itemDateMMM = document.getElementById("addItemDOBMonth").value;
-            var itemDateYY = document.getElementById("addItemDOBYear").value;
-            var itemDateStr = document.getElementById("addItemDOBMonth").value + ' ' + document.getElementById("addItemDOBDay").value + ', ' + document.getElementById("addItemDOBYear").value;
-            var itemDate = new Date(itemDateStr); // stock Date
-            var todayDate = new Date(); // Today Date
-
-            var milliStockDate = itemDate.getTime();
-            var milliTodayDate = todayDate.getTime();
-            var datesDiff = milliTodayDate - milliStockDate;
-            if (datesDiff < 0) {
-                alert('Please Select the correct Date!');
-                document.getElementById("addItemDOBDay").focus();
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-                document.getElementById("addItemSimButtDiv").style.visibility = "visible";
-                return false;
-            }
-            else {
-                if (itemDateMMM == 'FEB' || itemDateMMM == 'APR' || itemDateMMM == 'JUN' || itemDateMMM == 'SEP' || itemDateMMM == 'NOV') {
-                    if (itemDateMMM == 'FEB' && itemDateDay > 29 && itemDateYY % 4 == 0) {
-                        alert('Please select correct Date, Month ' + itemDateMMM + ' for this selected year has only max 29 days.');
-                        document.getElementById("addItemDOBDay").focus();
-                        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                        document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-                        document.getElementById("addItemSimButtDiv").style.visibility = "visible";
-                        return false;
-                    }
-                    if (itemDateMMM == 'FEB' && itemDateDay > 28 && itemDateYY % 4 != 0) {
-                        alert('Please select correct Date, Month ' + itemDateMMM + ' for this selected year has only max 28 days.');
-                        document.getElementById("addItemDOBDay").focus();
-                        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                        document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-                        document.getElementById("addItemSimButtDiv").style.visibility = "visible";
-                        return false;
-                    }
-                    if (itemDateDay > 30) {
-                        alert('Please select correct Date, Month ' + itemDateMMM + ' has only max 30 days.');
-                        document.getElementById("addItemDOBDay").focus();
-                        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                        document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-                        document.getElementById("addItemSimButtDiv").style.visibility = "visible";
-                        return false;
-                    }
+        }
+        else {
+            if (itemDateMMM == 'FEB' || itemDateMMM == 'APR' || itemDateMMM == 'JUN' || itemDateMMM == 'SEP' || itemDateMMM == 'NOV') {
+                if (itemDateMMM == 'FEB' && itemDateDay > 29 && itemDateYY % 4 == 0) {
+                    alert('Please select correct Date, Month ' + itemDateMMM + ' for this selected year has only max 29 days.');
+                    document.getElementById("addItemDOBDay").focus();
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("addItemSubButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemAddStockItButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemHelpButtDiv").style.visibility = "visible";
+                    return false;
                 }
+                if (itemDateMMM == 'FEB' && itemDateDay > 28 && itemDateYY % 4 != 0) {
+                    alert('Please select correct Date, Month ' + itemDateMMM + ' for this selected year has only max 28 days.');
+                    document.getElementById("addItemDOBDay").focus();
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("addItemSubButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemAddStockItButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemHelpButtDiv").style.visibility = "visible";
+                    return false;
+                }
+                if (itemDateDay > 30) {
+                    alert('Please select correct Date, Month ' + itemDateMMM + ' has only max 30 days.');
+                    document.getElementById("addItemDOBDay").focus();
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("addItemSubButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemAddStockItButtDiv").style.visibility = "visible";
+                    document.getElementById("addItemHelpButtDiv").style.visibility = "visible";
+                    return false;
+                }
+            }
 
-                if (document.getElementById('payButClickId').value == 'true') {
-                    if (validateRawMetInputs()) { //validation added @Author:SHRI11APR16
-                        var prefix = document.getElementById("prefix").value;
-                        var payPanelName = document.getElementById("upPanel").value;
-                        if (payPanelName == 'AddPanel') {
-                            document.getElementById("totMetal").value = getMetalDiv;
-                        } else if (payPanelName == 'UpPanel') {
-                            document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
-                        }
-                        return true;
+            if (document.getElementById('payButClickId').value == 'true') {
+                if (validateRawMetInputs()) { //validation added @Author:SHRI11APR16
+                    var prefix = document.getElementById("prefix").value;
+                    var payPanelName = document.getElementById("upPanel").value;
+                    if (payPanelName == 'AddPanel') {
+                        document.getElementById("totMetal").value = getMetalDiv;
+                    } else if (payPanelName == 'UpPanel') {
+                        document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
                     }
+                    return true;
+                }
+            } else {
+
+                var functionName = validateAddItemInputs;
+                if (document.getElementById('stockType').value == 'wholeSaleStock') {
+                    functionName = validateAddWItemInputs;
                 } else {
-                    var functionName = validateAddItemInputs;
-                    if (document.getElementById('stockType').value == 'wholeSaleStock') {
-                        functionName = validateAddWItemInputs;
-                    } else {
-                        functionName = validateAddItemInputs;
-                    }
-                    if (functionName()) {
-                        if (document.getElementById('mainPanel').value == 'StockPanel' && document.getElementById('autoBcPrint').value == 'YES') {
-                            if (document.getElementById("panelName").value != 'UpdateStock' && document.getElementById("panelName").value != 'StockPayUp')
-                                callAutoBcPrint();
-                            else
-                                return true;
-                        } else {
-                            return true;
+                    functionName = validateAddItemInputs;
+                }
+                if (functionName()) {
+                    if (document.getElementById('mainPanel').value == 'StockPanel' && document.getElementById('autoBcPrint').value == 'YES') {
+                        if (document.getElementById("panelName").value != 'UpdateStock' && document.getElementById("panelName").value != 'StockPayUp')
+                        {
+                            addItemFormSubmit();
                         }
+                        else
+                            return true;
+                    } else {
+                        return true;
                     }
                 }
             }
         }
-        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-        document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-        document.getElementById("addItemSimButtDiv").style.visibility = "visible";
-        return false;
     }
+    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+    document.getElementById("addItemSubButtDiv").style.visibility = "visible";
+    document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+    document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+    document.getElementById("addItemAddStockItButtDiv").style.visibility = "visible";
+    document.getElementById("addItemHelpButtDiv").style.visibility = "visible";
+    return false;
 }
 /*******End code to add if condition for wholesale @Author:ANUJA17AUG15********************/
 /***************Start Code Else condition removed @OMMODTAG SHRI_10MAY16**********************/
@@ -464,7 +498,7 @@ function getItemPreIdDiv(preId, metalType, div, id, keyCodeInput, mainPanel) {
             var str = xmlhttp.responseText;
             if (str == '') {
                 document.getElementById(div).innerHTML = xmlhttp.responseText;
-                document.getElementById('addItemId').value = '1';
+                document.getElementById('sttr_item_id').value = '1';
                 document.getElementById('changedItemId').value = '1';
             } else {
                 document.getElementById(div).innerHTML = xmlhttp.responseText;
@@ -482,7 +516,9 @@ function getItemPreIdDiv(preId, metalType, div, id, keyCodeInput, mainPanel) {
 /**********End code to add function to get item pre id div @Author:PRIYA07OCT14*********/
 /**********Start code to add function to get calc by for labour charges @Author:PRIYA07OCT14*********/
 /**********Start code to add slPrItemLabChrgsSelDiv condition @Author:PRIYA31MAR15************************/
-function getItemLabChrgsByWt(div, id, keyCodeInput) {
+function getItemLabChrgsByWt(div, id, keyCodeInput, panel) {
+
+    //alert(div);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -498,7 +534,7 @@ function getItemLabChrgsByWt(div, id, keyCodeInput) {
     } else if (div == 'slPrItemLabChrgsSelDiv') {
         xmlhttp.open("POST", "include/php/ogswlbsl.php?div=" + div, true);
     } else {
-        xmlhttp.open("POST", "include/php/ogialbsl.php?div=" + div, true);
+        xmlhttp.open("POST", "include/php/ogialbsl.php?div=" + div + "&panel=" + panel, true);
     }
     xmlhttp.send();
 }
@@ -507,7 +543,7 @@ function getItemLabChrgsByWt(div, id, keyCodeInput) {
 /**********Start code to add function to get calc by for labour charges @Author:PRIYA07OCT14*********/
 /**********Start code to add slPrItemFfineWtSelDiv condition @Author:PRIYA31MAR15************************/
 /**********Start code to add panelname for invoice @Author:SANT08OCT16************************/
-function getItemFfnWt(div, id, keyCodeInput, panel) {
+function getItemFfnWt(div, id, keyCodeInput, panel, documentRootPath) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -519,10 +555,28 @@ function getItemFfnWt(div, id, keyCodeInput, panel) {
         }
     };
     if (div == 'slPrItemFfineWtSelDiv') {
-        xmlhttp.open("POST", "include/php/ogspfwsl.php?div=" + div, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspfwsl.php?div=" + div, true);
     } else {
-        xmlhttp.open("POST", "include/php/ogiafwsl.php?div=" + div + "&panel=" + panel, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiafwsl.php?div=" + div + "&panel=" + panel, true);
     }
+    xmlhttp.send();
+}
+//
+//
+function getStockTransFFNWTDropdown(div, panel, arrStockFormFieldSequence, prodCount, process, documentRootPath, keyCodeInput) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(div).innerHTML = xmlhttp.responseText;
+            if (keyCodeInput == 40 || keyCodeInput == 38) {
+                document.getElementById(div).focus();
+                document.getElementById(div).options[0].selected = true;
+            }
+        }
+    };
+    //
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omStockTransFormFFNWTDropdown.php?inputGoogleSuggDivId=" + div + "&panel=" + panel + "&arrStockFormFieldSequence=" + arrStockFormFieldSequence + "&prodCount=" + prodCount + "&process=" + process, true);
+    //
     xmlhttp.send();
 }
 /**********End code to add panelname for invoice @Author:SANT08OCT16************************/
@@ -569,19 +623,28 @@ function getItemDetailsByPreId(preId, mainPanel) {
 /**********End code to add function to get calc by for labour charges @Author:PRIYA07OCT14*********/
 /**********Start code to add function to get metal rate @Author:PRIYA10OCT14*********/
 //var metalRateId1 = null;
-function getMetalType(div, id, keyCodeInput, mainPanel) {
-//    metalRateId1 = null;
+////alert removed @auth:athu6jun17
+function getMetalType(div, id, keyCodeInput, mainPanel,userId, panelName, transType, firmId, metalType,omly_value,omly_option) {
+//    alert(omly_value);
+//    alert(omly_option);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
+        
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById(div).innerHTML = xmlhttp.responseText;
-            if (keyCodeInput == 40 || keyCodeInput == 38) {
+//               setTimeout(getInvoiceNum(userId, panelName, transType, firmId, metalType), 100);
+    if (keyCodeInput == 40 || keyCodeInput == 38) {
                 document.getElementById('addItemMetSelBy').focus();
                 document.getElementById('addItemMetSelBy').options[0].selected = true;
             }
         }
     };
-    xmlhttp.open("POST", "include/php/ogiamtsl.php?id=" + id + "&div=" + div + "&mainPanel=" + mainPanel, true);
+    if (mainPanel == 'AddWhStockPanel' || mainPanel == 'AddStockPanel' || mainPanel == 'StockReturnPanel') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiamtsl.php?id=" + id + "&div=" + div + "&mainPanel=" + mainPanel , true);
+    } else {
+        xmlhttp.open("POST", "include/php/ogiamtsl.php?id=" + id + "&div=" + div + "&mainPanel=" + mainPanel + "&userId=" + userId + "&panelName=" + panelName + "&transType=" + transType + "&firmId=" + firmId + "&metalType=" + metalType + "&omly_value=" + omly_value + "&omly_option=" + omly_option, true);
+    }
     xmlhttp.send();
 }
 /**********End code to add function to get metal rate @Author:PRIYA10OCT14*********/
@@ -622,7 +685,8 @@ function searchStockList(documentRootPath, searchColumn, searchValue, selFirmId,
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwastlt.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&panelName=stockListByParticularItem", true);
     else if (panel == 'WholeSalePurchaseList')
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwaprlt.php?searchColumn="
+//        ogwaprlt
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwtprlt.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     else if (panel == 'RawMetalList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmcslt.php?searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
@@ -635,6 +699,12 @@ function searchStockList(documentRootPath, searchColumn, searchValue, selFirmId,
     else if (panel == 'RawMetalPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmpslt.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId, true);
+    else if (div == 'MetalToCashInvoicePurchaseList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwspprlt.php?searchColumn="
+                + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
+    else if (div == 'MetalToCashInvoiceSellList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwspsrlt.php?searchColumn="
+                + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
     else if (panel == 'MetalToCashPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwwscprlt.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
@@ -669,7 +739,8 @@ function sortStockList(documentRootPath, sortKeyword, selFirmId, div, panel, ite
     else if (panel == 'WholeSaleStockItemList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwastlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&panelName=stockListByItem", true); //Add panel @OMMODTAG SHRI_10MAY16
     else if (panel == 'WholeSalePurchaseList')
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwaprlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
+//    ogwaprlt
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwtprlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     else if (panel == 'stockListByParticularItem')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwastlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&panelName=stockListByParticularItem", true);
     else if (panel == 'RawMetalList')
@@ -682,6 +753,10 @@ function sortStockList(documentRootPath, sortKeyword, selFirmId, div, panel, ite
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmpslt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId, true);
     else if (panel == 'MetalToCashPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwwscprlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
+    else if (panel == 'MetalToCashInvoicePurchaseList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwspprlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
+    else if (panel == 'MetalToCashInvoiceSellList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwspsrlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&userId=" + userId, true);
     else
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspsblt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     xmlhttp.send();
@@ -713,7 +788,7 @@ function navigateToStockPanel(documentRootPath, panel) {
 //conddition added for back tab of crystal list @Author:SHE14MAR15
 //start add panel retail purchase Author:GAUR2AUG16
 function navigateBackToStockPanel(documentRootPath, panel, page) {
-    loadXMLDoc();
+    loadXMLDoc(panel);
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -721,15 +796,82 @@ function navigateBackToStockPanel(documentRootPath, panel, page) {
                 document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
             else if (panel == 'retailPurchaseList')
                 document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
-            else
+            else if (panel == 'jwelleryPanel' || panel == 'stockList' || panel == 'mainStockPanel' || panel == 'retailJwellery' || panel == 'WholsaleJwelleryPanel')
+                document.getElementById("addStockItemDetails").innerHTML = xmlhttp.responseText;
+            else if (panel == 'retailJwelleryGold' || panel == 'retailJwellerySilver')
                 document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+            else if (panel == 'stock')
+                document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+            else if (panel == 'FineStock')
+                document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+            else
+                document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
+//            jewelleryPanel
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
+
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilstdv.php?page=" + page, true);
     xmlhttp.send();
 }
+//
+// START Code for Back Buttons Fine Stock on Stock Panel @Author:PRIYANKA-06-07-17
+function navigateBackToStockItmPanel(documentRootPath, panelName, itemCategory, itemName, metalType) {
+    loadXMLDoc();
+
+    var listDepth = panelName.split(";");
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            if (listDepth[0] == 'CurrentRawStockList')
+                document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
+            else
+                document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    if (panelName == 'stock') {
+        if (metalType == 'Gold' || metalType == 'Silver') {
+            xmlhttp.open("GET", "http://" + documentRootPath + "/include/php/ogwgstlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&itemName=" + itemName + "&metalType=" + metalType, true);
+        } else {
+            metalType = 'undefined';
+            xmlhttp.open("GET", "http://" + documentRootPath + "/include/php/ogwgstlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&itemName=" + itemName + "&metalType=" + metalType, true);
+        }
+    } else if (listDepth[0] == 'CurrentRawStockList') {
+        xmlhttp.open("GET", "http://" + documentRootPath + "/include/php/ogrmprlt.php?listPanel=" + listDepth[0] + "&depth=" + listDepth[1] + "&con1=" + itemCategory + "&con2=" + itemName + "&con3=" + metalType, true);
+    } else {
+        xmlhttp.open("GET", "http://" + documentRootPath + "/include/php/omstocitmlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&itemName=" + itemName + "&metalType=" + metalType, true);
+    }
+    xmlhttp.send();
+}
+// END Code for Back Buttons Fine Stock on Stock Panel @Author:PRIYANKA-06-07-17
+// 
+// START Code for Back Buttons CRYSTAL Stock on Stock Panel @Author:PRIYANKA-11-07-17
+function navigateBackToStockCryItmPanel(documentRootPath, panelName, itemCategory, itemName, metalType) {
+    //alert(panelName);
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    if (panelName == 'crystal') {
+        xmlhttp.open("GET", "http://" + documentRootPath + "/include/php/omwgstlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&itemName=" + itemName + "&metalType=" + metalType, true);
+    } else {
+        xmlhttp.open("GET", "http://" + documentRootPath + "/include/php/omcryitmlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&itemName=" + itemName + "&metalType=" + metalType, true);
+    }
+    xmlhttp.send();
+}
+// END Code for Back Buttons CRYSTAL Stock on Stock Panel @Author:PRIYANKA-11-07-17
+// 
 //end add panel retail purchase Author:GAUR2AUG16
 /*********End code to add function for stock navigation @Author:PRIYA13OCT14**************/
 function navToAvialStockPanel(div, panel, itemName, metalType, page) {
@@ -749,18 +891,25 @@ function navToAvialStockPanel(div, panel, itemName, metalType, page) {
     xmlhttp.send();
 }
 function navigateBackToJewellryPanel(documentRootPath, panel, page) {
-//    alert(panel);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+            if (panel == 'ImtPanel') {
+                document.getElementById("addStockItemDetails").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+            }
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
     if (panel == 'itemDetPanel') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilstlt.php?divPanel=StockList&page=" + page, true);
+    } else if (panel == 'ImtPanel') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilimlt.php?page=" + page, true);
+    } else if (panel == 'WholsaleJwelleryPanel') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilimlt.php?page=" + page + "&panelName=" + panel, true);
     } else {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilimdv.php?page=" + page, true);
     }
@@ -826,8 +975,10 @@ function getTransFirmSerialNo(documentRootPath, selectedFirmNo, transPanel) {
 /********Strat update code to add barcodeSize @Author:GAUR09SEP16**************/
 /********Strat code to add font size @Author:GAUR04MAY16**************/
 function update55BarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayoutOptionLeft, omLayoutOptionLeftValue,
-        slipWidth, slipWidthValue, slipHeight, slipHeightValue, textAlign, textAlignValue, barcodeSize, barcodeSizeValue, tailLength, tailLengthValue, panel) {
+        slipWidth, slipWidthValue, slipHeight, slipHeightValue, textAlign, textAlignValue, barcodeSize, barcodeSizeValue, tailLength, tailLengthValue,
+        caption1, caption2, caption3, caption4, caption5, caption6, caption7, caption8, caption9, caption10, panel) {
     loadXMLDoc();
+    //alert(panel);
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -845,7 +996,9 @@ function update55BarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayoutOpti
             + '&slipHeight=' + slipHeight + '&slipHeightValue=' + slipHeightValue
             + '&textAlign=' + textAlign + '&textAlignValue=' + textAlignValue
             + '&barcodeSize=' + barcodeSize + '&barcodeSizeValue=' + barcodeSizeValue
-            + '&tailLength=' + tailLength + '&tailLengthValue=' + tailLengthValue;
+            + '&tailLength=' + tailLength + '&tailLengthValue=' + tailLengthValue + '&captionvalue1=' + caption1 +
+            '&captionvalue2=' + caption2 + '&captionvalue3=' + caption3 + '&captionvalue4=' + caption4 + '&captionvalue5=' + caption5 + '&captionvalue6=' + caption6
+            + '&captionvalue7=' + caption7 + '&captionvalue8=' + caption8 + '&captionvalue9=' + caption9 + '&captionvalue10=' + caption10 + '&panel=' + panel;
     xmlhttp.open("POST", "include/php/ombcbcup.php?" + postStr, true);
     xmlhttp.send();
 }
@@ -995,6 +1148,7 @@ function setPageValue(pageNo, noOfPagesAsLink) {
 /*********End to add subfunction called while paging @AUTHOR: SANDY30OCT13************/
 /*********Start code to add paging in udhaar list @Author:PRIYA03NOV14****************/
 function pagingInUdhaarPanel(pageNo, panel, searchOption, rowsPerPage, noOfPagesAsLink) {
+    //alert(panel);
     if (pageNo == 0) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
@@ -1017,6 +1171,8 @@ function pagingInUdhaarPanel(pageNo, panel, searchOption, rowsPerPage, noOfPages
         xmlhttp.open("POST", "include/php/omusctdv.php?page=" + pageNo + "&searchOption=" + searchOption + "&rowsPerPage=" + rowsPerPage, true);
     else if (panel == 'UdhaarCustList')
         xmlhttp.open("POST", "include/php/omuucclt.php?page=" + pageNo + "&rowsPerPage=" + rowsPerPage, true);
+    else if (panel == 'ExpiredCustList')
+        xmlhttp.open("POST", "include/php/omuuexll.php?page=" + pageNo + "&rowsPerPage=" + rowsPerPage, true); ////added panel @auth:Athu16JAN17
     else if (panel == 'AdvMoneyList')
         xmlhttp.open("POST", "include/php/omadmnlt.php?page=" + pageNo + "&rowsPerPage=" + rowsPerPage, true);
     else
@@ -1026,7 +1182,8 @@ function pagingInUdhaarPanel(pageNo, panel, searchOption, rowsPerPage, noOfPages
 /*********End code to add paging in udhaar list @Author:PRIYA03NOV14****************/
 /********End code to comment xmlhttp @Author:PRIYA22MAY14**************/
 function update20By12BarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayoutOptionLeft, omLayoutOptionLeftValue,
-        slipWidth, slipWidthValue, slipHeight, slipHeightValue, slipNoOfRows, slipNoOfRowsValue) {
+        slipWidth, slipWidthValue, slipHeight, slipHeightValue, slipNoOfCols, slipNoOfColsValue, slipNoOfRows, slipNoOfRowsValue, omLayoutOptionBcSize, omLayoutOptionBcSizeValue) {
+    //alert();
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -1043,7 +1200,9 @@ function update20By12BarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayout
             + '&omLayoutOptionLeft=' + omLayoutOptionLeft + '&omLayoutOptionLeftValue=' + omLayoutOptionLeftValue
             + '&slipWidth=' + slipWidth + '&slipWidthValue=' + slipWidthValue
             + '&slipHeight=' + slipHeight + '&slipHeightValue=' + slipHeightValue
-            + '&noOfRows=' + slipNoOfRows + '&noOfRowsValue=' + slipNoOfRowsValue;
+            + '&noOfCols=' + slipNoOfCols + '&noOfColsValue=' + slipNoOfColsValue
+            + '&noOfRows=' + slipNoOfRows + '&noOfRowsValue=' + slipNoOfRowsValue
+            + '&20x12barcodeSize=' + omLayoutOptionBcSize + '&20x12barcodeSizeValue=' + omLayoutOptionBcSizeValue;
     xmlhttp.open("POST", "include/php/ombcbcup.php?" + postStr, true);
     xmlhttp.send();
 }
@@ -1635,18 +1794,19 @@ function addSellLotItem() {
                 }
             }
 
-            if (document.getElementById('payButClickId').value == 'true') {
-                if (validateRawMetInputs()) { //validation added @Author:SHRI12MAY16
-                    var prefix = document.getElementById("prefix").value;
-                    var payPanelName = document.getElementById("upPanel").value;
-                    if (payPanelName == 'AddPanel') {
-                        document.getElementById("totMetal").value = getMetalDiv;
-                    } else if (payPanelName == 'UpPanel') {
-                        document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
-                    }
-                    return true;
-                }
-            } else if (document.getElementById('saveButClickId').value == 'true') {
+//            if (document.getElementById('payButClickId').value == 'true') {
+//                if (validateRawMetInputs()) { //validation added @Author:SHRI12MAY16
+//                    var prefix = document.getElementById("prefix").value;
+//                    var payPanelName = document.getElementById("upPanel").value;
+//                    if (payPanelName == 'AddPanel') {
+//                        document.getElementById("totMetal").value = getMetalDiv;
+//                    } else if (payPanelName == 'UpPanel') {
+//                        document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
+//                    }
+//                    return true;
+//                }
+//            } else 
+            if (document.getElementById('saveButClickId').value == 'true') {
                 var prefix = document.getElementById("prefix").value;
                 var payPanelName = document.getElementById("upPanel").value;
                 if (payPanelName == 'AddPanel') {
@@ -1845,7 +2005,6 @@ function navigationSrchCustToAddInCircle(pageNo, custFName, custLName, custMobil
 }
 /****Start to change function to add condition for raw stock panel @OMMODTAG SHE02APR16*****/
 function showMetalRateWithTax(metalId, panelName) {
-
     loadXMLDoc2();
     xmlhttp2.onreadystatechange = function () {
         if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
@@ -1853,18 +2012,22 @@ function showMetalRateWithTax(metalId, panelName) {
             var strArray = new Array();
             strArray = str.split("#");
             document.getElementById('metalRateCalculation').value = strArray[0];
-//            alert('showMetalRateWithTax=' + document.getElementById('metalRateCalculation').value);
             if (panelName == 'addStockPanel') {
-//                document.getElementById('addItemVATTax').value = strArray[1];
+                document.getElementById('sttr_tax').value = strArray[1];///added by @auth:athu6JUN17
+                document.getElementById('metalRateId').value = metalId;
                 calStockItemPrice();
             } else {
                 document.getElementById('addRawStockItemTax').value = strArray[1];
                 calRawMetalFinVal();
             }
-
         }
     };
-    xmlhttp2.open("POST", "include/php/ogmtrttx.php?metalId=" + metalId + "&panelName=" + panelName, true);
+    if (panelName == 'addStockPanel') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
+        xmlhttp2.open("POST", "http://" + documentRootPath + "/include/php/ogmtrttx.php?metalId=" + metalId + "&panelName=" + panelName, true);
+    } else {
+        xmlhttp2.open("POST", "include/php/ogmtrttx.php?metalId=" + metalId + "&panelName=" + panelName, true);
+    }
     xmlhttp2.send();
 }
 /****End to change function to add condition for raw stock panel @OMMODTAG SHE02APR16*****/
@@ -2889,9 +3052,12 @@ function getUdhaarList() {
     xmlhttp.send();
 }
 function getWholeMoreRawMetalDiv(metalCnt, panelName, firmId, rawGdPreId, rawGdPostId, metalType, rawSlPreId, rawSlPostId, rawAlPreId, rawAlPostId,
-        metalPanelName, mcntr, rawPreId, rawPostId) {
+        metalPanelName, mcntr, rawPreId, rawPostId, gMetalAvgRate, sMetalAvgRate, userId) {
     metalPanel = panelName;
     metalCount = metalCnt;
+
+    //alert('metalType=='+metalType);
+
     if (metalCount != '') {
         getMetalDiv = metalCount;
     }
@@ -2901,11 +3067,14 @@ function getWholeMoreRawMetalDiv(metalCnt, panelName, firmId, rawGdPreId, rawGdP
             "&metalType=" + metalType + "&rawSlPreId=" + rawSlPreId +
             "&rawSlPostId=" + rawSlPostId + "&rawAlPreId=" + rawAlPreId +
             "&rawAlPostId=" + rawAlPostId + "&metalPanelName=" + metalPanelName
-            + "&mcntr=" + mcntr + "&rawPreId=" + rawPreId + "&rawPostId=" + rawPostId;
-    get_more_raw_metal_div('include/php/ogspwhpy.php', poststr);
+            + "&mcntr=" + mcntr + "&rawPreId=" + rawPreId + "&rawPostId=" + rawPostId + "&gMetalAvgRate=" + gMetalAvgRate + "&sMetalAvgRate=" + sMetalAvgRate + "&userId=" + userId;
+    if (panelName == 'SuppRawDep')
+        get_more_raw_metal_div('include/php/ogwurwdv.php', poststr);
+    else
+        get_more_raw_metal_div('include/php/omspwhpy.php', poststr);
     return false;
 }
-function getWholeRawMetalType(panelName, metalType, metalCount, firmId, rawGdPreId, rawGdPostId, rawSlPreId, rawSlPostId, rawAlPreId, rawAlPostId, metalTypePanel, cntr) {
+function getWholeRawMetalType(panelName, metalType, metalCount, firmId, rawGdPreId, rawGdPostId, rawSlPreId, rawSlPostId, rawAlPreId, rawAlPostId, metalTypePanel, cntr, gMetalAvgRate, sMetalAvgRate, userId) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2916,11 +3085,20 @@ function getWholeRawMetalType(panelName, metalType, metalCount, firmId, rawGdPre
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogspwhpy.php?panelName=" + panelName + "&metalType=" + metalType +
-            "&metalDivCount=" + metalCount + "&rawGdPreId=" + rawGdPreId + "&rawGdPostId=" + rawGdPostId +
-            "&rawSlPreId=" + rawSlPreId + "&rawSlPostId=" + rawSlPostId + "&rawAlPreId=" + rawAlPreId + "&rawAlPostId=" + rawAlPostId + "&firmId=" + firmId +
-            "&metalTypePanel=" + metalTypePanel + "&cntr=" + cntr, true);
-    xmlhttp.send();
+    if (panelName == 'SuppRawDep') {
+        xmlhttp.open("POST", "include/php/ogwurwdv.php?panelName=" + panelName + "&metalType=" + metalType +
+                "&metalDivCount=" + metalCount + "&rawGdPreId=" + rawGdPreId + "&rawGdPostId=" + rawGdPostId +
+                "&rawSlPreId=" + rawSlPreId + "&rawSlPostId=" + rawSlPostId + "&firmId=" + firmId +
+                "&metalTypePanel=" + metalTypePanel + "&cntr=" + cntr, true);
+        xmlhttp.send();
+    } else {
+        xmlhttp.open("POST", "include/php/omspwhpy.php?panelName=" + panelName + "&metalType=" + metalType +
+                "&metalDivCount=" + metalCount + "&rawGdPreId=" + rawGdPreId + "&rawGdPostId=" + rawGdPostId +
+                "&rawSlPreId=" + rawSlPreId + "&rawSlPostId=" + rawSlPostId + "&rawAlPreId=" + rawAlPreId + "&rawAlPostId=" + rawAlPostId + "&firmId=" + firmId +
+                "&metalTypePanel=" + metalTypePanel + "&cntr=" + cntr + "&gMetalAvgRate=" + gMetalAvgRate + "&sMetalAvgRate=" + sMetalAvgRate + "&userId=" + userId, true);
+        xmlhttp.send();
+    }
+
 }
 function getAdhikMonthFromYear(year, todayMonth, divId, monthId) {
     loadXMLDoc();
@@ -3056,3 +3234,83 @@ function custDetailsNumberOfRows(documentRootPath, rowsPerPage, selFirmId, sortK
     xmlhttp.send();
 }
 /*******End code to add cust details navigation function  @OMMODTAG PRIYA_28MAY15************/
+// ****************************************************************************************************************//
+// START CODE FOR FUNCTION TO LESS STONE WT FROM GS WT OR NT WT @PRIYANKA-25FEB18
+// ****************************************************************************************************************//
+function getItemLessWtBy(div, id, keyCodeInput, autoChk, count, panel) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(div).innerHTML = xmlhttp.responseText;
+            if (keyCodeInput == 40 || keyCodeInput == 38) {
+                document.getElementById('sttrStoneLessWtBy').focus();
+                document.getElementById('sttrStoneLessWtBy').options[0].selected = true;
+            }
+        }
+    };
+    xmlhttp.open("POST", "include/php/omadlesswt.php?div=" + div + "&panel=" + panel + "&id=" + id + "&count=" + count + "&autoChk=" + autoChk, true);
+    xmlhttp.send();
+}
+// ****************************************************************************************************************//
+// END CODE FOR FUNCTION TO LESS STONE WT FROM GS WT OR NT WT @PRIYANKA-25FEB18
+// ****************************************************************************************************************//
+//
+// ****************************************************************************************************************//
+// START CODE for Making Charges apply on GS WT, NT WT or FFine WT @PRIYANKA-28MAR18
+// ****************************************************************************************************************//
+function getItemMkgChrgsByWt(div, id, keyCodeInput) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(div).innerHTML = xmlhttp.responseText;
+            if (keyCodeInput == 40 || keyCodeInput == 38) {
+                document.getElementById('addItemMkgChgBy').focus();
+                document.getElementById('addItemMkgChgBy').options[0].selected = true;
+            }
+        }
+    };
+    xmlhttp.open("POST", "include/php/omialbsl.php?div=" + div + "&id=" + id, true);
+    xmlhttp.send();
+}
+// ****************************************************************************************************************//
+// END CODE for Making Charges apply on GS WT, NT WT or FFine WT @PRIYANKA-28MAR18
+// ****************************************************************************************************************//
+// 
+// ****************************************************************************************************************//
+// START CODE for Labour Charges By GS WT, NT WT or FFine WT @PRIYANKA-07MAY18
+// ****************************************************************************************************************//
+function getStockTransLabChargesDropdown(div, panel, prodCount, process, documentRootPath, keyCodeInput) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(div).innerHTML = xmlhttp.responseText;
+            if (keyCodeInput == 40 || keyCodeInput == 38) {
+                document.getElementById('addItemLabChgBy').focus();
+                document.getElementById('addItemLabChgBy').options[0].selected = true;
+            }
+        }
+    };
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omStockTransFormLabChargesDropdown.php?inputGoogleSuggDivId=" + div + "&panel=" + panel + "&prodCount=" + prodCount + "&process=" + process, true);
+    xmlhttp.send();
+}
+// ****************************************************************************************************************//
+// END CODE for Labour Charges By GS WT, NT WT or FFine WT @PRIYANKA-07MAY18
+// ****************************************************************************************************************//
+
+//
+function getStockTransGSWTDropdown(div, prodCount, process, documentRootPath, keyCodeInput) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(div).innerHTML = xmlhttp.responseText;
+            if (keyCodeInput == 40 || keyCodeInput == 38) {
+                document.getElementById(div).focus();
+                document.getElementById(div).options[0].selected = true;
+            }
+        }
+    };
+    //
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omStockTransFormGSWTDropdown.php?inputGoogleSuggDivId=" + div + "&prodCount=" + prodCount + "&process=" + process, true);
+    //
+    xmlhttp.send();
+}

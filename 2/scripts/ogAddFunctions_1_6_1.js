@@ -1,3 +1,5 @@
+var cryCountGobal = 0;
+
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -23,6 +25,9 @@ function checkNetWeight(itemW, itemWType, wtToCheck, wtToCheckType, focusId, pan
     }
     return false;
 }
+
+
+
 /*********End code to change function @Author:PRIYA27DEC13********************/
 /*********Start code to add func to check net weight @Author:PRIYA06SEP13*********/
 /*********Start code to add func to select roi @Author:PRIYA07SEP13*********/
@@ -52,8 +57,7 @@ function alertSearchRoi() {
         document.getElementById('roiListToAddRoiSelect').options[keyCodeForRoiValueOption].selected = true;
         //}
         document.getElementById('selROIValue').focus();
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -85,6 +89,26 @@ function searchROI(roiValue, intType, girviId, custId, panelName, keyCodeInput, 
         search_roi('include/php/olgroisl.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
 }
 /***********End code to add AuctionPanel @Author:ANUJA30MAY15********************/
+/***********Start code to add AuctionPanel @Author:SANT28APR17********************/
+
+function searchFinanceLoanROI(roiValue, intType, girviId, custId, panelName, keyCodeInput, girviDOB, girviFirmId, girviSerialNum, auctionPanel) {
+    keyCodeForRoiValue = keyCodeInput;
+    keyCodeForRoiValueOption = 0;
+    var poststr = "ROIValue=" + encodeURIComponent(roiValue) +
+            "&interestType=" + encodeURIComponent(intType) +
+            "&girviId=" + encodeURIComponent(girviId) +
+            "&custId=" + encodeURIComponent(custId) +
+            "&panelName=" + encodeURIComponent(panelName) +
+            "&girviDOB=" + encodeURIComponent(girviDOB) +
+            "&girviFirmId=" + encodeURIComponent(girviFirmId) +
+            "&girviSerialNum=" + encodeURIComponent(girviSerialNum) +
+            "&auctionPanel=" + encodeURIComponent(auctionPanel);
+    if (panelName == 'AddUdhaarEMI')
+        search_roi('include/php/omuroisl.php', poststr);
+    else
+        search_roi('include/php/olgroisl_1.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+}
+/***********End code to add AuctionPanel @Author:SANT28APR17********************/
 /***********End code to add panelName @Author:PRIYA12NOV14********************/
 /*********End code to add param in searchROI @Author:PRIYA10SEP13*********/
 function searchRoiForPanelBlank() {
@@ -103,8 +127,7 @@ function searchRoiForFocusPanelBlank(panelName, keyCode) {
     } else if (panelName == 'MoneyLenderLoan') {
         if (keyCode == 13) {
             document.getElementById('mlAddLnDOBDay').focus();
-        }
-        else if (keyCode == 8) {
+        } else if (keyCode == 8) {
             document.getElementById('mlPrincipalAmount').focus();
         }
     }
@@ -154,6 +177,7 @@ function closeselROIOptChangeDiv()
 /********Start code to add var for sys log @Author:PRIYA02JUL14**********************/
 /********Start code to add auctionPanel @Author:ANUJA30MAY15**********************/
 function updateRoi(documentRootPath, roiId, girviId, custId, panelName, girviDOB, girviFirmId, girviSerialNum, roiType, auctionPanel) {
+//  alert('hi');
     confirm_box = confirm(updateROIAlertMess + "\n\nDo you really want to update rate of interest?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
     if (confirm_box == true)
     {
@@ -162,6 +186,21 @@ function updateRoi(documentRootPath, roiId, girviId, custId, panelName, girviDOB
                 + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId
                 + "&girviSerialNum=" + girviSerialNum + "&roiType=" + roiType + "&auctionPanel=" + auctionPanel;
         update_roi('http://' + documentRootPath + '/include/php/olguroiv.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+    }
+    return false;
+}
+/********End code to add auctionPanel @Author:ANUJA30MAY15**********************/
+/********Start code to add auctionPanel @Author:ANUJA30MAY15**********************/
+function updateFinanceLoanRoi(documentRootPath, roiId, girviId, custId, panelName, girviDOB, girviFirmId, girviSerialNum, roiType, auctionPanel) {
+//      alert('hello');
+    confirm_box = confirm(updateROIAlertMess + "\n\nDo you really want to update rate of interest?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
+    if (confirm_box == true)
+    {
+        var poststr = "custId=" + custId + "&girviId=" + girviId
+                + "&roiId=" + roiId + "&panelName=" + panelName
+                + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId
+                + "&girviSerialNum=" + girviSerialNum + "&roiType=" + roiType + "&auctionPanel=" + auctionPanel;
+        update_roi('http://' + documentRootPath + '/include/php/olguroiv_1.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
     }
     return false;
 }
@@ -197,8 +236,7 @@ function alertSearchTRoi() {
             document.getElementById('tRoiListToAddRoiSelect').focus();
             document.getElementById('tRoiListToAddRoiSelect').options[0].selected = true;
         }
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -424,8 +462,7 @@ function valKeyPressedForROI(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode;
     if ((charCode > 97 && charCode < 122) || (charCode > 65 && charCode < 90)) {
         return false;
-    }
-    else {
+    } else {
         return true;
     }
 }
@@ -663,7 +700,8 @@ function changeCustInvoiceLayout(custId) {
 /***********End code to add function for cust Inv Layout  @Author:PRIYA23SEP13*************/
 /***********Start code to get New Order Update div @Author:PRIYA30JAN14*************/
 /***********Start code to add div @Author:PRIYA16JUL14********************/
-function getNewOrderUpdateItemDiv(custId, nworId, panelName, mainPanel) {
+/***********Start code to change filename for order panel @Author:SANT02MAR17********************/
+function getNewOrderUpdateItemDiv(custId, nworId, panelName, mainPanel, PayPanelName) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -678,18 +716,21 @@ function getNewOrderUpdateItemDiv(custId, nworId, panelName, mainPanel) {
                 document.getElementById("newOrderDivs").innerHTML = xmlhttp.responseText;
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
+
     if (mainPanel == 'NewOrderMainPanel') {
         xmlhttp.open("POST", "include/php/omcdccdd.php?custId=" + custId + "&panelDivName=" + 'NewOrder' + "&itemPanel=" + "NwOrPayUp" + "&nworId=" + nworId, true);
+    } else if (panelName == 'NwOrDetUpPanel') {
+        xmlhttp.open("POST", "include/php/ognomndv.php?itemPanel=" + panelName + "&custId=" + custId + "&nworId=" + nworId + "&PayPanelName=" + PayPanelName, true);
     } else {
-        xmlhttp.open("POST", "include/php/ognoiadv.php?itemPanel=" + panelName + "&custId=" + custId + "&nworId=" + nworId, true);
+        xmlhttp.open("POST", "include/php/ognoiadv.php?itemPanel=" + panelName + "&custId=" + custId + "&nworId=" + nworId + "&PayPanelName=" + PayPanelName, true);
     }
     xmlhttp.send();
 }
+/***********End code to change filename for order panel @Author:SANT02MAR17********************/
 /***********End code to add div @Author:PRIYA16JUL14********************/
 /***********End code to get New Order Update div @Author:PRIYA30JAN14*************/
 /***********Start code to hide dropdown @Author:PRIYA24SEP13*************/
@@ -725,8 +766,7 @@ function getMetRateValue(metalId, panelName) {
                 document.getElementById("itemRepMetRateValue").innerHTML = xmlhttp.responseText;
                 calculateValuation();
             }
-        }
-        else {
+        } else {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("nwOrMetRateValue").innerHTML = xmlhttp.responseText;
                 if (panelName == 'SuppOrderMetRate') {
@@ -761,13 +801,16 @@ function getMetRateValue(metalId, panelName) {
 /***********Start code To get Crystal List @Author:PRIYA25SEP13**************/
 /***********Start code To add panel name @Author:PRIYA04DEC13**************/
 /***********Start code To add panel name @Author:PRIYA13SEP14**************/
-function showCrystalList(keyCodeInput, panelName, crystalCount, userPanel) {
-//    alert(userPanel);
+/***********Start code To add panel name @Author:SANT10FEB17**************/
+function showCrystalList(searchvalue, keyCodeInput, panelName, crystalCount, userPanel, documentRootPath, itemType, itemCat) {
+
+    // alert('itemType ==' + itemType);
+
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             if (panelName == 'NewOrderCrystalId' || panelName == 'suppNwOrCrystalId' || panelName == 'addStockCrystalId' ||
-                    panelName == 'slPrCryId' || panelName == 'sellCrystalId' || panelName == 'addItemCryId') {
+                    panelName == 'slPrCryId' || panelName == 'sellCrystalId' || panelName == 'addItemCryId' || panelName == 'addStockCrystalId') {
                 document.getElementById("cryIdSelectDiv" + crystalCount).innerHTML = xmlhttp.responseText;
             } else {
                 document.getElementById("cryNameSelectDiv" + crystalCount).innerHTML = xmlhttp.responseText;
@@ -778,8 +821,15 @@ function showCrystalList(keyCodeInput, panelName, crystalCount, userPanel) {
             }
         }
     };
-    xmlhttp.open("POST", "include/php/ognocylt.php?panelName=" + panelName + "&crystalCount=" + crystalCount + "&userPanel=" + userPanel, true);
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ognocylt.php?panelName=" + panelName + "&crystalCount=" + crystalCount + "&userPanel=" + userPanel
+            + "&searchvalue=" + searchvalue + "&itemType=" + itemType + "&itemCat=" + itemCat, true);
     xmlhttp.send();
+}
+/***********End code To add panel name @Author:SANT10FEB17**************/
+function AvoidSpace(event) {
+    var k = event ? event.which : window.event.keyCode;
+    if (k == 32)
+        return false;
 }
 function crystalPanelBlank(div) {
     document.getElementById(div).innerHTML = '';
@@ -795,8 +845,7 @@ function navigateToSuppNwOrDiv(suppId, custOrderStatus) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -875,8 +924,7 @@ function getsuppNwOrPayDiv(suppOrId) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             document.getElementById("supp_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -893,8 +941,7 @@ function addItemToPayment(documentRoot, suppPayId, suppPayDelvId, suppId, preInv
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("supp_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -915,8 +962,7 @@ function getExtraWt(sporId, itemDelverWt, itemDelverWtType) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("itDlvrWtDiv" + sporId).innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -1051,8 +1097,7 @@ function valDailyDiaryInputs() {
     if (validateSelectField(document.getElementById('dailyDiaryFromDay').value, "Please Select Start Day!") == false) {
         document.getElementById('dailyDiaryFromDay').focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById('dailyDiaryFromMonth').value, "Please Select Start Month!") == false) {
+    } else if (validateSelectField(document.getElementById('dailyDiaryFromMonth').value, "Please Select Start Month!") == false) {
         document.getElementById('dailyDiaryFromMonth').focus();
         return false;
     } else if (validateSelectField(document.getElementById('dailyDiaryFromYear').value, "Please Select Start Year!") == false) {
@@ -1077,8 +1122,7 @@ function showDDRelLoanDet(documentRootPath, gTransId, panelName, todayDate, firm
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById('loanDetailsDiv' + gTransId).innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById('loanDetailsDiv' + gTransId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
@@ -1293,6 +1337,39 @@ function getROIValById(documentRootPath, roiId, girviId, custId, panelName, intT
     xmlhttp.send();
 }
 /*********End code to call function calcLoanInt @OMMODTAG SHRI_24OCT15****************/
+/*********Start code to call function calcLoanInt @OMMODTAG SHRI_24OCT15****************/
+function getFinanceROIValById(documentRootPath, roiId, girviId, custId, panelName, intType, girviDOB, girviFirmId, girviSerialNum, auctionPanel) {
+//    alert('panelName==' + panelName);
+    updateRoiValPanelName = panelName;
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("roiSelDiv").innerHTML = xmlhttp.responseText;
+            if (panelName != 'AddNewGirvi' && panelName != 'MoneyLenderLoan' && panelName != 'AddUdhaarEMI' && panelName != 'AddGirviEMI')       // Check panel name for girvi EMI @OMMODTAG SHRI_24OCT15
+                updateRoi(documentRootPath, roiId, girviId, custId, panelName, girviDOB, girviFirmId, girviSerialNum, intType, auctionPanel);
+            //document.getElementById('DOBDay').focus();
+//            alert(intType);
+            if (panelName == 'AddGirviEMI') {
+                calcLoanInt(intType);
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    }
+    if (panelName == 'AddUdhaarEMI') {
+        xmlhttp.open("POST", "include/php/omroisid.php?roiId=" + roiId + "&girviId=" + girviId + "&custId=" + custId +
+                "&panelName=" + panelName + "&intType=" + intType + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId + "&girviSerialNum=" + girviSerialNum, true);
+    } else if (panelName == 'AddGirviEMI') {
+        xmlhttp.open("POST", "include/php/olfnrsid.php?roiId=" + roiId + "&girviId=" + girviId + "&custId=" + custId +
+                "&panelName=" + panelName + "&intType=" + intType + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId + "&girviSerialNum=" + girviSerialNum + "&auctionPanel=" + auctionPanel, true); //change in filename @AUTHOR: SANDY20NOV13 
+    } else {
+        xmlhttp.open("POST", "include/php/olroisid_1.php?roiId=" + roiId + "&girviId=" + girviId + "&custId=" + custId +
+                "&panelName=" + panelName + "&intType=" + intType + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId + "&girviSerialNum=" + girviSerialNum + "&auctionPanel=" + auctionPanel, true); //change in filename @AUTHOR: SANDY20NOV13 
+    }
+    xmlhttp.send();
+}
+/*********End code to call function calcLoanInt @OMMODTAG SHRI_24OCT15****************/
 /***********End code to add AuctionPanel @Author:ANUJA30MAY15********************/
 /***********End code to add panelName @Author:PRIYA12NOV14********************/
 /********End code to add var for sys log @Author:PRIYA02JUL14**********************/
@@ -1328,7 +1405,7 @@ function alertChangeCryRateTyp() {
             document.getElementById('nwOrCryGSWType' + cryCount).focus();
             calcNwOrCrystalPrice();
         } else if (cryPanelName == 'addItemCryId') {
-            document.getElementById('addItemCryGSWTyp' + cryCount).focus();
+            document.getElementById('sttr_gs_weight_type' + cryCount).focus();
             calcItemCryPrice();
         } else if (cryPanelName == 'addRepItemCryId') { // change code to add condition for repair panel @Author: SHRI16DEC14
             document.getElementById('addItemCryGSWTyp' + cryCount).focus();
@@ -1342,7 +1419,7 @@ function alertChangeCryRateTyp() {
     }
 }
 /***********End code to add panel @Author:PRIYA13SEP14**************/
-function getCryRateTypByGsWt(wtType, crystalCount, cryRate, cryRateType, panelName) {
+function getCryRateTypByGsWt(wtType, crystalCount, cryRate, cryRateType, panelName, documentRootPath) {
     cryCount = crystalCount;
     cryPanelName = panelName;
     var poststr = "wtType=" + encodeURIComponent(wtType)
@@ -1350,7 +1427,7 @@ function getCryRateTypByGsWt(wtType, crystalCount, cryRate, cryRateType, panelNa
             + "&cryRate=" + encodeURIComponent(cryRate)
             + "&cryRateType=" + encodeURIComponent(cryRateType)
             + "&panelName=" + encodeURIComponent(panelName);
-    change_cry_rate_typ('include/php/ogisfndv.php', poststr);
+    change_cry_rate_typ("http://" + documentRootPath + "/include/php/ogisfndv.php", poststr);
 }
 /********End code to add div for sell crystal @Author:PRIYA30JAN14****************/
 /********End code to get crystal rate type @Author:PRIYA28NOV13****************/
@@ -1390,33 +1467,54 @@ function closeMessDispDetails()
 function getSellPanel(custId, panelName, sellPanel) {
 //    alert(panelName);
     loadXMLDoc();
+    var stock = 'STOCk';
+    if (document.getElementById("software").value == 'OMRETL')
+        stock = 'PRODUCT';
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("messageDisplayDiv").innerHTML = '';
-            document.getElementById("slPrMainDiv").innerHTML = xmlhttp.responseText;
+            if (panelName == 'windowshopping' && sellPanel == 'jewelleryPanel')
+                document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+            else
+                document.getElementById("slPrMainDiv").innerHTML = xmlhttp.responseText;
+
             if (panelName == 'ItemSearchPanel') {
                 document.getElementById("sellPurchaseDiv").innerHTML = 'UNIVERSAL SELL PANEL';
+            } else if (panelName == 'StockReturnPanel') {
+                document.getElementById("sellPurchaseDiv").innerHTML = 'ITEM RETURN PANEL';
             } else if (panelName == 'StockPurchasePanel') {
                 document.getElementById("sellPurchaseDiv").innerHTML = 'JEWELLERY SELL PANEL';
             } else if (panelName == 'CrystalPurchasePanel') {
                 document.getElementById("sellPurchaseDiv").innerHTML = 'CRYSTAL SELL PANEL';
             } else if (panelName == 'ImitationPurchasePanel') {
-                document.getElementById("sellPurchaseDiv").innerHTML = 'IMITATION SELL PANEL';
+                document.getElementById("sellPurchaseDiv").innerHTML = stock + ' SELL PANEL';
+            } else if (panelName == 'ReturnedItemList') {
+                document.getElementById("sellPurchaseDiv").innerHTML = 'RETURNED ITEM LIST';
             } else if (panelName == 'SoldOutList') {
                 document.getElementById("sellPurchaseDiv").innerHTML = 'ITEM SOLD OUT LIST';
             } else if (panelName == 'ImitationSoldOutList') {
-                document.getElementById("sellPurchaseDiv").innerHTML = 'IMITATION SOLD OUT LIST';
-            }
-            document.getElementById("srchItemId").focus();
+                document.getElementById("sellPurchaseDiv").innerHTML = stock + ' SOLD OUT LIST';
+            } else if (panelName == 'windowshopping') {
+                document.getElementById("sellPurchaseDiv").innerHTML = 'WINDOW SHOPPING PANEL';
+            } else if (panelName == 'ItemApproval') {
+                document.getElementById("sellPurchaseDiv").innerHTML = 'ITEM APPROVAL PANEL';
+            } else if (panelName == 'ApprovalList') {
+                document.getElementById("sellPurchaseDiv").innerHTML = 'APPROVAL ITEM LIST';
+            } else if (panelName != 'StockReturnPanel')
+                document.getElementById("srchItemId").focus();
+
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
+
     if (panelName == 'SoldOutList')
         xmlhttp.open("POST", "include/php/ogspsllt.php?custId=" + custId + "&panelName=" + panelName + "&sellPanel=" + sellPanel, true);
     else if (panelName == 'ImitationSoldOutList')
         xmlhttp.open("POST", "include/php/ogijspllt.php?custId=" + custId + "&panelName=" + panelName + "&sellPanel=" + sellPanel, true);
+    else if (panelName == 'ReturnedItemList')
+        xmlhttp.open("POST", "include/php/ogsprtilt.php?custId=" + custId + "&panelName=" + panelName + "&sellPanel=" + sellPanel, true);
     else if (panelName == 'ItemPurchaseByLot' || panelName == 'SearchByLot')
         xmlhttp.open("POST", "include/php/ogspildv.php?custId=" + custId + "&panelName=" + panelName, true);
     else if (panelName == 'ItemSearchPanel' || panelName == 'ItemPurchaseByLot')
@@ -1425,10 +1523,23 @@ function getSellPanel(custId, panelName, sellPanel) {
         xmlhttp.open("POST", "include/php/ogcrspdv_1.php?custId=" + custId + "&panelName=" + panelName, true);
     else if (panelName == 'StockPurchasePanel')
         xmlhttp.open("POST", "include/php/ogspjsdv.php?custId=" + custId + "&panelName=" + panelName + "&payPanel=paymentPanel", true);
+    else if (panelName == 'StockReturnPanel')
+        xmlhttp.open("POST", "include/php/ogrtjsdv.php?custId=" + custId + "&panelName=" + panelName + "&payPanel=paymentPanel", true);
     else if (panelName == 'ImitationPurchasePanel')
         xmlhttp.open("POST", "include/php/ogijsmndv.php?custId=" + custId + "&panelName=" + panelName + "&payPanel=paymentPanel", true);
+    else if (panelName == 'windowshopping' && sellPanel == 'jewelleryPanel') {
+        slPrId = document.getElementById("slPrId").value;
+        xmlhttp.open("POST", "include/php/omcdccdd.php?custId=" + custId + "&panelName=" + panelName + "&payPanel=paymentPanel&custPanelOption=windowshopping&slPrId" + slPrId, true);
+    } else if (panelName == 'windowshopping')
+        xmlhttp.open("POST", "include/php/ogwsmndv.php?custId=" + custId + "&panelName=" + panelName + "&payPanel=paymentPanel", true);
+    else if (panelName == 'ItemApproval')
+        xmlhttp.open("POST", "include/php/ogiaijdv.php?custId=" + custId + "&panelName=" + panelName + "&payPanel=paymentPanel", true);
+    else if (panelName == 'ApprovalList')
+        xmlhttp.open("POST", "include/php/ogpiallt.php?custId=" + custId + "&panelName=" + panelName + "&payPanel=paymentPanel", true);
+
 
     xmlhttp.send();
+
 }
 /**********Start code to change name according to Imitation Panel @Author:GAUR22APR16*************/
 /**********End code to change name according to  Crystalpanel @Author:SHE20MAR15*************/
@@ -1466,6 +1577,8 @@ function showSellDetUpdatePanel(documentRootPath, custId, itemId, panelName, slP
                 document.getElementById("custSellDiv").innerHTML = xmlhttp.responseText;
             } else if (panelName == 'custHome') {
                 document.getElementById("sellMainDiv").innerHTML = xmlhttp.responseText;
+            } else if (panelName == 'StockReturnPanel') {
+                document.getElementById("sellPurchaseItemDetails").innerHTML = xmlhttp.responseText;
             } else {
                 document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
             }
@@ -1474,7 +1587,6 @@ function showSellDetUpdatePanel(documentRootPath, custId, itemId, panelName, slP
         }
     };
     if (panelName == 'CustSellUpPanel' || panelName == 'CustSellPayUp') {
-//        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogpriadv.php?custId=" + custId + "&itslId=" + itemId + "&panelName=" + panelName, true);
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmspdv.php?custId=" + custId + "&itslId=" + itemId + "&panelName=" + panelName + "&metalSellType=" + metalSellType, true);
     } else if (panelName == 'custHome') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=ItemPurchase" + "&panelName=SellPayUp", true);
@@ -1488,6 +1600,16 @@ function showSellDetUpdatePanel(documentRootPath, custId, itemId, panelName, slP
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&panelName=" + panelName + "&mainPanel=ImitationPurchasePanel", true);
     } else if (panelName == 'dailyWholeSaleUp') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=DailyWholeSale" + "&upPanel=" + panelName, true);
+    } else if (panelName == 'windowshopping') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=" + panelName + "&upPanel=" + panelName, true);
+    } else if (panelName == 'StockReturnPanel') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrtjsdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=StockReturnPanel" + "&panelName=" + panelName + "&invoiceNo=" + slPrInvoiceNo, true);
+    } else if (panelName == 'ItemApproval') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=" + panelName + "&panelName=" + panelName + "&invoiceNo=" + slPrInvoiceNo + "&emiChkValue=" + emiChkValue, true);
+    } else if (panelName == 'ItemApprovalUp') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=" + panelName + "&panelName=" + panelName + "&invoiceNo=" + slPrInvoiceNo + "&emiChkValue=" + emiChkValue, true);
+    } else if (panelName == 'ReturnedItemList') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogsprtilt.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=" + panelName + "&panelName=" + panelName + "&invoiceNo=" + slPrInvoiceNo, true);
     } else {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=StockPurchasePanel" + "&panelName=" + panelName + "&invoiceNo=" + slPrInvoiceNo + "&emiChkValue=" + emiChkValue, true);
     }// End code to change condition for imitation stock panel @Author:SHRI05MAR15
@@ -1526,67 +1648,119 @@ function getItemDetailsPanel(documentRootPath, preId, postId, panelName, page) {
 /*********Start code to add Imitation Panel for del func @Author:ANUJA30MAR15*********************/
 /*********Start code to add slPrInfo param @Author:SHRI23JUN16 *************************/
 function deleteSellItem(custId, slPrId, panelName, mainPanel, panel, slPrInfo, count) {
-//    alert(mainPanel);
-    if ((document.getElementById("upPanel").value == 'ItemSoldOutList' || document.getElementById("upPanel").value == 'SellPayUp' || document.getElementById("upPanel").value == 'SellDetUpPanel') && parseFloat(document.getElementById("invoiceRow" + count).value) > 0) {
-        alert('You can not delete this Item');
+
+   //alert('panelName ===' + panelName);
+
+    var addToStock = 'no';
+    var stock_add_confirm;
+    if ((mainPanel == 'SellItemReturn' || mainPanel == 'ItemApproval' || mainPanel == 'ItemApprovalUp') && (panelName == 'ItemReturn' || panel == 'ItemReturn')) {
+        confirm_box = confirm("Do you really want to Return this Item?");
+    } else if (mainPanel == 'SellItemReturn' && panelName == 'ItemActive') {
+        confirm_box = confirm("Do you really want to Reactive this Item?");
     } else {
-        var addToStock = 'no';
-        var stock_add_confirm;
-        if (mainPanel == 'SellItemReturn' && panelName == 'ItemReturn') {
-            confirm_box = confirm("Do you really want to Return this Item?");
-        } else if (mainPanel == 'SellItemReturn' && panelName == 'ItemActive') {
-            confirm_box = confirm("Do you really want to Reactive this Item?");
-        } else {
-            confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
-        }
-
-        if (confirm_box == true)
-        {
-            if (panel != 'ImitationStock' && panelName != 'ItemActive')
-                stock_add_confirm = confirm(addItemAlertMess + "\n\nDo you want to add this item in stock?");
-
-            if (stock_add_confirm == true) {
-                addToStock = 'yes';
-            }
-            loadXMLDoc();
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                    if (mainPanel == 'SellItemReturn') {
-                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    } else if (panelName == 'soldOutListDel') {
-                        document.getElementById("sellMainDiv").innerHTML = xmlhttp.responseText;
-                        window.setTimeout(sellFunctionToCloseDiv, 1000);
-                    } else if (mainPanel == 'SlPrPayment' && panelName == 'SlPrPayment') {
-                        document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
-                        window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                    } else if (mainPanel == 'SlPrPayment' && panelName == '') {
-                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                        window.setTimeout(sellFunctionToCloseDiv, 1000);
-                    } else if (mainPanel == 'MainSoldOutListDel' && panelName == '') {
-                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                        window.setTimeout(sellFunctionToCloseDiv, 1000);
-                    } else if (mainPanel == 'ImitationSellPayment' && panelName == 'ImitationSellPayment') {
-                        document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
-                        window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                    } else if (mainPanel == 'ImitationSellPayment' && panelName == '') {
-                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                        window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                    } else {
-                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                        window.setTimeout(sellFunctionToCloseDiv, 1000);
-                    }
-                } else {
-                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-                }
-            };
-            if (panel == 'ImitationStock')
-                xmlhttp.open("GET", "include/php/ogspimdl.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&panel=" + panel, true); // filename changed @SHRI09MAR16
-            else
-                xmlhttp.open("GET", "include/php/ogspidel.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&slPrInfo=" + slPrInfo + "&panel=" + panel + "&stockAdd=" + addToStock, true);
-            xmlhttp.send();
-        }
+        confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
     }
+
+    var stockDelete = document.getElementById("stockDelete").value;
+
+    if (confirm_box == true)
+    {
+        if ((panel == 'ImitationStock' || (panel == 'ItemPurchase' && panel == 'ItemRet' && panelName != 'ItemActive') || mainPanel == 'finalOrderDel') && stockDelete == 'Y')
+            stock_add_confirm = confirm(addItemAlertMess + "\n\nDo you want to add this item in stock?");
+
+        if (stock_add_confirm == true && stockDelete == 'Y') {
+            addToStock = 'yes';
+        }
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (mainPanel == 'SellItemReturn') {
+                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                } else if (panelName == 'soldOutListDel' || panelName == 'ItemApprovalListDel' || panelName == 'retItmListDel') {
+                    document.getElementById("slPrCurrentInvoiceNew").innerHTML = xmlhttp.responseText;
+                } else if (mainPanel == 'SlPrPayment' && panelName == '') {
+                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                } else if (mainPanel == 'MainSoldOutListDel' && panelName == '') {
+                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                } else if (mainPanel == 'finalOrderUp' || mainPanel == 'finalOrderDel') {
+                    document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                } else if (panelName == 'ImitationSellDel') {
+                   document.getElementById("imitationSellPurchaseList").innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                }
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+
+        if (panel == 'ImitationStock')
+            xmlhttp.open("GET", "include/php/ogspimdl.php?custId=" + custId + "&slPrId=" + slPrId + "&stockDelete=" + stockDelete + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&panel=" + panel + "&stockAdd=" + addToStock, true); // filename changed @SHRI09MAR16
+        else
+            xmlhttp.open("GET", "include/php/ogspidel.php?custId=" + custId + "&slPrId=" + slPrId + "&stockDelete=" + stockDelete + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&slPrInfo=" + slPrInfo + "&panel=" + panel + "&stockAdd=" + addToStock, true);
+            xmlhttp.send();
+
+    }
+}
+function deleteReturnItem(custId, slPrId, panelName, mainPanel, panel, slPrInfo) {
+  // alert(mainPanel);
+    confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
+
+    if (confirm_box == true) {
+
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (mainPanel == 'ReturnedItemList') {
+                    document.getElementById("returnItemListDiv").innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById("sellPurchaseItemDetails").innerHTML = xmlhttp.responseText;
+                }
+            }
+            else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+    }
+//alert(xmlhttp.responseText);
+    xmlhttp.open("GET", "include/php/ogrtitdel.php?custId=" + custId + "&slPrId=" + slPrId + "&stockDelete=" + stockDelete + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&panel=" + panel, true); // filename changed @SHRI09MAR16
+    xmlhttp.send();
+}
+
+function deleteSellItem_1(panelName, slPrId, mainPanel, custId, preInvoiceNo, postInvoiceNo) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+
+        //soldOutImtInv
+
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            if (panelName == 'soldOutList')
+            {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("sellPurchaseList").innerHTML = xmlhttp.responseText;
+            } else if (panelName == 'soldOutImtInv') {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("itemSoldInvoiceDiv").innerHTML = xmlhttp.responseText;//sellPurchaseList//itemSoldInvoiceDiv
+            } else if (panelName == 'soldOutImtList') {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("sellPurchaseList").innerHTML = xmlhttp.responseText;//sellPurchaseList//itemSoldInvoiceDiv
+            } else if (panelName == 'soldOutInv') {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("itemSoldInvoiceDiv").innerHTML = xmlhttp.responseText;//sellPurchaseList//itemSoldInvoiceDiv
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+
+    };
+    xmlhttp.open("GET", "include/php/ogcrspdl.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&slPrPreInvoiceNo=" + preInvoiceNo + "&slPrInvoiceNo=" + postInvoiceNo, true);
+    xmlhttp.send();
 }
 /*********End code to add slPrInfo param @Author:SHRI23JUN16 *************************/
 function sellFunctionToCloseDiv() {
@@ -1745,8 +1919,7 @@ function paymentSubmit() {
                 + "&payTotAmtBalDisp=" + encodeURIComponent(document.getElementById(prefix + "PayTotAmtBalDisp").value);
         payment_submit('include/php/ogwhpyad.php', poststr);
         return false;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("paySubButt").style.visibility = "visible";
         return false;
@@ -1878,8 +2051,7 @@ function returnInvSubmit() {
                 + "&payTotAmtBalDisp=" + encodeURIComponent(document.getElementById(prefix + "PayTotAmtBalDisp").value);
         payment_submit('include/php/ogwhpyad.php', poststr);
         return false;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("paySubButt").style.visibility = "visible";
         return false;
@@ -1928,29 +2100,23 @@ function validateCustItemSellInputs() {
     if (validateSelectField(document.getElementById("slItemDOBDay").value, "Please select Date Day!") == false) {
         document.getElementById("slItemDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("slItemDOBMonth").value, "Please select Date Month!") == false) {
+    } else if (validateSelectField(document.getElementById("slItemDOBMonth").value, "Please select Date Month!") == false) {
         document.getElementById("slItemDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("slItemDOBYear").value, "Please select Date Year!") == false) {
+    } else if (validateSelectField(document.getElementById("slItemDOBYear").value, "Please select Date Year!") == false) {
         document.getElementById("slItemDOBYear").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemInvoiceNo").value, "Please enter Invoice Number!") == false ||
+    } else if (validateEmptyField(document.getElementById("slItemInvoiceNo").value, "Please enter Invoice Number!") == false ||
             validateNum(document.getElementById("slItemInvoiceNo").value, "Accept only numeric characters without space character!") == false) {
         document.getElementById("slItemInvoiceNo").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm Id!") == false) {
+    } else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm Id!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("accountId").value, "Please select Account Name!") == false) {
+    } else if (validateSelectField(document.getElementById("accountId").value, "Please select Account Name!") == false) {
         document.getElementById("accountId").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemMetalRate").value, "Please enter Metal Rate Id!") == false) {
+    } else if (validateEmptyField(document.getElementById("slItemMetalRate").value, "Please enter Metal Rate Id!") == false) {
         document.getElementById("slItemMetalRate").focus();
         return false;
     }
@@ -1962,27 +2128,22 @@ function validateCustItemSellInputs() {
     else if (validateEmptyField(document.getElementById("slItemName").value, "Please enter Item Name!") == false) {
         document.getElementById("slItemName").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemMetalRateId").value, "Please enter Item Name!") == false) {
+    } else if (validateEmptyField(document.getElementById("slItemMetalRateId").value, "Please enter Item Name!") == false) {
         document.getElementById("slItemMetalRateId").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemPieces").value, "Please enter Item Pieces!") == false ||
+    } else if (validateEmptyField(document.getElementById("slItemPieces").value, "Please enter Item Pieces!") == false ||
             validateNum(document.getElementById("slItemPieces").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("slItemPieces").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemGrossWeight").value, "Please enter Gross Weight!") == false ||
+    } else if (validateEmptyField(document.getElementById("slItemGrossWeight").value, "Please enter Gross Weight!") == false ||
             validateNumWithDot(document.getElementById("slItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("slItemGrossWeight").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemNetWeight").value, "Please enter Net Weight!") == false ||
+    } else if (validateEmptyField(document.getElementById("slItemNetWeight").value, "Please enter Net Weight!") == false ||
             validateNumWithDot(document.getElementById("slItemNetWeight").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("slItemNetWeight").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("slItemTunch").value, "Please select Item Tunch or Purity!") == false) {
+    } else if (validateSelectField(document.getElementById("slItemTunch").value, "Please select Item Tunch or Purity!") == false) {
         document.getElementById("slItemTunch").focus();
         return false;
     } else if (validateEmptyField(document.getElementById("slItemFinalVal").value, "Please enter Item Final Valuation!") == false ||
@@ -2032,8 +2193,7 @@ function custItemSell() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("slItemSubButDiv").style.visibility = "visible";
         /// exit();
-    }
-    else {
+    } else {
         if (stockDateMMM == 'FEB' || stockDateMMM == 'APR' || stockDateMMM == 'JUN' || stockDateMMM == 'SEP' || stockDateMMM == 'NOV') {
             if (stockDateMMM == 'FEB' && stockDateDay > 29 && stockDateYY % 4 == 0) {
                 alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 29 days.');
@@ -2072,8 +2232,7 @@ function custItemSell() {
             } else {
                 return true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("slItemSubButDiv").style.visibility = "visible";
             return false;
@@ -2098,8 +2257,7 @@ function getCustSellPaymentPanel(documentRootPath, preInvoiceNo, postInvoiceNo, 
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("sellPaymentButtDiv").style.visibility = "visible";
             document.getElementById("custSellDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             document.getElementById("sellPaymentButtDiv").style.visibility = "hidden";
         }
@@ -2289,8 +2447,7 @@ function alertGetFirmRawAccNo() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById(rawPrefix + "PayAccId1" + rawCount).innerHTML = xmlhttp.responseText;
         document.getElementById(rawNextFieldId).focus();
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -2353,73 +2510,69 @@ function getFirmRawAccNo(selectedFirmNo, rawmCount, prefix, panelName, metalType
 /*************Start code to add function @Author:PRIYA06FEB14********************/
 /*************Start code to add function @Author:SHE20JAN16********************/
 function addRawStock() {
-    if (document.getElementById("rawPanelName").value == 'RawPayUp' || document.getElementById("rawPanelName").value == 'RawDetUpPanel') {
-        alert('You Can Not Update This Item');
-        return false;
-    } else {
-        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-        document.getElementById("addRawStockSubButtDiv").style.visibility = "hidden";
-        var stockDateDay = document.getElementById("addRawStockDOBDay").value;
-        var stockDateMMM = document.getElementById("addRawStockDOBMonth").value;
-        var stockDateYY = document.getElementById("addRawStockDOBYear").value;
-        var stockDateStr = document.getElementById("addRawStockDOBMonth").value + ' ' + document.getElementById("addRawStockDOBDay").value + ', ' + document.getElementById("addRawStockDOBYear").value;
-        var stockDate = new Date(stockDateStr); // stock Date
-        var todayDate = new Date(); // Today Date
+    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+    document.getElementById("addRawStockSubButtDiv").style.visibility = "hidden";
+    var stockDateDay = document.getElementById("addItemDOBDay").value;
+    var stockDateMMM = document.getElementById("addItemDOBMonth").value;
+    var stockDateYY = document.getElementById("addItemDOBYear").value;
+    var stockDateStr = document.getElementById("addItemDOBMonth").value + ' ' + document.getElementById("addItemDOBDay").value + ', ' + document.getElementById("addItemDOBYear").value;
+    var stockDate = new Date(stockDateStr); // stock Date
+    var todayDate = new Date(); // Today Date
 
-        var milliStockDate = stockDate.getTime();
-        var milliTodayDate = todayDate.getTime();
-        var datesDiff = milliTodayDate - milliStockDate;
-        if (datesDiff < 0) {
-            alert('Please Select the correct Date!');
-            document.getElementById("addRawStockDOBDay").focus();
-            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-        }
-        else {
-            if (stockDateMMM == 'FEB' || stockDateMMM == 'APR' || stockDateMMM == 'JUN' || stockDateMMM == 'SEP' || stockDateMMM == 'NOV') {
-                if (stockDateMMM == 'FEB' && stockDateDay > 29 && stockDateYY % 4 == 0) {
-                    alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 29 days.');
-                    document.getElementById("addRawStockDOBDay").focus();
-                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                    document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-                }
-                if (stockDateMMM == 'FEB' && stockDateDay > 28 && stockDateYY % 4 != 0) {
-                    alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 28 days.');
-                    document.getElementById("addRawStockDOBDay").focus();
-                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                    document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-                }
-                if (stockDateDay > 30) {
-                    alert('Please select correct Date, Month ' + stockDateMMM + ' has only max 30 days.');
-                    document.getElementById("addRawStockDOBDay").focus();
-                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                    document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-                }
+    var milliStockDate = stockDate.getTime();
+    var milliTodayDate = todayDate.getTime();
+    var datesDiff = milliTodayDate - milliStockDate;
+    if (datesDiff < 0) {
+        alert('Please Select the correct Date!');
+        document.getElementById("addItemDOBDay").focus();
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+        document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+    } else {
+        if (stockDateMMM == 'FEB' || stockDateMMM == 'APR' || stockDateMMM == 'JUN' || stockDateMMM == 'SEP' || stockDateMMM == 'NOV') {
+            if (stockDateMMM == 'FEB' && stockDateDay > 29 && stockDateYY % 4 == 0) {
+                alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 29 days.');
+                document.getElementById("addItemDOBDay").focus();
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
             }
-            if (document.getElementById('payButClickId').value == 'true') {
-                var prefix = document.getElementById("prefix").value;
-                var payPanelName = document.getElementById("upPanel").value;
-                if (payPanelName == 'AddPanel') {
-                    document.getElementById("totMetal").value = getMetalDiv;
-                } else if (payPanelName == 'UpPanel') {
-                    document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
-                }
-                return true;
+            if (stockDateMMM == 'FEB' && stockDateDay > 28 && stockDateYY % 4 != 0) {
+                alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 28 days.');
+                document.getElementById("addItemDOBDay").focus();
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+            }
+            if (stockDateDay > 30) {
+                alert('Please select correct Date, Month ' + stockDateMMM + ' has only max 30 days.');
+                document.getElementById("addItemDOBDay").focus();
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+            }
+        }
+        if (document.getElementById('payButClickId').value == 'true') {
+            var prefix = document.getElementById("prefix").value;
+            var payPanelName = document.getElementById("upPanel").value;
+            if (payPanelName == 'AddPanel') {
+                document.getElementById("totMetal").value = getMetalDiv;
+            } else if (payPanelName == 'UpPanel') {
+                document.getElementById("totMetal").value = document.getElementById("noOfRawMet").value;
+            }
+            return true;
+        } else {
+            if (document.getElementById("userMainPanel").value == 'Supplier') {
+                functionName = validateAddSuppRawStockInputs;
             } else {
-                if (document.getElementById("userMainPanel").value == 'Supplier') {
-                    functionName = validateAddSuppRawStockInputs;
-                } else {
-                    var functionName = validateAddRawStockInputs;
-                }
-                if (functionName()) {
-                    return true;
-                }
+                var functionName = validateAddRawStockInputs;
             }
-            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
-            return false;
+            if (functionName()) {
+                return true;
+            }
         }
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+        document.getElementById("addRawStockSubButtDiv").style.visibility = "visible";
+        return false;
     }
+    return false;
+//    }
 }
 //}
 /*************End code to add function @Author:SHE20JAN16********************/
@@ -2464,8 +2617,7 @@ function valKeyPressedForAlphaNum(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode;
     if ((charCode == 8 || charCode == 13) || (charCode > 47 && charCode < 58) || (charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123)) {
         return true;
-    }
-    else if ((charCode > 57 || charCode < 65)) {
+    } else if ((charCode > 57 || charCode < 65)) {
         return false;
     }
     return true;
@@ -2488,14 +2640,18 @@ function printOmgoldPageDiv(obj, headerId) {
             '<link href="css/invoice.css" rel="stylesheet" type="text/css" />' +
             '<link href="css/print.css" rel="stylesheet" type="text/css" />' +
             '<link href="css/index.css" rel="stylesheet" type="text/css" />' +
+            '<link href="assets/frontend/pages/css/style-shop.css" rel="stylesheet" type="text/css"/>' +
 //            '<link href="css/style.css" rel="stylesheet" type="text/css" />' +
             '<link href="css/orcss.css" rel="stylesheet" type="text/css" />' +
             '<link href="css/ogcss.css" rel="stylesheet" type="text/css" />' +
+            '<link rel="stylesheet" type="text/css" href="css/custom.css"/>'+
             '<script type="text/javascript" src="scripts/emNavigation.js"></script>' +
             '<script type="text/javascript" src="scripts/emValidate.js"></script>' +
             '<script type="text/javascript" src="scripts/emAddOwner.js"></script>' +
             '<script type="text/javascript" src="scripts/emOwnerLogin.js"></script>' +
             '<script type="text/javascript" src="scripts/emUpdateOwner.js"></script>' +
+            '<script type="text/javascript" src="scripts/accBalance.js"></script>' +
+            '<script type="text/javascript" src="scripts/ogNavFunction.js"></script>' +
             '<script type="text/javascript" src="scripts/orAddFunction_1_6_1.js"></script>' +
             '<script type="text/javascript" src="scripts/ogAddFunctions_1_6_1.js"></script>' +
             '</head><body>' +
@@ -2603,6 +2759,10 @@ function navigationSmsTemp(pageNo) {
 /*************End code to add function @Author:PRIYA20FEB14**************/
 /*************Start code to add func to sort girvi in cust home @Author:PRIYA27FEB14**************/
 function searchGirviInCustHomePanel(documentRootPath, searchColumn, searchValue, selFirmId, custId) {
+    //alert(searchValue.length);
+    if (searchValue.length == 0 || searchValue.length == 'NULL') {
+        searchValue = '';
+    }
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
 
@@ -2617,6 +2777,15 @@ function searchGirviInCustHomePanel(documentRootPath, searchColumn, searchValue,
             + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&custId=" + custId, true);
     xmlhttp.send();
 }
+function getvalue(e) {
+    //if( e.which == 8 || e.which == 46 ) return false;
+    var recentChar = String.fromCharCode(e.which);
+    var val = document.getElementById('custHomeLoanSNo').value + recentChar;
+    // alert(val);
+    document.getElementById("textboxval").value = val;
+
+}
+
 /*************End code to add func to sort girvi in cust home @Author:PRIYA27FEB14**************/
 /*************Start code to add func to sort girvi in cust home for Release @Author:PRIYA27FEB14**************/
 function searchRelGirviInCustHomePanel(documentRootPath, relSearchColumn, relSearchValue, relSelFirmId, custId) {
@@ -2785,7 +2954,9 @@ function getUdhaarFirmSerialNo(selectedFirmNo, panel) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("udhaarSerialNoDiv").innerHTML = xmlhttp.responseText;
-            getFirmAccountNo(selectedFirmNo, panel);
+            //  comment by suraj affecting payment type field start
+            //getFirmAccountNo(selectedFirmNo, panel);
+            //comment by suraj affecting payment type field end
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
@@ -2803,7 +2974,7 @@ function getUdhaarUpdateDiv(udhaarId, panelDiv) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("addNewUdhaarDiv").innerHTML = xmlhttp.responseText;
             document.getElementById("udhaarMaindiv").innerHTML = '<font color=brown>UPDATE UDHAAR DETAILS</font>';
-            document.getElementById("ajaxCloseAddNewUdhaar").innerHTML = '';
+//            document.getElementById("ajaxCloseAddNewUdhaar").innerHTML = '';
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
@@ -2863,8 +3034,7 @@ function customizedNoticeSetup() {
     document.getElementById("customNoticeSubmitButt").style.visibility = "hidden";
     if (validateCustomizedNoticeSetup()) {
         return true;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("customNoticeSubmitButt").style.visibility = "visible";
     }
@@ -2962,16 +3132,14 @@ function showPageInPanel(documentRootPath, pageNo, panel, rowsPerPage, selFirmId
     if (pageNo == 0) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
-    }
-    else {
+    } else {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("systemLogPanelDiv").innerHTML = xmlhttp.responseText;
                 if (pageNo >= 10) {
                     setPageValue(pageNo, noOfPagesAsLink);
-                }
-                else {
+                } else {
                     document.getElementById('pageNoTextField' + pageNo).setAttribute("class", "currentPageNoButton");
                 }
             }
@@ -3057,6 +3225,7 @@ function deleteCustComment(custCommId, custId) {
 }
 /**********Start code to add var @Author:PRIYA26APR14*******************/
 function getLoanNoticeLang(custId, girviId, totalPrincipalAmount, totalFinalInterest, totalAmount, width, height) {
+    //alert(totalAmount);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -3136,8 +3305,7 @@ function setDefLangForCustomNotice(custNoticeId, defSize, panel) {              
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("formSetupDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3151,8 +3319,7 @@ function setDefLangForCustomNotice(custNoticeId, defSize, panel) {              
 function reactiveGirvi(girviId, custId, panelDivName) {
     if (panelDivName == 'girviAuctioned') {
         confirm_box = confirm("Do you really want to Un-auction this Loan ?");
-    }
-    else {
+    } else {
         confirm_box = confirm("Do you really want to Un-release this Loan ?");
     }
     if (confirm_box == true)
@@ -3165,8 +3332,7 @@ function reactiveGirvi(girviId, custId, panelDivName) {
                 document.getElementById("girviReactivateButDiv").style.visibility = "visible";
                 document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
                 clearMessage();
-            }
-            else {
+            } else {
                 document.getElementById("girviDeleteButDiv").style.visibility = "hidden";
                 document.getElementById("girviReactivateButDiv").style.visibility = "hidden";
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
@@ -3189,8 +3355,7 @@ function girviMoneyDepRollbackOption(girviId, custId, commentId) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -3221,8 +3386,7 @@ function setDefNoticeType(defType, panelName, cunoId) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("formSetupDiv").innerHTML = xmlhttp.responseText;
             window.setTimeout(noticeFunctionToCloseDiv, 1500);
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3238,8 +3402,7 @@ function addNewCustomNotice(panelName, defType) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("formSetupDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3262,6 +3425,32 @@ function getFstMonthAccountsField(fstMonIntVal, firmId) {
     xmlhttp.open("POST", "include/php/olgadpac.php?firmId=" + firmId + "&fstMonIntVal=" + fstMonIntVal, true);
     xmlhttp.send();
 }
+/*********Start code to add function for new finance panem EMI amount @Author:SANT05APR17**********/
+/*********Start code to add function for new finance panel Total Value Calculations EMI amount @Author:ATHU10APR17**********/
+function getCountTotalEmiAmount(counter) {
+    var emiSum = 0
+    for (var cnt = 1; cnt <= counter; cnt++) {
+        var emiStatus = document.getElementById('emiStatus' + cnt).value;
+        var princiAmtChk = document.getElementById('setPrincAmt' + cnt).checked;
+        var intAmtChk = document.getElementById('setTotInt' + cnt).checked;
+        if (emiStatus != 'Paid') {
+            if (princiAmtChk == false && intAmtChk == false) {
+                document.getElementById('totEmiAmount' + cnt).value = 0;
+            } else if (princiAmtChk == true && intAmtChk == true) {
+
+                document.getElementById('totEmiAmount' + cnt).value = parseFloat(parseFloat(document.getElementById('totintAmount' + cnt).value) + parseFloat(document.getElementById('totprinAmount' + cnt).value)).toFixed(2);
+            } else if (princiAmtChk == true) {
+                document.getElementById('totEmiAmount' + cnt).value = document.getElementById('totprinAmount' + cnt).value;
+            } else if (intAmtChk == true) {
+                document.getElementById('totEmiAmount' + cnt).value = parseFloat(document.getElementById('totintAmount' + cnt).value).toFixed(2);
+            }
+            emiSum = parseFloat(parseFloat(emiSum) + parseFloat(document.getElementById('totEmiAmount' + cnt).value));
+        }
+    }
+    document.getElementById('totEmiSum').value = emiSum;
+    // alert(emiSum);
+}
+/*********End code to add function for new finance panem EMI amount @Author:SANT05APR17**********/
 /*********End code to add param fstMonIntVal @Author:PRIYA28MAY14**********/
 /*********End code to get accounts field @Author:PRIYA20MAY14**********/
 /*********Start code to get accounts field @Author:PRIYA20MAY14**********/
@@ -3291,8 +3480,7 @@ function updateLoanAccounts(girviAccId, girviCashId, payOtherInfo, girviId, cust
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -3386,15 +3574,16 @@ function showCustHomeByPanel(custId, invId, panel, panelDiv, subPanel) {
 /*************End code to add function @Author:PRIYA03JUN14*********************************/
 /*************Start code to add function for gender @Author:PRIYA06JUN14********************/
 function getCareOfNameLabel(fatherOrSpouseNameLabel, panel, fatherValue) {
+    //alert(fatherOrSpouseNameLabel);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //alert(xmlhttp.responseText);
             document.getElementById("careOfDiv").innerHTML = xmlhttp.responseText;
             getSexRadioLabelToAddGirvi(fatherOrSpouseNameLabel);
             document.getElementById("fatherOrSpouseNameLabel").focus();
             //document.getElementById("custFatherNameForAddGirvi").placeholder = 'Customer Spouse Name';
-        }
-        else {
+        } else {
             //  document.getElementById("fatherOrSpouseNameDiv").innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
@@ -3405,12 +3594,15 @@ function getCareOfNameLabel(fatherOrSpouseNameLabel, panel, fatherValue) {
 /*************Start code to add function for customized form @Author:PRIYA05JUN14******************/
 /*************Start code to add panel for customized form @Author:PRIYA17JUN14******************/
 function labelsForm(count, labelType, fieldName, fieldValue, fontSize, fontColor, divId, display) {
+    var check = '';
     if (display == 'NO' || divId == 'tncDiv' || divId == 'authSignLbDiv' || divId == 'invTitleDiv' || fieldName == 'formBorderCheck' || divId == 'footerLbDiv') {
         var check = document.getElementById("fontCheckId" + count).checked;
+        // alert(check);
     }
     if (fieldName != 'firmLeftLogoCheck' && fieldName != 'firmRightLogoCheck' && fieldName != 'design' && divId != '' && fontSize == '') {
         alert("Please Enter Font Size !");
     } else {
+
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -3418,8 +3610,7 @@ function labelsForm(count, labelType, fieldName, fieldValue, fontSize, fontColor
                 document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
                 document.getElementById("cuMessDisplayDiv").innerHTML = "<span class='fs_14 ff_calibri reddish'>UPDATED</span>";
                 window.setTimeout(closeMessDetails, 1500);
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -3475,29 +3666,23 @@ function validateAdvMoneyInputs(obj) {
     } else if (validateSelectField(document.getElementById("advMoneyFirmId").value, "Please select Firm!") == false) {
         document.getElementById("advMoneyFirmId").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DOBDay").value, "Please select Date Day!") == false) {
+    } else if (validateSelectField(document.getElementById("DOBDay").value, "Please select Date Day!") == false) {
         document.getElementById("DOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DOBMonth").value, "Please select Date Month!") == false) {
+    } else if (validateSelectField(document.getElementById("DOBMonth").value, "Please select Date Month!") == false) {
         document.getElementById("DOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DOBYear").value, "Please select Date Year!") == false) {
+    } else if (validateSelectField(document.getElementById("DOBYear").value, "Please select Date Year!") == false) {
         document.getElementById("DOBYear").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("advMoneySerialNo").value, "Please enter Serial Number!") == false ||
+    } else if (validateEmptyField(document.getElementById("advMoneySerialNo").value, "Please enter Serial Number!") == false ||
             validateNum(document.getElementById("advMoneySerialNo").value, "Accept only numeric characters without space character!") == false) {
         document.getElementById("advMoneySerialNo").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("advMoneyDrAccId").value, "Please select Dr Account!") == false) {
+    } else if (validateSelectField(document.getElementById("advMoneyDrAccId").value, "Please select Dr Account!") == false) {
         document.getElementById("advMoneyDrAccId").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("advMoneyCrAccId").value, "Please select Cr Account!") == false) {
+    } else if (validateSelectField(document.getElementById("advMoneyCrAccId").value, "Please select Cr Account!") == false) {
         document.getElementById("advMoneyCrAccId").focus();
         return false;
     }
@@ -3509,8 +3694,7 @@ function addAdvanceMoneyDetails(obj) {
     document.getElementById("advMoneySubmit").style.visibility = "hidden";
     if (validateAdvMoneyInputs(obj)) {
         return true;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("advMoneySubmit").style.visibility = "visible";
     }
@@ -3533,8 +3717,7 @@ function getAdvanceMoneyCustHome(custId, admnId, panel, divPanel) {
                 document.getElementById("ajaxCloseAddAdvanceMoney").innerHTML = "";
                 document.getElementById("titleDiv").innerHTML = 'UPDATE ADVANCE MONEY DETAILS';
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3561,8 +3744,7 @@ function deleteAdvanceMoney(custId, admnId, jrnlId, page, panel, serialNum, depA
                 else
                     document.getElementById("advMoneyList").innerHTML = xmlhttp.responseText;
                 closeMessDiv('messDisplayDiv', 'DELETED');
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -3634,48 +3816,82 @@ function closeAdvanceMoneyDiv() {
 /***********End code to add function to close adv money @Author:PRIYA17JUN14*************/
 /***********Start code to add function to add adv money dep @Author:PRIYA17JUN14**************************/
 /***********Start code to add serialNum @Author:PRIYA01JUL14*****************/
-function showAdvMoneyDepositMoneyDiv(custId, admnId, amtLeft, firmId, serialNum) {
+function showAdvMoneyDepositMoneyDiv(custId, admnId, amtLeft, firmId, preInvoiceNo, InvoiceNo, accCr, OthInfo, sdate, mdate, ydate, discount, utin_id) {
+
     if (amtLeft == 0) {
         alert('Amount has been Paid.');
-    }
-    else {
+    } else {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("advMoneyDepositMonButDiv" + admnId).style.visibility = "hidden";
-                document.getElementById("ajaxLoadAdvMoneyDepositMon" + admnId).style.visibility = "hidden";
-                document.getElementById("admnDepositMoneyDiv" + admnId).innerHTML = xmlhttp.responseText;
+
+                if (admnId == '')
+                    document.getElementById("AdvancepaymentPanel").innerHTML = xmlhttp.responseText;
+                else {
+                    document.getElementById("advMoneyDepositMonButDiv" + admnId).style.visibility = "hidden";
+                    document.getElementById("ajaxLoadAdvMoneyDepositMon" + admnId).style.visibility = "hidden";
+                    document.getElementById("admnDepositMoneyDiv" + admnId).innerHTML = xmlhttp.responseText;
+                }
             } else {
-                document.getElementById("advMoneyDepositMonButDiv" + admnId).style.visibility = "hidden";
-                document.getElementById("ajaxLoadAdvMoneyDepositMon" + admnId).style.visibility = "visible";
+                if (admnId == '') {
+                    document.getElementById("advMoneyDepositMonButDiv" + admnId).style.visibility = "hidden";
+                    document.getElementById("ajaxLoadAdvMoneyDepositMon" + admnId).style.visibility = "visible";
+                }
             }
         };
-        xmlhttp.open("POST", "include/php/omamdpdv.php?custId=" + custId + "&admnId=" + admnId + "&amtLeft=" + amtLeft +
-                "&firmId=" + firmId + "&serialNum=" + serialNum, true);
+
+        str = "&paymentPanelName=UdhaarPayment&mainPanelName=MONEY&transPanelName=ADVMONEY";
+
+        if (utin_id != '')
+            str = "&paymentPanelName=UdhaarPaymentUpdate&mainPanelName=MONEY&transPanelName=ADVMONEY&utin_id=" + utin_id;
+
+        if (admnId == '') {
+            var paymInfo = document.getElementById("advMoneyPayOtherInfo").value;
+
+            xmlhttp.open("POST", "include/php/ompyamt.php?userId=" + custId + "&amtLeft=" + amtLeft +
+                    "&firmId=" + firmId + "&PreInvoiceNo=" + preInvoiceNo + "&PostInvoiceNo=" + InvoiceNo + "&accCrId=" + accCr + "&PayOtherInfo=" + OthInfo
+                    + "&DOBDay=" + sdate + "&DOBMonth=" + mdate + "&DOBYear=" + ydate + "&paymInfo=" + paymInfo + str, true);
+        } else
+            xmlhttp.open("POST", "include/php/ompyamt.php?userId=" + custId + "&admnId=" + admnId + "&amtLeft=" + amtLeft +
+                    "&firmId=" + firmId + "&depsoitDisc=" + discount + "&serialNum=" + preInvoiceNo + "&paymentPanelName=UdhaarPayment&mainPanelName=MONEY&transPanelName=MONEY", true);
         xmlhttp.send();
     }
 }
+
+function getCRDRAccountID(custId, firmId, accCrId, accDrId) {
+    //alert('accCrId==' + accCrId);
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("POST", "include/php/ompyamt.php?userId=" + custId + "&firmId=" + firmId + "&accCrId=" + accCrId + "&accDrId=" + accDrId, true);
+    xmlhttp.send();
+}
+
+
 /***********End code to add serialNum @Author:PRIYA01JUL14*****************/
 function validateAdvMoneyDepositMoneyInputs(obj, admnId) {
     if (validateEmptyField(document.getElementById("admnDepositAmount" + admnId).value, "Please enter Deposit Amount!") == false ||
             validateNumWithDot(document.getElementById("admnDepositAmount" + admnId).value, "Accept only numeric characters without space character!") == false) {
         document.getElementById("admnDepositAmount" + admnId).focus();
         return false;
-    }
-    else if (document.getElementById("admnDepositAmount" + admnId).value == 0) {
+    } else if (document.getElementById("admnDepositAmount" + admnId).value == 0) {
         alert('Please enter Correct Amount!');
         document.getElementById("admnDepositAmount" + admnId).focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DOBDay").value, "Please select Deposit Amount Date!") == false) {
+    } else if (validateSelectField(document.getElementById("DOBDay").value, "Please select Deposit Amount Date!") == false) {
         document.getElementById("DOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DOBMonth").value, "Please select Deposit Amount Date!") == false) {
+    } else if (validateSelectField(document.getElementById("DOBMonth").value, "Please select Deposit Amount Date!") == false) {
         document.getElementById("DOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DOBYear").value, "Please select Deposit Amount Date!") == false) {
+    } else if (validateSelectField(document.getElementById("DOBYear").value, "Please select Deposit Amount Date!") == false) {
         document.getElementById("DOBYear").focus();
         return false;
     }
@@ -3690,12 +3906,10 @@ function advMoneyDepositMoney(obj, admnId) {
         alert("Deposit amount(" + depositAmt + ") should not more than main amount(" + leftAmt + ")!");
         document.getElementById("ajaxLoadAdvMoneyDepSubmit" + admnId).style.visibility = "hidden";
         document.getElementById("admnDepMoneySubButDiv" + admnId).style.visibility = "visible";
-    }
-    else {
+    } else {
         if (validateAdvMoneyDepositMoneyInputs(obj, admnId)) {
             return true;
-        }
-        else {
+        } else {
             document.getElementById("ajaxLoadAdvMoneyDepSubmit" + admnId).style.visibility = "hidden";
             document.getElementById("admnDepMoneySubButDiv" + admnId).style.visibility = "visible";
         }
@@ -3715,7 +3929,7 @@ function deleteAdvMoneyDepAmt(custId, depId, advMoneyDiv, advMoneyDepDiv, firmId
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("updAdvMoneyDepAmtDelButt" + advMoneyDiv + advMoneyDepDiv).style.visibility = "hidden";
+                document.getElementById("updAdvMoneyDepAmtDelButt" + advMoneyDiv + advMoneyDepDiv).style.visibility = "visible";
                 document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
                 closeMessDiv('messDisplayDiv', 'DELETED');
             } else {
@@ -3845,8 +4059,7 @@ function closeActionItemNotify(divId) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById(divId).innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById(divId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
@@ -3855,28 +4068,29 @@ function closeActionItemNotify(divId) {
 }
 /************End code to add function for action item  @Author:PRIYA03JUL14*******************/
 /*******Start code to add div @Author:PRIYA05JUL14********************/
-function showCalenderDiv(div, hrsId, minId, secId) {
+function showCalenderDiv(div, hrsId, minId, secId,documentRootPath) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById(div).innerHTML = xmlhttp.responseText;
-        }
-        else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            document.getElementById(div).innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         }
     };
-    xmlhttp.open("POST", "include/php/ommpcale.php?div=" + div + "&hrsId=" + hrsId + "&minId=" + minId + "&secId=" + secId, true);
+//    xmlhttp.open("POST", "include/php/ommpcale.php?div=" + div + "&hrsId=" + hrsId + "&minId=" + minId + "&secId=" + secId, true);
+    
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommpcale.php?div=" + div + "&hrsId=" + hrsId + "&minId=" + minId + "&secId=" + secId, true);
+    
     xmlhttp.send();
 }
-function goLastMonth(month, year, div) {
+function goLastMonth(month, year, div,documentRootPath) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("calDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3884,20 +4098,23 @@ function goLastMonth(month, year, div) {
     {
         --year;
         month = 13;
-        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + parseFloat(month - 1) + "&year=" + year + "&div=" + div, true);
+//        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + parseFloat(month - 1) + "&year=" + year + "&div=" + div, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommpcale.php?month=" + parseFloat(month - 1) + "&year=" + year + "&div=" + div, true);
+
     } else {
-        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + parseFloat(month - 1) + "&year=" + year + "&div=" + div, true);
+//        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + parseFloat(month - 1) + "&year=" + year + "&div=" + div, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommpcale.php?month=" + parseFloat(month - 1) + "&year=" + year + "&div=" + div, true);
+
     }
     xmlhttp.send();
 }
-function goNextMonth(month, year, div) {
+function goNextMonth(month, year, div,documentRootPath) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("calDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3906,10 +4123,14 @@ function goNextMonth(month, year, div) {
         ++year;
         month = 0;
         var mn = parseFloat(month) + 1;
-        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + mn + "&year=" + year + "&div=" + div, true);
+//        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + mn + "&year=" + year + "&div=" + div, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommpcale.php?month=" + mn + "&year=" + year + "&div=" + div, true);
+
     } else {
         var mn = parseFloat(month) + 1;
-        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + mn + "&year=" + year + "&div=" + div, true);
+//        xmlhttp.open("POST", "include/php/ommpcale.php?month=" + mn + "&year=" + year + "&div=" + div, true);
+          xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommpcale.php?month=" + mn + "&year=" + year + "&div=" + div, true);
+
     }
 
     xmlhttp.send();
@@ -3972,8 +4193,7 @@ function getTime(time, div, panel, id) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("calDiv").innerHTML = xmlhttp.responseText;
             clearDivision(div);
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3991,8 +4211,7 @@ function getDate(date, div) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("calDiv").innerHTML = xmlhttp.responseText;
             clearDivision(div);
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4009,24 +4228,27 @@ function getDate(date, div) {
 }
 /*******End code to add function for sms and email in acit  @Author:PRIYA08JUL14********************/
 /*******Start code to add function @Author:PRIYA09JUL14****************/
-function getYear(year, period, div) {
+function getYear(year, period, div,documentRootPath) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("calDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
     if (period == 'Next')
     {
         ++year;
-        xmlhttp.open("POST", "include/php/ommpcale.php?year=" + year + "&div=" + div, true);
+//        xmlhttp.open("POST", "include/php/ommpcale.php?year=" + year + "&div=" + div, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommpcale.php?year=" + year + "&div=" + div, true);
+
     } else {
         --year;
-        xmlhttp.open("POST", "include/php/ommpcale.php?year=" + year + "&div=" + div, true);
+//        xmlhttp.open("POST", "include/php/ommpcale.php?year=" + year + "&div=" + div, true);
+          xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommpcale.php?year=" + year + "&div=" + div, true);
+
     }
     xmlhttp.send();
 }
@@ -4090,8 +4312,7 @@ function getActionItemList(listPanel) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("acitListDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4108,33 +4329,35 @@ function showStockTallyPanel()
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("addStockCurrentInvoice").innerHTML = xmlhttp.responseText;
             document.getElementById('enterSerialNum').focus();
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
     xmlhttp.open("POST", "include/php/ogstally.php", true);
     xmlhttp.send();
 }
-function addToStockTally(pre, post, panel, num) {
-    if (panel == 'NON TALLY') {
-        confirm_box = confirm("Do you really want to tally this Item!");
-        if (confirm_box == true) {
-            loadXMLDoc();
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                    document.getElementById("stockTallyPanelDiv").innerHTML = xmlhttp.responseText;
-                    document.getElementById('enterSerialNum').focus();
-                } else {
-                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-                }
-            };
-            xmlhttp.open("POST", "include/php/ogsttlad.php?preId=" + pre + "&postId=" + post + "&panel=" + panel + "&num=" + num, true);
-            xmlhttp.send();
-        }
-    }
-    else {
+function addToStockTally(pre, post, panel, num, mainpanel) {
+//alert("hi");
+    if (panel == 'NON TALLY' || panel == 'Quick Access') {
+        //if (panel == 'Quick Access')
+        // confirm_box = confirm("Do you really want to non tally this Item!");
+        // else
+        //  confirm_box = confirm("Do you really want to tally this Item!");
+        // if (confirm_box == true) {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("stockTallyPanelDiv").innerHTML = xmlhttp.responseText;
+                document.getElementById('enterSerialNum').focus();
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("POST", "include/php/ogsttlad.php?preId=" + pre + "&postId=" + post + "&panel=" + panel + "&num=" + num + "&mainpanel=" + mainpanel, true);
+        xmlhttp.send();
+        //   }
+    } else {
         confirm_box = confirm("Do you really want to back this Item");
         if (confirm_box == true) {
             loadXMLDoc();
@@ -4147,7 +4370,7 @@ function addToStockTally(pre, post, panel, num) {
                     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
                 }
             };
-            xmlhttp.open("POST", "include/php/ogsttlad.php?preId=" + pre + "&postId=" + post + "&panel=" + panel + "&num=" + num, true);
+            xmlhttp.open("POST", "include/php/ogsttlad.php?preId=" + pre + "&postId=" + post + "&panel=" + panel + "&num=" + num + "&mainpanel=" + mainpanel, true);
             xmlhttp.send();
         }
     }
@@ -4182,22 +4405,73 @@ function navigationToNextStockTally(pagenum, panelName, num) {
     xmlhttp.open("POST", "include/php/ogstally.php?page=" + pagenum + "&panel=" + panelName + "&num=" + num, true);
     xmlhttp.send();
 }
-function showEnteredStock(itemId, num) {
+function showEnteredStock(itemId, num, panel) {
+    //alert(panel);
+
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+
+            document.getElementById("stockTallyPanelDiv").innerHTML = xmlhttp.responseText;
+            // document.getElementById('stockItemId' + itemId).focus();
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    //var itemId = itemId.toUpperCase();
+    if (panel == 'images') {
+        xmlhttp.open("POST", "include/php/ogstally.php?itemId=" + itemId + "&num=" + num, true);
+    } else {
+        xmlhttp.open("POST", "include/php/ogstallytable.php?itemId=" + itemId + "&num=" + num, true);
+    }
+    xmlhttp.send();
+}
+
+
+function showEnteredStockCategory(itemcategory, num, panel) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("stockTallyPanelDiv").innerHTML = xmlhttp.responseText;
-            document.getElementById('stockItemId' + itemId).focus();
+            document.getElementById('entername').focus();
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    var itemId = itemId.toUpperCase();
-    xmlhttp.open("POST", "include/php/ogstally.php?itemId=" + itemId + "&num=" + num, true);
+
+    if (panel == 'images') {
+        xmlhttp.open("POST", "include/php/ogstally.php?itemCategory=" + itemcategory + "&num=" + num, true);
+    } else {
+        xmlhttp.open("POST", "include/php/ogstallytable.php?itemCategory=" + itemcategory + "&num=" + num, true);
+    }
     xmlhttp.send();
 }
-function resetAllTallyStock(number) {
+
+
+function showEnteredstockName(itemName, num, panel, category) {
+    /// alert(category);
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("stockTallyPanelDiv").innerHTML = xmlhttp.responseText;
+            document.getElementById('enterSerialNum').focus();
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    if (panel == 'images') {
+        xmlhttp.open("POST", "include/php/ogstally.php?itemName=" + itemName + "&num=" + num + "&itemCategory=" + category, true);
+    } else {
+        xmlhttp.open("POST", "include/php/ogstallytable.php?itemName=" + itemName + "&num=" + num + "&itemCategory=" + category, true);
+    }
+    xmlhttp.send();
+}
+
+function resetAllTallyStock(number, panel) {
     confirm_box = confirm("Do you really want to reset all Stock!");
     if (confirm_box == true) {
         loadXMLDoc();
@@ -4210,7 +4484,7 @@ function resetAllTallyStock(number) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
-        xmlhttp.open("POST", "include/php/ogsttlad.php?num=" + number, true);
+        xmlhttp.open("POST", "include/php/ogsttlad.php?num=" + number + "&mainpanel=" + panel, true);
         xmlhttp.send();
     }
 }
@@ -4220,37 +4494,29 @@ function validateUdhaarNoticeUpdateLang() {
     if (validateSelectField(document.getElementById("udhaarNoticeDefaultLang").value, "Please select Language!") == false) {
         document.getElementById("udhaarNoticeDefaultLang").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("headerLabel").value, "Please enter Header Label!") == false)
+    } else if (validateEmptyField(document.getElementById("headerLabel").value, "Please enter Header Label!") == false)
     {
         document.getElementById("headerLabel").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("dateLabel").value, "Please enter Date Label!") == false) {
+    } else if (validateEmptyField(document.getElementById("dateLabel").value, "Please enter Date Label!") == false) {
         document.getElementById("dateLabel").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("subjectLabel").value, "Please enter Subject Label!") == false) {
+    } else if (validateEmptyField(document.getElementById("subjectLabel").value, "Please enter Subject Label!") == false) {
         document.getElementById("subjectLabel").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("udhaarNoticeContent").value, "Please enter Udhaar Notice Content!") == false) {
+    } else if (validateEmptyField(document.getElementById("udhaarNoticeContent").value, "Please enter Udhaar Notice Content!") == false) {
         document.getElementById("udhaarNoticeContent").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("udhaarOtherInfo").value, "Please enter Other Information!") == false) {
+    } else if (validateEmptyField(document.getElementById("udhaarOtherInfo").value, "Please enter Other Information!") == false) {
         document.getElementById("udhaarOtherInfo").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("custSign").value, "Please enter Customer Signature!") == false) {
+    } else if (validateEmptyField(document.getElementById("custSign").value, "Please enter Customer Signature!") == false) {
         document.getElementById("custSign").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("ownerSign").value, "Please enter Owner Signature!") == false) {
+    } else if (validateEmptyField(document.getElementById("ownerSign").value, "Please enter Owner Signature!") == false) {
         document.getElementById("ownerSign").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("footerLabel").value, "Please enter Footer Label!") == false) {
+    } else if (validateEmptyField(document.getElementById("footerLabel").value, "Please enter Footer Label!") == false) {
         document.getElementById("footerLabel").focus();
         return false;
     }
@@ -4261,8 +4527,7 @@ function udhaarNoticeUpdateLang() {
     document.getElementById("udhaarNoticeUpdateButt").style.visibility = "hidden";
     if (validateUdhaarNoticeUpdateLang()) {
         return true;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("udhaarNoticeUpdateButt").style.visibility = "visible";
     }
@@ -4737,7 +5002,12 @@ function showMetalRate(metalType, keyCodeInput, itemCount, panelName, id, metRat
             }
         }
     };
-    xmlhttp.open("POST", "include/php/ommrmidl.php?metalType=" + metalType + "&itemCount=" + itemCount + "&panelName=" + panelName + "&id=" + id + "&panel=" + metRatePanel, true);
+    if (panelName == 'suppPurMatRate') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ommrmidl.php?metalType=" + metalType + "&itemCount=" + itemCount + "&panelName=" + panelName + "&id=" + id + "&panel=" + metRatePanel, true);
+    } else {
+        xmlhttp.open("POST", "include/php/ommrmidl.php?metalType=" + metalType + "&itemCount=" + itemCount + "&panelName=" + panelName + "&id=" + id + "&panel=" + metRatePanel, true);
+    }
     xmlhttp.send();
 }
 /*************End code to add funct @Author:PRIYA08AUG14***********/
@@ -4763,16 +5033,19 @@ function addSuppSimItemsValue(suppItemCount) {
         getSuppPurCryVisibility(itemDetCountPlus);
     }
 }
+/**************Start to change code from loadXMLDoc2 to loadXMLDoc @Author:SHRI24FEB17*****************/
 function getSuppPurMetalRate(metalType, div) {
-    loadXMLDoc2();
-    xmlhttp2.onreadystatechange = function () {
-        if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
-            document.getElementById(div).value = xmlhttp2.responseText;
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//            alert(xmlhttp.responseText);
+            document.getElementById(div).value = xmlhttp.responseText;
         }
     };
-    xmlhttp2.open("POST", "include/php/ogwpmtrt.php?metalType=" + metalType, true);
-    xmlhttp2.send();
+    xmlhttp.open("POST", "include/php/ogwpmtrt.php?metalType=" + metalType, true);
+    xmlhttp.send();
 }
+/**************End to change code from loadXMLDoc2 to loadXMLDoc @Author:SHRI24FEB17*****************/
 /**************Start code to add func to delete @Author:PRIYA11AUG14******************/
 function deleteSuppLotValue(suppItmCount, suppIdtId, suppId) {
     loadXMLDoc2();
@@ -4826,26 +5099,21 @@ function validateSuppPurByItemVal() {
     if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    }
-    else if ((document.getElementById("addItemMetal").value != 'Other') && validateEmptyField(document.getElementById("addItemMetalRate").value, "Please enter Metal Rate!") == false) {
+    } else if ((document.getElementById("addItemMetal").value != 'Other') && validateEmptyField(document.getElementById("addItemMetalRate").value, "Please enter Metal Rate!") == false) {
         document.getElementById("addItemMetalRate").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addItemId").value, "Please enter Item Id!") == false ||
+    } else if (validateEmptyField(document.getElementById("addItemId").value, "Please enter Item Id!") == false ||
             validateNum(document.getElementById("addItemId").value, "Accept only numeric characters without space character!") == false) {
         document.getElementById("addItemId").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addItemName").value, "Please enter Item Name!") == false) {
+    } else if (validateEmptyField(document.getElementById("addItemName").value, "Please enter Item Name!") == false) {
         document.getElementById("addItemName").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addItemPieces").value, "Please enter Item Pieces!") == false ||
+    } else if (validateEmptyField(document.getElementById("addItemPieces").value, "Please enter Item Pieces!") == false ||
             validateNum(document.getElementById("addItemPieces").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("addItemPieces").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addItemGrossWeight").value, "Please enter Gross Weight!") == false ||
+    } else if (validateEmptyField(document.getElementById("addItemGrossWeight").value, "Please enter Gross Weight!") == false ||
             validateNumWithDot(document.getElementById("addItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("addItemGrossWeight").focus();
         return false;
@@ -4860,8 +5128,7 @@ function validateSuppPurByItemVal() {
             validateNumWithDot(document.getElementById("addItemFinalVal").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("addItemFinalVal").focus();
         return false;
-    }
-    else if (noOfCrystal != '' && noOfCrystal != undefined) {
+    } else if (noOfCrystal != '' && noOfCrystal != undefined) {
         suppCryEntered = 0;
         for (var cry = 1; cry <= noOfCrystal; cry++) {
             if (document.getElementById("del" + cry).value != 'Deleted') {
@@ -4950,8 +5217,7 @@ function suppPurByItem(panelName) {
                 + "&itstId=" + encodeURIComponent(document.getElementById("itstId").value)
                 + "&panelSimilarDiv=" + encodeURIComponent(document.getElementById("panelSimilarDiv").value);
         supp_pur_by_item('include/php/ogwpitad.php', poststr);
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         return false;
     }
@@ -5064,6 +5330,7 @@ function addSuppPurItemDetailsUp(suppItemCoun, suppId, suppLotId, suppPurPrsent,
 /*************Start code to add new parameters orderpanel function @Author:SANT27AUG16***********/
 /*************Start code to add new parameters orderpanel function @Author:SANT03SEP16***********/
 function getCrystalFunc(crystalCount, div, commonPanel, sellPanel, orderPanel) {
+    cryCountGobal++;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -5086,6 +5353,51 @@ function getCrystalFunc(crystalCount, div, commonPanel, sellPanel, orderPanel) {
     }
     xmlhttp.send();
 }
+
+
+function closeSellCrystalFunc(cryCount, panelName, itprCryId, itstCryId, itprId, wtId, wtTypeId, sellPanel) {
+    cryCountGobal--;
+    if (panelName == 'UpdateUdhaar') {
+        var udharrItemMin = cryCount - 1;
+        var d = udahaarItemCount - 1;
+        var a = d - 1;
+//        document.getElementById("udhaarItemDel" + cryCount).value = 'Deleted';
+//          alert(document.getElementById("udhaarItemDivCounter").value);
+//        if (parseFloat(document.getElementById("udhaarItemDivCounter").value) == 0)
+//            document.getElementById("udhaarItemDivCounter").value = 0;
+//        else
+//            document.getElementById("udhaarItemDivCounter").value = parseFloat(document.getElementById("udhaarItemDivCounter").value) - 1;
+
+
+        if ((a == udharrItemMin || d == udharrItemMin) && udharrItemMin != 0) {
+            if (document.getElementById("udhaarItemDel" + udharrItemMin).value != 'Deleted') {
+                document.getElementById("udhaarItemVar" + udharrItemMin).value = 'true';
+            }
+        }
+        if (udharrItemMin == 0) {
+            document.getElementById("udhaarItemVar" + cryCount).value = 'true';
+        }
+        document.getElementById("udhaarItemDiv" + cryCount).innerHTML = "";
+    } else {
+        document.getElementById("del" + cryCount).value = 'Deleted';
+        document.getElementById("crystal" + cryCount).innerHTML = "";
+    }
+    if (itprCryId != '') {
+        deleteSellCrystalDiv(itprCryId, itstCryId, itprId, panelName);
+    }
+
+    if (panelName == 'UpdateUdhaar') {
+
+    } else if (panelName == 'SellPurchase') {
+        calcSellCryPrice();
+    } else {
+        calcItemCryPrice();
+    }
+
+    return false;
+}
+
+
 /*************End code to add new parameters orderpanel function @Author:SANT03SEP16***********/
 /*************End code to add new parameters orderpanel function @Author:SANT27AUG16***********/
 function closeCrystalFunc(cryCount, panelName, itprCryId, itstCryId, itprId) {
@@ -5123,7 +5435,12 @@ function getMetalRateDiv(metalType, div, id, keyCodeInput, panel) {
             }
         }
     };
-    xmlhttp.open("POST", "include/php/ogwpmtrt.php?metalType=" + metalType + "&div=" + div + "&id=" + id + "&panel=" + panel, true);
+    if (panel == 'AddStockPanel' || panel == 'AddWhStockPanel') {
+        var documentRootPath = document.getElementById('documentRootPath').value;
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwpmtrt.php?metalType=" + metalType + "&div=" + div + "&id=" + id + "&panel=" + panel, true);
+    } else {
+        xmlhttp.open("POST", "include/php/ogwpmtrt.php?metalType=" + metalType + "&div=" + div + "&id=" + id + "&panel=" + panel, true);
+    }
     xmlhttp.send();
 }
 /*************End code to add param panel @Author: SHRI29MAR16*************/
@@ -5185,3 +5502,137 @@ function printLedgerInfoDetPageDiv(obj, headerId) {
     WindowObject.document.close();
     WindowObject.focus();
 }
+/******start code to deletetrasfergirvi @AUTH:athu20MAR17******/
+function deleteTransferGirvi(panelName, girviTransId) {
+    confirm_box = confirm("Do you really want to Delete?");
+    if (confirm_box == true)
+    {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("girviListPanelDiv").innerHTML = xmlhttp.responseText;
+
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("POST", "include/php/olggtrgl.php?girviTransId=" + girviTransId + "&panelName=" + panelName, true); //change in filename @AUTHOR: SANDY20NOV13
+        xmlhttp.send();
+
+    }
+}
+//******************************************************************************
+//******************* START CODE FOR MAKE INVOICE FUNCTION *********************
+//******************************************************************************
+
+function makeInvoice(custId, preInvoice, postInvoice, mainPanel, MakeInvoiceType, ApprovalStatus) {
+
+//    alert('panelName ===' + panelName);
+    if (MakeInvoiceType == 'selectedInvoice')
+        confirm_box = confirm("Do you really want to make invoice of selected Item?");
+    else if (ApprovalStatus == 'ApprovalDone')
+        confirm_box = confirm("Do you really want to submit this Approval?");
+    else
+        confirm_box = confirm("Do you really want to make invoice of this Item?");
+
+    if (confirm_box == true)
+    {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (mainPanel == 'ItemApprovalRec' || mainPanel == 'ItemApprovalRecUp') {
+                    document.getElementById("AddInvoiceMainDiv").innerHTML = xmlhttp.responseText;
+                    closeMessDiv('messDisplayDiv', 'DELETED');
+                } else {
+                    document.getElementById("sellMainDiv").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                }
+
+
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+
+        var SelectedItemIds = "";
+        if (MakeInvoiceType == "selectedInvoice")
+        {
+            var ItemId = new Array();
+            var counter = parseFloat(document.getElementById('approvalItemCount').value);
+
+            for (var i = 1; i <= counter; i++) {
+//                deleteChk[i] = document.getElementById('deletecheck' + i).checked;
+                ItemId[i] = document.getElementById('approvalItemId' + i).value;
+//                alert(document.getElementById('approvalItemId' + i).checked);
+                if (document.getElementById('approvalItemId' + i).checked == true) {
+                    if (SelectedItemIds == '')
+                        SelectedItemIds = ItemId[i];
+                    else
+                        SelectedItemIds = SelectedItemIds + "," + ItemId[i];
+
+                }
+            }
+
+        }
+
+        xmlhttp.open("GET", "include/php/ogspidel.php?custId=" + custId + "&preInvoice=" + preInvoice + "&postInvoice=" + postInvoice + "&panelName=" + mainPanel + "&mainPanel=" + mainPanel + "&slPrInfo=MakeInvoice" + "&SelectedItemIds=" + SelectedItemIds + "&ApprovalStatus=" + ApprovalStatus, true);
+        xmlhttp.send();
+
+    }
+}
+//******************************************************************************
+//******************* END CODE FOR MAKE INVOICE FUNCTION *********************
+//******************************************************************************
+
+
+//******************************************************************************
+//******************* START CODE FOR NAVIGATION ON STOCK FORM FUNCTION *********
+//******************************************************************************
+function navigatationStockForm(panelName, type) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById('addStockMainDiv').innerHTML = xmlhttp.responseText;
+
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/omUniversalForm.php?panelName=" + panelName + "&type=" + type, true); 
+    xmlhttp.send();
+}
+//******************************************************************************
+//******************* END CODE FOR NAVIGATION ON STOCK FORM FUNCTION ***********
+//******************************************************************************
+//
+// *****************************************************************************************************************************
+// START CODE FOR PAYMENT/RECEIPT UPDATE FUNCTION @PRIYANKA-21MAY18
+// *****************************************************************************************************************************
+function updatePaymentReceiptTransaction(utinId, transactionType, mainPanel, transPanelName, firmId, userId) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    if (transactionType == 'PAYMENT') {
+        xmlhttp.open("POST", "include/php/ompyamt.php?utinId=" + utinId + "&userId=" + userId + "&PaymentReceiptPanel=PAYMENT"
+                           + "&mainPanelName=" + mainPanel + "&firmId=" + firmId + "&transPanelName=" + transPanelName 
+                           + "&transactionType=" + transactionType + "&paymentPanelName=PaymentUp" + "&panelName=PAYMENT", true);
+    } else if (transactionType == 'RECEIPT') {
+        xmlhttp.open("POST", "include/php/ompyamt.php?utinId=" + utinId + "&userId=" + userId + "&PaymentReceiptPanel=RECEIPT"
+                           + "&mainPanelName=" + mainPanel + "&firmId=" + firmId + "&transPanelName=" + transPanelName 
+                           + "&transactionType=" + transactionType + "&paymentPanelName=ReceiptUp" + "&panelName=RECEIPT", true);
+    } 
+    xmlhttp.send();
+}
+// ****************************************************************************************************************************
+// END CODE FOR PAYMENT/RECEIPT UPDATE FUNCTION @PRIYANKA-21MAY18
+// ****************************************************************************************************************************
+ 

@@ -88,6 +88,7 @@ function numberOfRows(documentRootPath, rowsPerPage, selFirmId, sortKeyword, pag
 {
     // var noOfRows = rowsPerPage;
     //var totGirvi= totalGirvi;
+//    alert(totalGirvi);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -96,6 +97,8 @@ function numberOfRows(documentRootPath, rowsPerPage, selFirmId, sortKeyword, pag
             document.barcode_search.barcode_text.focus();
             if (totalGirvi == 'transList')
                 document.getElementById("transactionListDiv").innerHTML = xmlhttp.responseText;
+            else if (totalGirvi == 'CustomerDetails')
+                document.getElementById("customerDetails").innerHTML = xmlhttp.responseText;
             else
                 document.getElementById("girviListPanelDiv").innerHTML = xmlhttp.responseText;
         } else {
@@ -118,6 +121,9 @@ function numberOfRows(documentRootPath, rowsPerPage, selFirmId, sortKeyword, pag
     } else if (totalGirvi == 'collectList') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omfncml.php?rowsPerPage=" + rowsPerPage + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword +
                 "&page=" + pageNum + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&updateRows=" + updateRows + "&panel=" + gTransList, true);
+    } else if (totalGirvi == 'CustomerDetails') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omccdtlt.php?rowsPerPage=" + rowsPerPage + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword +
+                "&page=" + pageNum + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&updateRows=" + updateRows + "&gTransList=" + gTransList, true);
     } else {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orgpglpd.php?rowsPerPage=" + rowsPerPage + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword +
                 "&page=" + pageNum + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&updateRows=" + updateRows + "&gTransList=" + gTransList, true);
@@ -368,7 +374,7 @@ function searchTransferGirviPanel(documentRootPath, searchColumn, searchValue, s
 
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orgptrgl.php?searchColumn="
             + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&rowsPerPage=" + rowsPerPage + "&selTFirmId=" + selTFirmId +
-            "&gTransStatus=" + gTransStatus + "&selMlName=" + selMlName , true);
+            "&gTransStatus=" + gTransStatus + "&selMlName=" + selMlName, true);
     xmlhttp.send();
 }
 /************Start code to add function @Author: GAUR07JULY16***************/

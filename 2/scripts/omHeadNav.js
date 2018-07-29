@@ -555,6 +555,40 @@ function shortCutKeyFun(event) {
             xmlhttp.open("POST", "include/php/omppmmdv.php?divMainMiddlePanel=StaffList", true);
             xmlhttp.send();
         }
+        //amol
+        if (e.which == 114 && isALT == 'T') { // ALT + F3 Key   -  For LOAN / GIRVI CALCULATOR  Panel
+            isALT = 'F';
+            //Start Code to disable the Function Keys for Browser
+            if ('cancelable' in event) {    // all browsers except IE before version 9
+                // in Firefox, the cancelable property always returns true,
+                // so the cancelable state of the event cannot be determined
+                if (event.cancelable) {
+                    event.preventDefault();
+                }
+            }
+            else {  // IE before version 9
+                event.returnValue = false;
+                event.keyCode = 0;
+            }
+            //End Code to disable the Function Keys for Browser
+//            loadXMLDoc();
+//            xmlhttp.onreadystatechange = function() {
+//                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+//                    document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
+//                    //document.getElementById("custFirstNameForAddGirvi").focus();
+//                }
+//                else {
+//                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+//                }
+//
+//            };
+//            xmlhttp.open("POST", "include/php/olgccald.php", true);
+//            xmlhttp.send();
+window.open('include/php/olgccald.php',
+                    'popup', 'width=550,height=350,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no');
+            return false;
+        }
         if (e.which == 116 && isALT == 'T') { // ALT + F5 Key   -  For Girvi Panel
             isALT = 'F';
             //Start Code to disable the Function Keys for Browser

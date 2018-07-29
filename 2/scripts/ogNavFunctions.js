@@ -34,13 +34,32 @@ function showUpdateNewActionItemDiv(actionItemID) {
     xmlhttp.open("POST", "include/php/omaimndv.php?actionItemID=" + actionItemID + "&panelName=" + 'UpdateAcit', true);
     xmlhttp.send();
 }
+//************Start code to add function for reminder panel:Author:SANT07FEB17 
+function showUpdateReminderItemDiv(actionItemID) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ajaxCloseAddNewActionItem").style.visibility = "visible";
+            document.getElementById("addActionItemDiv").innerHTML = xmlhttp.responseText;
+            document.getElementById("acitTitleDiv").innerHTML = "UPDATE TASK DETAILS";
+            document.getElementById("taskDescrpn").focus();
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ommpntfcn.php?actionItemID=" + actionItemID + "&panelName=" + 'UpdateAcit', true);
+    xmlhttp.send();
+}
+//************End code to add function for reminder panel:Author:SANT07FEB17 
 /*******End code to add div @Author:PRIYA09JUL14********************/
 /*******END CODE TO Change Update File name @AUTHOR:PRIYA23MAR13***********/
 function chngItemImgLoadOpt(chngItemImgLoadOpt, panelName, itemDivCount) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("itemImageLoadOption" + itemDivCount).value = chngItemImgLoadOpt;//alt to value changed @Author:PRIYA11NOV14
+            document.getElementById("itemImageLoadOption" + itemDivCount).value = chngItemImgLoadOpt; //alt to value changed @Author:PRIYA11NOV14
             if (chngItemImgLoadOpt == 'COM') {
                 document.getElementById("file_input_div").innerHTML = xmlhttp.responseText;
             }
@@ -57,7 +76,6 @@ function chngItemImgLoadOpt(chngItemImgLoadOpt, panelName, itemDivCount) {
             }
         }
     };
-
     if (chngItemImgLoadOpt == 'COM') {
         xmlhttp.open("POST", "include/php/omcgicim.php?itemDivCount=" + itemDivCount, true);
     }
@@ -79,7 +97,6 @@ function sortGirviPanel(documentRootPath, sortKeyword, selFirmId, rowsPerPage, g
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orgpglpd.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId +
             "&rowsPerPage=" + rowsPerPage + "&gTransList=" + gTransList, true);
     xmlhttp.send();
@@ -118,7 +135,6 @@ function sortGirviReleasePanel(documentRootPath, sortKeyword, selFirmId, rowsPer
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orgpregl.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&rowsPerPage=" + rowsPerPage, true);
     xmlhttp.send();
 }
@@ -132,7 +148,6 @@ function sortGirviLossPanel(documentRootPath, sortKeyword, selFirmId, rowsPerPag
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orgplglp.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&rowsPerPage=" + rowsPerPage, true);
     xmlhttp.send();
 }
@@ -179,6 +194,9 @@ function showJournalEntryListDiv(documentRootPath, jrnlId, jrnlDrDesc, jrnlUserI
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
+    // alert('jrnlUserType == ' + jrnlUserType);
+    // alert('jrnlTransType == ' + jrnlTransType);
+    // CHANGE CODE TO ADD CONDITION FOR SELL PANEL, PAYMENT/RECEIPT PANEL @PRIYANKA-17MAY18
     if (jrnlUserType == 'cust' && jrnlTransType == 'Girvi') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + jrnlUserId + "&jrnlDrDesc=" + jrnlDrDesc + "&girviId=" + jrnlTransId + "&accMainId=" + accMainId + "&panelDivName=girviInfo", true);
     } else if (jrnlUserType == 'MoneyLender' && jrnlTransType == 'LOAN') {
@@ -188,11 +206,11 @@ function showJournalEntryListDiv(documentRootPath, jrnlId, jrnlDrDesc, jrnlUserI
     } else if (jrnlUserType == 'cust' && jrnlTransType == 'Udhaar') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + jrnlUserId + "&custPanelOption=CustUdhaar", true);
     } else if (jrnlTransType == 'stockAdd') {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiamndv.php?isin_id=" + jrnlTransId + "&panelName=StockPayUp", true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiamndv.php?sttrId=" + jrnlTransId + "&panelName=StockPayUp", true); // id changed from isin_id to stprId @Author:SHRI02MAR17
     } else if (jrnlTransType == 'AddRawMetal') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiamsdv.php?rmin_id=" + jrnlTransId + "&rawPanelName=RawDetUpPanel", true);
     } else if (jrnlTransType == 'RepairItemAdd') {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrpaddt.php?isin_id=" + jrnlTransId + "&panelName=RepairItemPayUp", true);//code to change file name and parameters @Author:SHRI25FEB15. 
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrpaddt.php?isin_id=" + jrnlTransId + "&panelName=RepairItemPayUp", true); //code to change file name and parameters @Author:SHRI25FEB15. 
     } else if (jrnlTransType == 'RepItemRawMetal') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + jrnlUserId + "&jrnlDrDesc=" + jrnlDrDesc + "&accMainId=" + accMainId + "&panelDivName=ItemRepair", true);
     } else if (jrnlTransType == 'custSell') {
@@ -205,7 +223,11 @@ function showJournalEntryListDiv(documentRootPath, jrnlId, jrnlDrDesc, jrnlUserI
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/olgraudt.php?custId=" + jrnlUserId + "&jrnlDrDesc=" + jrnlDrDesc + "&girviId=" + jrnlTransId + "&accMainId=" + accMainId + "&panelDivName=girviAuctioned", true);
     } else if (jrnlTransType == 'transLoan') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/olgtnavi.php?gTransId=" + jrnlTransId + "&panelDivName=journalBookNav", true);
-    }
+    } else if (jrnlUserType == 'CUSTOMER' && jrnlTransType == 'sell') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + jrnlUserId + "&custPanelOption=" + 'CustHome', true);
+    } else if (jrnlUserType == 'CUSTOMER' && (jrnlTransType == 'PAYMENT' || jrnlTransType == 'RECEIPT')) {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + jrnlUserId + "&custPanelOption=" + 'CustHome' + "&panelName=" + 'custAllTrans', true);
+    } 
     xmlhttp.send();
 }
 /***************End update code @Author:GAUR24OCT16************/
@@ -245,25 +267,19 @@ function moveBarCodeSlip65L(barCodeSlipDiv, closeDivId) {
 
         setBarCodeSlip65Div = barCodeSlipDiv;
         setClose65Div = closeDivId;
-
         setBarCodeSlip65Container = document.getElementById(setBarCodeSlip65Div).innerHTML;
         setClose65Container = document.getElementById(setClose65Div).innerHTML;
-
         document.getElementById(closeDivId).innerHTML = "<img src='images/loading16.gif' />";
     } else if (barCodeSlipDiv != setBarCodeSlip65Div) {
         setBarCodeSlip65Container2 = document.getElementById(barCodeSlipDiv).innerHTML;
         setClose65Container2 = document.getElementById(closeDivId).innerHTML;
-
         document.getElementById(barCodeSlipDiv).innerHTML = setBarCodeSlip65Container;
         document.getElementById(setBarCodeSlip65Div).innerHTML = setBarCodeSlip65Container2;
-
         document.getElementById(closeDivId).innerHTML = setClose65Container;
         document.getElementById(setClose65Div).innerHTML = setClose65Container2;
-
         setBarCodeSlip65Div = '';
         setBarCodeSlip65Container = '';
         setBarCodeSlip65Container2 = '';
-
         setClose65Div = '';
         setClose65Container = '';
         setClose65Container2 = '';
@@ -282,26 +298,20 @@ function moveBarCodeSlip84L(barCodeSlipDiv, closeDivId) {
 
         setBarCodeSlip48Div = barCodeSlipDiv;
         setClose48Div = closeDivId;
-
         setBarCodeSlip48Container = document.getElementById(setBarCodeSlip48Div).innerHTML;
         setClose48Container = document.getElementById(setClose48Div).innerHTML;
-
         document.getElementById(closeDivId).innerHTML = "<img src='images/loading16.gif' />";
     }
     else if (barCodeSlipDiv != setBarCodeSlip48Div) {
         setBarCodeSlip48Container2 = document.getElementById(barCodeSlipDiv).innerHTML;
         setClose48Container2 = document.getElementById(closeDivId).innerHTML;
-
         document.getElementById(barCodeSlipDiv).innerHTML = setBarCodeSlip48Container;
         document.getElementById(setBarCodeSlip48Div).innerHTML = setBarCodeSlip48Container2;
-
         document.getElementById(closeDivId).innerHTML = setClose48Container;
         document.getElementById(setClose48Div).innerHTML = setClose48Container2;
-
         setBarCodeSlip48Div = '';
         setBarCodeSlip48Container = '';
         setBarCodeSlip48Container2 = '';
-
         setClose48Div = '';
         setClose48Container = '';
         setClose48Container2 = '';
@@ -317,7 +327,7 @@ function moveBarCodeSlip84L(barCodeSlipDiv, closeDivId) {
 function showSlPrInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
 //    alert(panelName);
     var firstChar = srchItemPreId.charAt(0);
-    var res = firstChar.toUpperCase();//chnaged @OMMODTAG PRIYA_05MAY15
+    var res = firstChar.toUpperCase(); //chnaged @OMMODTAG PRIYA_05MAY15
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -343,7 +353,7 @@ function showSlPrInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
         xmlhttp.open("POST", "include/php/ogijsmndv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
     }
     else if (firstChar == 'J' || firstChar == 'j') {
-        //****************START code to sell :DISH14NOV16******************************//
+//****************START code to sell :DISH14NOV16******************************//
         xmlhttp.open("POST", "include/php/ogcrspdv_1.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
         //xmlhttp.open("POST", "include/php/ogcrspdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
         //****************END code to sell :DISH14NOV16******************************//
@@ -353,7 +363,7 @@ function showSlPrInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
             xmlhttp.open("POST", "include/php/ogspildv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
         } //  To Check For Crystal Code Added Code to add values in Barcode @Author:SHE18FEB15
         else if (panelName == 'CrystalPurchasePanel') {
-            //****************START code to sell :DISH14NOV16******************************//
+//****************START code to sell :DISH14NOV16******************************//
             xmlhttp.open("POST", "include/php/ogcrspdv_1.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
 //            xmlhttp.open("POST", "include/php/ogcrspdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
 //****************END code to sell :DISH14NOV16******************************//
@@ -385,7 +395,6 @@ function getAccDetailsDiv(accId, panel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/omacacdt.php?accId=" + accId + "&panel=" + panel, true);
     xmlhttp.send();
 }
@@ -394,7 +403,7 @@ function getAccDetailsDiv(accId, panel) {
 /**********Start code to add panel @Author:PRIYA14AUG14*****************/
 /**********Start code to add panel @Author:PRIYA13SEP14**********************/
 /**********Start code to add panel for add stock @Author:PRIYA27SEP14********************/
-function chngStockImgLoadOpt(chngStockImgLoadOption, panelName, itemCount) {
+function chngStockImgLoadOpt(chngStockImgLoadOption, panelName, itemCount, documentRootPath) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -421,10 +430,10 @@ function chngStockImgLoadOpt(chngStockImgLoadOption, panelName, itemCount) {
         }
     };
     if (chngStockImgLoadOption == 'COM') {
-        xmlhttp.open("POST", "include/php/omcsicim.php?panelName=" + panelName + "&itemCount=" + itemCount, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcsicim.php?panelName=" + panelName + "&itemCount=" + itemCount, true);
     }
     else if (chngStockImgLoadOption == 'WEB') {
-        xmlhttp.open("POST", "include/php/omcsadif.php?panelName=" + panelName + "&itemDivCount=" + itemCount, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcsadif.php?panelName=" + panelName + "&itemDivCount=" + itemCount, true);
     }
     xmlhttp.send();
 }
@@ -457,7 +466,6 @@ function chngStaffImgLoadOpt(chngStaffImgLoadOption, panelName, staffId) {
             }
         }
     };
-
     if (chngStaffImgLoadOption == 'Computer') {
         xmlhttp.open("POST", "include/php/omccpcim.php?panelName=" + panelName + "&staffId=" + staffId, true);
     }
@@ -477,7 +485,9 @@ function chngStaffImgLoadOpt(chngStaffImgLoadOption, panelName, staffId) {
 /***************Start code to Add slprinPanel @Author:ANUJA03APR15****************/
 /***************Start code to Add condition for raw metal OMMODTAG_SHE24DEC15****************/
 /***************Start code to Add condition for raw metal OMMODTAG_SHE07JAN16****************/
-function getPaymentDiv(documentRootPath, preInvoiceNo, postInvoiceNo, panelName, navPanel, slprinPanel, userId, suppId) {
+function getPaymentDiv(documentRootPath, preInvoiceNo, postInvoiceNo, panelName, navPanel, slprinPanel, userId, suppId, mainPanel, transPanelName) {
+    alert(mainPanel);
+    alert(transPanelName);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -499,7 +509,7 @@ function getPaymentDiv(documentRootPath, preInvoiceNo, postInvoiceNo, panelName,
     }
     else
     {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogpayment.php?paymentPanelName=" + panelName + "&preInvNo=" + preInvoiceNo + "&postInvNo=" + postInvoiceNo + "&slprinPanel=" + slprinPanel + "&userId=" + userId, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ompyamt.php?paymentPanelName=" + panelName + "&preInvNo=" + preInvoiceNo + "&postInvNo=" + postInvoiceNo + "&slprinPanel=" + slprinPanel + "&userId=" + userId + "&mainPanelName=" + mainPanel + "&transPanelName=" + transPanelName, true);
     }
     xmlhttp.send();
 }
@@ -635,7 +645,6 @@ function searchReportByDate(firmId, dd, mm, yyyy) {
     //alert(month);
     xmlhttp.open("POST", "include/php/orgnsfdv.php?firmId=" + firmId + "&dateDD=" + Date + "&dateMMM=" + month + "&dateYYYY=" + year, true);
     xmlhttp.send();
-
 }
 /**********End Code To Add Validation Func for date @Author:PRIYA14AUG13**************/
 /********* END CODE TO SEARCH ANALYSIS REPORT @AUTHOR: SANDY26JUN13 ***/
@@ -700,7 +709,8 @@ function showSellPurchaseItemDetails(documentRootPath, custId, preInvoiceNo, pos
 /*********Start code to add div @author:PRIYA15OCT14******************/
 //START chnage file name ogilimdv.php to ogilistsd.php and div change addStockItemDetails to jewellerySubPanel Author:GAUR26JUL16
 //add metal weight Author:GAUR29JUL16
-function navigationItemListPanel(pageNo, startRange, endRange, itemName, metalType, noOfPagesAsLink, weight) {
+function navigationItemListPanel(pageNo, startRange, endRange, itemName, metalType, noOfPagesAsLink, weight, panelName) {
+//    alert(panelName);
     if (pageNo == 0) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
@@ -711,7 +721,11 @@ function navigationItemListPanel(pageNo, startRange, endRange, itemName, metalTy
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.barcode_search.barcode_text.focus();
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("jewellerySubPanel").innerHTML = xmlhttp.responseText;
+                if (panelName == 'jwelleryPanel') {
+                    document.getElementById("jewellerySubPanel").innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById("jewellerySubPanel").innerHTML = xmlhttp.responseText;
+                }
                 if (pageNo >= 10) {
                     setPageValue(pageNo, noOfPagesAsLink);
                 } else {
@@ -721,8 +735,20 @@ function navigationItemListPanel(pageNo, startRange, endRange, itemName, metalTy
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
-        xmlhttp.open("POST", "include/php/ogilistsd.php?page=" + pageNo + "&startRange=" + startRange + "&endRange=" + endRange + "&itemName=" + itemName +
-                "&stockItemMetal=" + metalType + "&metalWt=" + weight, true);
+        if (panelName == 'jwelleryPanel') {
+            xmlhttp.open("POST", "include/php/ogijlimsd.php?page=" + pageNo + "&startRange=" + startRange + "&endRange=" + endRange + "&itemName=" + itemName +
+                    "&stockItemMetal=" + metalType + "&metalWt=" + weight, true);
+        } else if (panelName == 'WholsaleJwelleryPanel') {
+            xmlhttp.open("POST", "include/php/ogijlimsd_1.php?page=" + pageNo + "&startRange=" + startRange + "&endRange=" + endRange + "&itemName=" + itemName +
+                    "&stockItemMetal=" + metalType + "&metalWt=" + weight, true);
+        } else if (panelName == 'WindowShoppingList') {
+            xmlhttp.open("POST", "include/php/ogilstws.php?page=" + pageNo + "&startRange=" + startRange + "&endRange=" + endRange + "&itemName=" + itemName +
+                    "&stockItemMetal=" + metalType + "&metalWt=" + weight + "&divPanel=" + panelName, true);
+        } else {
+            xmlhttp.open("POST", "include/php/ogilistsd.php?page=" + pageNo + "&startRange=" + startRange + "&endRange=" + endRange + "&itemName=" + itemName +
+                    "&stockItemMetal=" + metalType + "&metalWt=" + weight, true);
+        }
+
         xmlhttp.send();
     }
 }
@@ -744,8 +770,7 @@ function getJournalBookByFrmId(firmId, dd, mm, yyyy) {
         }
     };
     var journalEntryDate = dd.value + '-' + mm.value + '-' + yyyy.value;
-
-    xmlhttp.open("POST", "include/php/omacjnendv.php?firmId=" + firmId + "&journalEntryDate=" + journalEntryDate + "&dd=" + dd.value + "&mm=" + mm.value + "&yyyy=" + yyyy.value, true);//change in this line to pass more variables @AUTHOR: SANDY20AUG13
+    xmlhttp.open("POST", "include/php/omacjnendv.php?firmId=" + firmId + "&journalEntryDate=" + journalEntryDate + "&dd=" + dd.value + "&mm=" + mm.value + "&yyyy=" + yyyy.value, true); //change in this line to pass more variables @AUTHOR: SANDY20AUG13
     xmlhttp.send();
 }
 /**End change in one line of this function  to pass more variables @AUTHOR: SANDY20AUG13 **/
@@ -854,30 +879,48 @@ function getTrialBalance(firmId, fromDD, fromMM, fromYY, toDD, toMM, toYY) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("trialBalanceDiv").innerHTML = xmlhttp.responseText;//CHANGE IN DIV @AUTHOR: SANDY17JAN14
+            document.getElementById("trialBalanceDiv").innerHTML = xmlhttp.responseText; //CHANGE IN DIV @AUTHOR: SANDY17JAN14
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
     xmlhttp.open("POST", "include/php/omactrbl.php?firmId=" + firmId + "&trialBalanceFromDD=" + fromDD + "&trialBalanceFromMM=" + fromMM + "&trialBalanceFromYY=" + fromYY
-            + "&trialBalanceToDD=" + toDD + "&trialBalanceToMM=" + toMM + "&trialBalanceToYY=" + toYY, true);//CHANGE IN FILE @AUTHOR: SANDY17JAN14
+            + "&trialBalanceToDD=" + toDD + "&trialBalanceToMM=" + toMM + "&trialBalanceToYY=" + toYY, true); //CHANGE IN FILE @AUTHOR: SANDY17JAN14
     xmlhttp.send();
 }
 /************End Code To Select Financial year In Trial Balance Panel @AUTHOR:PRIYA15MAR13*************/
 /***********Start Code To Select FirmId In Trial Balance Panel @AUTHOR:PRIYA14MAR13********/
+
+
+/************Start Code To Select Date In Stock Ledger Panel @AUTHOR:BAJRANG25FEB18*************/
+function getStockLedgerByDate(DOBDay, DOBMonth, DOBYear) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("purchaseDetails").innerHTML = xmlhttp.responseText; //CHANGE IN DIV @AUTHOR: SANDY17JAN14
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ogbbstdt.php?DOBDay=" + DOBDay + "&DOBMonth=" + DOBMonth + "&DOBYear=" + DOBYear, true); //CHANGE IN FILE @AUTHOR: SANDY17JAN14
+    xmlhttp.send();
+}
+/************End Code To Select Stock Ledger Panel @AUTHOR:BAJRANG25FEB18*************/
+
+
 function getTrialBalanceByFirmName(firmId, fromDD, fromMM, fromYY, toDD, toMM, toYY) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("trialBalanceDiv").innerHTML = xmlhttp.responseText;//CHANGE IN DIV @AUTHOR: SANDY17JAN14
+            document.getElementById("trialBalanceDiv").innerHTML = xmlhttp.responseText; //CHANGE IN DIV @AUTHOR: SANDY17JAN14
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/omactrbl.php?firmId=" + firmId + "&trialBalanceFromDD=" + fromDD + "&trialBalanceFromMM=" + fromMM + "&trialBalanceFromYY=" + fromYY
-            + "&trialBalanceToDD=" + toDD + "&trialBalanceToMM=" + toMM + "&trialBalanceToYY=" + toYY, true);//CHANGE IN FILE @AUTHOR: SANDY17JAN14
+            + "&trialBalanceToDD=" + toDD + "&trialBalanceToMM=" + toMM + "&trialBalanceToYY=" + toYY, true); //CHANGE IN FILE @AUTHOR: SANDY17JAN14
     xmlhttp.send();
 }
 /***********End Code To Select FirmId In Trial Balance Panel @AUTHOR:PRIYA14MAR13********/
@@ -933,7 +976,7 @@ function addStockExistingItemDiv(newPreInvoiceNo, newInvoiceNo, panelName) {
 /******************Start Code To show Stock Item Details Div @AUTHOR:PRIYA18MAR13*************/
 /******************Start Code To Change Stock Item Details Div @AUTHOR:PRIYA23APR13*************/
 /******************Start Code To Add Panel Name @AUTHOR:PRIYA04MAY13*************/
-function showItemDetailsDiv(documentRootPath, itstId, panelName, page) {
+function showItemDetailsDiv(documentRootPath, sttrId, panelName, page) {
     var panelNameItemDetails = panelName;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -948,12 +991,12 @@ function showItemDetailsDiv(documentRootPath, itstId, panelName, page) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogidsbdv.php?itstId=" + itstId + "&page=" + page, true);
+    xmlhttp.open("POST", "include/php/ogidsbdv.php?sttrId=" + sttrId + "&page=" + page, true);
     xmlhttp.send();
 }
 /******************End Code To Add Panel Name @AUTHOR:PRIYA04MAY13*************/
 /***********************Start Code To Delete Stock Item Details Div @AUTHOR:PRIYA18MAR13************/
-function deleteItemDetails(itstId) {
+function deleteItemDetails(sttrId) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -962,7 +1005,6 @@ function deleteItemDetails(itstId) {
             document.getElementById("stockItemDetailsDiv" + itstId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombbblnk.php", true);
     xmlhttp.send();
 }
@@ -982,7 +1024,6 @@ function getAccByFrmId(firmId, acntType) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/omacaclt.php?firmId=" + firmId + "&accountType=" + acntType, true);
     xmlhttp.send();
 }
@@ -1007,18 +1048,25 @@ function getAddAccByFrmId(firmId) {
 /********End Code To Select FirmId In  Accounts Panel @AUTHOR:PRIYA19MAR13**********/
 /********Start Code To Select FirmId In Transaction Panel @AUTHOR:PRIYA19MAR13**********/
 /* * **Start to change code @AUTHOR: SANDY08FEB14***** */
-function getTransactionAccountsByFrmId(firmId, day, month, year) {
+function getTransactionAccountsByFrmId(firmId, day, month, year, panel) {
+
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainTransactionDiv").innerHTML = xmlhttp.responseText;
-            getFirmVoucherNo(firmId); //CALL FUNCTION TO SET VCH ID @AUTHOR: SANDY02JAN14
+            getFirmVoucherNo(firmId, panel); //CALL FUNCTION TO SET VCH ID
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/omtatrndsb.php?firmId=" + firmId + "&day=" + day + "&month=" + month + "&year=" + year, true); //change in file @AUTHOR: SANDY02JAN14
+    /***********************************Check flag to set firm id on Transaction Payment Panel //modified by Harhsad//*****************************/
+    if (panel == 'transactionPayment') {
+        xmlhttp.open("POST", "include/php/omtransactionPanel.php?firmId=" + firmId + "&day=" + day + "&month=" + month + "&year=" + year, true); //change in file @AUTHOR: SANDY02JAN14
+    } else {
+        xmlhttp.open("POST", "include/php/omtatrndsb.php?firmId=" + firmId + "&day=" + day + "&month=" + month + "&year=" + year, true); //change in file @AUTHOR: SANDY02JAN14 
+    }
+
     xmlhttp.send();
 }
 /* * **End to change code @AUTHOR: SANDY08FEB14***** */
@@ -1033,14 +1081,13 @@ function deleteSlPrItemDetails(slPrPreItemId, slPrItemId) {
             document.getElementById("slPrItemDetailsDiv" + slPrPreItemId + slPrItemId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombbblnk.php", true);
     xmlhttp.send();
 }
 /***********************Start Code To Delete Sell Purchase Item Details Div @AUTHOR:PRIYA22MAR13************/
 /********Start Code To Add Function For Repair Table @AUthor:PRIYA10APR13******************/
 function getRepairTableDiv() {
-    confirm_box = confirm("Do you really want Repair Data Base?\n" + takeBackupAlertMsg);//add variables of alert msgs @AUTHOR: SANDY29JAN14
+    confirm_box = confirm("Do you really want Repair Data Base?\n" + takeBackupAlertMsg); //add variables of alert msgs @AUTHOR: SANDY29JAN14
 
     if (confirm_box == true)
     {
@@ -1057,7 +1104,6 @@ function getRepairTableDiv() {
                 document.getElementById("dataRepairButt").innerHTML = "<img src='images/ajaxLoad.gif' />";
             }
         };
-
         xmlhttp.open("POST", "include/php/ommptbrp.php", true);
         xmlhttp.send();
     }
@@ -1069,11 +1115,6 @@ function valSearchStockByAmountRangeInputs(obj) {
         document.srch_stock_AmtRange.stockAmtStartRange.focus();
         return false;
     }
-    /*else if (validateEmptyField(document.srch_stock_AmtRange.stockAmtEndRange.value,"Please enter end range!") == false ||
-     validateNumWithDot(document.srch_stock_AmtRange.stockAmtEndRange.value,"Accept only Numbers without space character!") == false) {
-     document.srch_stock_AmtRange.stockAmtEndRange.focus();
-     return false;
-     }*/
     else if (validateEmptyField(document.srch_stock_AmtRange.stockAmtEndRange.value, "Please enter end range!") == false)
     {
         document.srch_stock_AmtRange.stockAmtEndRange.focus();
@@ -1084,9 +1125,7 @@ function valSearchStockByAmountRangeInputs(obj) {
 
 function search_stock_by_amt_range(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchStockByAmtRange;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -1107,19 +1146,24 @@ function alertSearchStockByAmtRange() {
 }
 /**********End code to change div @Author:PRIYA06FEB14*************/
 /*********Start Code To Add Metal Type In Jwellery Search Panel @AUTHOR:PRIYA28APR13*********/
+//********************************************************************************************
+// Start code to add for search by category @Author:PRIYANKA-10JULY18
+//********************************************************************************************
 function searchStockByAmountRange(obj) {
     if (valSearchStockByAmountRangeInputs(obj)) {
         var poststr = "startRange=" + encodeURIComponent(document.srch_stock_AmtRange.stockAmtStartRange.value)
                 + "&endRange=" + encodeURIComponent(document.srch_stock_AmtRange.stockAmtEndRange.value)
                 + "&itemName=" + encodeURIComponent(document.srch_stock_AmtRange.stockItemName.value)
+                + "&itemCat=" + encodeURIComponent(document.srch_stock_AmtRange.stockItemCat.value)
                 + "&stockItemMetal=" + encodeURIComponent(document.srch_stock_AmtRange.stockItemMetal.value)
-                + "&metalWt=" + encodeURIComponent(document.srch_stock_AmtRange.selectMetalWeight.value);//TO PASS METAL WEIGHT TYPE @AUTHOR: SANDY7AUG13
-
-        //alert( poststr);  
+                + "&metalWt=" + encodeURIComponent(document.srch_stock_AmtRange.selectMetalWeight.value); //TO PASS METAL WEIGHT TYPE @AUTHOR: SANDY7AUG13
         search_stock_by_amt_range('include/php/ogilistsd.php', poststr);
     }
 }
 /*********End Code To Add Metal Type In Jwellery Search Panel @AUTHOR:PRIYA28APR13*********/
+//*******************************************************************************************
+// End code to add for search by category @Author:PRIYANKA-10JULY18
+//********************************************************************************************
 function navigationStockListPanelByAmtRange(pageNo, startRange, endRange) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -1132,7 +1176,6 @@ function navigationStockListPanelByAmtRange(pageNo, startRange, endRange) {
             document.getElementById("ajaxLoadNextItemsListButt").style.visibility = "hidden";
         }
     };
-
     xmlhttp.open("POST", "include/php/ogilimsd.php?page=" + pageNo + "&startRange=" + startRange + "&endRange=" + endRange, true);
     xmlhttp.send();
 }
@@ -1202,7 +1245,6 @@ function navigationStockListPanelByAmtRange(pageNo, startRange, endRange) {
             document.getElementById("ajaxLoadNextItemsListButt").style.visibility = "hidden";
         }
     };
-
     xmlhttp.open("POST", "include/php/ogilimsd.php?page=" + pageNo + "&startRange=" + startRange + "&endRange=" + endRange, true);
     xmlhttp.send();
 }
@@ -1382,16 +1424,13 @@ function validateAddCustDetailsMobileNoInputs(custMobNo) {
 function add_custDetails_mobile_no(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertAddCustDetailsMobileNo;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertAddCustDetailsMobileNo() {
 
@@ -1406,7 +1445,6 @@ function alertAddCustDetailsMobileNo() {
     } else {
         document.getElementById(custMobId).value = 'Not Updated';
         window.setTimeout(closeAddCustDetailsMobileNoMess, 1000);
-
     }
     function closeAddCustDetailsMobileNoMess()
     {
@@ -1419,12 +1457,10 @@ function addCustDetailsMobileNo(mobNo, oldMobNo, custId, panelName) {
     custMobId = 'custDetailsMobileNo' + custId;
     custMobNo = mobNo;
     custOldMobNo = oldMobNo;
-
     if (validateAddCustDetailsMobileNoInputs(custMobNo)) {
         var poststr = "mobNo=" + encodeURIComponent(mobNo)
                 + "&custId=" + encodeURIComponent(custId)
                 + "&mobUpPanel=" + encodeURIComponent(panelName);
-
         add_custDetails_mobile_no('include/php/omccdtmb.php', poststr);
     }
 }
@@ -1452,16 +1488,13 @@ function validateAddCustDetailsCityInputs(custCity) {
 function add_custDetails_city(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertAddCustDetailsCity;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertAddCustDetailsCity() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -1475,7 +1508,6 @@ function alertAddCustDetailsCity() {
     } else {
         document.getElementById(custCityId).value = 'Not Updated';
         window.setTimeout(closeAddCustDetailsCityMess, 1000);
-
     }
     function closeAddCustDetailsCityMess()
     {
@@ -1486,11 +1518,9 @@ function addCustDetailsCity(city, oldCity, custId) {
     custCityId = 'custDetailsCity' + custId;
     custCity = city;
     custOldCity = oldCity;
-
     if (validateAddCustDetailsCityInputs(custCity)) {
         var poststr = "city=" + encodeURIComponent(city)
                 + "&custId=" + encodeURIComponent(custId);
-
         add_custDetails_city('include/php/omccdtct.php', poststr);
     }
 }
@@ -1501,23 +1531,19 @@ var custInterestDiv;
 var custInt;
 function add_custDetails_custInterest(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertAddCustDetailsCustInterest;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertAddCustDetailsCustInterest() {
 
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById('custInterestListDivToAddInterest' + custInterestListDivid).innerHTML = xmlhttp.responseText;
-
         if (keyCode == 40 || keyCode == 38) {
             document.getElementById('custInterestListDiv' + custInterestListDivid).focus();
             document.getElementById('custInterestListDiv' + custInterestListDivid).options[0].selected = true;
@@ -1530,12 +1556,9 @@ function addCustDetailsCustInterest(custInterest, custId, keyCodeInput) {
 
     keyCode = keyCodeInput;
     custInterestListDivid = custId;
-
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-
     var poststr = "custInterest=" + encodeURIComponent(custInterest)
             + "&custId=" + encodeURIComponent(custInterestListDivid);
-
     add_custDetails_custInterest('include/php/omccdtin.php', poststr);
 }
 
@@ -1550,7 +1573,6 @@ function clearSearchCustInterestPanel() {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombbblnk.php", true);
     xmlhttp.send();
 }
@@ -1558,16 +1580,13 @@ function clearSearchCustInterestPanel() {
 function update_custDetails_custInterest(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateCustDetailsCustInterest;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertUpdateCustDetailsCustInterest() {
 
@@ -1582,14 +1601,13 @@ function alertUpdateCustDetailsCustInterest() {
 /*********Start code to change custId @Author:PRIYA26JUL14************/
 function updateCustInterest(custInterest, custId, pageNo) {
     custInterestDiv = 'custDetailsCustInterest' + custId;
-    custInterest = custInterest.substr(0, 5);  //line added @Author:PRIYA23JUN14
+    custInterest = custInterest.substr(0, 5); //line added @Author:PRIYA23JUN14
     custInt = custInterest;
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     custInterestListDivid = custId;
     var poststr = "custInterest=" + encodeURIComponent(custInterest)
             + "&custId=" + encodeURIComponent(custId)
             + "&pageNo=" + encodeURIComponent(pageNo);
-
     update_custDetails_custInterest('include/php/omccdtad.php', poststr);
 }
 /*********End code to change custId @Author:PRIYA26JUL14************/
@@ -1604,7 +1622,6 @@ function commentCloseButton(custId) {
             document.getElementById("custComments" + custId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombbblnk.php", true);
     xmlhttp.send();
 }
@@ -1691,7 +1708,6 @@ function showDailyDiaryDetails(documentRootPath, tableId, divId, panelDDDetClick
     var poststr = "tableId=" + tableId +
             "&panelDDDetClick=" + panelDDDetClick + "&firmId=" + firmId +
             "&fromDate=" + fromDate + "&toDate=" + toDate + "&transFirmId=" + transFirmId;
-
     if (divId == 'purchaseDetailsDiv') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogddprdv.php?" + poststr, true);
     } else if (divId == 'rawPurchaseDetailsDiv') {
@@ -1715,9 +1731,9 @@ function showDailyDiaryDetails(documentRootPath, tableId, divId, panelDDDetClick
     } else if (divId == 'transDetDiv') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omddbtld.php?" + poststr, true);
     } else if (divId == 'mLLoanMDepDetDiv') {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orddmldp.php?" + poststr, true);//change in filename @AUTHOR: SANDY13DEC13 //filename changed @Author:PRIYA27JAN14
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orddmldp.php?" + poststr, true); //change in filename @AUTHOR: SANDY13DEC13 //filename changed @Author:PRIYA27JAN14
     } else if (divId == 'mlLoanRelDiv') {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orddmlrl.php?" + poststr, true);//change in filename @AUTHOR: SANDY13DEC13  //filename changed @Author:PRIYA27JAN14
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orddmlrl.php?" + poststr, true); //change in filename @AUTHOR: SANDY13DEC13  //filename changed @Author:PRIYA27JAN14
     }
     xmlhttp.send();
 }
@@ -1737,7 +1753,6 @@ function closeDDDet(tableId, divId) {
             document.getElementById(divId + tableId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombbblnk.php", true);
     xmlhttp.send();
 }
@@ -1747,9 +1762,7 @@ function closeDDDet(tableId, divId) {
 /*********Start Code To Navigate to Cust Home In Daily Diary Panel @AUTHOR:PRIYA01MAY13**********/
 function search_cust_by_custId(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchCustByCustId;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -1762,7 +1775,6 @@ function alertSearchCustByCustId() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
-
     } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
@@ -1770,10 +1782,9 @@ function alertSearchCustByCustId() {
 function showCustInfo(slCustId) {
 
     poststr = "custId=" + encodeURIComponent(slCustId);
-
     search_cust_by_custId('include/php/omcdcshm.php', poststr);
 }
-function showCustPanel(custId, custPanelOption) {
+function showCustPanel(custId, custPanelOption, mainPanel) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -1784,7 +1795,7 @@ function showCustPanel(custId, custPanelOption) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("GET", "include/php/omcdccdd.php?custId=" + custId + "&custPanelOption=" + custPanelOption + "&panelDivName=SellPurchase" + "&mainPanel=SoldOutList",
+    xmlhttp.open("GET", "include/php/omcdccdd.php?custId=" + custId + "&custPanelOption=" + custPanelOption + "&panelDivName=SellPurchase" + "&mainPanel=" + mainPanel,
             true); // parameters changed redirect to sold out list @Author:SHRI17NOV16
     xmlhttp.send();
 }
@@ -1802,9 +1813,7 @@ function showDailyDiarySellDetails(documentRootPath, invId) {
             document.getElementById('sellDetailsDiv' + invId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogddsldt.php?invId=" + invId, true);
-
     xmlhttp.send();
 }
 /*******End Code To Show Sell Details In Daily Diary Panel @AUTHOR:PRIYA01MAY13********/
@@ -1820,7 +1829,6 @@ function closeSellDetails(invId) {
             document.getElementById("sellDetailsDiv" + invId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombbblnk.php", true);
     xmlhttp.send();
 }
@@ -1875,7 +1883,6 @@ function sortGirviTransferPanel(documentRootPath, sortKeyword, selFirmId, rowsPe
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/orgptrgl.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId +
             "&rowsPerPage=" + rowsPerPage + "&selTFirmId=" + selTFirmId + "&gTransStatus=" + gTransStatus + "&selMlName=" + selMlName, true);
     xmlhttp.send();
@@ -1897,7 +1904,6 @@ function navigationTransferredGirviListPanel(pageNo, selFirmId, sortKeyword, row
             document.getElementById("ajaxLoadNextGirviPanelListButt").style.visibility = "hidden";
         }
     };
-
     xmlhttp.open("POST", "include/php/orgptrgl.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&rowsPerPage=" + rowsPerPage + "&searchColumn=" + searchColumn +
             "&searchValue=" + searchValue + "&selTFirmId=" + selTFirmId + "&gTransStatus=" + gTransStatus, true);
     xmlhttp.send();
@@ -1916,7 +1922,6 @@ function showSuppHomeAddStockPanel(documentRootPath, suppId, panelName) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwhiadv.php?suppId=" + suppId + "&panelName=" + panelName, true);
     xmlhttp.send();
 }
@@ -1937,7 +1942,6 @@ function showSuppStockUpdateDiv(documentRootPath, suppNwOrId, suppId, preInvNo, 
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     if (panelName == 'SuppOrderUp')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwhiadv.php?suppNwOrId=" + suppNwOrId + "&suppId=" + suppId + "&preInvNo=" + preInvNo + "&postInvNo=" + postInvNo
                 + "&panelName=" + panelName + "&payPanelName=" + panelName, true);
@@ -1991,7 +1995,7 @@ function getOmrevoLedgerBook(panelName) {
     else if (panelName == 'loanInt')
         xmlhttp.open("GET", "include/php/orbbinbs.php", true);
     else if (panelName == 'userTransaction')
-        xmlhttp.open("GET", "include/php/orbbblsh_1.php", true);
+        xmlhttp.open("GET", "include/php/ombbblsh_1.php", true);   // change file name prefix or=> om @ratnakar 01MAR2018
     else if (panelName == 'completeLedger')
         xmlhttp.open("GET", "include/php/ombbcmbs.php", true);
     xmlhttp.send();
@@ -2045,7 +2049,6 @@ function navigateLayoutPanel() {
             document.getElementById("ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ompplypn.php", true);
     xmlhttp.send();
 }
@@ -2054,16 +2057,13 @@ function navigateLayoutPanel() {
 /********************Start Code To Change Div In Transfer Girvi @Author:PRIYA29JUN13********/
 function refresh_trans_girvi(url, parameters) {
     loadXMLDoc2();
-
     xmlhttp2.onreadystatechange = alertRefreshTransGirvi;
-
     xmlhttp2.open('POST', url, true);
     xmlhttp2.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp2.setRequestHeader("Connection", "close");
     xmlhttp2.setRequestHeader("Content-length", parameters.length);
     xmlhttp2.send(parameters);
-
 }
 function alertRefreshTransGirvi() {
 
@@ -2078,8 +2078,7 @@ function alertRefreshTransGirvi() {
 function refreshTransGirvi(girviId, girviTransId) {
     var poststr = "girviId=" + girviId
             + "&girviTransId=" + girviTransId;
-
-    refresh_trans_girvi('include/php/olgggtrn.php', poststr);//changes in navigation AS per new filename @AUTHOR: SANDY20NOV13
+    refresh_trans_girvi('include/php/olgggtrn.php', poststr); //changes in navigation AS per new filename @AUTHOR: SANDY20NOV13
 }
 /********************End Code To Change Div In Transfer Girvi @Author:PRIYA29JUN13********/
 /********************End Code To Refresh Image In Transfer Girvi @AUTHOR:PRIYA27JUNE13********/
@@ -2087,7 +2086,6 @@ function refreshTransGirvi(girviId, girviTransId) {
 /*********** Start code to condition MaxSellAnalysisPanel @AUTHOR: GAUR2AUG16 *****/
 function showAnalysisReportByDate(panelName, firmId, mmm, yyyy) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -2152,7 +2150,6 @@ function showAnalysisReportByDate(panelName, firmId, mmm, yyyy) {
         xmlhttp.open("POST", "include/php/orgnsfstd.php?firmId=" + firmId + "&month=" + mmm + "&year=" + yyyy + "&metal=" + metal, true);
     }
     xmlhttp.send();
-
 }
 /*********** END code to condition MaxSellAnalysisPanel @AUTHOR: GAUR2AUG16 *****/
 /*********** End code to find analysis report from month and year @AUTHOR: SANDY2JUL13 *****/
@@ -2298,9 +2295,7 @@ function validateSms() {
 /*********End Code To Hide Func because same Func exists in emValidate File  @Author:PRIYA02JUL13**********/
 function send_sms(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSendSms;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -2313,7 +2308,7 @@ smsFailCounter = 0;
 function alertSendSms() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-        document.getElementById("smsMessDisplayDiv").innerHTML = xmlhttp.responseText;//change in div @AUTHOR: SANDY4DEC13
+        document.getElementById("smsMessDisplayDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY4DEC13
         window.setTimeout(closeSmsSentDispDiv, 10);
     } else {
         smsResult = xmlhttp.responseText;
@@ -2358,7 +2353,6 @@ function sendSMS() {
     smsFailCounter = 0;
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     document.getElementById("smsButt").style.visibility = "hidden";
-
     var smsOption = document.getElementsByName('smsOption');
     var smsOptionValue;
     var poststr;
@@ -2384,7 +2378,7 @@ function sendSMS() {
                     + "&smsTemplates=" + encodeURIComponent(document.getElementById("smsTemplates").value)
                     + "&smsText=" + encodeURIComponent(document.getElementById("smsText").value)
                     + "&interestList=" + encodeURIComponent(intValue)
-                    + "&smsStaffId=" + encodeURIComponent(document.getElementById("smsStaffId").value);//staffId added @Author:PRIYA09FEB15
+                    + "&smsStaffId=" + encodeURIComponent(document.getElementById("smsStaffId").value); //staffId added @Author:PRIYA09FEB15
         } else if (smsOptionValue == 'mobileNo') {
             poststr = "mobileNo=" + encodeURIComponent(document.getElementById("mobileNo").value)
                     + "&smsTemplates=" + encodeURIComponent(document.getElementById("smsTemplates").value)
@@ -2414,9 +2408,7 @@ function sendSMS() {
 var keyCode;
 function search_template(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchTemplate;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -2440,17 +2432,13 @@ function alertSearchTemplate() {
 function searchTemplate(tempSub, keyCodeInput) {
     keyCode = keyCodeInput;
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-
     var poststr = "tempSub=" + encodeURIComponent(tempSub);
-
     search_template('include/php/omcsmstl.php', poststr);
 }
 //
 function search_template(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchSMSTemplate;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -2473,18 +2461,14 @@ function alertSearchSMSTemplate() {
 function searchSMSTemplate(tempSub, keyCodeInput) {
     keyCode = keyCodeInput;
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-
     var poststr = "tempSub=" + encodeURIComponent(tempSub);
-
     search_template('include/php/omsmsstp.php', poststr);
 }
 /**********End Code To Search Templates In sms Panel @Author:PRIYA10JUL13*********************/
 /**********Start Code To Search Temp For Panel Blank @Author:PRIYA10JUL13************/
 function search_Sms_Temp_for_panel_blank(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchSmsTempForPanelBlank;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -2505,9 +2489,7 @@ function alertSearchSmsTempForPanelBlank() {
 function searchSmsTempForPanelBlank() {
 
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-
     var poststr = "";
-
     search_Sms_Temp_for_panel_blank('include/php/ombbblnk.php', poststr);
 }
 /**********End Code To Search Temp For Panel Blank @Author:PRIYA10JUL13************/
@@ -2686,9 +2668,8 @@ function getPagingNavigation(pageNo, rowsPerPage, panel, custId, panelName, star
 /******* Start code to add condition for Raw Metal @Author:SHE13JAN16*******/
 /******* Start code to add condition for retail and wholesale panel list @Author:SHRI05APR16**************/
 //START chnage file name ogilimsd.php to ogilistsd.php @Author:GAUR26JUL16
-function showNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, nwOrPanel, custId)
+function showNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, nwOrPanel, custId, panelName)
 {
-//    alert(nwOrPanel);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2701,6 +2682,8 @@ function showNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, nwOrP
             } else if (upRowsPanel == 'rawStockList') {
                 document.getElementById("rawMetalStockListDiv").innerHTML = xmlhttp.responseText;
             } else if (upRowsPanel == 'JewelleryPanel') {
+                document.getElementById("jewellerySubPanel").innerHTML = xmlhttp.responseText;
+            } else if (upRowsPanel == 'ImtJewelleryPanel' || upRowsPanel == 'ImtWholsaleJewelleryPanel') {
                 document.getElementById("jewellerySubPanel").innerHTML = xmlhttp.responseText;
             } else if (nwOrPanel == 'PurchaseList') {
                 document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
@@ -2738,6 +2721,10 @@ function showNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, nwOrP
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrmlist.php?rowsPerPage=" + rowsPerPage + "&page=" + pageNum + "&panel=" + upRowsPanel + "&listPanel=" + nwOrPanel, true);
     } else if (upRowsPanel == 'JewelleryPanel') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilistsd.php?rowsPerPage=" + rowsPerPage + "&panel=" + upRowsPanel, true);
+    } else if (upRowsPanel == 'ImtJewelleryPanel') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijlimsd.php?rowsPerPage=" + rowsPerPage + "&panel=" + upRowsPanel + "&panelName=" + panelName, true);
+    } else if (upRowsPanel == 'ImtWholsaleJewelleryPanel') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijlimsd_1.php?rowsPerPage=" + rowsPerPage + "&panel=" + upRowsPanel + "&panelName=" + panelName, true);
     } else if (nwOrPanel == 'PurchaseList') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiaprlt.php?rowsPerPage=" + rowsPerPage + "&panel=" + nwOrPanel + "&stockUpdateRows=" + upRowsPanel, true);
     } else if (upRowsPanel == 'UdhaarUpdateRows') {
@@ -2853,16 +2840,13 @@ function validateUpdateSmsMobileNoInputs(smsUpMobNo) {
 function update_sms_mobile_no(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateSmsMobileNo;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertUpdateSmsMobileNo() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2876,7 +2860,6 @@ function alertUpdateSmsMobileNo() {
     } else {
         document.getElementById(smsMobId).value = 'Not Updated';
         window.setTimeout(closeUpdateSmsMobNoMess, 1000);
-
     }
     function closeUpdateSmsMobNoMess()
     {
@@ -2888,14 +2871,12 @@ function updateSmsMobNo(mobNo, oldMobNo, smsId, userId, panelName) {
     smsMobId = 'smsMobUp' + smsId;
     smsUpMobNo = mobNo;
     smsOldMobNo = oldMobNo;
-
     if (validateUpdateSmsMobileNoInputs(smsUpMobNo)) {
         var poststr = "mobNo=" + encodeURIComponent(mobNo)
                 + "&smsId=" + encodeURIComponent(smsId)
                 + "&userId=" + encodeURIComponent(userId)
                 + "&upPanelName=" + encodeURIComponent(panelName)
                 + "&mobUpPanel=" + 'smsMobUpPanel';
-
         update_sms_mobile_no('include/php/omccdtmb.php', poststr);
     }
 }
@@ -2903,6 +2884,7 @@ function updateSmsMobNo(mobNo, oldMobNo, smsId, userId, panelName) {
 /************End code To Update sms Mob No @Author:PRIYA08AUG13*******/
 /************Start Code To Add Func For ctrl+Enter Key @Author:PRIYA17AUG13*******/
 function initFormName(formName, funName) {
+//    alert(formName);
     gbCLTFormName = formName;
     gbCLTFormFun = funName;
 }
@@ -2928,6 +2910,7 @@ function valKeyPressedForChar(evt) {
 /************Start Code To Add Func For NumNDot @Author:PRIYA17AUG13*******/
 /************Start code To Add  Validn for BackSpace @Author:PRIYA18AUG13**********/
 function valKeyPressedForNumNDot(evt) {
+
     var charCode = (evt.which) ? evt.which : event.keyCode;
     if (charCode == 46 || charCode == 8) {
         return true;
@@ -2937,6 +2920,8 @@ function valKeyPressedForNumNDot(evt) {
     }
     return true;
 }
+
+
 /************End code To Add  Validn for BackSpace @Author:PRIYA18AUG13**********/
 /************Start code To Add  Validn for Single and Double Quotes @Author:PRIYA19AUG13**********/
 function valKeyPressedForQuotes(evt) {
@@ -2962,7 +2947,7 @@ function valKeyPressedForNumNDotNDash(evt) {
 /************Start Code To Add Fun For Search Item In SP Panel @Author:PRIYA21JAN14*********/
 /**************Start code for pass txtType parameter for delete Author:SANT16DEC16***************************/
 function searchItemByItemId(searchItemId, autoEntryValue, custId) {
-//    alert(searchItemId);
+
     var searchItemIdLen = searchItemId.length;
     var searchItemIdTemp = searchItemId;
     var tempLen = searchItemIdLen;
@@ -2972,7 +2957,74 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
 
         var field = searchItemIdTemp.substr(0, 1);
         searchItemIdTemp = searchItemIdTemp.substr(1);
+        if (field.match(alphaExp)) {
+            charLen = charLen + 1;
+        } else {
+            break;
+        }
+        tempLen = tempLen - 1;
+    }
+    var searchItemIdCharPart = searchItemId.substr(0, charLen);
+    var searchItemIdNumPart = searchItemId.substr(charLen);
+    
+    //alert('searchItemIdCharPart == ' + searchItemIdCharPart);
+    //alert('searchItemIdNumPart == ' + searchItemIdNumPart);
 
+    if (document.getElementById("srchDelItemId")) {
+        // ADDED CONDITION FOR RETURN ITEM CODE @RATNAKAR 09FEB2018
+        if (document.getElementById('srchDelItemId').value != '') {
+            // IT WILL SET ITEM PRE ID & POST ID IN CASE OF WINDOW ITEM RETURN @RATNAKAR 09FEB2018
+            document.getElementById('srchdelItemPreId').value = searchItemIdCharPart;
+            document.getElementById('srchdelItemPostId').value = searchItemIdNumPart;
+        } else {
+            // IT WILL SET ITEM PRE ID & POST ID IN CASE OF ITEM SELL/PURCHASE @RATNAKAR 09FEB2018
+            document.getElementById('srchItemPreId').value = searchItemIdCharPart;
+            document.getElementById('srchItemPostId').value = searchItemIdNumPart;
+        }
+    } else {
+
+        // IT WILL SET ITEM PRE ID & POST ID IN CASE OF ITEM SELL/PURCHASE @RATNAKAR 09FEB2018
+        document.getElementById('srchItemPreId').value = searchItemIdCharPart;
+        document.getElementById('srchItemPostId').value = searchItemIdNumPart;
+    }
+    if (autoEntryValue == 'YES') {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                 document.getElementById("slPrDiv").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+
+        if (document.getElementById("srchDelItemId")) {
+
+            xmlhttp.open("GET", "include/php/ogspjsdv.php?srchItemPreId=" + searchItemIdCharPart + "&srchItemPostId=" + searchItemIdNumPart +
+                    "&custId=" + custId + "&panelName=" + 'autoEntry' + "&autoEntry=" + autoEntryValue + "&charLen=" + charLen, true);
+
+        } else {
+            xmlhttp.open("GET", "include/php/ogspjsdv.php?srchItemPreId=" + searchItemIdCharPart + "&srchItemPostId=" + searchItemIdNumPart +
+                    "&custId=" + custId + "&panelName=" + 'autoEntry' + "&autoEntry=" + autoEntryValue + "&charLen=" + charLen, true);
+        }
+        xmlhttp.send();
+        
+    } else {
+        return false;
+    }
+}
+/**************End code for pass txtType parameter for delete Author:SANT16DEC16***************************/
+/**************Start code for pass txtType parameter for delete Author:SANT16DEC16***************************/
+function searchCrystalItemByItemId(searchItemId, autoEntryValue, custId) {
+    var searchItemIdLen = searchItemId.length;
+    var searchItemIdTemp = searchItemId;
+    var tempLen = searchItemIdLen;
+    var charLen = 0;
+    var alphaExp = /^[a-zA-Z]+$/;
+    while (tempLen > 0) {
+
+        var field = searchItemIdTemp.substr(0, 1);
+        searchItemIdTemp = searchItemIdTemp.substr(1);
         if (field.match(alphaExp)) {
             charLen = charLen + 1;
         } else {
@@ -2984,9 +3036,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
     var searchItemIdNumPart = searchItemId.substr(charLen);
     document.getElementById('srchItemPreId').value = searchItemIdCharPart;
     document.getElementById('srchItemPostId').value = searchItemIdNumPart;
-//    alert(document.getElementById('srchItemPostId').value);
-    document.getElementById('srchdelItemPreId').value = searchItemIdCharPart;
-    document.getElementById('srchdelItemPostId').value = searchItemIdNumPart;
+//    document.getElementById('barcodeId').value = document.getElementById('srchItemPostId').value;
     if (autoEntryValue == 'YES') {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
@@ -2994,11 +3044,12 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 var status = xmlhttp.responseText;
                 if (status != 'SUCCESS' && status != '') {
-//                    alert(status);
+
                     // document.getElementById("autoEntryMessDisplayDiv").value = status; 
                     document.getElementById("srchItemId").value = '';
                 }
                 if (autoEntryValue == 'YES' && status == 'SUCCESS') {
+//                    alert('hello');
                     document.getElementById("sell_purchase").submit();
                     return true;
                 } else {
@@ -3008,7 +3059,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
-        xmlhttp.open("GET", "include/php/ogspstat.php?srchItemPreId=" + searchItemIdCharPart + "&srchItemPostId=" + searchItemIdNumPart +
+        xmlhttp.open("GET", "include/php/ogcrslstat.php?srchItemPreId=" + searchItemIdCharPart + "&srchItemPostId=" + searchItemIdNumPart +
                 "&custId=" + custId + "&panelName=" + 'autoEntry', true);
         xmlhttp.send();
     } else {
@@ -3032,7 +3083,6 @@ function getAccBalDetailsByFirmName(firmId) {
     var postYear = encodeURIComponent(document.get_account_balance_sheet_form.balanceSheetYear.value);
     xmlhttp.open("POST", "include/php/omaccbal.php?firmId=" + firmId + "&postYear=" + postYear, true);
     xmlhttp.send();
-
 }
 /***********END Code To Select FirmId In Account Balance Details Panel @AUTHOR: GAUR11JAN16********/
 /***********Start Code To Select Year In Account Balance Details Panel @AUTHOR: GAUR29DEC15********/
@@ -3047,10 +3097,8 @@ function getAccBalDate(balanceSheetYear) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/omaccbal.php?firmId=" + balanceSheetYear, true);
     xmlhttp.send();
-
 }
 /***********END Code To Select Year In Account Balance Details Panel @AUTHOR: GAUR29DEC15********/
 /**********Start to add function showCountBal @AUTHOR: GAUR26DEC15****************/
@@ -3068,3 +3116,146 @@ function showCountBal() {
     xmlhttp.send();
 }
 /**********End to add function showCountBal @AUTHOR: GAUR26DEC15****************/
+
+/**********Start to add function getInvoice @AUTHOR: RATNAKAR01SEP17****************/
+function getInvoice(changeInv, srchItemPreId, srchItemPostId, custId, panelName, txtType) {
+    var firstChar = srchItemPreId.charAt(0);
+    var res = firstChar.toUpperCase(); //chnaged @OMMODTAG PRIYA_05MAY15
+    loadXMLDoc();
+//    alert(panelName);
+    var preInvNo = "";
+    var postInvNo = "";
+    if (panelName == 'orderPickStock') {
+        var str = txtType.split(';');
+        preInvNo = str[0];
+        postInvNo = str[1];
+    }
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            if (panelName == 'AddUdhaar' || panelName == 'UpdateUdhaar') {
+                document.getElementById("udhaarSubDiv").innerHTML = xmlhttp.responseText;
+            } else if (panelName == 'AddMoney' || panelName == 'UpdateAdvMoney') {
+                document.getElementById("advMoneyDiv").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("sellPurchaseItemDetails").innerHTML = xmlhttp.responseText;
+                if (res == 'G' || res == 'S' || res == 'O') {
+                    searchItemNames(itemName, metalType, divNum, keyCodeInput);
+                }
+
+                document.getElementById('slPrDOBDay').focus();
+            }
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    //alert('srchItemPreId=='+srchItemPreId);
+    //alert('srchItemPostId=='+srchItemPostId);
+//    alert('panelName=='+panelName);
+//alert('txtType=='+txtType);
+//         if (panelName == 'StockPurchasePanel') {
+    if (panelName == 'AddUdhaar') {
+        udhaarAmt = document.getElementById('udhaarMainAmount').value;
+        firmId = document.getElementById('udhharFirmId').value;
+        sday = document.getElementById('DOBDay').value;
+        smonth = document.getElementById('DOBMonth').value;
+        syear = document.getElementById('DOBYear').value;
+        eday = document.getElementById('endDOBDay').value;
+        emonth = document.getElementById('endDOBMonth').value;
+        eyear = document.getElementById('endDOBYear').value;
+        udhaarType = document.getElementById('udhaarType').value;
+        otherInfo = document.getElementById('udhaarOtherInfo').value;
+        accId = document.getElementById('udhaarPayAccId').value;
+    } else if (panelName == 'AddMoney') {
+        advAmt = document.getElementById('advMoneyAmt').value;
+        firmId = document.getElementById('advMoneyFirmId').value;
+        accId = document.getElementById('advMoneyCrAccId').value;
+        OthInfo = document.getElementById('advMoneyOtherInfo').value;
+        sday = document.getElementById('DOBDay').value;
+        smonth = document.getElementById('DOBMonth').value;
+        syear = document.getElementById('DOBYear').value;
+    }
+
+    if (panelName == 'orderPickStock') {
+        xmlhttp.open("POST", "include/php/ogspjsdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&preOrdInvNo=" + preInvNo + "&postOrdInvNo=" + postInvNo + "&changeInv=" + changeInv, true);
+    } else if (panelName == 'UpdateUdhaar') {
+        xmlhttp.open("POST", "include/php/omuanwdt.php?custId=" + custId + "&panelName=" + panelName + "&changeInv=" + changeInv + "&udhaarId=" + txtType, true);
+    } else if (panelName == 'UpdateAdvMoney') {
+        xmlhttp.open("POST", "include/php/omamaddv.php?custId=" + custId + "&panelName=" + panelName + "&changeInv=" + changeInv + "&admnId=" + txtType, true);
+    } else if (panelName == 'AddUdhaar') {
+        xmlhttp.open("POST", "include/php/omuanwdt.php?custId=" + custId + "&panelName=" + panelName + "&changeInv=" + changeInv
+                + "&udhaarAmt=" + udhaarAmt + "&firmId=" + firmId + "&udhaarType=" + udhaarType + "&accId=" + accId
+                + "&PayOtherInfo=" + otherInfo + "&eDOBDay=" + eday + "&eDOBMonth=" + emonth + "&eDOBYear=" + eyear
+                + "&DOBDay=" + sday + "&DOBMonth=" + smonth + "&DOBYear=" + syear, true);
+    } else if (panelName == 'AddMoney') {
+        xmlhttp.open("POST", "include/php/omamaddv.php?custId=" + custId + "&panelName=" + panelName + "&changeInv=" + changeInv
+                + "&advAmt=" + advAmt + "&firmId=" + firmId + "&accId=" + accId + "&PayOtherInfo=" + OthInfo
+                + "&DOBDay=" + sday + "&DOBMonth=" + smonth + "&DOBYear=" + syear, true);
+    } else
+        xmlhttp.open("POST", "include/php/ogspjsdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&txtType=" + txtType + "&changeInv=" + changeInv, true);
+//        } 
+    xmlhttp.send();
+}
+/**********End to add function getInvoice @AUTHOR: RATNAKAR01SEP17****************/
+
+function searchItemByProdCode(searchItemId, custId) {
+    var searchItemIdLen = searchItemId.length;
+    var searchItemIdTemp = searchItemId;
+    var tempLen = searchItemIdLen;
+    var charLen = 0;
+    var alphaExp = /^[a-zA-Z]+$/;
+    while (tempLen > 0) {
+
+    var field = searchItemIdTemp.substr(0, 1);
+    searchItemIdTemp = searchItemIdTemp.substr(1);
+    
+        if (field.match(alphaExp)) {
+            charLen = charLen + 1;
+        } else {
+            break;
+        }
+        tempLen = tempLen - 1;
+    }
+    
+    var searchItemIdCharPart = searchItemId.substr(0, charLen);
+    var searchItemIdNumPart = searchItemId.substr(charLen);
+
+    document.getElementById('srchItemPreId').value = searchItemIdCharPart;
+    document.getElementById('srchItemPostId').value = searchItemIdNumPart;
+
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            var status = xmlhttp.responseText;
+            if (status != 'SUCCESS' && status != '') {
+                document.getElementById("srchItemId").value = '';
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omspstat.php?srchItemPreId=" + searchItemIdCharPart + "&srchItemPostId=" + searchItemIdNumPart +
+            "&custId=" + custId + "&panelName=" + 'Estimate' + "&charLen=" + charLen, true);
+    xmlhttp.send();
+
+}
+
+function showEstimateInvDiv(srchItemPreId, srchItemPostId, custId, panelName) { 
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("estimateDetails").innerHTML = xmlhttp.responseText;    
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("POST", "include/php/omestimate.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName, true);
+    xmlhttp.send();
+}

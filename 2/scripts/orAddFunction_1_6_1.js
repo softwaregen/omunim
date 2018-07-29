@@ -2,20 +2,15 @@
 function convert(to, from, wt) {
     if ((to == 'GM') && (from == 'KG')) {
         return(wt * 1000);
-    }
-    else if ((to == 'GM') && (from == 'MG')) {
+    } else if ((to == 'GM') && (from == 'MG')) {
         return(wt / 1000);
-    }
-    else if ((to == 'KG') && (from == 'MG')) {
+    } else if ((to == 'KG') && (from == 'MG')) {
         return(wt / 1000000);
-    }
-    else if ((to == 'KG') && (from == 'GM')) {
+    } else if ((to == 'KG') && (from == 'GM')) {
         return(wt / 1000);
-    }
-    else if ((to == 'MG') && (from == 'KG')) {
+    } else if ((to == 'MG') && (from == 'KG')) {
         return(wt * 1000000);
-    }
-    else if ((to == 'MG') && (from == 'GM')) {
+    } else if ((to == 'MG') && (from == 'GM')) {
         return(wt * 1000);
     } else {
         return(wt);
@@ -31,12 +26,10 @@ function showGirviTallyDiv()
             document.getElementById("ajaxLoadShowGirviListDiv").style.visibility = "hidden";
             document.getElementById("girviListPanelDiv").innerHTML = xmlhttp.responseText;
             document.getElementById('enterSerialNum').focus();
-        }
-        else {
+        } else {
             document.getElementById("ajaxLoadShowGirviListDiv").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/orgpgtly.php", true);
     xmlhttp.send();
 }
@@ -61,8 +54,7 @@ function addToGirviTally(pre, post, panel, num) {
             xmlhttp.open("POST", "include/php/orgrvtly.php?preId=" + pre + "&postId=" + post + "&panel=" + panel + "&num=" + num, true);
             xmlhttp.send();
         }
-    }
-    else {
+    } else {
         confirm_box = confirm("Do you really want to back this Loan");
         if (confirm_box == true) {
             loadXMLDoc();
@@ -138,10 +130,8 @@ function resetAllTallyLoans(number) {
                 document.getElementById("ajaxLoadShowGirviListDiv").style.visibility = "visible";
             }
         };
-
         xmlhttp.open("POST", "include/php/orgrvtly.php?num=" + number, true);
         xmlhttp.send();
-
     }
 }
 /*********** eND to change function to RESET ALL LOANS FROM  tally panel @AUTHOR: SANDY12OCT13 ****************/
@@ -158,7 +148,6 @@ function numberOfRowsofGirvi(number) {
             document.getElementById("ajaxLoadShowGirviListDiv").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/orgpgtly.php?num=" + number, true);
     xmlhttp.send();
 }
@@ -174,7 +163,6 @@ function getDataBackupPanel() {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/omppbkup.php", true);
     xmlhttp.send();
 }
@@ -202,7 +190,7 @@ function updateCheckboxStatus(id, checked, indicfun, divName, fileName) {
 /******************* Start to add backup folder name in db @AUTHOR: SANDY11SEP13*******************/
 //change in function name @AUTHOR: SANDY16SEP13
 function resetLocationInDb(location, panelName) {
-    //var location = document.getElementById('backupLocation').value;
+//var location = document.getElementById('backupLocation').value;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -218,10 +206,8 @@ function resetLocationInDb(location, panelName) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ommpindc.php?indicname=" + 'backupLocation' + "&indicval=" + location + "&indicfun=DEF" + "&indicDefValue=selected" + "&fileName=" + 'omppbkup' + "&panelName=" + panelName, true);
     xmlhttp.send();
-
 }
 /*********************End to add backup folder name in db @AUTHOR: SANDY11SEP13*********************/
 /****************Start to add delay function @AUTHOR: SANDY10OCT13*********************************/
@@ -233,7 +219,6 @@ function functionToCloseDiv() {
 /********************Start of changes in function @AUTHOR: SANDY10OCT13********************************/
 function backUpWithoutBackUpWindow(panel) {
     confirm_box = confirm("Do you really want to take database backup!");
-
     if (confirm_box == true)
     {
         bkupLocation = encodeURIComponent(document.getElementById('dbLocationSelect').value);
@@ -245,14 +230,12 @@ function backUpWithoutBackUpWindow(panel) {
                 document.getElementById("dbRestoreFilesDiv").innerHTML = xmlhttp.responseText;
                 document.getElementById("updateMsgDisplayDiv").innerHTML = "<span class='textLabel16CalibriNormalGreen'>DATA-BASE BACKUP SUCCESSFULLY COMPLETED!</span>";
                 window.setTimeout(functionToCloseDiv, 1000);
-            }
-            else {
+            } else {
                 document.getElementById("dbBackupButton").style.visibility = "hidden";
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
 
         };
-
         xmlhttp.open("POST", "include/php/ombkupsdv.php?location=" + bkupLocation + "&panel=" + panel, true);
         xmlhttp.send();
     }
@@ -268,8 +251,7 @@ function startToTakeBackup(bkupLocation, panel, subButtId) {
             if (xmlhttp.responseText == 'Success') {
                 document.getElementById(subButtId).innerHTML = "<span class='textLabel16CalibriNormalGreen'>DATA-BASE BACKUP SUCCESSFULLY COMPLETED!</span>";
                 window.setTimeout(logout_ajax, 200);
-            }
-            else {
+            } else {
                 document.getElementById(subButtId).innerHTML = "<span class='textLabel20CalibriNormalRed'>" + xmlhttp.responseText + "</span>";
             }
         } else {
@@ -294,7 +276,6 @@ function showBackUpPanel() {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombkupdv.php", true);
     xmlhttp.send();
 }
@@ -307,12 +288,11 @@ function systemLogout() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("logoutMessageDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/omollgout.php", true);
+    xmlhttp.open("POST", "include/php/owner/omollgout.php", true);
     xmlhttp.send();
 }
 /******************* end to add function for prelogout process @AUTHOR: SANDY13SEP13 *******************/
@@ -320,9 +300,7 @@ function systemLogout() {
 /******************* Start to add functions for backup restore process @AUTHOR: SANDY14SEP13 *******************/
 function restore_content_from_selected_folder(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertRestoreContentToSelFolder;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -332,6 +310,7 @@ function restore_content_from_selected_folder(url, parameters) {
 }
 function  alertRestoreContentToSelFolder() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//alert(xmlhttp.responseText);
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("restoreButtDiv").style.visibility = "visible";
         if (xmlhttp.responseText == 'Success')
@@ -346,7 +325,6 @@ function  alertRestoreContentToSelFolder() {
 function changeContentFrmSelectedBackupFolder() {
 
     var selectedFolder = false;
-
     if (document.restoreLocation.zipFileName.length == null) {
         if (document.restoreLocation.zipFileName.checked == true) {
             selectedFolder = document.restoreLocation.zipFileName.value;
@@ -363,7 +341,6 @@ function changeContentFrmSelectedBackupFolder() {
         alert("Please select the correct restore file!");
     } else {
         confirm_box = confirm("Do you really want to restore database!");
-
         if (confirm_box == true)
         {
             var poststr = "selectedFolder=" + selectedFolder;
@@ -376,7 +353,6 @@ function changeContentFrmSelectedBackupFolder() {
 /*****************Start to add code to delete backup zip folder @AUTHOR: SANDY11OCT13*************************/
 function deleteBackUpFile(backupFile, locationSelected) {
     confirm_box = confirm("Do you really want to delete this database restore file!");
-
     if (confirm_box == true)
     {
         loadXMLDoc();
@@ -398,8 +374,9 @@ function deleteBackUpFile(backupFile, locationSelected) {
 /***********To calculate valuation in item repair panel @AUTHOR: SANDY19SEP13 *********************/
 /***********Start to change function @AUTHOR: SANDY07JAN14 *********************/
 /***********Start to change function @Author: SHRI16DEC14 *********************/
-var crystalValuation = 0.0;// DEFINE VARIABLE @AUTHOR: SANDY21SEP13
+var crystalValuation = 0.0; // DEFINE VARIABLE @AUTHOR: SANDY21SEP13
 function calculateValuation() {
+
 
     var wtType = document.getElementById('repairItemGrossWeightType').value;
     var wt = document.getElementById('repairItemGrossWeight').value;
@@ -420,20 +397,19 @@ function calculateValuation() {
     if (wt != '') {
         if (metalType == 'Gold') {
             if (wtType == 'MG') {
-                document.getElementById('valuation').value = Math.round((fnWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('valuation').value = Math_round((fnWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('valuation').value = Math.round((fnWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('valuation').value = Math_round((fnWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
             } else {
-                document.getElementById('valuation').value = Math.round((fnWt * metalRate * document.getElementById('gmWtInKg').value)).toFixed(2);
+                document.getElementById('valuation').value = Math_round((fnWt * metalRate * document.getElementById('gmWtInKg').value)).toFixed(2);
             }
-        }
-        else if (metalType == 'Silver') {//Start code to add condition for metal type silver @Author:SHRI26MAR15
+        } else if (metalType == 'Silver') {//Start code to add condition for metal type silver @Author:SHRI26MAR15
             if (wtType == 'MG') {
-                document.getElementById('valuation').value = Math.round((fnWt * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
+                document.getElementById('valuation').value = Math_round((fnWt * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('valuation').value = Math.round((fnWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('valuation').value = Math_round((fnWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
             } else {
-                document.getElementById('valuation').value = Math.round((fnWt * metalRate * document.getElementById('srGmWtInKg').value)).toFixed(2);
+                document.getElementById('valuation').value = Math_round((fnWt * metalRate * document.getElementById('srGmWtInKg').value)).toFixed(2);
             }
         } else {
             document.getElementById('valuation').value = 0;
@@ -448,46 +424,114 @@ function calculateValuation() {
         document.getElementById('totalCharges').value = document.getElementById('otherCharges').value;
     } else if (document.getElementById('otherCharges').value == '') {
         document.getElementById('totalCharges').value = document.getElementById('repairCharges').value;
-    }
-    else {
+    } else {
         var repCharge = parseFloat(document.getElementById('repairCharges').value);
         var othCharge = parseFloat(document.getElementById('otherCharges').value);
         //alert("hello"+document.getElementById('repairCharges').value+" "+document.getElementById('otherCharges').value);
-        document.getElementById('totalCharges').value = Math.round(repCharge + othCharge).toFixed(2);
+        document.getElementById('totalCharges').value = Math_round(repCharge + othCharge).toFixed(2);
     }
 
     if (document.getElementById('totalCharges').value == '') {
-        document.getElementById('totalMetalVal').value = Math.round(document.getElementById('valuation').value).toFixed(2);
+        document.getElementById('totalMetalVal').value = Math_round(document.getElementById('valuation').value).toFixed(2);
     }
 //    else if (document.getElementById('valuation').value == '') {
-//        document.getElementById('totalMetalVal').value = Math.round(document.getElementById('totalCharges').value).toFixed(2);
+//        document.getElementById('totalMetalVal').value = Math_round(document.getElementById('totalCharges').value).toFixed(2);
 //    } 
     else {
-        document.getElementById('totalMetalVal').value = Math.round(parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('valuation').value)).toFixed(2);
+        document.getElementById('totalMetalVal').value = Math_round(parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('valuation').value)).toFixed(2);
+    }
+///////////////////////////////////////////////////START /////////////////////
+
+    if (document.getElementById('slPrItemMkgCgstChrg').value == '') {
+        document.getElementById('slPrItemMkgCgstChrg').value = 0;
     }
 
-    if (document.getElementById('taxPercentage').value != '') {
-        if (document.getElementById('totalCharges').value == '') {
-            document.getElementById('taxAmount').value = (Math.round(parseFloat(document.getElementById('taxPercentage').value) * (parseFloat(document.getElementById('valuation').value))) / 100).toFixed(2);
-            document.getElementById('totalMetalVal').value = Math.round(parseFloat(document.getElementById('valuation').value) + parseFloat(document.getElementById('taxAmount').value)).toFixed(2);
-        } else
-        if (document.getElementById('valuation').value == '') {
-            document.getElementById('taxAmount').value = Math.round(parseFloat(document.getElementById('taxPercentage').value) / 100 * (parseFloat(document.getElementById('totalCharges').value))).toFixed(2);
-            document.getElementById('totalMetalVal').value = Math.round(parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('taxAmount').value)).toFixed(2);
-        } else {
-            document.getElementById('taxAmount').value = Math.round(parseFloat(document.getElementById('taxPercentage').value) / 100 * (parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('valuation').value))).toFixed(2);
-            document.getElementById('totalMetalVal').value = Math.round(parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('valuation').value) + parseFloat(document.getElementById('taxAmount').value)).toFixed(2);
-        }
+    if (document.getElementById('slPrItemMkgSgstChrg').value == '') {
+        document.getElementById('slPrItemMkgSgstChrg').value = 0;
     }
+
+    if (document.getElementById('slPrItemMkgIgstChrg').value == '') {
+        document.getElementById('slPrItemMkgIgstChrg').value = 0;
+    }
+
+    if (document.getElementById('slPrItemPriMkgCgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgCgstChrg').value = 0;
+    }
+
+    if (document.getElementById('slPrItemPriMkgSgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = 0;
+    }
+
+    if (document.getElementById('slPrItemPriMkgIgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = 0;
+    }
+    //calculate CGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemQtyMkgCgstPer').value != '') {
+        document.getElementById('slPrItemMkgCgstChrg').value = (parseFloat(document.getElementById('valuation').value) * (parseFloat(document.getElementById('slPrItemQtyMkgCgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate SGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemMkgSgstPer').value != '') {
+        document.getElementById('slPrItemMkgSgstChrg').value = (parseFloat(document.getElementById('valuation').value) * (parseFloat(document.getElementById('slPrItemMkgSgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate IGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemMkgIgstPer').value != '') {
+        document.getElementById('slPrItemMkgIgstChrg').value = (parseFloat(document.getElementById('valuation').value) * (parseFloat(document.getElementById('slPrItemMkgIgstPer').value) / 100)).toFixed(2);
+    }
+
+    //calculate CGST for QTY * Valuation
+    if (document.getElementById('slPrItemPriMkgCgstPer').value != '') {
+
+        document.getElementById('slPrItemPriMkgCgstChrg').value = (parseFloat(document.getElementById('totalCharges').value) * (parseFloat(document.getElementById('slPrItemPriMkgCgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate SGST for QTY * Valuation
+    if (document.getElementById('slPrItemPriMkgSgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = (parseFloat(document.getElementById('totalCharges').value) * (parseFloat(document.getElementById('slPrItemPriMkgSgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate IGST for QTY * Valuation
+    if (document.getElementById('slPrItemPriMkgIgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = (parseFloat(document.getElementById('totalCharges').value) * (parseFloat(document.getElementById('slPrItemPriMkgIgstPer').value) / 100)).toFixed(2);
+    }
+
+    if (document.getElementById('slPrItemTotTax').value == '') {
+        document.getElementById('slPrItemTotTax').value = 0;
+    }
+
+    //Calculate Total Item Tax cgst+sgst+igst
+    document.getElementById('slPrItemTotTax').value = (parseFloat(document.getElementById('slPrItemMkgCgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemMkgSgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemMkgIgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgCgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgSgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgIgstChrg').value));
+    if (document.getElementById('slPrItemTotTax').value == 'NaN') {
+        document.getElementById('slPrItemTotTax').value = 0;
+    }
+
+//            alert(document.getElementById('finalValuation').value);
+    document.getElementById('finalValuation').value = ((parseFloat(document.getElementById('totalMetalVal').value)) +
+            (parseFloat(document.getElementById('slPrItemTotTax').value))).toFixed(2);
+    ///////////////////////////////////////////////////END ///////////////////////
+//    if (document.getElementById('taxPercentage').value != '') {
+//        if (document.getElementById('totalCharges').value == '') {
+//            document.getElementById('taxAmount').value = (Math_round(parseFloat(document.getElementById('taxPercentage').value) * (parseFloat(document.getElementById('valuation').value))) / 100).toFixed(2);
+//            document.getElementById('totalMetalVal').value = Math_round(parseFloat(document.getElementById('valuation').value) + parseFloat(document.getElementById('taxAmount').value)).toFixed(2);
+//        } else
+//        if (document.getElementById('valuation').value == '') {
+//            document.getElementById('taxAmount').value = Math_round(parseFloat(document.getElementById('taxPercentage').value) / 100 * (parseFloat(document.getElementById('totalCharges').value))).toFixed(2);
+//            document.getElementById('totalMetalVal').value = Math_round(parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('taxAmount').value)).toFixed(2);
+//        } else {
+//            document.getElementById('taxAmount').value = Math_round(parseFloat(document.getElementById('taxPercentage').value) / 100 * (parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('valuation').value))).toFixed(2);
+//            document.getElementById('totalMetalVal').value = Math_round(parseFloat(document.getElementById('totalCharges').value) + parseFloat(document.getElementById('valuation').value) + parseFloat(document.getElementById('taxAmount').value)).toFixed(2);
+//        }
+//    }
 
     if (document.getElementById('totalMetalVal').value == '') {
         document.getElementById('finalValuation').value = document.getElementById('addItemCryFinVal').value;
-    }
-    else if (document.getElementById('addItemCryFinVal').value == '') {
-        document.getElementById('finalValuation').value = document.getElementById('totalMetalVal').value;
-    }
-    else {
-        document.getElementById('finalValuation').value = Math.round(parseFloat(document.getElementById('totalMetalVal').value)).toFixed(2)
+    } else if (document.getElementById('addItemCryFinVal').value == '') {
+
+//        document.getElementById('finalValuation').value = document.getElementById('totalMetalVal').value;
+    } else {
+        document.getElementById('finalValuation').value = Math_round(parseFloat(document.getElementById('totalMetalVal').value)).toFixed(2)
                 + (parseFloat(document.getElementById('addItemCryFinVal').value)).toFixed(2);
     }
     var totVal = parseFloat(document.getElementById('finalValuation').value).toFixed(2);
@@ -508,6 +552,35 @@ function calculateValuation() {
         document.getElementById('repairItemFineWt').value = 0.0;
     }
 
+    if (document.getElementById('slPrItemMkgCgstChrg').value == 'NaN') {
+        document.getElementById('slPrItemMkgCgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemMkgSgstChrg').value == 'NaN') {
+        document.getElementById('slPrItemMkgSgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemMkgIgstChrg').value == 'NaN') {
+        document.getElementById('slPrItemMkgIgstChrg').value = 0;
+    }
+
+    if (document.getElementById('slPrItemPriMkgCgstChrg').value == 'NaN') {
+        document.getElementById('slPrItemPriMkgCgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemPriMkgSgstChrg').value == 'NaN') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemPriMkgIgstChrg').value == 'NaN') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = 0;
+    }
+
+
+
+
+
+
+
+
+
+
     return false;
 }
 /***********End to change function @Author: SHRI16DEC14 *********************/
@@ -522,11 +595,10 @@ function showCrystalAddDivForRepair(panel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             if (panel == 'Update') {
                 document.getElementById("newCrystalsAddDiv").innerHTML = xmlhttp.responseText;
-                document.getElementById('repairItemCryId1').focus();//to set focus @AUTHOR: SANDY11JAN14
-            }
-            else {
+                document.getElementById('repairItemCryId1').focus(); //to set focus @AUTHOR: SANDY11JAN14
+            } else {
                 document.getElementById("repairItemCrystalAddDiv").innerHTML = xmlhttp.responseText;
-                document.getElementById('repairItemCryId1').focus();//to set focus @AUTHOR: SANDY11JAN14
+                document.getElementById('repairItemCryId1').focus(); //to set focus @AUTHOR: SANDY11JAN14
             }
 
         } else {
@@ -552,8 +624,7 @@ function calcRepairItemPriceInUpdate(crysCount, id) {
         var tax = document.getElementById('repairItemCryTaxUp' + crysCount).value;
         if (crysRateType == 'PP') {
             document.getElementById('repairItemCryValUp' + crysCount).value = (crysQuantity * crysRate);
-        }
-        else if (crysRateType == 'KG') {
+        } else if (crysRateType == 'KG') {
             if (crysGsWtType == 'KG') {
                 document.getElementById('repairItemCryValUp' + crysCount).value = (crysRate * crysGsWt).toFixed(2);
             } else if (crysGsWtType == 'GM') {
@@ -594,7 +665,7 @@ function calcRepairItemPriceInUpdate(crysCount, id) {
     if (document.getElementById('totalNewAddedCryVal').value == '' || document.getElementById('totalNewAddedCryVal').value == 'NaN') {
         document.getElementById('totalNewAddedCryVal').value = 0;
     }
-    document.getElementById('totalCrystalVal').value = Math.round(parseFloat(document.getElementById('totalNewAddedCryVal').value) + parseFloat(document.getElementById('totalUpdatedCryVal').value)).toFixed(2);
+    document.getElementById('totalCrystalVal').value = Math_round(parseFloat(document.getElementById('totalNewAddedCryVal').value) + parseFloat(document.getElementById('totalUpdatedCryVal').value)).toFixed(2);
     calculateValuation();
 }
 /************End OF change in function @AUTHOR: SANDY19NOV13 ******************/
@@ -611,8 +682,7 @@ function calcRepairItemPrice(crysCount, id) {
     } else if (crysRateType == 'KG') {
         if (crysGsWtType == 'KG') {
             document.getElementById('repairItemCryVal' + crysCount).value = (crysRate * crysGsWt).toFixed(2);
-        }
-        else if (crysGsWtType == 'GM') {
+        } else if (crysGsWtType == 'GM') {
             document.getElementById('repairItemCryVal' + crysCount).value = ((crysRate * 1 / 1000) * crysGsWt).toFixed(2);
         } else {
             document.getElementById('repairItemCryVal' + crysCount).value = ((crysRate * 1 / 1000000) * crysGsWt).toFixed(2);
@@ -644,7 +714,7 @@ function calcRepairItemPrice(crysCount, id) {
         var taxAmnt = (parseFloat(tax) / 100 * parseFloat(document.getElementById('repairItemCryVal' + crysCount).value)).toFixed(2);
         document.getElementById('repairItemCryFinalVal' + crysCount).value = (parseFloat(document.getElementById('repairItemCryVal' + crysCount).value) + parseFloat(taxAmnt)).toFixed(2);
     }
-    setTotalCrystValField();//change in function @AUTHOR: SANDY08JAN14
+    setTotalCrystValField(); //change in function @AUTHOR: SANDY08JAN14
 }
 /***********End To calculate valuation in item repair panel @AUTHOR: SANDY21SEP13 *******************/
 /************End OF change in function @AUTHOR: SANDY19NOV13 ******************/
@@ -653,15 +723,12 @@ function calcRepairItemPrice(crysCount, id) {
 /*****************Start to set finel crystal valuation @AUTHOR: SANDY23SEP13 ********************/
 function setTotalCrystValField() {
     crysCount = document.getElementById('totalCry').value;
-
     document.getElementById('totalCrystalVal').value = 0.0;
     while (crysCount != 0) {
         if (document.getElementById('repairItemCryFinalVal' + crysCount).value == 'NaN' || document.getElementById('repairItemCryFinalVal' + crysCount).value == '') {
             document.getElementById('repairItemCryFinalVal' + crysCount).value = 0.0;
         }
         document.getElementById('totalCrystalVal').value = parseFloat(document.getElementById('totalCrystalVal').value) + parseFloat(document.getElementById('repairItemCryFinalVal' + crysCount).value);
-
-
         if (document.getElementById('totalMetalVal').value == '') {
             document.getElementById('finalValuation').value = document.getElementById('totalCrystalVal').value;
         } else if (document.getElementById('totalCrystalVal').value == '') {
@@ -677,7 +744,7 @@ function setTotalCrystValField() {
     if (document.getElementById('totalUpdatedCryVal').value == '') {
         document.getElementById('totalUpdatedCryVal').value = 0;
     }
-    document.getElementById('totalCrystalVal').value = Math.round(parseFloat(document.getElementById('totalNewAddedCryVal').value) + parseFloat(document.getElementById('totalUpdatedCryVal').value)).toFixed(2);
+    document.getElementById('totalCrystalVal').value = Math_round(parseFloat(document.getElementById('totalNewAddedCryVal').value) + parseFloat(document.getElementById('totalUpdatedCryVal').value)).toFixed(2);
     calculateValuation();
 }
 /*****************End to set finel crystal valuation @AUTHOR: SANDY23SEP13 ********************/
@@ -733,9 +800,8 @@ function getRepairItemPaymentDiv(root, custId, suppId, accId, firmId, preInvoice
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
-            document.getElementById("itmRepPayMetalType1").focus();//Change in id @AUTHOR: SANDY11JAN14 
-        }
-        else {
+            document.getElementById("itmRepPayMetalType1").focus(); //Change in id @AUTHOR: SANDY11JAN14 
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -756,48 +822,37 @@ function calcRawGoldValuation() {
     var itmRepPayMetalRate1 = document.getElementById('itmRepPayMetalRate1').value;
     var itmRepPayMetalTunch1 = document.getElementById('itmRepPayMetalTunch1').value;
     var itmRepPayMetalDueWeightType1 = document.getElementById('itmRepPayTotalGoldWGTType').value;
-
     var goldWeight = (itmRepPayTotalWeight1 * itmRepPayMetalTunch1) / 100;
     document.getElementById('itmRepPayMetalFineWeight1').value = goldWeight;
-
     if (itmRepPayTotalWeightType1 == 'KG') {
-        document.getElementById('itmRepPayMetalValuation1').value = Math.round((goldWeight * itmRepPayMetalRate1) * 100).toFixed(2);
-    }
-    else if (itmRepPayTotalWeightType1 == 'GM') {
-        document.getElementById('itmRepPayMetalValuation1').value = Math.round((goldWeight * itmRepPayMetalRate1) / 10).toFixed(2);
+        document.getElementById('itmRepPayMetalValuation1').value = Math_round((goldWeight * itmRepPayMetalRate1) * 100).toFixed(2);
+    } else if (itmRepPayTotalWeightType1 == 'GM') {
+        document.getElementById('itmRepPayMetalValuation1').value = Math_round((goldWeight * itmRepPayMetalRate1) / 10).toFixed(2);
     } else if (itmRepPayTotalWeightType1 == 'MG') {
-        document.getElementById('itmRepPayMetalValuation1').value = Math.round((goldWeight * itmRepPayMetalRate1) / 10000).toFixed(2);
+        document.getElementById('itmRepPayMetalValuation1').value = Math_round((goldWeight * itmRepPayMetalRate1) / 10000).toFixed(2);
     }
     if (itmRepPayMetalDueWeightType1 == 'KG') {
         if (itmRepPayTotalWeightType1 == 'KG') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value - goldWeight);
-        }
-        else if (itmRepPayTotalWeightType1 == 'GM') {
+        } else if (itmRepPayTotalWeightType1 == 'GM') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - (goldWeight / 1000);
-        }
-        else if (itmRepPayTotalWeightType1 == 'MG') {
+        } else if (itmRepPayTotalWeightType1 == 'MG') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - (goldWeight / (1000 * 1000));
         }
-    }
-    else if (itmRepPayMetalDueWeightType1 == 'GM') {
+    } else if (itmRepPayMetalDueWeightType1 == 'GM') {
         if (itmRepPayTotalWeightType1 == 'KG') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - (goldWeight * 1000);
-        }
-        else if (itmRepPayTotalWeightType1 == 'GM') {
+        } else if (itmRepPayTotalWeightType1 == 'GM') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - goldWeight;
-        }
-        else if (itmRepPayTotalWeightType1 == 'MG') {
+        } else if (itmRepPayTotalWeightType1 == 'MG') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - (goldWeight / (1000));
         }
-    }
-    else if (itmRepPayMetalDueWeightType1 == 'MG') {
+    } else if (itmRepPayMetalDueWeightType1 == 'MG') {
         if (itmRepPayTotalWeightType1 == 'KG') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - (goldWeight * 1000 * 1000);
-        }
-        else if (itmRepPayTotalWeightType1 == 'GM') {
+        } else if (itmRepPayTotalWeightType1 == 'GM') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - (goldWeight * 1000);
-        }
-        else if (itmRepPayTotalWeightType1 == 'MG') {
+        } else if (itmRepPayTotalWeightType1 == 'MG') {
             document.getElementById('itmRepPayMetalDueWeight1').value = parseFloat(document.getElementById('itmRepPayTotalGoldWt').value) - goldWeight;
         }
     }
@@ -812,16 +867,14 @@ function calcRawGoldValuation() {
     }
 
 
-    document.getElementById('itmRepstockPayTotalAmtRec').value = Math.round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
-    document.getElementById('itmRepstockPayTotalAmtBal').value = Math.round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
-    document.getElementById('itmRepPayTotalAmtBalHidden').value = Math.round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
-
+    document.getElementById('itmRepstockPayTotalAmtRec').value = Math_round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
+    document.getElementById('itmRepstockPayTotalAmtBal').value = Math_round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
+    document.getElementById('itmRepPayTotalAmtBalHidden').value = Math_round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
     var itmRepPayTotalAmtBalHidden = document.getElementById('itmRepPayTotalAmtBalHidden').value;
     if (itmRepPayTotalAmtBalHidden == null || itmRepPayTotalAmtBalHidden == '') {
         document.getElementById('itmRepPayTotalAmtBalHidden').value = document.getElementById('itmRepstockPayTotalAmtBal').value;
     }
     var stockPayTotalAmtBal = document.getElementById('itmRepPayTotalAmtBalHidden').value;
-
     var itmRepTotalCashPaidAmt = document.getElementById('itmRepstockPayCashAmount').value;
     if (itmRepTotalCashPaidAmt == null || itmRepTotalCashPaidAmt == '') {
         itmRepTotalCashPaidAmt = 0;
@@ -833,7 +886,6 @@ function calcRawGoldValuation() {
     }
     document.getElementById('discountLabel').innerHTML = (parseFloat(itmRepPayDiscountAmt)).toFixed(2);
     document.getElementById('itmRepstockPayTotalAmtBal').value = (parseFloat(stockPayTotalAmtBal) - parseFloat(itmRepTotalCashPaidAmt)).toFixed(3) - parseFloat(itmRepPayDiscountAmt).toFixed(3);
-
     //start to add new lines in function @AUTHOR: SANDY23SEP13 ***/
     document.getElementById('totalMetValLabel').innerHTML = document.getElementById('itmRepstockPayTotalAmtRec').value;
     document.getElementById('totalAmntBalanceLabel').innerHTML = (parseFloat(document.getElementById('itmRepstockPayTotalAmtBal').value)).toFixed(2);
@@ -851,47 +903,38 @@ function calcRawSilverValuation() {
     var itmRepPayMetalRate2 = document.getElementById('itmRepPayMetalRate2').value;
     var itmRepPayMetalTunch2 = document.getElementById('itmRepPayMetalTunch2').value;
     var itmRepPayMetalDueWeightType2 = document.getElementById('itmRepPayTotalSilverWtType').value;
-
     var silverWeight = (itmRepPayTotalWeight2 * itmRepPayMetalTunch2) / 100;
     document.getElementById('itmRepPayMetalFineWeight2').value = silverWeight;
     if (itmRepPayTotalWeightType2 == 'KG') {
-        document.getElementById('itmRepPayMetalValuation2').value = Math.round(silverWeight * itmRepPayMetalRate2).toFixed(2);
+        document.getElementById('itmRepPayMetalValuation2').value = Math_round(silverWeight * itmRepPayMetalRate2).toFixed(2);
     } else if (itmRepPayTotalWeightType2 == 'GM') {
-        document.getElementById('itmRepPayMetalValuation2').value = Math.round((silverWeight * itmRepPayMetalRate2) / 1000).toFixed(2);
+        document.getElementById('itmRepPayMetalValuation2').value = Math_round((silverWeight * itmRepPayMetalRate2) / 1000).toFixed(2);
     } else if (itmRepPayTotalWeightType2 == 'MG') {
-        document.getElementById('itmRepPayMetalValuation2').value = Math.round((silverWeight * itmRepPayMetalRate2) / (1000 * 1000)).toFixed(2);
+        document.getElementById('itmRepPayMetalValuation2').value = Math_round((silverWeight * itmRepPayMetalRate2) / (1000 * 1000)).toFixed(2);
     }
 
     if (itmRepPayMetalDueWeightType2 == 'KG') {
         if (itmRepPayTotalWeightType2 == 'KG') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - silverWeight;
-        }
-        else if (itmRepPayTotalWeightType2 == 'GM') {
+        } else if (itmRepPayTotalWeightType2 == 'GM') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight / 1000);
-        }
-        else if (itmRepPayTotalWeightType2 == 'MG') {
+        } else if (itmRepPayTotalWeightType2 == 'MG') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight / (1000 * 1000));
         }
-    }
-    else if (itmRepPayMetalDueWeightType2 == 'GM') {
+    } else if (itmRepPayMetalDueWeightType2 == 'GM') {
         if (itmRepPayTotalWeightType2 == 'KG') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight * 1000);
-        }
-        else if (itmRepPayTotalWeightType2 == 'GM') {
+        } else if (itmRepPayTotalWeightType2 == 'GM') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight);
-        }
-        else if (itmRepPayTotalWeightType2 == 'MG') {
+        } else if (itmRepPayTotalWeightType2 == 'MG') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight / (1000));
         }
-    }
-    else if (itmRepPayMetalDueWeightType2 == 'MG') {
+    } else if (itmRepPayMetalDueWeightType2 == 'MG') {
         if (itmRepPayTotalWeightType2 == 'KG') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight * 1000 * 1000);
-        }
-        else if (itmRepPayTotalWeightType2 == 'GM') {
+        } else if (itmRepPayTotalWeightType2 == 'GM') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight * 1000);
-        }
-        else if (itmRepPayTotalWeightType2 == 'MG') {
+        } else if (itmRepPayTotalWeightType2 == 'MG') {
             document.getElementById('itmRepPayMetalDueWeight2').value = parseFloat(document.getElementById('itmRepPayTotalSilverWt').value) - (silverWeight);
         }
     }
@@ -905,17 +948,14 @@ function calcRawSilverValuation() {
     if (metalValuation2 == '') {
         metalValuation2 = 0;
     }
-    document.getElementById('itmRepstockPayTotalAmtRec').value = Math.round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
-    document.getElementById('itmRepstockPayTotalAmtBal').value = Math.round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
-    document.getElementById('itmRepPayTotalAmtBalHidden').value = Math.round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
-
-
+    document.getElementById('itmRepstockPayTotalAmtRec').value = Math_round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
+    document.getElementById('itmRepstockPayTotalAmtBal').value = Math_round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
+    document.getElementById('itmRepPayTotalAmtBalHidden').value = Math_round(parseFloat(document.getElementById('itmRepstockPayTotalAmt').value) - parseFloat(document.getElementById('itmRepstockPayTotalAmtRec').value)).toFixed(2);
     var itmRepPayTotalAmtBalHidden = document.getElementById('itmRepPayTotalAmtBalHidden').value;
     if (itmRepPayTotalAmtBalHidden == null || itmRepPayTotalAmtBalHidden == '') {
         document.getElementById('itmRepPayTotalAmtBalHidden').value = document.getElementById('itmRepstockPayTotalAmtBal').value;
     }
     var stockPayTotalAmtBal = document.getElementById('itmRepPayTotalAmtBalHidden').value;
-
     var itmRepTotalCashPaidAmt = document.getElementById('itmRepstockPayCashAmount').value;
     if (itmRepTotalCashPaidAmt == null || itmRepTotalCashPaidAmt == '') {
         itmRepTotalCashPaidAmt = 0;
@@ -927,7 +967,6 @@ function calcRawSilverValuation() {
     }
     document.getElementById('discountLabel').innerHTML = (parseFloat(itmRepPayDiscountAmt)).toFixed(2);
     document.getElementById('itmRepstockPayTotalAmtBal').value = (parseFloat(stockPayTotalAmtBal) - parseFloat(itmRepTotalCashPaidAmt)).toFixed(3) - parseFloat(itmRepPayDiscountAmt).toFixed(3);
-
     //start to add new lines in function @AUTHOR: SANDY23SEP13 ***/
     document.getElementById('totalMetValLabel').innerHTML = document.getElementById('itmRepstockPayTotalAmtRec').value;
     document.getElementById('totalAmntBalanceLabel').innerHTML = (parseFloat(document.getElementById('itmRepstockPayTotalAmtBal').value)).toFixed(2);
@@ -941,21 +980,18 @@ function calcRawSilverValuation() {
 function  add_invoiceInItmRep(url, parameters) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = alertAddInvoiceInItemRep;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertAddInvoiceInItemRep() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -969,7 +1005,6 @@ function validateItemRepairInvoice()
         return false;
     }
     return true;
-
 }
 /************Start of change in function @AUTHOR: SANDY18NOV13 **********/
 /************Start of change in function @AUTHOR: SANDY9NOV13 **********/
@@ -1024,11 +1059,9 @@ function addRepairItmInvoice(panel, accId, firmId) {
                 + "&omgItmRepsrWeight2=" + encodeURIComponent(document.getElementById("itmRepPayTotalSilverWt").value)
                 + "&omgItmRepsrWeightType2=" + encodeURIComponent(document.getElementById("itmRepPayTotalSilverWtType").value)
                 + "&omgItmRepstockPayTotalAmtBal=" + encodeURIComponent(document.getElementById("itmRepstockPayTotalAmtBal").value);
-
         add_invoiceInItmRep("include/php/ogirpyad.php", poststr);
         return true;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("subButton").style.visibility = "visible";
         return false;
@@ -1098,6 +1131,7 @@ function validateAddRawStockForm() {
 
 /*****************Start to show add new repair item panel @AUTHOR: SANDY23SEP13 ******************/
 function showAddRepairItemPanel(custId) {
+//    alert('custId='+custId);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -1108,7 +1142,6 @@ function showAddRepairItemPanel(custId) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ogrpaddt.php?custId=" + custId, true);
     xmlhttp.send();
 }
@@ -1124,7 +1157,6 @@ function showRepairListPanel(custId) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ogrpilst.php?custId=" + custId, true);
     xmlhttp.send();
 }
@@ -1133,7 +1165,6 @@ function showRepairListPanel(custId) {
 /*****************Start to change div in function @AUTHOR: SANDY9NOV13******************/
 function deleteRepairedItem(newItemPreId, newItemPostId, custId, panelName, pageNum, rowsPerPage) {
     confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");
-
     if (confirm_box == true)
     {
         loadXMLDoc();
@@ -1148,7 +1179,6 @@ function deleteRepairedItem(newItemPreId, newItemPostId, custId, panelName, page
         };
         xmlhttp.open("GET", "include/php/ogrpdelt.php?newItemPreId=" + newItemPreId + "&newItemPostId=" + newItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage, true);
         xmlhttp.send();
-
     }
 }
 /*****************End to change div in function @AUTHOR: SANDY9NOV13******************/
@@ -1195,8 +1225,7 @@ function getPage(pageNo, rowsPerPage, panel) {
         xmlhttp.open("POST", "include/php/ormllndt.php?page=" + pageNo + "&mlId=" + rowsPerPage, true);
     } else if (panel == 'RELEASEDLOANINFO') {
         xmlhttp.open("POST", "include/php/orrellns.php?page=" + pageNo + "&mlId=" + rowsPerPage, true);
-    }
-    else {
+    } else {
         xmlhttp.open("POST", "include/php/ogrpilst.php?page=" + pageNo + "&panel=" + panel + "&rowsPerPage=" + rowsPerPage, true);
     }
     xmlhttp.send();
@@ -1219,7 +1248,6 @@ function updateRepairItem(preItemId, PostItemId, custId, panel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ogrpaddt.php?preId=" + preItemId + "&postId=" + PostItemId + "&panel=" + panel + "&custId=" + custId, true);
     xmlhttp.send();
 }
@@ -1233,15 +1261,14 @@ function showRawMetalAddPanel(panel) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;  //CHANGE IN DIV @AUTHOR: SANDY11NOV13
+            document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText; //CHANGE IN DIV @AUTHOR: SANDY11NOV13
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
     if (panel == 'RawStock') {
-        xmlhttp.open("POST", "include/php/ogrwiadv.php", true);
-    }
-    else if (panel == 'RawMetalList') {
+        xmlhttp.open("POST", "include/php/ogrwiadv.php?simButton=similirItem", true);
+    } else if (panel == 'RawMetalList') {
         xmlhttp.open("POST", "include/php/ogrmcslt.php", true);
     }
     xmlhttp.send();
@@ -1255,14 +1282,13 @@ function showRawStoneAddPanel(panel) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
+            document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
             document.getElementById('addRawStoneDOBDay').focus();
             document.getElementById('formName').innerHTML = panel;
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ogiarsdv.php", true);
     xmlhttp.send();
 }
@@ -1287,27 +1313,27 @@ function showRawStoneAddPanel(panel) {
 //    if (gsWt != '') {
 //        if (metalType == 'Gold') {
 //            if (gsWtTp == 'MG') {
-//                document.getElementById('addRawStockValuation').value = Math.round((metalRate * fineWt) / 10000).toFixed(2);
+//                document.getElementById('addRawStockValuation').value = Math_round((metalRate * fineWt) / 10000).toFixed(2);
 //            }
 //            else if (gsWtTp == 'GM') {
-//                document.getElementById('addRawStockValuation').value = Math.round((metalRate * fineWt) / 10).toFixed(2);
+//                document.getElementById('addRawStockValuation').value = Math_round((metalRate * fineWt) / 10).toFixed(2);
 //            } else {
-//                document.getElementById('addRawStockValuation').value = Math.round((metalRate * fineWt) * 100).toFixed(2);
+//                document.getElementById('addRawStockValuation').value = Math_round((metalRate * fineWt) * 100).toFixed(2);
 //            }
 //        }
 //        else if (metalType == 'Silver') {
 //            if (gsWtTp == 'MG') {
-//                document.getElementById('addRawStockValuation').value = Math.round((metalRate * fineWt) / (1000 * 1000)).toFixed(2);
+//                document.getElementById('addRawStockValuation').value = Math_round((metalRate * fineWt) / (1000 * 1000)).toFixed(2);
 //            } else if (gsWtTp == 'GM') {
-//                document.getElementById('addRawStockValuation').value = Math.round((metalRate * fineWt) / 1000).toFixed(2);
+//                document.getElementById('addRawStockValuation').value = Math_round((metalRate * fineWt) / 1000).toFixed(2);
 //            } else {
-//                document.getElementById('addRawStockValuation').value = Math.round((metalRate * fineWt)).toFixed(2);
+//                document.getElementById('addRawStockValuation').value = Math_round((metalRate * fineWt)).toFixed(2);
 //            }
 //        }
 //    }
-//    var valuation = Math.round(parseFloat(document.getElementById('addRawStockValuation').value)).toFixed(2);
+//    var valuation = Math_round(parseFloat(document.getElementById('addRawStockValuation').value)).toFixed(2);
 //    if (tax != '') {
-//        document.getElementById('addRawStockFinalValuation').value = Math.round(parseFloat(valuation) + (parseFloat(tax) / 100 * valuation)).toFixed(2);
+//        document.getElementById('addRawStockFinalValuation').value = Math_round(parseFloat(valuation) + (parseFloat(tax) / 100 * valuation)).toFixed(2);
 //    }
 //    else {
 //        document.getElementById('addRawStockFinalValuation').value = valuation;
@@ -1324,48 +1350,39 @@ function showRawStoneAddPanel(panel) {
 /*********Start code to change in raw function validity @Author:SHE16JAN16*********/
 /*********Start code to change in raw function validity @Author:SHE10MAY16*********/
 function validateAddRawStockInputs() {
-    if (validateSelectField(document.getElementById("addRawStockDOBDay").value, "Please Select Date Day!") == false) {
-        document.getElementById("addRawStockDOBDay").focus();
+    if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please Select Date Day!") == false) {
+        document.getElementById("addItemDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addRawStockDOBMonth").value, "Please Select Date Month!") == false) {
-        document.getElementById("addRawStockDOBMonth").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBMonth").value, "Please Select Date Month!") == false) {
+        document.getElementById("addItemDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addRawStockDOBYear").value, "Please Select Date Year!") == false) {
-        document.getElementById("addRawStockDOBYear").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBYear").value, "Please Select Date Year!") == false) {
+        document.getElementById("addItemDOBYear").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("firmId").value, "Please Select Firm Id!") == false) {
+    } else if (validateSelectField(document.getElementById("firmId").value, "Please Select Firm Id!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawStockItemMetalRate").value, "Please Enter item metal rate!") == false) {
-        document.getElementById("addRawStockItemMetalRate").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_metal_rate").value, "Please Enter item metal rate!") == false) {
+        document.getElementById("sttr_metal_rate").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawStockItemName").value, "Please Enter Item Name!") == false) {
-        document.getElementById("addRawStockItemName").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please Enter Item Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
         return false;
-    }
-
-    else if (validateEmptyField(document.getElementById("addRawStockItemPieces").value, "Please Enter Item Pieces!") == false ||
-            validateNum(document.getElementById("addRawStockItemPieces").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addRawStockItemPieces").focus();
+    } else if (document.getElementById("sttr_quantity").value != '') {
+        if (validateNum(document.getElementById("sttr_quantity").value, "Accept only numeric characters without space!") == false) {
+            document.getElementById("sttr_quantity").focus();
+            return false;
+        }
+    } else if (validateEmptyField(document.getElementById("sttr_gs_weight").value, "Please Enter Gross Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_gs_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_gs_weight").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawStockItemGrossWeight").value, "Please Enter Gross Weight!") == false ||
-            validateNumWithDot(document.getElementById("addRawStockItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addRawStockItemGrossWeight").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_nt_weight").value, "Please Enter Net Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_nt_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_nt_weight").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawStockItemNetWeight").value, "Please Enter Net Weight!") == false ||
-            validateNumWithDot(document.getElementById("addRawStockItemNetWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addRawStockItemNetWeight").focus();
-        return false;
-    }
-    else if (validateSelectField(document.getElementById("addRawStockItemTunch").value, "Please Select Item Tunch or Purity!") == false) {
-        document.getElementById("addRawStockItemTunch").focus();
+    } else if (validateSelectField(document.getElementById("sttr_purity").value, "Please Select Item Tunch or Purity!") == false) {
+        document.getElementById("sttr_purity").focus();
         return false;
     }
     return true;
@@ -1396,7 +1413,7 @@ function validateAddRawStockInputs() {
 /*********Start to make changes in function @AUTHOR: SANDY14OCT13************/
 /*********Start to make changes in function @AUTHOR: SANDY19OCT13************/
 function deleteRawStockListItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, rowsPerPage) {
-    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?"); //change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
         loadXMLDoc();
@@ -1413,8 +1430,7 @@ function deleteRawStockListItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageN
                     document.getElementById("addRawStockInvoice").innerHTML = xmlhttp.responseText;
                     window.setTimeout(rawMetalFunctionCloseDiv, 1000);
                 }
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -1439,12 +1455,10 @@ function navigateAddRawMetalPanel() {
             document.getElementById("ajax_loading_div").style.visibility = "hidden";
             document.getElementById("settingTablesDiv").innerHTML = xmlhttp.responseText;
             document.getElementById('addRawMetalName').focus(); //to set focus @AUTHOR: SANDY18NOV13
-        }
-        else {
+        } else {
             document.getElementById("ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ommrawmt.php", true);
     xmlhttp.send();
 }
@@ -1457,25 +1471,20 @@ function navigateRawMetalList(pageNo, panel) {
             document.getElementById("ajax_loading_div").style.visibility = "hidden";
             if (panel == 'SilverList') {
                 document.getElementById("silverRawMetalListDiv").innerHTML = xmlhttp.responseText;
-            }
-            else if (panel == 'GoldList') {
+            } else if (panel == 'GoldList') {
                 document.getElementById("goldRawMetalListDiv").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("otherRawMetalListDiv").innerHTML = xmlhttp.responseText;
             }
-        }
-        else {
+        } else {
             document.getElementById("ajax_loading_div").style.visibility = "visible";
         }
     };
     if (panel == 'SilverList') {
         xmlhttp.open("POST", "include/php/omlirwsl.php?page=" + pageNo, true);
-    }
-    else if (panel == 'GoldList') {
+    } else if (panel == 'GoldList') {
         xmlhttp.open("POST", "include/php/omlirwgl.php?page=" + pageNo, true);
-    }
-    else {
+    } else {
         xmlhttp.open("POST", "include/php/omlirwoi.php?page=" + pageNo, true);
     }
     xmlhttp.send();
@@ -1487,8 +1496,7 @@ function validateAddRawMetalInputs(obj) {
             validateAlphaNumWithSpaceWithSlash(document.getElementById("addRawMetalName").value, "Accept only alpha or numeric characters or with space character!") == false) {
         document.getElementById("addRawMetalName").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawMetalCategory").value, "Please enter Item Category!") == false ||
+    } else if (validateEmptyField(document.getElementById("addRawMetalCategory").value, "Please enter Item Category!") == false ||
             validateAlphaNumWithSpaceWithSlash(document.getElementById("addRawMetalCategory").value, "Accept only alpha or numeric characters or with space character!") == false) {
         document.getElementById("addRawMetalCategory").focus();
         return false;
@@ -1551,7 +1559,6 @@ var rawMetalId;
 function setRawMetalId(obj) {
 
     rawMetalId = obj.id;
-
 }
 function getRawMetalName(obj) {
     loadXMLDoc();
@@ -1559,13 +1566,11 @@ function getRawMetalName(obj) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("ajax_loading_div").style.visibility = "hidden";
             document.getElementById("addUpdateRawMetalDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
 
             document.getElementById("ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("GET", "include/php/omuprwmt.php?metalId=" + rawMetalId,
             true);
     xmlhttp.send();
@@ -1584,24 +1589,21 @@ function chngRawMetalImgLoadOpt(chngRawMetalImgLoadOption, panelName) {
             }
             if (chngRawMetalImgLoadOption == 'COM') {
                 document.getElementById("file_input_div").innerHTML = xmlhttp.responseText;
-            }
-            else if (chngRawMetalImgLoadOption == 'WEB') {
+            } else if (chngRawMetalImgLoadOption == 'WEB') {
                 document.getElementById("webcam_input_div").innerHTML = xmlhttp.responseText;
             }
 
         } else {
             if (chngRawMetalImgLoadOption == 'COM') {
                 document.getElementById("webcam_input_div").innerHTML = "<img src='images/ajaxLoad.gif' />";
-            }
-            else if (chngRawMetalImgLoadOption == 'WEB') {
+            } else if (chngRawMetalImgLoadOption == 'WEB') {
 
             }
         }
     };
     if (chngRawMetalImgLoadOption == 'COM') {
         xmlhttp.open("POST", "include/php/ognoicim.php?panelName=" + panelName, true);
-    }
-    else if (chngRawMetalImgLoadOption == 'WEB') {
+    } else if (chngRawMetalImgLoadOption == 'WEB') {
         xmlhttp.open("POST", "include/php/omcsadif.php?panelName=" + panelName, true);
     }
     xmlhttp.send();
@@ -1612,20 +1614,16 @@ var buttonId;
 function setbuttonId(obj) {
 
     buttonId = obj.id;
-
 }
 function update_rawMetal(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateRawMetal;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function alertUpdateRawMetal() {
@@ -1633,26 +1631,21 @@ function alertUpdateRawMetal() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("ajax_loading_div").style.visibility = "hidden";
         document.getElementById("settingTablesDiv").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("ajax_loading_div").style.visibility = "visible";
-
     }
 
 }
 function delete_rawMetal(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertDeleteRawMetal;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function alertDeleteRawMetal() {
@@ -1660,17 +1653,14 @@ function alertDeleteRawMetal() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("ajax_loading_div").style.visibility = "hidden";
         document.getElementById("settingTablesDiv").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("ajax_loading_div").style.visibility = "visible";
-
     }
 
 }
 /********Start to change function @AUTHOR: SANDY15DEC13********/
 function  updateDeleteRawItem(obj) {
     document.getElementById("ajax_loading_div").style.visibility = "visible";
-
     if (buttonId == 'Update') {
         if (validateAddRawMetalInputs(obj)) {
             return true;
@@ -1691,12 +1681,10 @@ function showReleasedCustomerList() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("ajax_loading_div").style.visibility = "hidden";
             document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/omrlcslt.php", true);
     xmlhttp.send();
 }
@@ -1705,10 +1693,9 @@ function showReleasedCustomerList() {
 /****Start of changes in function to add confirm messages @AUTHOR: SANDY4DEC13*****************************/
 function changeCustomerStatus(custId, action) {
     if (action == 'Delete') {
-        confirm_box = confirm(deletePermAlertMess + "\nDo you really want to delete this Customer Permanently?");//change in line @AUTHOR: SANDY28JAN14
-    }
-    else {
-        confirm_box = confirm(activateAlertMess + "\nDo you really want to Reactivate this Customer?");//change in line @AUTHOR: SANDY28JAN14
+        confirm_box = confirm(deletePermAlertMess + "\nDo you really want to delete this Customer Permanently?"); //change in line @AUTHOR: SANDY28JAN14
+    } else {
+        confirm_box = confirm(activateAlertMess + "\nDo you really want to Reactivate this Customer?"); //change in line @AUTHOR: SANDY28JAN14
     }
     if (confirm_box == true)
     {
@@ -1717,8 +1704,7 @@ function changeCustomerStatus(custId, action) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -1740,7 +1726,7 @@ function navigationInRelesedCustList(pageNo) {
             document.getElementById("ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/omrlcsdt.php?page=" + pageNo, true);
+    xmlhttp.open("POST", "include/php/omrlcslt.php?page=" + pageNo, true);
     xmlhttp.send();
 }
 /*********End to add function to navigate in Released Cutomer List @AUTHOR: SANDY26SEP13 ***************/
@@ -1759,8 +1745,7 @@ function getAddRawStockPaymentDiv(root, suppId, accId, preInvoiceNo, invoiceNo, 
             if (action == 'Update') {
                 document.getElementById('formName').innerHTML = 'Update Payment'; //add line @AUTHOR: SANDY3OCT13
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -1789,11 +1774,11 @@ function getAddRawStockPaymentDiv(root, suppId, accId, preInvoiceNo, invoiceNo, 
  document.getElementById('rawMetPayMetalFineWeight2').value = silverWeight;
  
  if (rawMetPayTotalWeightType2 == 'KG') {
- document.getElementById('rawMetPayMetalVal2').value = Math.round((silverWeight * rawMetPayMetalRate2)).toFixed(2);
+ document.getElementById('rawMetPayMetalVal2').value = Math_round((silverWeight * rawMetPayMetalRate2)).toFixed(2);
  } else if (rawMetPayTotalWeightType2 == 'GM') {
- document.getElementById('rawMetPayMetalVal2').value = Math.round((silverWeight * rawMetPayMetalRate2) / 1000).toFixed(2);
+ document.getElementById('rawMetPayMetalVal2').value = Math_round((silverWeight * rawMetPayMetalRate2) / 1000).toFixed(2);
  } else if (rawMetPayTotalWeightType2 == 'MG') {
- document.getElementById('rawMetPayMetalVal2').value = Math.round((silverWeight * rawMetPayMetalRate2) / 1000*1000).toFixed(2);
+ document.getElementById('rawMetPayMetalVal2').value = Math_round((silverWeight * rawMetPayMetalRate2) / 1000*1000).toFixed(2);
  }
  if (rawMetPayMetalDueWeightType2 == 'KG') {
  if (rawMetPayTotalWeightType2 == 'KG') {
@@ -1837,9 +1822,9 @@ function getAddRawStockPaymentDiv(root, suppId, accId, preInvoiceNo, invoiceNo, 
  if (metalValuation2 == '') {
  metalValuation2 = 0;
  }
- document.getElementById('rawMetstockPayTotalAmtRec').value = Math.round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
- document.getElementById('rawMetstockPayTotalAmtBal').value = Math.round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
- document.getElementById('rawMetPayTotalAmtBalHidden').value = Math.round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
+ document.getElementById('rawMetstockPayTotalAmtRec').value = Math_round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
+ document.getElementById('rawMetstockPayTotalAmtBal').value = Math_round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
+ document.getElementById('rawMetPayTotalAmtBalHidden').value = Math_round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
  document.getElementById('rawMetPayTotalAmtBalHidden').value = document.getElementById('rawMetstockPayTotalAmtBal').value;
  
  if (document.getElementById('rawMetstockPayCashAmount').value != '') {
@@ -1867,8 +1852,7 @@ function showRawMetalList(panel) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -1924,8 +1908,7 @@ function deleteAccount(acntId) {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     document.getElementById("ajax_loading_div").style.visibility = "hidden";
                     document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
-                }
-                else {
+                } else {
                     document.getElementById("ajax_loading_div").style.visibility = "visible";
                 }
             };
@@ -1939,7 +1922,7 @@ function deleteAccount(acntId) {
 
 /***************START TO DELETE JOURNAL ENTRY @AUTHOR: SANDY3OCT13*********************************/
 function deleteEntryFrmJrnl(jrnlId) {
-    confirm_box = confirm(deleteAlertMess + "\n Do you really want to delete this Journal Entry Permanently?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\n Do you really want to delete this Journal Entry Permanently?"); //change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
         loadXMLDoc();
@@ -1947,8 +1930,7 @@ function deleteEntryFrmJrnl(jrnlId) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("journalEntryDiv").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -1968,9 +1950,8 @@ function showAddStockPanel(panel, itemCategory, metalType, itemName) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
-        }
-        else {
+            document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2013,25 +1994,20 @@ function calSellVal() {
     if (wt != '') {
         if (metalType == 'Gold') {
             if (wtType == 'MG') {
-                document.getElementById('slRwMetValuation').value = Math.round((FnWt * metalRate) / 10000).toFixed(2);
-            }
-            else if (wtType == 'GM') {
-                document.getElementById('slRwMetValuation').value = Math.round((FnWt * metalRate) / 10).toFixed(2);
-            }
-            else {
-                document.getElementById('slRwMetValuation').value = Math.round((FnWt * metalRate) * 100).toFixed(2);
+                document.getElementById('slRwMetValuation').value = Math_round((FnWt * metalRate) / 10000).toFixed(2);
+            } else if (wtType == 'GM') {
+                document.getElementById('slRwMetValuation').value = Math_round((FnWt * metalRate) / 10).toFixed(2);
+            } else {
+                document.getElementById('slRwMetValuation').value = Math_round((FnWt * metalRate) * 100).toFixed(2);
             }
 
-        }
-        else if (metalType == 'Silver') {
+        } else if (metalType == 'Silver') {
             if (wtType == 'MG') {
-                document.getElementById('slRwMetValuation').value = Math.round((FnWt * metalRate) / 1000000).toFixed(2);
-            }
-            else if (wtType == 'GM') {
-                document.getElementById('slRwMetValuation').value = Math.round((FnWt * metalRate) / 1000).toFixed(2);
-            }
-            else {
-                document.getElementById('slRwMetValuation').value = Math.round((FnWt * metalRate)).toFixed(2);
+                document.getElementById('slRwMetValuation').value = Math_round((FnWt * metalRate) / 1000000).toFixed(2);
+            } else if (wtType == 'GM') {
+                document.getElementById('slRwMetValuation').value = Math_round((FnWt * metalRate) / 1000).toFixed(2);
+            } else {
+                document.getElementById('slRwMetValuation').value = Math_round((FnWt * metalRate)).toFixed(2);
             }
         }
         if (totalWtTp != wtType) {
@@ -2041,11 +2017,10 @@ function calSellVal() {
         document.getElementById('remainWtTp').value = totalWtTp;
     }
     if (document.getElementById('slRwMetOthTax').value != '') {
-        var taxAmnt = Math.round(parseFloat(document.getElementById('slRwMetValuation').value) * parseFloat(document.getElementById('slRwMetOthTax').value) / 100).toFixed(2);
-        document.getElementById('slRwMetFinalVal').value = Math.round(parseFloat(taxAmnt) + parseFloat(document.getElementById('slRwMetValuation').value)).toFixed(2);
-    }
-    else {
-        document.getElementById('slRwMetFinalVal').value = Math.round(parseFloat(document.getElementById('slRwMetValuation').value)).toFixed(2);
+        var taxAmnt = Math_round(parseFloat(document.getElementById('slRwMetValuation').value) * parseFloat(document.getElementById('slRwMetOthTax').value) / 100).toFixed(2);
+        document.getElementById('slRwMetFinalVal').value = Math_round(parseFloat(taxAmnt) + parseFloat(document.getElementById('slRwMetValuation').value)).toFixed(2);
+    } else {
+        document.getElementById('slRwMetFinalVal').value = Math_round(parseFloat(document.getElementById('slRwMetValuation').value)).toFixed(2);
     }
 }
 /*******************End of changes in function @AUTHOR: SANDY19OCT13******************************************/
@@ -2062,16 +2037,13 @@ function validateSellDet() {
 function add_raw_sell_details(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertAddRawSellDet;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertAddRawSellDet() {
 
@@ -2080,7 +2052,6 @@ function alertAddRawSellDet() {
         document.getElementById("rawSellDetails").innerHTML = xmlhttp.responseText;
     } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-
     }
 
 }
@@ -2090,11 +2061,9 @@ function sellDetSubmit(rawMetalId) {
         alert("Required Stock is not available!");
     } else {
         confirm_box = confirm("\n You will sell :" + document.getElementById('slRwMetNW').value + document.getElementById('slRwMetNTWT').value + "\n Total Metal Remain:" + document.getElementById('remainWt').value + document.getElementById('remainWtTp').value + "\n Do you really want to sell this raw metal?");
-
         if (confirm_box == true) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             document.getElementById("slRwSubButtDiv").style.visibility = "hidden";
-
             if (validateSellDet()) {
                 var poststr = "itstPreId=" + encodeURIComponent(document.getElementById("srchItemPreId").value)
                         + "&itstId=" + encodeURIComponent(document.getElementById("srchItemPostId").value)
@@ -2122,13 +2091,10 @@ function sellDetSubmit(rawMetalId) {
                         + "&remainQuant=" + encodeURIComponent(document.getElementById("remainQuant").value)
                         + "&remainWt=" + encodeURIComponent(document.getElementById("remainWt").value)
                         + "&remainWtType=" + encodeURIComponent(document.getElementById("remainWtTp").value);
-
                 add_raw_sell_details("include/php/ogrwslad.php", poststr);
                 return true;
-
             }
-        }
-        else {
+        } else {
 
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("slPrSubButtDiv").style.visibility = "visible";
@@ -2144,16 +2110,13 @@ function getSellDetailsOfMetal(preId, postId) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("metSellDetailDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     if (postId == 'BarcodeId') {
         xmlhttp.open("POST", "include/php/ogmtsldt.php?preId=" + preId, true);
-    }
-    else {
+    } else {
         xmlhttp.open("POST", "include/php/ogmtsldt.php?preId=" + preId + "&postId=" + postId, true);
     }
     xmlhttp.send();
@@ -2169,8 +2132,7 @@ function  searchMetalId(metalId, metalType, panel, keycode, id) {
                 document.getElementById('goldIdListDivRawStockPay').focus();
                 document.getElementById('goldIdListDivRawStockPay').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2230,25 +2192,21 @@ function calcRawGoldStockValuation(id, metalId) {
         var silDueWt = document.getElementById('rawMetPayTotalSilverWt').value;
         var goldDueWtTp = document.getElementById('rawMetPayTotalGoldWGTType').value;
         var silDueWtTp = document.getElementById('rawMetPayTotalSilverWtType').value;
-
         if (metTp == 'Gold') {
             if (wtType == 'KG') {
-                document.getElementById('rawMetPayMetalValuation1' + id).value = Math.round((fnWt * metalRate) * 100).toFixed(2);
+                document.getElementById('rawMetPayMetalValuation1' + id).value = Math_round((fnWt * metalRate) * 100).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('rawMetPayMetalValuation1' + id).value = Math.round((fnWt * metalRate) / 10).toFixed(2);
+                document.getElementById('rawMetPayMetalValuation1' + id).value = Math_round((fnWt * metalRate) / 10).toFixed(2);
+            } else if (wtType == 'MG') {
+                document.getElementById('rawMetPayMetalValuation1' + id).value = Math_round((fnWt * metalRate) / 10000).toFixed(2);
             }
-            else if (wtType == 'MG') {
-                document.getElementById('rawMetPayMetalValuation1' + id).value = Math.round((fnWt * metalRate) / 10000).toFixed(2);
-            }
-        }
-        else {
+        } else {
             if (wtType == 'KG') {
-                document.getElementById('rawMetPayMetalValuation1' + id).value = Math.round((fnWt * metalRate)).toFixed(2);
+                document.getElementById('rawMetPayMetalValuation1' + id).value = Math_round((fnWt * metalRate)).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('rawMetPayMetalValuation1' + id).value = Math.round((fnWt * metalRate) / 1000).toFixed(2);
-            }
-            else if (wtType == 'MG') {
-                document.getElementById('rawMetPayMetalValuation1' + id).value = Math.round((fnWt * metalRate) / 1000000).toFixed(2);
+                document.getElementById('rawMetPayMetalValuation1' + id).value = Math_round((fnWt * metalRate) / 1000).toFixed(2);
+            } else if (wtType == 'MG') {
+                document.getElementById('rawMetPayMetalValuation1' + id).value = Math_round((fnWt * metalRate) / 1000000).toFixed(2);
             }
         }
         getFinalBalnceDetails();
@@ -2284,15 +2242,14 @@ function  getFinalBalnceDetails() {
                 document.getElementById('totalGoldWtRec').value = totalPaidGoldWt;
                 totalPaidGoldWtTp = goldDueWtTp;
                 document.getElementById('totalGoldWtTpRec').value = goldDueWtTp;
-                totalGoldValuation = Math.round(parseFloat(totalGoldValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
-                totalValuation = Math.round(parseFloat(totalValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
+                totalGoldValuation = Math_round(parseFloat(totalGoldValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
+                totalValuation = Math_round(parseFloat(totalValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
                 document.getElementById('totalGoldValRec').value = totalGoldValuation;
                 document.getElementById('rawMetstockPayGoldWghtBal').value = parseFloat(goldDueWt) - parseFloat(totalPaidGoldWt);
                 document.getElementById('goldDueWt').value = document.getElementById('rawMetstockPayGoldWghtBal').value;
                 document.getElementById('goldDueWtTp').value = goldDueWtTp;
                 document.getElementById('rawMetstockPayGoldWghtBal').value = document.getElementById('rawMetstockPayGoldWghtBal').value + goldDueWtTp;
-            }
-            else {
+            } else {
                 if (silDueWtTp != wtType) {
                     wt = convert(silDueWtTp, wtType, wt);
                 }
@@ -2300,8 +2257,8 @@ function  getFinalBalnceDetails() {
                 document.getElementById('totalSilverWtRec').value = totalPaidSilWt;
                 totalPaidSilWtTp = silDueWtTp;
                 document.getElementById('totalSilverWtTpRec').value = silDueWtTp;
-                totalSilverValuation = Math.round(parseFloat(totalSilverValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
-                totalValuation = Math.round(parseFloat(totalValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
+                totalSilverValuation = Math_round(parseFloat(totalSilverValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
+                totalValuation = Math_round(parseFloat(totalValuation) + parseFloat(document.getElementById('rawMetPayMetalValuation1' + idVal).value)).toFixed(2);
                 document.getElementById('totalSilverValRec').value = totalSilverValuation;
                 document.getElementById('rawMetstockPaySilverWghtBal').value = parseFloat(silDueWt) - parseFloat(totalPaidSilWt);
                 document.getElementById('silverDueWt').value = document.getElementById('rawMetstockPaySilverWghtBal').value;
@@ -2314,24 +2271,22 @@ function  getFinalBalnceDetails() {
 
     if (totalValuation == 'NaN') {
         document.getElementById('rawMetstockPayTotalAmtRec').value = 0.00;
+    } else {
+        document.getElementById('rawMetstockPayTotalAmtRec').value = Math_round(parseFloat(totalValuation)).toFixed(2);
     }
-    else {
-        document.getElementById('rawMetstockPayTotalAmtRec').value = Math.round(parseFloat(totalValuation)).toFixed(2);
-    }
-    document.getElementById('rawMetstockPayTotalAmtBal').value = Math.round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
-    document.getElementById('rawMetPayTotalAmtBalHidden').value = Math.round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
+    document.getElementById('rawMetstockPayTotalAmtBal').value = Math_round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
+    document.getElementById('rawMetPayTotalAmtBalHidden').value = Math_round(parseFloat(document.getElementById('rawMetstockPayTotalAmt').value) - parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
     document.getElementById('rawMetPayTotalAmtBalHidden').value = document.getElementById('rawMetstockPayTotalAmtBal').value;
-
     if (document.getElementById('rawMetstockPayCashAmount').value != '') {
-        document.getElementById('rawMetstockPayTotalAmtBal').value = Math.round(parseFloat(document.getElementById('rawMetPayTotalAmtBalHidden').value) - parseFloat(document.getElementById('rawMetstockPayCashAmount').value)).toFixed(3);
-        document.getElementById('cashPaidLabel').innerHTML = Math.round(document.getElementById('rawMetstockPayCashAmount').value).toFixed(2);
+        document.getElementById('rawMetstockPayTotalAmtBal').value = Math_round(parseFloat(document.getElementById('rawMetPayTotalAmtBalHidden').value) - parseFloat(document.getElementById('rawMetstockPayCashAmount').value)).toFixed(3);
+        document.getElementById('cashPaidLabel').innerHTML = Math_round(document.getElementById('rawMetstockPayCashAmount').value).toFixed(2);
     }
     document.getElementById('rawMetPayTotalAmtBalHidden').value = document.getElementById('rawMetstockPayTotalAmtBal').value;
     if (document.getElementById('rawMetstockPayDiscount').value != '') {
-        document.getElementById('rawMetstockPayTotalAmtBal').value = Math.round(parseFloat(document.getElementById('rawMetPayTotalAmtBalHidden').value) - parseFloat(document.getElementById('rawMetstockPayDiscount').value)).toFixed(3);
+        document.getElementById('rawMetstockPayTotalAmtBal').value = Math_round(parseFloat(document.getElementById('rawMetPayTotalAmtBalHidden').value) - parseFloat(document.getElementById('rawMetstockPayDiscount').value)).toFixed(3);
         document.getElementById('discountLabel').innerHTML = parseFloat(document.getElementById('rawMetstockPayDiscount').value).toFixed(2);
     }
-    document.getElementById('totalMetValLabel').innerHTML = Math.round(parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
+    document.getElementById('totalMetValLabel').innerHTML = Math_round(parseFloat(document.getElementById('rawMetstockPayTotalAmtRec').value)).toFixed(2);
     document.getElementById('totalAmntBalanceLabel').innerHTML = parseFloat(document.getElementById('rawMetstockPayTotalAmtBal').value).toFixed(2);
     return false;
 }
@@ -2345,8 +2300,7 @@ function showListOfSelectedMetal(metal, panel) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2360,8 +2314,7 @@ function valSearchStockByRequirement(obj) {
     if (validateEmptyField(document.srch_stock_asPer_Req.stockAmtStartRange.value, "Please enter start range!") == false) {
         document.srch_stock_asPer_Req.stockAmtStartRange.focus();
         return false;
-    }
-    else if (validateEmptyField(document.srch_stock_asPer_Req.stockAmtEndRange.value, "Please enter end range!") == false)
+    } else if (validateEmptyField(document.srch_stock_asPer_Req.stockAmtEndRange.value, "Please enter end range!") == false)
     {
         document.srch_stock_asPer_Req.stockAmtEndRange.focus();
         return false;
@@ -2371,9 +2324,7 @@ function valSearchStockByRequirement(obj) {
 
 function search_stock(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchStock;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -2387,8 +2338,7 @@ function alertSearchStock() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("stockByAmtRangeGoButt").style.visibility = "visible";
         document.getElementById("addStockCurrentInvoice").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         document.getElementById("stockByAmtRangeGoButt").style.visibility = "hidden";
     }
@@ -2400,7 +2350,7 @@ function searchStockByRequirement(obj) {
                 + "&endRange=" + encodeURIComponent(document.srch_stock_asPer_Req.stockAmtEndRange.value)
                 + "&itemName=" + encodeURIComponent(document.srch_stock_asPer_Req.stockItemName.value)
                 + "&stockItemMetal=" + encodeURIComponent(document.srch_stock_asPer_Req.stockItemMetal.value)
-                + "&metalWt=" + encodeURIComponent(document.srch_stock_asPer_Req.selectMetalWeight.value);//TO PASS METAL WEIGHT TYPE @AUTHOR: SANDY7AUG13
+                + "&metalWt=" + encodeURIComponent(document.srch_stock_asPer_Req.selectMetalWeight.value); //TO PASS METAL WEIGHT TYPE @AUTHOR: SANDY7AUG13
         search_stock('include/php/ogilsbdv.php', poststr);
     }
 }
@@ -2410,8 +2360,7 @@ function valSearchRawStockByRequirement(obj) {
     if (validateEmptyField(document.srch_rawStock.stockAmtStartRange.value, "Please enter start range!") == false) {
         document.srch_rawStock.stockAmtStartRange.focus();
         return false;
-    }
-    else if (validateEmptyField(document.srch_rawStock.stockAmtEndRange.value, "Please enter end range!") == false)
+    } else if (validateEmptyField(document.srch_rawStock.stockAmtEndRange.value, "Please enter end range!") == false)
     {
         document.srch_rawStock.stockAmtEndRange.focus();
         return false;
@@ -2421,9 +2370,7 @@ function valSearchRawStockByRequirement(obj) {
 
 function search_Raw_stock(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchRawStock;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -2437,8 +2384,7 @@ function alertSearchRawStock() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("stockByAmtRangeGoButt").style.visibility = "visible";
         document.getElementById("rawMetalStockListDiv").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         document.getElementById("stockByAmtRangeGoButt").style.visibility = "hidden";
     }
@@ -2491,8 +2437,7 @@ function showSelectedPage(pageNo, panel, rowsPerPage, noOfPagesAsLink, selFirmId
     if (pageNo == 0) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
-    }
-    else {
+    } else {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2529,8 +2474,7 @@ function showSelectedPage(pageNo, panel, rowsPerPage, noOfPagesAsLink, selFirmId
         } else if (panel == 'transList') {
             xmlhttp.open("POST", "include/php/omttlisd.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn +
                     "&searchValue=" + searchValue, true);
-        }
-        else if (panel == 'ReleasedGirviList') {
+        } else if (panel == 'ReleasedGirviList') {
             xmlhttp.open("POST", "include/php/orgpregl.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue, true);
         } else if (panel == 'TPExpiredLoanList') {
             xmlhttp.open("POST", "include/php/orgptpexgl.php?page=" + pageNo + "&selFirmId=" + selFirmId + "&sortKeyword=" + sortKeyword + "&searchColumn=" + searchColumn + "&searchValue=" + searchValue + "&searchValue=" + searchValue + "&sNo=" + selTFirmId +
@@ -2572,8 +2516,7 @@ function showSelPageInStockList(pageNo, panel, rowsPerPage, start, end, wtTp, me
     if (pageNo == 0) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
-    }
-    else {
+    } else {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2581,8 +2524,7 @@ function showSelPageInStockList(pageNo, panel, rowsPerPage, start, end, wtTp, me
                     document.getElementById("rawMetalStockListDiv").innerHTML = xmlhttp.responseText;
                     if (pageNo >= 10) {
                         setPageValue(pageNo, noOfPagesAsLink);
-                    }
-                    else {
+                    } else {
                         document.getElementById('pageNoTextField' + pageNo).setAttribute("class", "currentPageNoButton");
                     }
                 } else if (panel == 'ItemStockList' || panel == 'PurchaseList' || panel == 'CustSellList' || panel == 'StockPanel') {
@@ -2595,12 +2537,10 @@ function showSelPageInStockList(pageNo, panel, rowsPerPage, start, end, wtTp, me
                     }
                     if (pageNo >= 10) {
                         setPageValue(pageNo, noOfPagesAsLink);
-                    }
-                    else {
+                    } else {
                         document.getElementById('pageNoTextField' + pageNo).setAttribute("class", "currentPageNoButton");
                     }
-                }
-                else {
+                } else {
                     document.getElementById("repairedItemListDiv").innerHTML = xmlhttp.responseText;
                 }
             }
@@ -2609,7 +2549,7 @@ function showSelPageInStockList(pageNo, panel, rowsPerPage, start, end, wtTp, me
             xmlhttp.open("POST", "include/php/ogrmlist.php?page=" + pageNo + "&listPanel=" + panel + "&rowsPerPage=" + rowsPerPage + "&startRange=" + start + "&endRange=" + end + "&itemName=" + metalName + "&stockItemMetal=" + metalTp + "&metalWt=" + wtTp, true);
         } else if (panel == 'ItemStockList') {
             xmlhttp.open("POST", "include/php/ogilsbdv.php?page=" + pageNo + "&rowsPerPage=" + rowsPerPage + "&startRange=" + start + "&endRange=" + end +
-                    "&itemName=" + metalName + "&stockItemMetal=" + metalTp + "&metalWt=" + wtTp + "&searchPanel=" + panel + "&stockPanel=ImitationStock", true);//Add panel Imitation @Author:ANUJA17Feb15
+                    "&itemName=" + metalName + "&stockItemMetal=" + metalTp + "&metalWt=" + wtTp + "&searchPanel=" + panel + "&stockPanel=ImitationStock", true); //Add panel Imitation @Author:ANUJA17Feb15
 //        }
 //                else if (panel == 'ItemStockList') {
 //            xmlhttp.open("POST", "include/php/ogilsbdv.php?page=" + pageNo + "&rowsPerPage=" + rowsPerPage + "&startRange=" + start + "&endRange=" + end +
@@ -2653,8 +2593,7 @@ function setPageValue(pageNo, noOfPagesAsLink) {
             document.getElementById('pageNoTextField' + pageId).value = parseInt(nextPageNo) - 1;
             nextPageNo = parseInt(nextPageNo) - 1;
         }
-    }
-    else {
+    } else {
         document.getElementById('pageNoTextField' + 5).value = pageNo;
         document.getElementById('pageNoTextField' + 5).setAttribute("class", "currentPageNoButton");
         for (pageId = 6; pageId <= 10; pageId++) {
@@ -2678,8 +2617,7 @@ function showSelCustListPage(pageNo, noOfPages, panel, user) {
     if (parseInt(pageNo) == 0 || parseInt(pageNo) > parseInt(noOfPages)) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
-    }
-    else {
+    } else {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2688,8 +2626,7 @@ function showSelCustListPage(pageNo, noOfPages, panel, user) {
                 document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText;
                 if (parseInt(pageNo) >= 10) {
                     setPageValue(pageNo, noOfPages);
-                }
-                else {
+                } else {
                     document.getElementById('pageNoTextField' + pageNo).setAttribute("class", "currentPageNoButton");
                 }
             } else {
@@ -2711,25 +2648,21 @@ function addUser(user) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("mainMiddleDiv").innerHTML = xmlhttp.responseText;//change in div @AUTHOR: SANDY3DEC13
+            document.getElementById("mainMiddleDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY3DEC13
             if (user == 'supplier') {
                 document.getElementById('userImg').innerHTML = "<img src=images/supplierAdd32.png alt=Add Supplier Panel onload=document.add_new_supplier.supplierType.focus(); initFormName('add_new_supplier','addNewSupplier');/>";
                 document.getElementById('userType').innerHTML = "ADD NEW SUPPLIER";
-            }
-            else if (user == 'staff') {
+            } else if (user == 'staff') {
                 document.getElementById('userImg').innerHTML = "<img src=images/adduser32.png alt=Add Staff Panel onload=document.add_new_staff.StaffCategory.focus(); initFormName('add_new_staff','addNewStaff');/>";
                 document.getElementById('userType').innerHTML = "ADD NEW STAFF";
-            }
-            else if (user == 'moneyLender') {
+            } else if (user == 'moneyLender') {
                 document.getElementById('userImg').innerHTML = "<img src=images/adduser32.png alt=Add MoneyLender Panel onload=document.add_new_supplier.supplierType.focus(); initFormName('add_new_supplier','addNewSupplier');/>";
                 document.getElementById('userType').innerHTML = "ADD NEW MONEYLENDER";
-            }
-            else {
+            } else {
                 document.getElementById('userImg').innerHTML = "<img src=images/adduser32.png alt=Add Customer Panel onload=document.add_new_customer.customerType.focus(); initFormName('add_new_customer','addNewCustomer');/>";
                 document.getElementById('userType').innerHTML = "ADD NEW CUSTOMER";
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2737,24 +2670,93 @@ function addUser(user) {
         xmlhttp.open("GET", "include/php/ogwaspdv.php?user=" + user, true);
     } else if (user == 'staff') {
         xmlhttp.open("GET", "include/php/omeastdv.php?user=" + user, true);
-    }
-    else if (user == 'moneyLender') {
+    } else if (user == 'moneyLender') {
         xmlhttp.open("GET", "include/php/ormladdv.php?user=" + user, true); //change in filename @AUTHOR: SANDY18NOV13
-    }
-    else {
+    } else {
         xmlhttp.open("GET", "include/php/omcaadcd.php?user=" + user, true);
     }
     xmlhttp.send();
 }
 /************End of changes in function  @AUTHOR: SANDY4DEC13********************/
 /************END TO ADD function TO ADD DIFFERENT USER @AUTHOR: SANDY12NOV13********************/
+
+/************Start TO ADD function TO SHOW SCHEME LIST @AUTHOR: AMOL********************/
+function showUserSchemeList(custId) {
+//    alert("custId = "+custId);
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("kittyFinDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omctschlist.php?custId=" + custId, true);
+    xmlhttp.send();
+}
+
+
+function showUserSchemeListStatus(custId, status) {
+    var k_upd_sts = 'Released';
+    var k_mondep_upd_sts = 'Deleted';
+    // alert("status="+status);
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("kittyFinDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/omctschlist.php?custId=" + custId + "&status=" + status + "&k_upd_sts=" + k_upd_sts + "&k_mondep_upd_sts=" + k_mondep_upd_sts, true);
+    xmlhttp.send();
+}
+
+//
+function showSchemeList(user) {
+// alert(user);
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omcccldv.php?user=" + user, true);
+    xmlhttp.send();
+}
+
+
+function showSchemeListStatus(user, status) {
+    var k_upd_sts = 'Released';
+    var k_mondep_upd_sts = 'Deleted';
+    // alert(user);
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omcccldv.php?user=" + user + "&status=" + status + "&k_upd_sts=" + k_upd_sts + "&k_mondep_upd_sts=" + k_mondep_upd_sts, true);
+    xmlhttp.send();
+}
+
+/************END TO ADD function TO SHOW SCHEME LIST  @AUTHOR: AMOL********************/
+
 /************Start TO ADD function TO SHOW USER LIST @AUTHOR: SANDY13NOV13********************/
 function showUserList(user) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;//change in div @AUTHOR: SANDY23DEC13
+            document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
@@ -2774,12 +2776,11 @@ function getMoneyLenderDetails(panelOption) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("GET", "include/php/ommlmndv.php?mlId=" + mlId + "&panelOption=" + panelOption, true);//File Name Changed @AUTHOR:PRIYA21MAY13
+    xmlhttp.open("GET", "include/php/ommlmndv.php?mlId=" + mlId + "&panelOption=" + panelOption, true); //File Name Changed @AUTHOR:PRIYA21MAY13
     xmlhttp.send();
 }
 
@@ -2792,8 +2793,7 @@ function getMnyLenderHome() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2808,8 +2808,7 @@ function getMlUpdateForm() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2826,8 +2825,7 @@ function addNewLoanPanel() {
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
             //showTransferedLoanDetails(); comment @AUTHOR: SANDY27DEC13
             document.getElementById('mlPrincipalAmount').focus();
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2843,8 +2841,7 @@ function  validateAddNewLoan() {
     if (validateEmptyField(document.getElementById("mlPrincipalAmount").value, "Please enter principle amount!") == false || validateNum(document.getElementById("mlPrincipalAmount").value, "Accept only numeric characters without space character!") == false) {
         document.getElementById("mlPrincipalAmount").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("mlAddLnFirm").value, "Please select Firm name!") == false) {
+    } else if (validateSelectField(document.getElementById("mlAddLnFirm").value, "Please select Firm name!") == false) {
         document.getElementById("mlAddLnFirm").focus();
         return false;
     } else if (document.getElementById("mlPreSerialNumber").value != '') {
@@ -2856,20 +2853,16 @@ function  validateAddNewLoan() {
             validateNum(document.getElementById("mlSerialNumber").value, "Accept only numeric characters without space character!") == false) {
         document.getElementById("mlSerialNumber").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("selTROI").value, "Please Select ROI!") == false) {
+    } else if (validateEmptyField(document.getElementById("selTROI").value, "Please Select ROI!") == false) {
         document.getElementById("selTROI").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("mlAddLnDOBDay").value, "Please select Girvi Date!") == false) {
+    } else if (validateSelectField(document.getElementById("mlAddLnDOBDay").value, "Please select Girvi Date!") == false) {
         document.getElementById("mlAddLnDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("mlAddLnDOBMonth").value, "Please select Girvi Date!") == false) {
+    } else if (validateSelectField(document.getElementById("mlAddLnDOBMonth").value, "Please select Girvi Date!") == false) {
         document.getElementById("mlAddLnDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("mlAddLnDOBYear").value, "Please select Girvi Date!") == false) {
+    } else if (validateSelectField(document.getElementById("mlAddLnDOBYear").value, "Please select Girvi Date!") == false) {
         document.getElementById("mlAddLnDOBYear").focus();
         return false;
     } else {
@@ -2882,7 +2875,6 @@ function  validateAddNewLoan() {
         var mlAddLnDate = mlAddLnDate.getTime();
         var milliTodayDate = todayDate.getTime();
         var datesDiff = milliTodayDate - mlAddLnDate;
-
         if (datesDiff < 0) {
             alert('Please Select the correct Loan Date!');
             document.getElementById("mlAddLnDOBDay").focus();
@@ -2931,8 +2923,7 @@ function showTransferedLoanDetails() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("transferLoanDetail").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2957,9 +2948,7 @@ function getMoreLoanTrDiv(count) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById('addMoreLnToTrList' + loanNo).innerHTML = xmlhttp.responseText;
             document.getElementById('mlLoanNo' + loanNo).focus();
-
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -2984,7 +2973,6 @@ function getMorePrinToTrDiv(count) {
     }
     prinNoToTransfer = parseInt(prinNoToTransfer) + 1;
     document.getElementById('totalPrinTransferred').value = prinNoToTransfer;
-
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -3018,8 +3006,7 @@ function searchLoanNoAndDet(loanNo, id, keyCode) {
     while (currentId > 0) {
         if (deletedLoanStr.indexOf(currentId) < 0) {
             trLoansStr = trLoansStr + document.getElementById("mlLoanNo" + currentId).value;
-        }
-        else {
+        } else {
             trLoansStr = trLoansStr;
         }
         currentId = parseInt(currentId) - 1;
@@ -3032,8 +3019,7 @@ function searchLoanNoAndDet(loanNo, id, keyCode) {
                 document.getElementById('mlLoanNoListDiv').focus();
                 document.getElementById('mlLoanNoListDiv').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3056,7 +3042,7 @@ function getTotalPrinAmtTransffered() {
         document.getElementById("totTransAmtLabel").innerHTML = '';
     }
     if (totPrinAmtTransferred != '0') {
-        document.getElementById('totTransAmtLabel').innerHTML = Math.round(parseFloat(totPrinAmtTransferred)).toFixed(2);
+        document.getElementById('totTransAmtLabel').innerHTML = Math_round(parseFloat(totPrinAmtTransferred)).toFixed(2);
     }
     if (parseFloat(document.getElementById("mlPrincipalAmount").value) < parseFloat(totPrinAmtTransferred)) {
         alert("Total Amount transferred is greater than Loan amount!");
@@ -3078,7 +3064,7 @@ function getAddPrinAmtTransffered() {
         document.getElementById("totAddPrinLabel").innerHTML = '';
     }
     if (totAdditionalPrinTrans != '0') {
-        document.getElementById('totAddPrinLabel').innerHTML = Math.round(parseFloat(totAdditionalPrinTrans)).toFixed(2);
+        document.getElementById('totAddPrinLabel').innerHTML = Math_round(parseFloat(totAdditionalPrinTrans)).toFixed(2);
     }
     if (parseFloat(document.getElementById("mlPrincipalAmount").value) < parseFloat(totAdditionalPrinTrans)) {
         alert("Total Amount transferred is greater than Loan amount!");
@@ -3095,8 +3081,7 @@ function lenderLoanDetails() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3112,18 +3097,17 @@ var dRoot;
 function get_firmLoanNo(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertGetFirmLoanNo;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 /********Start code to aff function for serial no @Author:PRIYA21JAN15***************/
+
+
 function alertGetFirmLoanNo() {
 
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -3131,8 +3115,7 @@ function alertGetFirmLoanNo() {
         document.getElementById("mlAddLnFirmLnNumber").value = xmlhttp.responseText;
         getMLFirmSerialNo(dRoot, selFirmId, 'AddNewMlLoan', transType);
 //        getMLFirmLoanNo(selFirmId, 'AddNewMlLoan', transType)//function added @Author:PRIYA23MAY14
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -3142,7 +3125,6 @@ function getFirmLoanNo(documentRoot, firmId, crdrType) {
     selFirmId = firmId.value;
     transType = crdrType;
     var poststr = "firmNo=" + encodeURIComponent(selFirmId);
-
     get_firmLoanNo('include/php/ommpgtpk.php', poststr);
 }
 /***End to change code @AUTHOR: SANDY20JAN14********************/
@@ -3156,13 +3138,11 @@ function getDetailsOfSelectedLoan(loanNo, id, panel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             if (panel == 'Update') {
                 document.getElementById("addMoreLoanInUpdateDiv").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("transferLoanDetailsDiv" + id).innerHTML = xmlhttp.responseText;
-                document.getElementById('moreLoanClose' + id).focus();//@AUTHOR: SANDY11JAN14
+                document.getElementById('moreLoanClose' + id).focus(); //@AUTHOR: SANDY11JAN14
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3176,16 +3156,13 @@ function getDetailsOfSelectedLoan(loanNo, id, panel) {
 function change_MlLoan_Monthly_Int_Opt(url, parameters) {
 
     loadXMLDoc2();
-
     xmlhttp2.onreadystatechange = alertChangeMlLoanMonthlyIntOpt;
-
     xmlhttp2.open('POST', url, true);
     xmlhttp2.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp2.setRequestHeader("Connection", "close");
     xmlhttp2.setRequestHeader("Content-length", parameters.length);
     xmlhttp2.send(parameters);
-
 }
 
 function alertChangeMlLoanMonthlyIntOpt() {
@@ -3193,16 +3170,13 @@ function alertChangeMlLoanMonthlyIntOpt() {
     if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("loanTotAmtDiv").innerHTML = xmlhttp2.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
 function change_MlLoan_monthly_int_option_db(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertChangeMlLoanMonthlyIntOptionDb;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -3232,7 +3206,6 @@ function changeMlLoanMonthlyIntOpt(documentRootPath, simpleOrCompIntOption, girv
     var relDateDDValue;
     var relDateMMValue;
     var relDateYYValue;
-
     if (girviStatus == 'Released' || girviStatus == 'New') {
         relDateDDValue = '';
         relDateMMValue = '';
@@ -3245,14 +3218,12 @@ function changeMlLoanMonthlyIntOpt(documentRootPath, simpleOrCompIntOption, girv
             + "&girviType=" + girviType + "&grvRelPayDetails=" + grvRelPayDetails + "&girviStatus=" + girviStatus
             + "&relDateDDValue=" + relDateDDValue + "&relDateMMValue=" + relDateMMValue + "&relDateYYValue=" + relDateYYValue
             + "&simpleOrCompIntOption=" + simpleOrCompIntOption + "&girviCompoundedOption=" + girviCompoundedOption + "&girviAddROINotChange=No";
-
     if (girviType == 'Transferred') {
-        change_MlLoan_Monthly_Int_Opt('http://' + documentRootPath + '/include/php/olgggtta.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
-    }
-    else {
+        change_MlLoan_Monthly_Int_Opt('http://' + documentRootPath + '/include/php/olgggtta.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+    } else {
         change_MlLoan_Monthly_Int_Opt('http://' + documentRootPath + '/include/php/ormlttam.php', poststr);
     }
-    change_MlLoan_monthly_int_option_db('http://' + documentRootPath + '/include/php/olgumidb.php', poststr);//change in filename @AUTHOR: SANDY22NOV13
+    change_MlLoan_monthly_int_option_db('http://' + documentRootPath + '/include/php/olgumidb.php', poststr); //change in filename @AUTHOR: SANDY22NOV13
     return false;
 }
 /******End to change functions @AUTHOR: SANDY30NOV13******************/
@@ -3260,56 +3231,47 @@ function changeMlLoanMonthlyIntOpt(documentRootPath, simpleOrCompIntOption, girv
 /*******Start to add function to change interest TYPE option in ml loan info panel @AUTHOR: SANDY21NOV13*******/
 function change_ml_int_type_opt(url, parameters) {
     loadXMLDoc2();
-
     xmlhttp2.onreadystatechange = alertChangeMlIntTypeOpt;
-
     xmlhttp2.open('POST', url, true);
     xmlhttp2.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp2.setRequestHeader("Connection", "close");
     xmlhttp2.setRequestHeader("Content-length", parameters.length);
     xmlhttp2.send(parameters);
-
 }
 
 function alertChangeMlIntTypeOpt() {
     if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
         document.getElementById("ajaxLoadCustGirviDetailsDiv").style.visibility = "hidden";
         document.getElementById("loanTotAmtDiv").innerHTML = xmlhttp2.responseText;
-    }
-    else {
+    } else {
         document.getElementById("ajaxLoadCustGirviDetailsDiv").style.visibility = "visible";
     }
 }
 function change_ml_int_type_option_db(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertChangeMlIntTypeOptionDB;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.send(parameters);
-
 }
 
 function alertChangeMlIntTypeOptionDB() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         if (document.getElementById('simpleOrCompIntOption').value == 'Simple') {
             document.getElementById("girviCompoundedOptionDiv").style.visibility = "hidden";
-        }
-        else {
+        } else {
             document.getElementById("girviCompoundedOptionDiv").style.visibility = "visible";
         }
         document.getElementById("ajaxLoadGirviIntOptChangeDiv").style.visibility = "visible";
         document.getElementById("ajaxLoadGirviIntOptChangeDiv").innerHTML = "<img src='images/right16.png' />";
         window.setTimeout(closeGirviIntOptChangeDiv, 1000);
         document.getElementById("ajaxLoadGirviIntOptChangeDiv").style.visibility = "visible";
-    }
-    else {
+    } else {
         document.getElementById("ajaxLoadGirviIntOptChangeDiv").style.visibility = "visible";
         document.getElementById("ajaxLoadGirviIntOptChangeDiv").innerHTML = "<img src='images/loading16.gif' />";
     }
@@ -3333,12 +3295,10 @@ function changeMlIntTypeOpt(documentRootPath, simpleOrCompIntOption, girviCompou
             + "&girviType=" + girviType + "&grvRelPayDetails=" + grvRelPayDetails + "&girviStatus=" + girviStatus
             + "&relDateDDValue=" + relDateDDValue + "&relDateMMValue=" + relDateMMValue + "&relDateYYValue=" + relDateYYValue
             + "&simpleOrCompIntOption=" + simpleOrCompIntOption + "&girviCompoundedOption=" + girviCompoundedOption + "&girviAddROINotChange=No";
-
     if (girviType == 'Transferred') {
-        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/olggttam.php', poststr);//CHANGE IN FILENAME @AUTHOR: SANDY17DEC13
-    }
-    else {
-        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/ormlttam.php', poststr);//CHANGE IN FILENAME @AUTHOR: SANDY28DEC13
+        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/olggttam.php', poststr); //CHANGE IN FILENAME @AUTHOR: SANDY17DEC13
+    } else {
+        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/ormlttam.php', poststr); //CHANGE IN FILENAME @AUTHOR: SANDY28DEC13
     }
     change_ml_int_type_option_db('http://' + documentRootPath + '/include/php/olguindb.php', poststr);
     return false;
@@ -3348,16 +3308,13 @@ function changeMlIntTypeOpt(documentRootPath, simpleOrCompIntOption, girviCompou
 function change_ml_compounded_option_db(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertChangeMlCompoundedOptionDB;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.send(parameters);
-
 }
 
 function alertChangeMlCompoundedOptionDB() {
@@ -3379,7 +3336,6 @@ function changeMlIntCompoundedOpt(documentRootPath, simpleOrCompIntOption, girvi
     var relDateDDValue;
     var relDateMMValue;
     var relDateYYValue;
-
     if (girviStatus == 'Released' || girviStatus == 'New') {
         relDateDDValue = '';
         relDateMMValue = '';
@@ -3392,14 +3348,12 @@ function changeMlIntCompoundedOpt(documentRootPath, simpleOrCompIntOption, girvi
             + "&girviType=" + girviType + "&grvRelPayDetails=" + grvRelPayDetails + "&girviStatus=" + girviStatus
             + "&relDateDDValue=" + relDateDDValue + "&relDateMMValue=" + relDateMMValue + "&relDateYYValue=" + relDateYYValue
             + "&simpleOrCompIntOption=" + simpleOrCompIntOption + "&girviCompoundedOption=" + girviCompoundedOption + "&girviAddROINotChange=No";
-
     if (girviType == 'Transferred') {
-        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/ormlttam.php', poststr);//CHANGE IN FILENAME @AUTHOR: SANDY28DEC13
+        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/ormlttam.php', poststr); //CHANGE IN FILENAME @AUTHOR: SANDY28DEC13
+    } else {
+        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/ormlttam.php', poststr); //CHANGE IN FILENAME @AUTHOR: SANDY28DEC13
     }
-    else {
-        change_ml_int_type_opt('http://' + documentRootPath + '/include/php/ormlttam.php', poststr);//CHANGE IN FILENAME @AUTHOR: SANDY28DEC13
-    }
-    change_ml_compounded_option_db('http://' + documentRootPath + '/include/php/olgucmdb.php', poststr);//change in filename @AUTHOR: SANDY21NOV13
+    change_ml_compounded_option_db('http://' + documentRootPath + '/include/php/olgucmdb.php', poststr); //change in filename @AUTHOR: SANDY21NOV13
     return false;
 }
 /*******End to add function to change compound interest TYPE option in ml loan info panel @AUTHOR: SANDY21NOV13*******/
@@ -3411,8 +3365,7 @@ function deleteLoanDetails(loanId, mlId) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3430,8 +3383,7 @@ function deleteLoan(loanId, mlId, serialNum, loanDOB, girviFirmId, prinAmt) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -3449,8 +3401,7 @@ function updateLoanDetails(mlId, loanId) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -3462,16 +3413,13 @@ function updateLoanDetails(mlId, loanId) {
 function update_loan_principal_amount(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateLoanPrincipalAmount;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function alertUpdateLoanPrincipalAmount() {
@@ -3484,18 +3432,15 @@ function alertUpdateLoanPrincipalAmount() {
 function updateLoanPrincipalAmount(documentRootPath, mlId, loanId, prinAmount, loanJrnlId, girviDOB, girviSerialNum, girviFirmId) {
 
     document.getElementById("updatePrincipalButton").style.visibility = "hidden";
-
     var principalAmount = prinAmount.value;
-
     if (validateEmptyField(principalAmount, "Please enter Principal Amount!") == false ||
             validateNum(principalAmount, "Accept only numeric characters without space character!") == false) {
         document.getElementById("updatePrincipalAmount").focus();
         document.getElementById("updatePrincipalButton").style.visibility = "visible";
         return false;
-    }
-    else {
+    } else {
 
-        confirm_box = confirm(updateAlertMess + "\nDo you really want to update Principal Amount?");//change in line @AUTHOR: SANDY28JAN14
+        confirm_box = confirm(updateAlertMess + "\nDo you really want to update Principal Amount?"); //change in line @AUTHOR: SANDY28JAN14
 
         if (confirm_box == true)
         {
@@ -3506,7 +3451,7 @@ function updateLoanPrincipalAmount(documentRootPath, mlId, loanId, prinAmount, l
                     + "&girviDOB=" + girviDOB
                     + "&girviSerialNum=" + girviSerialNum
                     + "&girviFirmId=" + girviFirmId;
-            update_loan_principal_amount('http://' + documentRootPath + '/include/php/ormlupam.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+            update_loan_principal_amount('http://' + documentRootPath + '/include/php/ormlupam.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
         }
     }
     document.getElementById("updatePrincipalButton").style.visibility = "visible";
@@ -3518,16 +3463,13 @@ function updateLoanPrincipalAmount(documentRootPath, mlId, loanId, prinAmount, l
 function update_loan_DOB_amount(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateLoanDOBAmount;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertUpdateLoanDOBAmount() {
 
@@ -3542,27 +3484,21 @@ function updateLoanDOBAmount(documentRootPath, mlId, loanId, DOBDay, DOBMonth, D
     var girviDOBDay = DOBDay.value;
     var girviDOBMonth = DOBMonth.value;
     var girviDOBYear = DOBYear.value;
-
     var mlAddLnDateStr = DOBMonth.value + ' ' + DOBDay.value + ', ' + DOBYear.value;
     var mlAddLnDate = new Date(mlAddLnDateStr); // Girvi Date
     var todayDate = new Date(); // Today Date
     var mlAddLnDate = mlAddLnDate.getTime();
     var milliTodayDate = todayDate.getTime();
     var datesDiff = milliTodayDate - mlAddLnDate;
-
-
-
     if (validateSelectField(girviDOBDay, "Please select Girvi Date Day!") == false) {
         document.getElementById("DOBDay").focus();
         document.getElementById("updateGirviDOBButton").style.visibility = "visible";
         return false;
-    }
-    else if (validateSelectField(girviDOBMonth, "Please select Girvi Date Month!") == false) {
+    } else if (validateSelectField(girviDOBMonth, "Please select Girvi Date Month!") == false) {
         document.getElementById("DOBMonth").focus();
         document.getElementById("updateGirviDOBButton").style.visibility = "visible";
         return false;
-    }
-    else if (validateSelectField(girviDOBYear, "Please select Girvi Date Year!") == false) {
+    } else if (validateSelectField(girviDOBYear, "Please select Girvi Date Year!") == false) {
         document.getElementById("DOBYear").focus();
         document.getElementById("updateGirviDOBButton").style.visibility = "visible";
         return false;
@@ -3573,9 +3509,8 @@ function updateLoanDOBAmount(documentRootPath, mlId, loanId, DOBDay, DOBMonth, D
         document.getElementById("submit").style.visibility = "visible";
         return false;
         exit();
-    }
-    else {
-        confirm_box = confirm(updateAlertMess + "\nDo you really want to update Loan Date?");//change in line @AUTHOR: SANDY28JAN14
+    } else {
+        confirm_box = confirm(updateAlertMess + "\nDo you really want to update Loan Date?"); //change in line @AUTHOR: SANDY28JAN14
         if (confirm_box == true)
         {
             var poststr = "mlId=" + mlId + "&loanId=" + loanId
@@ -3585,8 +3520,7 @@ function updateLoanDOBAmount(documentRootPath, mlId, loanId, DOBDay, DOBMonth, D
                     + "&girviDOB=" + girviDOB
                     + "&girviSerialNum=" + girviSerialNum
                     + "&girviFirmId=" + girviFirmId;
-
-            update_loan_DOB_amount('http://' + documentRootPath + '/include/php/ormlupdd.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+            update_loan_DOB_amount('http://' + documentRootPath + '/include/php/ormlupdd.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
         }
     }
     document.getElementById("updateGirviDOBButton").style.visibility = "visible";
@@ -3599,24 +3533,20 @@ function updateLoanDOBAmount(documentRootPath, mlId, loanId, DOBDay, DOBMonth, D
 function update_loan_serial_num(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateLoanSerialNum;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 function alertUpdateLoanSerialNum() {
 
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         if (xmlhttp.responseText == 'SerialNumAlreadyExist') {
             document.getElementById("updateGirviSerialNumAlreadyExistMessage").style.visibility = "visible";
-        }
-        else {
+        } else {
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
         }
     }
@@ -3626,23 +3556,19 @@ function updateLoanSerialNum(documentRootPath, mlId, loanId, loanPreSerialNo, lo
 
     document.getElementById("updateGirviSerialNumAlreadyExistMessage").style.visibility = "hidden";
     document.getElementById("updateGirviSerialNoButton").style.visibility = "hidden";
-
     var loanSerialNum = loanSerialNo.value;
     var loanPreSerialNo = loanPreSerialNo.value;
-
     if (validateEmptyField(loanSerialNum, "Please enter Serial Number!") == false ||
             validateNum(loanSerialNum, "Accept only numeric characters without space character!") == false) {
         document.getElementById("girviSerialNum").focus();
         document.getElementById("updateGirviSerialNoButton").style.visibility = "visible";
         return false;
-    }
-    else if ((loanPreSerialNo != '') && validateAlpha(loanPreSerialNo, "Accept only Alpha characters without space character!") == false) {
+    } else if ((loanPreSerialNo != '') && validateAlpha(loanPreSerialNo, "Accept only Alpha characters without space character!") == false) {
         document.getElementById("girviPreSerialNo").focus();
         document.getElementById("updateGirviSerialNoButton").style.visibility = "visible";
         return false;
-    }
-    else {
-        confirm_box = confirm(updateAlertMess + "\nDo you really want to update Serial Number?");//change in line @AUTHOR: SANDY28JAN14
+    } else {
+        confirm_box = confirm(updateAlertMess + "\nDo you really want to update Serial Number?"); //change in line @AUTHOR: SANDY28JAN14
 
         if (confirm_box == true)
         {
@@ -3653,7 +3579,7 @@ function updateLoanSerialNum(documentRootPath, mlId, loanId, loanPreSerialNo, lo
                     + "&loanFirmId=" + loanFirmId
                     + "&prinAmt=" + prinAmt
                     + "&loanType=" + loanType;
-            update_loan_serial_num('http://' + documentRootPath + '/include/php/ormlupsn.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+            update_loan_serial_num('http://' + documentRootPath + '/include/php/ormlupsn.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
         }
     }
     document.getElementById("updateGirviSerialNoButton").style.visibility = "visible";
@@ -3665,16 +3591,13 @@ function updateLoanSerialNum(documentRootPath, mlId, loanId, loanPreSerialNo, lo
 function update_loan_other_info(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateLoanOtherInfo;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function alertUpdateLoanOtherInfo() {
@@ -3684,7 +3607,7 @@ function alertUpdateLoanOtherInfo() {
     }
 }
 function updateLoanOtherInfo(documentRootPath, mlId, loanId, loanOtherInfo, girviDOB, girviFirmId, girviSerialNum) {
-    confirm_box = confirm(updateAlertMess + "\nDo you really want to add or update other info?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(updateAlertMess + "\nDo you really want to add or update other info?"); //change in line @AUTHOR: SANDY28JAN14
 
     if (confirm_box == true)
     {
@@ -3696,10 +3619,8 @@ function updateLoanOtherInfo(documentRootPath, mlId, loanId, loanOtherInfo, girv
                     + "&girviFirmId=" + girviFirmId;
             update_loan_other_info('http://' + documentRootPath + '/include/php/ormlupoi.php', poststr);
         }
-    }
-    else {
+    } else {
         document.getElementById("ajaxUpdateGirviOtherInfoButt").innerHTML = "<img src='images/updateButt.png' />";
-
     }
     return false;
 }
@@ -3710,13 +3631,11 @@ function getLoanInfoPopUp(mlId, loanId) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("display_loan_info_popup" + loanId).innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("display_loan_info_popup" + loanId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
-    xmlhttp.open("POST", "include/php/ormlrecp.php?mlId=" + mlId + "&loanId=" + loanId, true);//change in filename @AUTHOR: SANDY22NOV13
+    xmlhttp.open("POST", "include/php/ormlrecp.php?mlId=" + mlId + "&loanId=" + loanId, true); //change in filename @AUTHOR: SANDY22NOV13
     xmlhttp.send();
 }
 /*******End to add function  to show loan details div @AUTHOR: SANDY24NOV13*********/
@@ -3734,12 +3653,11 @@ function showLoanDepositMoneyDiv(mlId, loanId, totalPrincipalAmount, totalFinalI
             document.getElementById("ajaxCloseDepositMoneyDiv").style.visibility = "visible";
             document.getElementById("depositMoneyDiv").innerHTML = xmlhttp.responseText;
             document.getElementById("girviDepositPrinAmount").focus();
-        }
-        else {
+        } else {
             document.getElementById("ajaxLoadDepositMoneyDiv").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ormldpmn.php?mlId=" + mlId + "&loanId=" + loanId + "&totalPrincipalAmount=" + totalPrincipalAmount + "&totalFinalInterest=" + totalFinalInterest + "&principalAmt=" + principalAmt + "&girviDOB=" + girviDOB + "&girviType=" + girviType + "&girviStatus=" + girviUpdSts, true);//change in filename @AUTHOR: SANDY20NOV13
+    xmlhttp.open("POST", "include/php/ormldpmn.php?mlId=" + mlId + "&loanId=" + loanId + "&totalPrincipalAmount=" + totalPrincipalAmount + "&totalFinalInterest=" + totalFinalInterest + "&principalAmt=" + principalAmt + "&girviDOB=" + girviDOB + "&girviType=" + girviType + "&girviStatus=" + girviUpdSts, true); //change in filename @AUTHOR: SANDY20NOV13
     xmlhttp.send();
 }
 /*****End to add code to deposit money @AUTHOR: SANDY24NOV13***********/
@@ -3763,8 +3681,7 @@ function validateUpdateLoanDepositMoneyInputs(obj) {
                 return false;
             }
         }
-    }
-    else {
+    } else {
         if (document.getElementById("loanDepositPrinAmount").value == '' || document.getElementById("loanDepositIntAmount").value == '') {
             alert("Please enter Principal Deposit or Interest Deposit Amount!");
             document.getElementById("loanDepositPrinAmount").focus();
@@ -3774,12 +3691,10 @@ function validateUpdateLoanDepositMoneyInputs(obj) {
     if (validateSelectField(document.getElementById("DMDOBDay").value, "Please select Deposit Amount Date!") == false) {
         document.getElementById("DMDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DMDOBMonth").value, "Please select Deposit Amount Date!") == false) {
+    } else if (validateSelectField(document.getElementById("DMDOBMonth").value, "Please select Deposit Amount Date!") == false) {
         document.getElementById("DMDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("DMDOBYear").value, "Please select Deposit Amount Date!") == false) {
+    } else if (validateSelectField(document.getElementById("DMDOBYear").value, "Please select Deposit Amount Date!") == false) {
         document.getElementById("DMDOBYear").focus();
         return false;
     }
@@ -3790,12 +3705,11 @@ function validateUpdateLoanDepositMoneyInputs(obj) {
     var loanDepDateStr = document.getElementById("DMDOBMonth").value + ' ' + document.getElementById("DMDOBDay").value + ', ' + document.getElementById("DMDOBYear").value;
     var loanDepDate = new Date(loanDepDateStr); // Girvi Deposit Date
     var loanDateStr = document.getElementById("loanNewDateForUpdate").value;
-    var loanMainDateStr = new Date(loanDateStr);  //Girvi Main Date
+    var loanMainDateStr = new Date(loanDateStr); //Girvi Main Date
 
     var milliGirviDepDate = loanDepDate.getTime();
     var milliGirviDate = loanMainDateStr.getTime();
     var datesDiff = milliGirviDepDate - milliGirviDate;
-
     if (datesDiff < 0) {
         alert('Please Select the correct Loan Deposit Date!');
         document.getElementById("DMDOBDay").focus();
@@ -3803,8 +3717,7 @@ function validateUpdateLoanDepositMoneyInputs(obj) {
         //document.getElementById("addGirviSubButDiv").style.visibility = "visible";
         return false;
         exit();
-    }
-    else {
+    } else {
         if (loanDateMMM == 'FEB' || loanDateMMM == 'APR' || loanDateMMM == 'JUN' || loanDateMMM == 'SEP' || loanDateMMM == 'NOV') {
             if (loanDateMMM == 'FEB' && loanDateDay > 29 && loanDateYY % 4 == 0) {
                 alert('Please select correct Date, Month ' + loanDateMMM + ' for this selected year has only max 29 days.');
@@ -3838,16 +3751,13 @@ function validateUpdateLoanDepositMoneyInputs(obj) {
 function update_loan_deposit_money(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertUpdateLoanDepositMoney;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function alertUpdateLoanDepositMoney() {
@@ -3856,18 +3766,14 @@ function alertUpdateLoanDepositMoney() {
         document.getElementById("ajaxLoadDepositMoneyDiv").style.visibility = "hidden";
         if (loanDepositMonOpt == 'SimplyDeposit') {
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else if (loanDepositMonOpt == 'CalculateNow') {
+        } else if (loanDepositMonOpt == 'CalculateNow') {
             document.getElementById("depositMoneyDiv").innerHTML = xmlhttp.responseText;
-        }
-        else if (loanDepositMonOpt == 'Help') {
+        } else if (loanDepositMonOpt == 'Help') {
             document.getElementById("loanMoneyDepHelpDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("depositMoneyDiv").innerHTML = xmlhttp.responseText;
         }
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -3876,9 +3782,7 @@ function updateLoanDepositMoney(obj) {
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     document.getElementById("loanUpdateDepMoneyButDiv").style.visibility = "hidden";
     document.getElementById("ajaxLoadDepositMoneyDiv").style.visibility = "visible";
-
     var loanIntAdjustmentCheck = 'False';
-
     if (document.getElementById("loanIntAdjustment").checked == true) {
         loanIntAdjustmentCheck = 'True';
     }
@@ -3887,8 +3791,7 @@ function updateLoanDepositMoney(obj) {
         document.getElementById("loanUpdateDepMoneyButDiv").style.visibility = "visible";
         document.getElementById("ajaxLoadDepositMoneyDiv").style.visibility = "hidden";
         update_loan_deposit_money('include/php/orgggmdh.php', '');
-    }
-    else {
+    } else {
         if (validateUpdateLoanDepositMoneyInputs(obj)) {
             var poststr = "lenderId=" + encodeURIComponent(document.getElementById("mLenderId").value)
                     + "&loanId=" + encodeURIComponent(document.getElementById("loanId").value)
@@ -3909,26 +3812,20 @@ function updateLoanDepositMoney(obj) {
                     + "&loanCompoundedOption=" + encodeURIComponent(document.getElementById("girviCompoundedOption").value)
                     + "&loanIntAdjustmentCheck=" + encodeURIComponent(loanIntAdjustmentCheck)
                     + "&loanDepositMonOpt=" + encodeURIComponent(loanDepositMonOpt);
-
             if (loanDepositMonOpt == 'SimplyDeposit') {
-                update_loan_deposit_money('include/php/orludmsm.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+                update_loan_deposit_money('include/php/orludmsm.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
             } else if (loanDepositMonOpt == 'CalculateNow') {
-                update_loan_deposit_money('include/php/orludmcn.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
-            }
-            else if (loanDepositMonOpt == 'DepositFullInt') {
-                update_loan_deposit_money('include/php/orludmfi.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
-            }
-            else if (loanDepositMonOpt == 'DepositIntWithDis') {
-                update_loan_deposit_money('include/php/orludmds.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+                update_loan_deposit_money('include/php/orludmcn.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+            } else if (loanDepositMonOpt == 'DepositFullInt') {
+                update_loan_deposit_money('include/php/orludmfi.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+            } else if (loanDepositMonOpt == 'DepositIntWithDis') {
+                update_loan_deposit_money('include/php/orludmds.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
             } else if (loanDepositMonOpt == 'DepositIntAmtLeft') {
-                update_loan_deposit_money('include/php/orludmnd.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+                update_loan_deposit_money('include/php/orludmnd.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+            } else if (loanDepositMonOpt == 'DepositIntAdjInPrin') {
+                update_loan_deposit_money('include/php/orludmap.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
             }
-            else if (loanDepositMonOpt == 'DepositIntAdjInPrin') {
-                update_loan_deposit_money('include/php/orludmap.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
-            }
-        }
-
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("loanUpdateDepMoneyButDiv").style.visibility = "visible";
             document.getElementById("ajaxLoadDepositMoneyDiv").style.visibility = "hidden";
@@ -3946,21 +3843,18 @@ function showAddMoreLoanDiv(mlId, loanSerNo, loanId) {
             document.getElementById("ajaxCloseAddMoreLoan").style.visibility = "visible";
             document.getElementById("addMoreLoanDiv").innerHTML = xmlhttp.responseText;
             // document.getElementById("loanDepositPrinAmount").focus();COMMENT @AUTHOR: SANDY03JAN14
-        }
-        else {
+        } else {
             document.getElementById("ajaxLoadAddMoreLoan").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ormlmrln.php?mlId=" + mlId + "&loanId=" + loanId + "&loanSerNo=" + loanSerNo, true);//change in filename @AUTHOR: SANDY20NOV13
+    xmlhttp.open("POST", "include/php/ormlmrln.php?mlId=" + mlId + "&loanId=" + loanId + "&loanSerNo=" + loanSerNo, true); //change in filename @AUTHOR: SANDY20NOV13
     xmlhttp.send();
 }
 /*****End to change function @AUTHOR: SANDY03JAN14 ************/
 function loan_deposit_money_submit(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertLoanDepositMoneySubmit;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -3973,16 +3867,14 @@ function alertLoanDepositMoneySubmit() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("ajaxLoadDepositMoneyDiv").style.visibility = "hidden";
         document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
 function loanDepositMoneySubmit(documentRootPath, lenderId, loanId, newPrincipalAmount, loanDepositPrinAmount, loanDepositIntAmount, loanRealIntAmount, totalAmountDep, depDiscountAmt, loanDepositDate, newGirviDate, loanComm, simpleOrCompIntOption, loanCompoundedOption, interestType, loanDepositMonOpt) {
     document.getElementById("loanUpdateDepMoneySubmitDiv").style.visibility = "hidden";
     document.getElementById("ajaxLoadDepositMoneyDiv").style.visibility = "visible";
-
-    confirm_box = confirm(updateAlertMess + "\nDo you really want to update this Loan?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(updateAlertMess + "\nDo you really want to update this Loan?"); //change in line @AUTHOR: SANDY28JAN14
 
     if (confirm_box == true)
     {
@@ -4018,8 +3910,7 @@ function searchMoreLoanToTransfer(loanNo, keyCode, panel) {
                 document.getElementById('mlLoanNoListDiv').focus();
                 document.getElementById('mlLoanNoListDiv').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4031,9 +3922,7 @@ function searchMoreLoanToTransfer(loanNo, keyCode, panel) {
 /*******Start to add code to add more loan in update @AUTHOR: SANDY26NOV13***************/
 function add_more_loan_submit(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertAddMoreLoanInUpdate;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -4046,8 +3935,7 @@ function alertAddMoreLoanInUpdate() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("moreLoanSubButtDiv").style.visibility = "hidden";
         document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -4065,7 +3953,7 @@ function addMoreLoanInUpdate(obj) {
     document.getElementById("moreLoanSubButtDiv").style.visibility = "hidden";
     document.getElementById("ajaxLoadAddMoreLoan").style.visibility = "visible";
     if (validateAddMoreLoanInUpdate()) {
-        confirm_box = confirm(addAlertMess + "\nDo you really want to add this Girvi?");//change in line @AUTHOR: SANDY28JAN14
+        confirm_box = confirm(addAlertMess + "\nDo you really want to add this Girvi?"); //change in line @AUTHOR: SANDY28JAN14
 
         if (confirm_box == true)
         {
@@ -4097,9 +3985,7 @@ function closeAddMoreLoanDiv() {
 /*******Start to add function to delete  money deposited entry @AUTHOR: SANDY27NOV13*********/
 function delete_deposit_loan_amt(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertDeleteDepositLoanAmt;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -4111,26 +3997,22 @@ function alertDeleteDepositLoanAmt() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
 function deleteDepositLoanAmt(documentRootPath, mlId, loanId, depositMoneyId, depositjrnlId) {
 
     document.getElementById("ajaxDeleteDepositLoanAmtButt" + depositMoneyId).innerHTML = "<img src='images/loading16.gif' />";
-
-    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this loan deposit amount?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this loan deposit amount?"); //change in line @AUTHOR: SANDY28JAN14
 
     if (confirm_box == true)
     {
         var poststr = "mlId=" + mlId + "&loanId=" + loanId
                 + "&depositMoneyId=" + depositMoneyId
                 + "&depositjrnlId=" + depositjrnlId;
-
         delete_deposit_loan_amt('http://' + documentRootPath + '/include/php/ormldpdl.php', poststr);
-    }
-    else {
+    } else {
         document.getElementById("ajaxDeleteDepositLoanAmtButt" + depositMoneyId).innerHTML = "<img src='images/ajaxClose.png' />";
     }
     return false;
@@ -4143,8 +4025,7 @@ function  releaseLoanDetails(mlId, loanId, pageNo) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4156,16 +4037,13 @@ function  releaseLoanDetails(mlId, loanId, pageNo) {
 function change_Loan_Release_Date(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertChangeLoanReleaseDate;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.send(parameters);
-
 }
 
 function alertChangeLoanReleaseDate() {
@@ -4173,8 +4051,7 @@ function alertChangeLoanReleaseDate() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("loanTotAmtDiv").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -4187,7 +4064,7 @@ function changeLoanReleaseDate(documentRootPath, relDateDDValue, relDateMMValue,
             + "&princAmount=" + princAmount + "&interestType=" + interestType.value
             + "&girviDate=" + girviDate + "&girviId=" + girviId + "&custId=" + custId
             + "&girviType=" + girviType + "&girviStatus=" + status + "&grvRelPayDetails=TRUE";
-    change_Loan_Release_Date('http://' + documentRootPath + '/include/php/ormlttam.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
+    change_Loan_Release_Date('http://' + documentRootPath + '/include/php/ormlttam.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
 
     return false;
 }
@@ -4196,16 +4073,13 @@ function changeLoanReleaseDate(documentRootPath, relDateDDValue, relDateMMValue,
 function release_loan(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertReleaseLoan;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function alertReleaseLoan() {
@@ -4213,11 +4087,9 @@ function alertReleaseLoan() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         document.getElementById("loanReleaseButDiv").style.visibility = "hidden";
-
     }
 
 }
@@ -4230,29 +4102,24 @@ function releaseLoan(custId, girviId, pageNo, totalPrincipalAmount, amountPaid, 
 
     document.getElementById("loanReleaseButDiv").style.visibility = "hidden";
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-
     if (validateSelectField(relDD.value, "Please select Release Date Day!") == false) {
         relDD.focus();
         document.getElementById("loanReleaseButDiv").style.visibility = "visible";
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         exit();
-    }
-    else if (validateSelectField(relMM.value, "Please select Release Date Month!") == false) {
+    } else if (validateSelectField(relMM.value, "Please select Release Date Month!") == false) {
         relMM.focus();
         document.getElementById("loanReleaseButDiv").style.visibility = "visible";
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         exit();
-    }
-    else if (validateSelectField(relYY.value, "Please select Release Date Year!") == false) {
+    } else if (validateSelectField(relYY.value, "Please select Release Date Year!") == false) {
         relYY.focus();
         document.getElementById("loanReleaseButDiv").style.visibility = "visible";
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         exit();
-    }
-    else {
+    } else {
 
         confirm_box = confirm("Do you really want to release this Loan?");
-
         if (confirm_box == true)
         {
 
@@ -4281,8 +4148,7 @@ function checkForUniqueCode(code, panel) {
                 alert("This Id is already assigned");
                 document.getElementById('suppUniqueCode').value = '';
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4298,7 +4164,7 @@ function setAction(actionValue) {
 function addNewMoneyLender(obj) {
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     if (action == 'Delete') {
-        confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Money Lender!!!");//change in line @AUTHOR: SANDY28JAN14
+        confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Money Lender!!!"); //change in line @AUTHOR: SANDY28JAN14
         if (confirm_box == true) {
             return true;
         } else {
@@ -4311,14 +4177,13 @@ function addNewMoneyLender(obj) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("addSuppSubButDiv").style.visibility = "visible";
                 return false;
-            }
-            else if (validateEmptyField(document.getElementById("suppUniqueCode").value, "Please enter money lender unique code!") == false ||
+            } else if (validateEmptyField(document.getElementById("suppUniqueCode").value, "Please enter money lender unique code!") == false ||
                     validateAlphaNum(document.getElementById("suppUniqueCode").value, "Accept only alphanumeric characters!") == false) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("suppUniqueCode").focus();
                 return false;
             }
-            confirm_box = confirm(addAlertMess + "\nDo you really want to add this Money Lender!!!");//change in line @AUTHOR: SANDY28JAN14
+            confirm_box = confirm(addAlertMess + "\nDo you really want to add this Money Lender!!!"); //change in line @AUTHOR: SANDY28JAN14
             if (confirm_box == true) {
                 return true;
             } else {
@@ -4330,29 +4195,26 @@ function addNewMoneyLender(obj) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             return false;
         }
-    }
-    else {
+    } else {
         if (validateAddSupplierInputs(obj)) {
             if (uploadImage(document.getElementById("selectPhoto").value) == false) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("addSuppSubButDiv").style.visibility = "visible";
                 return false;
-            }
-            else if (validateEmptyField(document.getElementById("suppUniqueCode").value, "Please enter money lender unique code!") == false ||
+            } else if (validateEmptyField(document.getElementById("suppUniqueCode").value, "Please enter money lender unique code!") == false ||
                     validateAlphaNum(document.getElementById("suppUniqueCode").value, "Accept only alphanumeric characters!") == false) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("suppUniqueCode").focus();
                 return false;
             }
-            confirm_box = confirm(updateAlertMess + "\nDo you really want to update this Money Lender!!!");//change in line @AUTHOR: SANDY28JAN14
+            confirm_box = confirm(updateAlertMess + "\nDo you really want to update this Money Lender!!!"); //change in line @AUTHOR: SANDY28JAN14
             if (confirm_box == true) {
                 return true;
             } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 return false;
             }
-        }
-        else
+        } else
         {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             return false;
@@ -4372,7 +4234,7 @@ function getMlLoanDet(loanId, mlCode, panel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     }
-    xmlhttp.open("GET", "include/php/ommlmndv.php?loanSerNo=" + loanId + "&mlCode=" + mlCode + "&panelOption=" + panel, true);//change in parameter @AUTHOR: SANDY27DEC13
+    xmlhttp.open("GET", "include/php/ommlmndv.php?loanSerNo=" + loanId + "&mlCode=" + mlCode + "&panelOption=" + panel, true); //change in parameter @AUTHOR: SANDY27DEC13
     xmlhttp.send();
 }
 /*********Start to add function to get details of ml loan from girvi transfer detail panel @AUTHOR: SANDY29NOV13********/
@@ -4383,8 +4245,7 @@ function getLoanInfo(mlId, loanId, panel) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4397,8 +4258,7 @@ function getRelLoanInfo(mlId, loanId, panel) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4423,30 +4283,25 @@ function getLoanDetails(mlId, loanId, panel) {
 function change_loan_update_Date(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertChangeLoanUpdateDate;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.send(parameters);
-
 }
 
 function alertChangeLoanUpdateDate() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("ajaxLoadCustGirviDetailsDiv").style.visibility = "hidden";
         if (loanCurrentStatus == 'loanUpdateResultDiv') {
-            document.getElementById("loanTotAmtDiv").innerHTML = xmlhttp.responseText;//change in line @AUTHOR: SANDY20JAN14
+            document.getElementById("loanTotAmtDiv").innerHTML = xmlhttp.responseText; //change in line @AUTHOR: SANDY20JAN14
             document.getElementById("ajaxCloseDepositMoneyDiv").style.visibility = "visible";
-        }
-        else {
+        } else {
             document.getElementById("loanTotAmtDiv").innerHTML = xmlhttp.responseText;
         }
-    }
-    else {
+    } else {
         document.getElementById("ajaxLoadCustGirviDetailsDiv").style.visibility = "visible";
     }
 }
@@ -4454,17 +4309,15 @@ function alertChangeLoanUpdateDate() {
 var loanCurrentStatus;
 function changeLoanUpdateDate(documentRootPath, relDateDDValue, relDateMMValue, relDateYYValue, girviDepositPrinAmount, girviDepositIntAmount, girviROI, princAmount, interestType, girviDate, girviDateStr, girviId, custId, girviType, girviUpdSts, simpleOrCompIntOption, girviCompoundedOption) {
     loanCurrentStatus = 'loanUpdateResultDiv';
-
     var girviDateDay = document.getElementById("DMDOBDay").value;
     var girviDateMMM = document.getElementById("DMDOBMonth").value;
     var girviDateYY = document.getElementById("DMDOBYear").value;
     var girviDepDateStr = document.getElementById("DMDOBMonth").value + ' ' + document.getElementById("DMDOBDay").value + ', ' + document.getElementById("DMDOBYear").value;
     var girviDepDate = new Date(girviDepDateStr); // Girvi Deposit Date
-    var girviMainDateStr = new Date(girviDateStr);  //Girvi Main Date
+    var girviMainDateStr = new Date(girviDateStr); //Girvi Main Date
     var milliGirviDepDate = girviDepDate.getTime();
     var milliGirviDate = girviMainDateStr.getTime();
     var datesDiff = milliGirviDepDate - milliGirviDate;
-
     if (datesDiff < 0) {
         alert('Please Select the correct Girvi Deposit Date!');
         document.getElementById("DMDOBDay").focus();
@@ -4472,8 +4325,7 @@ function changeLoanUpdateDate(documentRootPath, relDateDDValue, relDateMMValue, 
         //document.getElementById("addGirviSubButDiv").style.visibility = "visible";
         return false;
         exit();
-    }
-    else {
+    } else {
         if (girviDateMMM == 'FEB' || girviDateMMM == 'APR' || girviDateMMM == 'JUN' || girviDateMMM == 'SEP' || girviDateMMM == 'NOV') {
             if (girviDateMMM == 'FEB' && girviDateDay > 29 && girviDateYY % 4 == 0) {
                 alert('Please select correct Date, Month ' + girviDateMMM + ' for this selected year has only max 29 days.');
@@ -4505,7 +4357,6 @@ function changeLoanUpdateDate(documentRootPath, relDateDDValue, relDateMMValue, 
                 + "&ROIValue=" + girviROI.value + "&princAmount=" + princAmount + "&interestType=" + interestType.value
                 + "&girviDate=" + girviDate + "&girviId=" + girviId + "&custId=" + custId
                 + "&girviType=" + girviType + "&girviStatus=" + girviUpdSts + "&grvRelPayDetails=False" + "&simpleOrCompIntOption=" + simpleOrCompIntOption + "&girviCompoundedOption=" + girviCompoundedOption;
-
         change_loan_update_Date('http://' + documentRootPath + '/include/php/ormlttam.php', poststr);
     }
     return false;
@@ -4514,18 +4365,17 @@ function changeLoanUpdateDate(documentRootPath, relDateDDValue, relDateMMValue, 
 
 /***********Start to add function for layout panel @AUTHOR: SANDY3DEC13************/
 function setLayoutFieldInDb(fieldName, value) {
-
+//alert(value);
     value = encodeURIComponent(value);
-
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     if (fieldName != 'THEMES' && fieldName != 'HEADERTHEMES') {
-        confirm_box = confirm(updateAlertMess + "\nAre You Sure To Change " + fieldName);//change in line @AUTHOR: SANDY28JAN14
+        confirm_box = confirm(updateAlertMess + "\nAre You Sure To Change " + fieldName); //change in line @AUTHOR: SANDY28JAN14
     }
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("main_full_body").innerHTML = xmlhttp.responseText;//change in div @AUTHOR: SANDY4DEC13
+            document.getElementById("main_full_body").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY4DEC13
             document.getElementById('layoutUpdatedMsgDiv').innerHTML = 'Updated Successfully!';
             window.setTimeout(closeLayoutUpdatedMsgDiv, 1000);
         } else {
@@ -4552,10 +4402,36 @@ function setLayoutFieldInDb(fieldName, value) {
                     document.getElementById('enterDataRate').focus();
                     return false;
                 } else {
+
                     xmlhttp.open("GET", "include/php/ompplpad.php?fieldName=" + fieldName + "&value=" + value, true);
                     xmlhttp.send();
                 }
-            } else {
+            } else if (fieldName == 'ResetInvoice') {
+//                var startDate = encodeURIComponent(document.getElementById("startDOBDay").value + " " + document.getElementById("startDOBMonth").value + " " + document.getElementById("startDOBYear").value);
+                var poststr = "fieldName=" + fieldName
+                        + "&startDate=" + encodeURIComponent(document.getElementById("startDOBDay").value + " " + document.getElementById("startDOBMonth").value + " " + document.getElementById("startDOBYear").value)
+                        + "&endDate=" + encodeURIComponent(document.getElementById("endDOBDay").value + " " + document.getElementById("endDOBMonth").value + " " + document.getElementById("endDOBYear").value)
+                        + "&preInvoiceNo=" + encodeURIComponent(document.getElementById("preInvoiceNo").value)
+                        + "&invoiceNo=" + encodeURIComponent(document.getElementById("invoiceNo").value)
+                        + "&firmId=" + encodeURIComponent(document.getElementById("firmId").value)
+                        + "&transType=" + encodeURIComponent(document.getElementById("transType").value);
+                
+                //alert(poststr);
+                xmlhttp.open("GET", 'include/php/ompplpad.php?' + poststr);
+                xmlhttp.send();
+            } 
+            else if (fieldName == 'Loality') {
+//                var startDate = encodeURIComponent(document.getElementById("startDOBDay").value + " " + document.getElementById("startDOBMonth").value + " " + document.getElementById("startDOBYear").value);
+                var poststr = "fieldName=" + fieldName
+                        + "&LoalityAmount=" + encodeURIComponent(document.getElementById("loalityamount").value)
+                        + "&LoalityPoints=" + encodeURIComponent(document.getElementById("loalitypoints").value)
+                        + "&LoalityValue=" + encodeURIComponent(document.getElementById("loalityvalue").value);
+                
+                //alert(poststr);
+                xmlhttp.open("GET", 'include/php/ompplpad.php?' + poststr);
+                xmlhttp.send();
+            } 
+            else {
                 xmlhttp.open("GET", "include/php/ompplpad.php?fieldName=" + fieldName + "&value=" + value, true);
                 xmlhttp.send();
             }
@@ -4571,7 +4447,7 @@ function setLayoutFieldInDb(fieldName, value) {
     }
 }
 function closeLayoutUpdatedMsgDiv() {
-    document.getElementById('layoutUpdatedMsgDiv').style.visibility = "hidden";//change in div @AUTHOR: SANDY7DEC13
+    document.getElementById('layoutUpdatedMsgDiv').style.visibility = "hidden"; //change in div @AUTHOR: SANDY7DEC13
 }
 /***********End to add function for layout panel @AUTHOR: SANDY3DEC13************/
 /**********Start to add function to unrelease girvi @AUTHOR: SANDY7DEC13***************/
@@ -4583,8 +4459,7 @@ function unReleaseGirviDetails(custId, girviId, pageNo) {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -4596,8 +4471,7 @@ function unReleaseGirviDetails(custId, girviId, pageNo) {
 function getMsgSentStatus(msgCount) {
     if (msgCount == '1') {
         document.getElementById("smsMessDisplayDiv").innerHTML = msgCount + 'Msg is Sent!';
-    }
-    else {
+    } else {
         document.getElementById("smsMessDisplayDiv").innerHTML = msgCount + 'Msgs are Sent!';
     }
 }
@@ -4608,18 +4482,16 @@ function navigateManageLoanPanel() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("ajax_loading_div").style.visibility = "hidden";
             document.getElementById("settingTablesDiv").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("ajax_loading_div").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ommnglns.php", true);
     xmlhttp.send();
 }
 
 function deleteLoans(sDay, sMonth, sYear, eDay, eMonth, eYear, loanType) {
-    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete all " + loanType);//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete all " + loanType); //change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true) {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
@@ -4694,8 +4566,7 @@ function searchPrincipalIdAndDet(prinNo, id, keyCode) {
                 document.getElementById('principalIdListDiv').focus();
                 document.getElementById('principalIdListDiv').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4712,10 +4583,9 @@ function getDetailsOfSelectedPrincipal(prinNo, id, panel) {
                 document.getElementById("addMorePrinInUpdate").innerHTML = xmlhttp.responseText;
             } else {
                 document.getElementById("transferPrincipalDetailsDiv" + id).innerHTML = xmlhttp.responseText;
-                document.getElementById('morePrinClose' + id).focus();//@AUTHOR: SANDY11JAN14
+                document.getElementById('morePrinClose' + id).focus(); //@AUTHOR: SANDY11JAN14
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4735,7 +4605,7 @@ function getDetailsOfSelectedPrincipal(prinNo, id, panel) {
  }
  prinNo = parseInt(prinNo) - 1;
  }
- document.getElementById('totAddPrinLabel').innerHTML =Math.round(parseFloat(totAdditionalPrinTrans)).toFixed(2);
+ document.getElementById('totAddPrinLabel').innerHTML =Math_round(parseFloat(totAdditionalPrinTrans)).toFixed(2);
  
  if (parseFloat(document.getElementById("mlPrincipalAmount").value) < parseFloat(totAdditionalPrinTrans)) {
  alert("Total Amount transferred is greater than Loan amount!");
@@ -4749,8 +4619,7 @@ function lenderReleaseLoanDetails() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4767,12 +4636,11 @@ function showAddMorePrinDiv(mlId, loanSerNo, loanId) {
             document.getElementById("ajaxCloseAddMorePrin").style.visibility = "visible";
             document.getElementById("addMorePrinDiv").innerHTML = xmlhttp.responseText;
             document.getElementById("loanDepositPrinAmount").focus();
-        }
-        else {
+        } else {
             document.getElementById("ajaxLoadAddMorePrin").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ormlmrpr.php?mlId=" + mlId + "&loanId=" + loanId + "&loanSerNo=" + loanSerNo, true);//change in filename @AUTHOR: SANDY20NOV13
+    xmlhttp.open("POST", "include/php/ormlmrpr.php?mlId=" + mlId + "&loanId=" + loanId + "&loanSerNo=" + loanSerNo, true); //change in filename @AUTHOR: SANDY20NOV13
     xmlhttp.send();
 }
 /***Start to add validation function @AUTHOR: SANDY27DEC13*********/
@@ -4788,7 +4656,7 @@ function addMorePrinInUpdate(obj) {
     document.getElementById("morePrinSubButtDiv").style.visibility = "hidden";
     document.getElementById("ajaxLoadAddMorePrin").style.visibility = "visible";
     if (validateAddMorePrinInUpdate(obj)) {
-        confirm_box = confirm(addAlertMess + "\nDo you really want to add this Additional principal?");//change in line @AUTHOR: SANDY28JAN14
+        confirm_box = confirm(addAlertMess + "\nDo you really want to add this Additional principal?"); //change in line @AUTHOR: SANDY28JAN14
 
         if (confirm_box == true)
         {
@@ -4812,9 +4680,7 @@ function addMorePrinInUpdate(obj) {
 }
 function add_more_prin_submit(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertAddMorePrinInUpdate;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -4827,8 +4693,7 @@ function alertAddMorePrinInUpdate() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("morePrinSubButtDiv").style.visibility = "hidden";
         document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -4845,8 +4710,7 @@ function searchMorePrinToTransfer(loanNo, keyCode, panel) {
                 document.getElementById('principalIdListDiv').focus();
                 document.getElementById('principalIdListDiv').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -4870,6 +4734,235 @@ function getSellReportDetails() {
     xmlhttp.send();
 }
 /* End code to get SELL REPORT in detail @AUTHOR: SANDY23DEC13*/
+
+
+/*start code to get SELL REPORT in detail @AUTHOR: BAJRANG11SEP17*/
+function sellReportbyinv() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogbbsliv.php", true);
+    xmlhttp.send();
+}
+/* End code to get SELL REPORT in detail @AUTHOR: BAJRANG11SEP17*/
+
+/*start code to get SELL REPORT BY GST INVOICE in detail @AUTHOR: BAJRANG8JAN17*/
+function sellReportbygstinv() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omsellgstinv.php", true);
+    xmlhttp.send();
+}
+/* End code to get SELL REPORT BY GST INVOICE in detail @AUTHOR: BAJRANG8JAN17*/
+
+/*start code to get SELL REPORT BY GST PRODUCT in detail @AUTHOR: BAJRANG8JAN17*/
+function sellreportbygstprod() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omsellgstpr.php", true);
+    xmlhttp.send();
+}
+/* End code to get SELL REPORT BY GST PRODUCT in detail @AUTHOR: BAJRANG8JAN17*/
+
+/*start code to get STAFF SELL REPORT  in detail @AUTHOR: BAJRANG10JAN17*/
+function staffsellreport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omstslrpt.php", true);
+    xmlhttp.send();
+}
+/* End code to get STAFF SELL REPORT in detail @AUTHOR: BAJRANG10JAN17*/
+
+
+/*start code to get SELL REPORT in detail @AUTHOR: BAJRANG11SEP17*/
+function sellReportbyprd() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogbbsrbs.php", true);
+    xmlhttp.send();
+}
+/* End code to get SELL REPORT in detail @AUTHOR: BAJRANG11SEP17*/
+
+/*start code to get PURCHASE REPORT BY INVOICE in detail @AUTHOR: BAJRANG21FEB18*/
+function purchaseReporbytinv() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogbbprinv.php", true);
+    xmlhttp.send();
+}
+/* End code to get PURCHASE REPORT BY INVOICE in detail @AUTHOR: BAJRANG21FEB18*/
+
+/*start code to get RAW PURCHASE REPORT in detail @AUTHOR: BAJRANG08MAR18*/
+function rawpurchaseReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogbbrwpr.php", true);
+    xmlhttp.send();
+}
+/* End code to get PURCHASE REPORT BY INVOICE in detail @AUTHOR: BAJRANG08MAR18*/
+
+/*start code to get PURCHASE REPORT BY PRODUCT in detail @AUTHOR: BAJRANG21FEB18*/
+function purchaseReporbytprd() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogbbprdt.php", true);
+    xmlhttp.send();
+}
+/* End code to get PURCHASE REPORT BY PRODUCT in detail @AUTHOR: BAJRANG21FEB18*/
+
+/*start code to get STOCK LEDGER ITEM NAME  in detail @AUTHOR: BAJRANG20JUN18*/
+function stockitemname() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omstitmnme.php", true);
+    xmlhttp.send();
+}
+/* End code to get STOCK LEDGER ITEM NAME in detail @AUTHOR: BAJRANG20JUN18*/
+
+/*start code and add code to get STOCK LEDGER BY PRODUCT  in detail @AUTHOR: SAGARL*/
+function stockbyprod() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    
+ // add new file here for show column product name in stock leader by product @author:sagarl(26jun-18) 
+    xmlhttp.open("GET", "include/php/omStockleaderByProduct.php?searchBy=product", true);
+    
+    xmlhttp.send();
+}
+
+function stockbycat() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogbbstdt.php?searchBy=category", true);
+    
+    xmlhttp.send();
+}
+
+/* End code to get STOCK LEDGER ITEM NAME in detail @AUTHOR: BAJRANG20JUN18*/
+
+/*start code to get USER CUSTOMER in detail @AUTHOR: BAJRANG10NOV17*/
+function usercustomer() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omcustTrans.php", true);
+    xmlhttp.send();
+}
+/* End code to get SELL REPORT in detail @AUTHOR: BAJRANG10NOV17*/
+
+
+/*start code to get USER CUSTOMER in detail @AUTHOR: BAJRANG10NOV17*/
+function usersuppiler() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/orbbblsd_2.php", true);
+    xmlhttp.send();
+}
+/* End code to get SELL REPORT in detail @AUTHOR: BAJRANG10NOV17*/
+
+
 /*start code to get PURCHASE REPORT in detail @AUTHOR: SANDY23DEC13*/
 function getPurchaseReportDetails() {
     loadXMLDoc();
@@ -4890,16 +4983,13 @@ function getPurchaseReportDetails() {
 function delete_trans_girviAndPrin(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertdeleteTransGirviAndPrin;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function alertdeleteTransGirviAndPrin() {
@@ -4913,12 +5003,11 @@ function alertdeleteTransGirviAndPrin() {
 }
 /****Change in function @AUTHOR: SANDY04JAN14********************/
 function delTransGirviOrPrin(documentRootPath, transid, loanId, mlId, prinOrMainPrinId, prinType) {
-    confirm_box = confirm(deleteAlertMess + "\n\nDo you really want to delete this principal?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\n\nDo you really want to delete this principal?"); //change in line @AUTHOR: SANDY28JAN14
 
     if (confirm_box == true)
     {
         var poststr = "transid=" + transid + "&loanId=" + loanId + "&mlId=" + mlId + "&prinOrMainPrinId=" + prinOrMainPrinId + "&prinType=" + prinType;
-
         delete_trans_girviAndPrin('http://' + documentRootPath + '/include/php/ormltrdl.php', poststr);
     }
     return false;
@@ -4936,7 +5025,6 @@ function showTrGvReleasePanel(transId, loanId, mlId) {
             document.getElementById("release_trGirvi_panel" + transId).innerHTML = "<img src='images/ajaxLoad.gif' />";
         }
     };
-
     xmlhttp.open("POST", "include/php/ormltrpn.php?transId=" + transId + "&loanId=" + loanId + "&mlId=" + mlId, true);
     xmlhttp.send();
 }
@@ -4948,12 +5036,10 @@ function relGvPanelHide(transId) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("ajaxLoadCustGirviTransferDiv").style.visibility = "hidden";
             document.getElementById("release_trGirvi_panel" + transId).innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("ajaxLoadCustGirviTransferDiv").style.visibility = "visible";
         }
     };
-
     xmlhttp.open("POST", "include/php/ombbblnk.php", true);
     xmlhttp.send();
 }
@@ -4961,24 +5047,20 @@ function relGvPanelHide(transId) {
 function  release_trans_principal(url, parameters) {
 
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = releaseTransPrincipal;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
     xmlhttp.setRequestHeader("Content-length", parameters.length);
     xmlhttp.setRequestHeader("Connection", "close");
     xmlhttp.send(parameters);
-
 }
 
 function releaseTransPrincipal() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("ajaxLoadCustGirviTransferDiv").style.visibility = "hidden";
         document.getElementById("mnyLender_middle_body").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("ajaxLoadCustGirviTransferDiv").style.visibility = "visible";
         document.getElementById("releaseTransferredGirviButton").style.visibility = "hidden";
     }
@@ -4999,30 +5081,26 @@ function releaseTransferredGirviOrPrin(documentRootPath) {
     var relDD = document.girviReleaseDateForm.DOBTransDay;
     var relMM = document.girviReleaseDateForm.DOBTransMonth;
     var relYY = document.girviReleaseDateForm.DOBTransYear;
-    var timePeriod = document.getElementById('timePeriodVar').value;//to add variable @AUTHOR: SANDY15DEC13
+    var timePeriod = document.getElementById('timePeriodVar').value; //to add variable @AUTHOR: SANDY15DEC13
 
     if (validateSelectField(relDD.value, "Please select Release Date Day!") == false) {
         relDD.focus();
         document.getElementById("releaseTransferredGirviButton").style.visibility = "visible";
         document.getElementById("ajaxLoadCustGirviTransferDiv").style.visibility = "hidden";
         exit();
-    }
-    else if (validateSelectField(relMM.value, "Please select Release Date Month!") == false) {
+    } else if (validateSelectField(relMM.value, "Please select Release Date Month!") == false) {
         relMM.focus();
         document.getElementById("releaseTransferredGirviButton").style.visibility = "visible";
         document.getElementById("ajaxLoadCustGirviTransferDiv").style.visibility = "hidden";
         exit();
-    }
-    else if (validateSelectField(relYY.value, "Please select Release Date Year!") == false) {
+    } else if (validateSelectField(relYY.value, "Please select Release Date Year!") == false) {
         relYY.focus();
         document.getElementById("releaseTransferredGirviButton").style.visibility = "visible";
         document.getElementById("ajaxLoadCustGirviTransferDiv").style.visibility = "hidden";
         exit();
-    }
-    else {
+    } else {
 
         confirm_box = confirm("Do you really want to release this Transferred Girvi?");
-
         if (confirm_box == true)
         {
 
@@ -5118,7 +5196,7 @@ function updateOtherInfo(mainId, panel) {
 /**********Start code to change filename @Author:PRIYA12APR14***************/
 /********Start code to add var girviSerialNum @Author:PRIYA14APR14**************/
 function updateOtherInfoInTb(mainId, panel, updateVal, prinUId, DOB, firmId, girviId) {
-    confirm_box = confirm(updateAlertMess + "\nDo you really want to update Other info?");//change in line @AUTHOR: SANDY29JAN14
+    confirm_box = confirm(updateAlertMess + "\nDo you really want to update Other info?"); //change in line @AUTHOR: SANDY29JAN14
 
     if (confirm_box == true)
     {
@@ -5139,7 +5217,7 @@ function updateOtherInfoInTb(mainId, panel, updateVal, prinUId, DOB, firmId, gir
 /********End code to add var girviSerialNum @Author:PRIYA14APR14**************/
 /********Start code to add var girviSerialNum @Author:PRIYA14APR14**************/
 function deleteOtherInfoInTb(mainId, panel, updateVal, prinUId, DOB, firmId, girviId) {
-    confirm_box = confirm(deleteAlertMess + "\nDo you really want to Delete Other info?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to Delete Other info?"); //change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
         loadXMLDoc();
@@ -5179,18 +5257,17 @@ function searchMlLoanNoToTransfer(loanNo, keyCode, panel) {
                     document.getElementById('loanNoListDiv').options[0].selected = true;
                 }
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/olmlnlst.php?keyCode=" + keyCode + "&loanNo=" + loanNo + "&panel=" + panel + "&mlId=" + mlId, true);//file name changed @OMMODTAG PRIYA_04MAY15
+    xmlhttp.open("POST", "include/php/olmlnlst.php?keyCode=" + keyCode + "&loanNo=" + loanNo + "&panel=" + panel + "&mlId=" + mlId, true); //file name changed @OMMODTAG PRIYA_04MAY15
     xmlhttp.send();
 }
 /**********To search m loan no in girvi transfer panel @AUTHOR: SANDY04JAN14*************/
 /***********Start to add function to delete barcode from 20x12 barcode panel @AUTHOR: SANDY09JAN14*********/
 function deleteItemBarCode22x12(barCodeSlipDiv, closeDivId, barCodePrintId) {
-    confirm_box = confirm(deleteAlertMess + "\nDo you really want to Delete this Item Bar Code Slip?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to Delete this Item Bar Code Slip?"); //change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
         loadXMLDoc();
@@ -5267,7 +5344,6 @@ function navigateToAccountLedgerPanel(firmId, acntIdString, sdd, smm, syyyy, edd
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
-
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
@@ -5285,15 +5361,13 @@ function navigateToAccountLedgerPanel(firmId, acntIdString, sdd, smm, syyyy, edd
 function delPrevTransGirviDetail(girviTransId, girviId, prinType) {
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     gGirviId = girviId;
-    confirm_box = confirm(deleteAlertMess + "\nDo you really want to Delete This Transferred Girvi?");//change in line @AUTHOR: SANDY28JAN14
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to Delete This Transferred Girvi?"); //change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
         var poststr = "girviTransId=" + girviTransId
                 + "&girviId=" + girviId + "&prinType=" + prinType;
-
-        delete_trans_girvi_details('include/php/olggtrgl.php', poststr);//change in filename @AUTHOR: SANDY20NOV13
-    }
-    else {
+        delete_trans_girvi_details('include/php/olggtrgl.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
     }
 }
@@ -5301,9 +5375,7 @@ function delPrevTransGirviDetail(girviTransId, girviId, prinType) {
 /**********Start to add code @AUTHOR: SANDY25JAN14*******************/
 function search_girvi_by_ml_name(url, parameters) {
     loadXMLDoc();
-
     xmlhttp.onreadystatechange = alertSearchGirviByMlName;
-
     xmlhttp.open('POST', url, true);
     xmlhttp.setRequestHeader('Content-Type',
             'application/x-www-form-urlencoded');
@@ -5325,7 +5397,6 @@ function alertSearchGirviByMlName() {
 function searchGirviByMlName(obj) {
     if (document.getElementById('searchGirviByMlName').value != '' || document.getElementById('searchGirviByMlName').value != null) {
         var poststr = "girviSearchByMlName=" + encodeURIComponent(document.getElementById('searchGirviByMlName').value);
-
         search_girvi_by_ml_name('include/php/orglbyml.php', poststr);
     } else {
         alert("Please Enter Money Lender Name!");
@@ -5398,7 +5469,6 @@ function getDetailsAsPerDateAndFirm(sdd, smm, syy, edd, emm, eyy, firmId, loanTy
     };
     var girviLedgerDetStartDate = sdd + ' ' + smm + ' ' + syy;
     var girviLedgerDetEndDate = edd + ' ' + emm + ' ' + eyy;
-
     xmlhttp.open("POST", "include/php/ommlgdet.php?sdd=" + sdd + "&smm=" + smm + "&syy=" + syy + "&edd=" + edd + "&emm=" + emm +
             "&eyy=" + eyy + "&firmId=" + firmId + "&girviLedgerDetStartDate=" + girviLedgerDetStartDate +
             "&girviLedgerDetEndDate=" + girviLedgerDetEndDate + "&loanType=" + loanType, true);

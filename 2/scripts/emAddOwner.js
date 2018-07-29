@@ -271,8 +271,7 @@ function validateAddCustomerInputs(obj) {
     } else if (validateSelectField(document.getElementById("accountId").value, "Please select Customer Account!") == false) {         //PRIYA23
         document.getElementById("accountId").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("firstName").value, "Please enter First Name!") == false ||
-            validateAlphaWithSpace(document.getElementById("firstName").value, "Accept only alpha characters!") == false) {
+    } else if (validateEmptyField(document.getElementById("firstName").value, "Please enter First Name!") == false) {
         document.getElementById("firstName").focus();
         return false;
     }
@@ -280,11 +279,12 @@ function validateAddCustomerInputs(obj) {
         document.getElementById("lastName").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("fatherOrSpouseName").value, "Please enter Father/Spouse Name!") == false ||
-            validateAlphaWithSpace(document.getElementById("fatherOrSpouseName").value, "Accept only alpha characters!") == false) {
-        document.getElementById("fatherOrSpouseName").focus();
-        return false;
-    } else if ((document.getElementById("motherName").value != '') && (validateAlphaWithSpace(document.getElementById("motherName").value, "Accept only alpha characters!") == false)) {
+//    else if (validateEmptyField(document.getElementById("fatherOrSpouseName").value, "Please enter Father/Spouse Name!") == false ||
+//            validateAlphaWithSpace(document.getElementById("fatherOrSpouseName").value, "Accept only alpha characters!") == false) {
+//        document.getElementById("fatherOrSpouseName").focus();
+//        return false;
+//    } 
+    else if ((document.getElementById("motherName").value != '') && (validateAlphaWithSpace(document.getElementById("motherName").value, "Accept only alpha characters!") == false)) {
         document.getElementById("motherName").focus();
         return false;
     }
@@ -342,8 +342,7 @@ function addNewCustomer(obj) {
 }
 /********************** Direct Add New Customer Code *******************************/
 function valDirectAddCustInputs() {
-    if (validateEmptyField(document.getElementById("custFirstNameForAddGirvi").value, "Please enter First Name!") == false ||
-            validateAlphaWithSpace(document.getElementById("custFirstNameForAddGirvi").value, "Accept only alpha characters!") == false) {
+    if (validateEmptyField(document.getElementById("custFirstNameForAddGirvi").value, "Please enter First Name!") == false) {
         document.getElementById("custFirstNameForAddGirvi").focus();
         return false;
     }
@@ -394,7 +393,7 @@ function alertDirectAddCust() {
     }
 }
 function directAddCust(panelDivName) {
-
+    //document.getElementById("directAddCustButtAndSellPurchase").disabled=true;
     document.getElementById("ajaxLoadSrchCustToAddGirviDiv").style.visibility = "visible";
     document.getElementById("directAddCustButton").style.visibility = "hidden";
     var genderObj = document.getElementsByName('gender');
@@ -623,11 +622,13 @@ function validateAddGirviInputs() {
         document.getElementById("girviFirmId").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("packetNumber").value, "Please enter Packet Number!") == false ||
-            validateNum(document.getElementById("packetNumber").value, "Accept only numeric characters without space character!") == false) {
+    /************Start Code to remove validation for packet weight @Author:SANT19MAY17************/
+    else if (validateEmptyField(document.getElementById("packetNumber").value, "Please enter Packet Number!") == false) {
         document.getElementById("packetNumber").focus();
         return false;
-    } else if (validateSelectField(document.getElementById("DOBMonth").value, "Please select Girvi Date!") == false) {
+    }
+    /************End Code to remove validation for packet weight @Author:SANT19MAY17************/
+    else if (validateSelectField(document.getElementById("DOBMonth").value, "Please select Girvi Date!") == false) {
         document.getElementById("DOBMonth").focus();
         return false;
     }
@@ -751,11 +752,13 @@ function validateAddPacketInputs() {
         document.getElementById("serialNumber").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("packetNumber").value, "Please enter Packet Number!") == false ||
-            validateNum(document.getElementById("packetNumber").value, "Accept only numeric characters without space character!") == false) {
+    /************Start Code to remove validation for packet weight @Author:SANT19MAY17************/
+    else if (validateEmptyField(document.getElementById("packetNumber").value, "Please enter Packet Number!") == false) {
         document.getElementById("packetNumber").focus();
         return false;
-    } else if (validateSelectField(document.getElementById("girviDrAccId").value, "Please select Girvi Dr Account!") == false) {
+    }
+    /************End Code to remove validation for packet weight @Author:SANT19MAY17************/
+    else if (validateSelectField(document.getElementById("girviDrAccId").value, "Please select Girvi Dr Account!") == false) {
         document.getElementById("girviDrAccId").focus();
         return false;
     }
@@ -843,7 +846,7 @@ function addNewGirvi() {
             }
         }
         /***** START CODE TO ADD ItemEntered @AUTHOR:PRIYA26JAN13*******/
-        if (girviType == 'OpenGirvi') {
+        if (girviType == 'Sec.Loan') {
             if (validateAddGirviInputs()) {
                 document.getElementById("itemEntered").value = itemEntered;
                 return true;
@@ -1174,6 +1177,7 @@ function addCountry(obj) {
     document.getElementById("ajax_loading_div").style.visibility = "visible";
     if (validateAddCountryInputs(obj)) {
         var poststr = "countryName=" + encodeURIComponent(document.getElementById("countryName").value)
+                + "&countryCurrency=" + encodeURIComponent(document.getElementById("countryCurrency").value)
                 + "&countryComments=" + encodeURIComponent(document.getElementById("countryComments").value);
         add_country('include/php/omvcaaco.php', poststr);
     }
@@ -1352,7 +1356,7 @@ function validateAddMetalRateInputs(obj) {
         document.getElementById("metalSelectId").focus();
         return false;
     } else if (validateEmptyField(document.getElementById("metalRate").value, "Please enter Metal Rate!") == false ||
-            validateNum(document.getElementById("metalRate").value, "Accept only numeric characters without space character!") == false) {
+            validateNumWithDot(document.getElementById("metalRate").value, "Accept only numeric characters without space character!") == false) { //With Dot Validation Added @Author:SHRI03MAY17
         document.getElementById("metalRate").focus();
         return false;
     } else if (valTaxCheck == true && validateEmptyField(document.getElementById("metalRateTaxPrecent").value, "Please enter tax percentage!") == false) {
@@ -1429,6 +1433,7 @@ function addMetalRate(obj) {
 /***************Start code to add fields @Author:PRIYA19MAR14*****************/
 /************Start code to add validation of accounts @Author:SHRI04JUL15**********************/
 function validateAddUdhaarInputs(obj) {
+
     if (validateEmptyField(document.getElementById("udhaarMainAmount").value, "Please enter Udhaar Amount!") == false ||
             validateNum(document.getElementById("udhaarMainAmount").value, "Accept only numeric characters without space character!") == false) {
         document.getElementById("udhaarMainAmount").focus();
@@ -1458,10 +1463,10 @@ function validateAddUdhaarInputs(obj) {
         document.getElementById("udhaarPayAccId").focus();
         return false;
     }
-    else if (validateSelectField(document.getElementById("udhaarDrAccId").value, "Please select Dr Account!") == false) {
-        document.getElementById("udhaarDrAccId").focus();
-        return false;
-    }
+//    else if (validateSelectField(document.getElementById("udhaarDrAccId").value, "Please select Dr Account!") == false) {
+//        document.getElementById("udhaarDrAccId").focus();
+//        return false;
+//    }
 //    else if (document.getElementById("udhaarType").value == "OnPurchase") {
 //
 //        if (validateSelectField(document.getElementById("itemType").value, "Please select Metal Type!") == false) {
@@ -1499,16 +1504,17 @@ function alertAddNewUdhaarDetails() {
 
 }
 function addNewUdhaarDetails(obj) {
+
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     document.getElementById("addUdhaarSubButDiv").style.visibility = "hidden";
     if (validateAddUdhaarInputs(obj)) {
         /*********Start code to add panel @Author:PRIYA04APR14***********************/
         if (document.getElementById("panelName").value == 'UpdateUdhaar') {
-            if (document.getElementById("udhaarItemDivCounter").value != '') {
-                document.getElementById("noOfUdhaarItems").value = document.getElementById("udhaarItemDivCounter").value;
-            } else {
-                document.getElementById("noOfUdhaarItems").value = getUdhaarItemDiv;
-            }
+//            if (document.getElementById("udhaarItemDivCounter").value != '') {
+//                document.getElementById("noOfUdhaarItems").value = document.getElementById("udhaarItemDivCounter").value;
+//            } else {
+//                document.getElementById("noOfUdhaarItems").value = getUdhaarItemDiv;
+//            }
         } else {
             document.getElementById("noOfUdhaarItems").value = getUdhaarItemDiv;
         }
@@ -2110,13 +2116,13 @@ function valAddNewOrderInputs() {
     else if (validateSelectField(document.getElementById("nwOrDelvrDOBYear").value, "Please select Delievery Year!") == false) {
         document.getElementById("nwOrDelvrDOBYear").focus();
         return false;
-    } 
+    }
     //Start comment code for hide option supplier name compulsory:Author:SANT05DEC16
 //    else if (validateEmptyField(document.getElementById("addItemSuppName").value, "Please choose Correct Supplier Name!") == false) {
 //        document.getElementById("addItemSuppName").focus(); //Supplier Field added @AUTHOR: PRIYA06JAN13 //Supplier Id changed @Author: PRIYA16SEP13
 //        return false;
 //    } 
-        //End comment code for hide option supplier name compulsory:Author:SANT05DEC16
+    //End comment code for hide option supplier name compulsory:Author:SANT05DEC16
     else if (validateEmptyField(document.getElementById("nwOrInvoiceNo").value, "Please select Invoice No!") == false ||
             validateNum(document.getElementById("nwOrInvoiceNo").value, "Accept only alphanumeric characters!") == false) {   //PRIYA15
         document.getElementById("nwOrInvoiceNo").focus();
@@ -2435,13 +2441,16 @@ function alertAddNewActionItem() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("addActionItemList").innerHTML = xmlhttp.responseText;
-        clearDivision('addActionItemDiv');
-        clearDivision('ajaxCloseAddNewActionItem');
-        if (document.getElementById("panelName").value == 'UpdateAcit')
-            closeMessDiv('messDisplayDiv', 'UPDATED');
-        else
-            closeMessDiv('messDisplayDiv', 'ADDED');
-
+        if (typeof (parent.document.getElementById('paymentPanelReminderDiv')) != 'undefined' && parent.document.getElementById('paymentPanelReminderDiv') != null)
+            parent.document.getElementById('paymentPanelReminderDiv').style.display = "none"; //parent.document.getElementById("paymentPanelReminderDiv").innerHTML = "";
+        else {
+            clearDivision('addActionItemDiv');
+            clearDivision('ajaxCloseAddNewActionItem');
+            if (document.getElementById("panelName").value == 'UpdateAcit')
+                closeMessDiv('messDisplayDiv', 'UPDATED');
+            else
+                closeMessDiv('messDisplayDiv', 'ADDED');
+        }
     }
     else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
@@ -2449,9 +2458,12 @@ function alertAddNewActionItem() {
 }
 /***********Start code to add var @Author:PRIYA03JUL14**************/
 /***********Start code to add start date @Author:PRIYA09JUL14**************/
-function addNewActionItem(obj) {
+function addNewActionItem(obj, documentRootPath) {
+
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     document.getElementById("addNewActionItemButDiv").style.visibility = "hidden";
+//    document.getElementById("addNewActionItemButDiv").innerHTML = xmlhttp.responseText;
+
 
 //    var dateStr = document.getElementById("acitStartDate").value;
 //    str = dateStr;
@@ -2491,7 +2503,9 @@ function addNewActionItem(obj) {
                 + "&actionId=" + encodeURIComponent(document.getElementById("actionId").value)
                 + "&acitOtherInfo=" + encodeURIComponent(document.getElementById("acitOtherInfo").value);
         // alert(poststr);
-        add_new_action_item('include/php/omaiacad.php', poststr);
+//        add_new_action_item('include/php/omaiacad.php', poststr);
+
+        add_new_action_item('http://' + documentRootPath + '/include/php/omaiacad.php', poststr);
     }
     else {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -3218,7 +3232,8 @@ function formSevenSetUpAddLang() {                                              
 /**********Start code to add status @Author:PRIYA12FEB14********************/
 /**********Start code to add last two parameters @Author:GAUR18SEP16********************/
 function addItemTag(stockFirmId, itstId, newPreItemId, newItemId, newItemName, newItemMetal, newItemGSW, newItemGSQT, newItemNTW, newItemNTWT, newItemCryVal, newItemTunch,
-        bisMarkVal, mkngCharges, mkngChargesType, cryNtWt, cryNtWtTp, panel, bcPresent, itemCode, itemNum, itemPKW, itemPKWT) {
+        bisMarkVal, mkngCharges, mkngChargesType, cryNtWt, cryNtWtTp, panel, bcPresent, itemCode, itemNum, itemPKW, itemPKWT, bcItemDate, itemOtherInfo, itemFinalValuation, bcItemPrefixId, bcItemModelNo, bcItemSize) {
+//            alert(bcItemPrefixId);
     if (bcPresent > 0) {
         var status = "BarCode already present ! Do you really want to add it !";
     } else {
@@ -3247,7 +3262,38 @@ function addItemTag(stockFirmId, itstId, newPreItemId, newItemId, newItemName, n
                 + "&newItemGSW=" + newItemGSW + "&newItemGSQT=" + newItemGSQT
                 + "&newItemNTW=" + newItemNTW + "&newItemNTWT=" + newItemNTWT
                 + "&newItemCryVal=" + newItemCryVal
-                + "&newItemTunch=" + newItemTunch + "&bisMarkVal=" + bisMarkVal + "&mkngCharges=" + mkngCharges + "&mkngChargesType=" + mkngChargesType + "&cryNtWt=" + cryNtWt + "&cryNtWtTp=" + cryNtWtTp + "&itemCode=" + itemCode + "&itemNum=" + itemNum + "&itemPKW=" + itemPKW + "&itemPKWT=" + itemPKWT, true);
+                + "&newItemTunch=" + newItemTunch + "&bisMarkVal=" + bisMarkVal + "&mkngCharges=" + mkngCharges + "&mkngChargesType=" + mkngChargesType + "&cryNtWt=" + cryNtWt + "&cryNtWtTp=" + cryNtWtTp + "&itemCode=" + itemCode + "&itemNum=" + itemNum + "&itemPKW=" + itemPKW + "&itemPKWT=" + itemPKWT + "&bcItemDate=" + bcItemDate + "&itemOtherInfo=" + itemOtherInfo + "&itemFinalValuation=" + itemFinalValuation + "&bcItemPrefixId=" + bcItemPrefixId + "&bcItemModelNo=" + bcItemModelNo + "&bcItemSize=" + bcItemSize, true);
+        xmlhttp.send();
+    }
+}
+function addImitationItemTag(itstId, itprId, panel, documentRoot) {
+//    alert(itstId);
+//    alert(itprId+'-'+bcPresent+'-'+panel);
+//    if (bcPresent > 0) {
+//        var status = "BarCode already present ! Do you really want to add it !";
+//    } else {
+    status = "Do you really want to add it !";
+//    }
+    confirm_box = confirm(status);
+    if (confirm_box == true)
+    {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (panel == 'ListPanel') {
+//                    alert(xmlhttp.responseText);
+                    document.getElementById("itemTagDiv" + itprId).innerHTML = "<img src='images/right16.png' />";
+                } else {
+                    document.getElementById("barcodeAddedDispMsgDiv").innerHTML = "BARCODE ADDED!";
+                    window.setTimeout(hideBarcodeAddedMsg, 1000);
+                }
+            }
+            else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("POST", "include/php/ogittgad.php?itprId=" + itprId + "&itstId=" + itstId + "&panel=ImitationStock", true);
         xmlhttp.send();
     }
 }
@@ -3352,3 +3398,113 @@ function showSelectLoctionDB() {
     xmlhttp.open("POST", "include/php/omppdblcd.php", true);
     xmlhttp.send();
 }
+// *****************************************************************************
+// Start code to add new folder location in database
+// This is the universal function to add any location
+// *****************************************************************************
+function addUpdateLocationInDB(indicator) {
+    var location = document.getElementById('folderLocationInputId').value;
+    if (validateEmptyField(location, "Please enter backup directory path!") == false) {
+        document.getElementById('folderLocationInputId').focus();
+        return false;
+    } else if (location.indexOf(":") == -1) {
+        alert('Please enter correct backup directory path!')
+        document.getElementById('folderLocationInputId').focus();
+        return false;
+    } else {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+
+                if (xmlhttp.responseText == 'ALREADY_ADDED') {
+                    document.getElementById("updateMsgDisplayDiv").innerHTML = "<span class='textLabel20CalibriNormalRed'>ALREADY ADDED!</span>";
+                }
+                else {
+                    document.getElementById("updateMsgDisplayDiv").innerHTML = "<span class='textLabel16CalibriNormalGreen'>UPDATED SUCCESSFULLY!</span>";
+                }
+                document.getElementById("folderLocationButtonId").style.visibility = "visible";
+            } else {
+                document.getElementById("folderLocationButtonId").style.visibility = "hidden";
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("POST", "include/php/ommpindc.php?indicname=" + indicator + "&indicval=" + location, true);
+        xmlhttp.send();
+    }
+}
+// *****************************************************************************
+// End code to add new folder location in database
+// *****************************************************************************
+//
+//
+// *****************************************************************************
+// Start code to create/export file for collection machine
+// *****************************************************************************
+function collectionMachineExportFile(staffId) {
+    //
+    if (validateEmptyField(document.getElementById('staffNameForCollMachineInputId').value, "Please select the staff first!") == false) {
+        document.getElementById('staffNameForCollMachineInputId').focus();
+        return false;
+    } else {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                //
+                //alert(xmlhttp.responseText);
+                if (xmlhttp.responseText == 'ERROR') {
+                    document.getElementById("collectionMsgDisplayDiv").innerHTML = "<span class='textLabel20CalibriNormalRed'>ERROR!</span>";
+                }
+                else {
+                    document.getElementById("collectionMsgDisplayDiv").innerHTML = "<span class='textLabel16CalibriNormalGreen'>EXPORT SUCCESSFULLY!</span>";
+                }
+                document.getElementById("exportCollMachineInputId").style.visibility = "visible";
+            } else {
+                document.getElementById("exportCollMachineInputId").style.visibility = "hidden";
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("POST", "include/php/omcmexportfile.php?staffId=" + staffId, true);
+        xmlhttp.send();
+    }
+}
+// *****************************************************************************
+// End code to create/export file for collection machine
+// *****************************************************************************
+//
+//
+// *****************************************************************************
+// Start code to load/import file for collection machine
+// *****************************************************************************
+function collectionMachineImportFile(staffId) {
+    //
+    if (validateEmptyField(document.getElementById('staffNameForCollMachineInputId').value, "Please select the staff first!") == false) {
+        document.getElementById('staffNameForCollMachineInputId').focus();
+        return false;
+    } else {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                //
+                //alert(xmlhttp.responseText);
+                if (xmlhttp.responseText == 'ERROR') {
+                    document.getElementById("collectionMsgDisplayDiv").innerHTML = "<span class='textLabel20CalibriNormalRed'>ERROR!</span>";
+                }
+                else {
+                    document.getElementById("collectionMsgDisplayDiv").innerHTML = "<span class='textLabel16CalibriNormalGreen'>IMPORT SUCCESSFULLY!</span>";
+                }
+                document.getElementById("exportCollMachineInputId").style.visibility = "visible";
+            } else {
+                document.getElementById("exportCollMachineInputId").style.visibility = "hidden";
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("POST", "include/php/omcmimportfile.php?staffId=" + staffId, true);
+        xmlhttp.send();
+    }
+}
+// *****************************************************************************
+// End code to load/import file for collection machine
+// *****************************************************************************

@@ -52,6 +52,7 @@ function alertUserLogout() {
 
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("logoutMessageDiv").innerHTML = '';
+        //alert(xmlhttp.responseText);
         window.location.href = xmlhttp.responseText;
         //confirm_box = confirm("Do you want to shutdown Online Munim? \n"+closeOnlineMunimAlertMess);//change in line @AUTHOR: SANDY28JAN14
 //        if (confirm_box == true)
@@ -66,7 +67,7 @@ function alertUserLogout() {
 
 function logout_ajax(obj) {
     var poststr = "";
-    user_logout('include/php/omollout.php', poststr);
+    user_logout('include/php/owner/omollout.php', poststr);
 
 }
 
@@ -116,7 +117,7 @@ function administratorLogin(obj) {
         var poststr = "ownerId=" + encodeURI(document.getElementById("lgnUserId").value)
                 + "&ownerSKey=" + encodeURI(document.getElementById("lgnPassword").value);
 
-        administrator_login('include/php/omoogack.php', poststr);
+        administrator_login('include/php/owner/omoogack.php', poststr);
     }
     else {
         document.getElementById("ajax_loading_div").style.visibility = "hidden";
@@ -216,7 +217,7 @@ function ownerProdActOffline(productKey) {
     if (validateOwnProdActOfflineInputs(productKey)) {
         var poststr = "productKey=" + encodeURIComponent(document.getElementById("productKey").value);
 
-        owner_prod_act_offline('include/php/omoaodof.php', poststr);
+        owner_prod_act_offline('include/php/owner/omoaodof.php', poststr);
     }
     else {
         document.getElementById("ajax_loading_div").style.visibility = "hidden";

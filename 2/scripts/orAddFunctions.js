@@ -139,11 +139,13 @@ function firstMonIntValueChange(indicname, indicval)
 /****Start to change function @AUTHOR: SANDY09JAN14**********************/
 /********Start code to add var in GirviBCPaging @Author:PRIYA03JUN14*****************************/
 /********Start code to change div and pass panel @Author:PRIYA07APR15**********************/
-function navigationToNextBarcodePanel(pagenum, panelName) {
+function navigationToNextBarcodePanel(pagenum, panelName, serachprodname) {
+ //alert(panelName);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            if (panelName == '55x13Paging') {
+            if (panelName == 'label' || panelName=='Items55x13BarCodePanel') {
+            //   alert(xmlhttp.responseText);
                 document.getElementById("ogibbc55x13SubDiv").innerHTML = xmlhttp.responseText;
             } else if (panelName == '65LPaging') {
                 document.getElementById("barCode65LDiv").innerHTML = xmlhttp.responseText;
@@ -152,24 +154,44 @@ function navigationToNextBarcodePanel(pagenum, panelName) {
             } else if (panelName == 'GirviBCPaging') {
                 document.getElementById("girviBarCodeDiv").innerHTML = xmlhttp.responseText;
             } else if (panelName == '20x12Paging') {
+                 //alert( xmlhttp.responseText);
                 document.getElementById("barCode20x12Div").innerHTML = xmlhttp.responseText;
             } else if (panelName == '61LPaging') {//condition added for 61L Barcode @Author:SHRI17FEB15
                 document.getElementById("barCode61LDiv").innerHTML = xmlhttp.responseText;
+            } else if (panelName == '61RPaging') {//condition added for 61L Barcode @Author:SHRI17FEB15
+                document.getElementById("barCode61RDiv").innerHTML = xmlhttp.responseText;
+            }else if (panelName == '55x13Paging') {//condition added for 61L Barcode @Author:SHRI17FEB15
+                document.getElementById("olggbc55x13Div").innerHTML = xmlhttp.responseText;
             }
         }
     };
-    if (panelName == '55x13Paging') {
-        xmlhttp.open("POST", "include/php/ogibbc55x13dv.php?page=" + pagenum + "&tags=true", true);
+    if (panelName == 'label' || panelName == 'Items55x13BarCodePanel') {
+       // alert("hi");
+        xmlhttp.open("POST", "include/php/ogibbc55x13.php?page=" + pagenum +"&panel="+ panelName + "&tags=true" +"&prodname=" + serachprodname,true);
     } else if (panelName == '65LPaging') {
-        xmlhttp.open("POST", "include/php/ogibbc65l.php?page=" + pagenum + "&tags=true", true);
+//        xmlhttp.open("POST", "include/php/ogibbc65l.php?page=" + pagenum + "&tags=true", true);
+        xmlhttp.open("POST", "include/php/omstockTransibbc65l.php?page=" + pagenum + "&tags=true", true);
     } else if (panelName == '84LPaging') {
-        xmlhttp.open("POST", "include/php/ogibbc84l.php?page=" + pagenum + "&tags=true", true);
+//        xmlhttp.open("POST", "include/php/ogibbc84l.php?page=" + pagenum + "&tags=true", true);
+        xmlhttp.open("POST", "include/php/omstockTransibbc84l.php?page=" + pagenum + "&tags=true", true);
     } else if (panelName == 'GirviBCPaging') {
         xmlhttp.open("POST", "include/php/olggbcpd.php?page=" + pagenum + "&girviTags=true", true);//change in filename @AUTHOR: SANDY21NOV13
     } else if (panelName == '20x12Paging') {
-        xmlhttp.open("POST", "include/php/ogibbc20x12.php?page=" + pagenum + "&tags=true", true);//change in filename @AUTHOR: SANDY21NOV13
-    } else if (panelName == '61LPaging') {//condition added for 61L Barcode @Author:SHRI17FEB15
-        xmlhttp.open("POST", "include/php/ogibbc61x12dv.php?page=" + pagenum + "&tags=true", true); //code to change in file to pass girvi tag true @Author:SHRI04APR15
+//        xmlhttp.open("POST", "include/php/ogibbc20x12.php?page=" + pagenum + "&tags=true" +"&prodname=" + serachprodname, true);//change in filename @AUTHOR: SANDY21NOV13
+        xmlhttp.open("POST", "include/php/omstockTransibbc20x12.php?page=" + pagenum + "&tags=true" +"&prodname=" + serachprodname, true);//change in filename @AUTHOR: SANDY21NOV13
+    } else if (panelName == '61LPaging') {
+       
+        //condition added for 61L Barcode @Author:SHRI17FEB15
+//        xmlhttp.open("POST", "include/php/ogibbc61x12dvleft.php?page=" + pagenum + "&tags=true", true); //code to change in file to pass girvi tag true @Author:SHRI04APR15
+        xmlhttp.open("POST", "include/php/omstockTransibbc61x12dvleft.php?page=" + pagenum + "&tags=true", true); //code to change in file to pass girvi tag true @Author:SHRI04APR15
+    }else if (panelName == '61RPaging') {
+       
+        //condition added for 61R Barcode @Author:BAJRANG8JUN18
+//        xmlhttp.open("POST", "include/php/ogibbc61x12dv.php?page=" + pagenum + "&tags=true", true); //code to change in file to pass girvi tag true @Author:SHRI04APR15
+        xmlhttp.open("POST", "include/php/omstockTransibbc61x12dvright.php?page=" + pagenum + "&tags=true", true); //code to change in file to pass girvi tag true @Author:SHRI04APR15
+    }
+    else if (panelName == '55x13Paging') {
+      xmlhttp.open("POST", "include/php/olggbc55x13.php?page=" + pagenum + "&girviTags=true" + "&prevoiusbtn=" + serachprodname, true); //code to change in file to pass girvi tag true @Author:SHRI04APR15
     }
     xmlhttp.send();
 }
@@ -351,9 +373,11 @@ function getSellReport() {
     xmlhttp.send();
 }
 /* End code to get SELL REPORT @AUTHOR: SANDY24JUL13*/
-/*start code to get purchase REPORT @AUTHOR: SANDY25JUL13*/
-function getPurchaseReport()
-{
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstAtReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstAtReport() {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -365,10 +389,246 @@ function getPurchaseReport()
         }
     };
 
+    xmlhttp.open("GET", "include/php/omGstAtReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstAtReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstAtadjReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstAtadjReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstAtadjReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstAtadjReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstB2bReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstB2bReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstB2bReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstB2bReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstB2CLReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstB2CLReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstB2CLReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstB2CLReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstB2CSReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstB2CSReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstB2CSReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstB2CSReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstCdnrReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstCdnrReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstCdnrReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstCdnrReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstCdnurReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstCdnurReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstCdnurReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstCdnurReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstExpReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstExpReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstExpReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstExpReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstHsnReport
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstHsnReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstHsnReport.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstHsnReport
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+ *                                     START getGstHelp
+ *SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*/
+function getGstHelp() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/omGstHelp.php", true);
+    xmlhttp.send();
+}
+/*EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *                                      END getGstHelp
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+
+/*start code to get purchase REPORT @AUTHOR: SANDY25JUL13*/
+function getPurchaseReport()
+{
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
     xmlhttp.open("GET", "include/php/ogbbprdt.php", true);
     xmlhttp.send();
 }
 /* End code to get purchase REPORT @AUTHOR: SANDY25JUL13*/
+
+/*start code to get stock REPORT @AUTHOR:SURAJ12FEB18*/
+ function getStockReport(){
+      loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("GET", "include/php/ogbbstdt.php", true);
+    xmlhttp.send();
+ }
+ /*start code to get  REPORT @AUTHOR: SURAJ12FEB18*/
+
 /**********Start Code To Validate Sell Report Date @Author:PRIYA14AUG13**************/
 function valSellReportDate() {
     /*if (validateSelectField(document.getElementById("sellDayDD").value,"Please select Day!") == false) {
@@ -441,7 +701,7 @@ function searchSellPurchaseByDate(panel, date, month, year, eday, emonth, eyear,
 /*********Start of Change in function @AUTHOR: SANDY7NOV13*****************************/
 /*********Start of Change in bcPrice function @AUTHOR: ANUJA27JUN15*****************************/
 /*********Update add last two parameter @AUTHOR: GAUR18SEP16*****************************/
-function printItemTag(itemId, ownerId, stockFirmId, newPreItemId, newItemId, newItemName, newItemMetal, newItemGSW, newItemGSQT, newItemNTW, newItemNTWT, newItemCryVal, newItemTunch, bisMarkVal, mkngCharges, mkngChargesType, barcodeText, color, cryNtWt, cryNtWtTp, bcPrice, itemCode, itemNum, itemPKW, itemPKWT)
+function printItemTag(itemId, ownerId, stockFirmId, newPreItemId, newItemId, newItemName, newItemMetal, newItemGSW, newItemGSQT, newItemNTW, newItemNTWT, newItemCryVal, newItemTunch, bisMarkVal, mkngCharges, mkngChargesType, barcodeText, color, cryNtWt, cryNtWtTp, bcPrice, itemCode, itemNum, itemPKW, itemPKWT, bcItemDate, itemOtherInfo, bcItemPrefixId, bcItemModelNo, bcItemSize)
 {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -457,7 +717,7 @@ function printItemTag(itemId, ownerId, stockFirmId, newPreItemId, newItemId, new
             + "&newItemGSW=" + newItemGSW + "&newItemGSQT=" + newItemGSQT
             + "&newItemNTW=" + newItemNTW + "&newItemNTWT=" + newItemNTWT
             + "&newItemCryVal=" + newItemCryVal
-            + "&newItemTunch=" + newItemTunch + "&bisMarkVal=" + bisMarkVal + "&mkngCharges=" + mkngCharges + "&mkngChargesType=" + mkngChargesType + "&barcodeText=" + barcodeText + "&color=" + color + "&cryNtWt=" + cryNtWt + "&cryNtWtTp=" + cryNtWtTp + "&bcPrice=" + bcPrice + "&itemCode=" + itemCode + "&itemNum=" + itemNum + "&itemPKW=" + itemPKW + "&itemPKWT=" + itemPKWT, true);
+            + "&newItemTunch=" + newItemTunch + "&bisMarkVal=" + bisMarkVal + "&mkngCharges=" + mkngCharges + "&mkngChargesType=" + mkngChargesType + "&barcodeText=" + barcodeText + "&color=" + color + "&cryNtWt=" + cryNtWt + "&cryNtWtTp=" + cryNtWtTp + "&bcPrice=" + bcPrice + "&itemCode=" + itemCode + "&itemNum=" + itemNum + "&itemPKW=" + itemPKW + "&itemPKWT=" + itemPKWT + "&bcItemDate=" + bcItemDate + "&itemOtherInfo=" + itemOtherInfo + "&bcItemPrefixId=" + bcItemPrefixId + "&bcItemModelNo=" + bcItemModelNo + "&bcItemSize=" + bcItemSize, true);
     xmlhttp.send();
 }
 /*********Update add last two parameter @AUTHOR: GAUR18SEP16*****************************/
@@ -470,7 +730,7 @@ function printItemTag(itemId, ownerId, stockFirmId, newPreItemId, newItemId, new
 /*********Start of Change in function @AUTHOR: SANDY30OCT13*****************************/
 /*********Start of Change in function @AUTHOR: SANDY8NOV13*****************************/
 /*********Start of Change in bcPrice function @AUTHOR: ANUJA27JUN15*****************************/
-function showSelectedItemTag(tag, itemId, ownerId, stockFirmId, newPreItemId, newItemId, newItemName, newItemMetal, newItemGSW, newItemGSQT, newItemNTW, newItemNTWT, newItemCryVal, newItemTunch, bisMarkVal, mkngCharges, mkngChargesType, barcodeText, color, cryNtWt, cryNtWtTp, bcPrice)
+function showSelectedItemTag(tag, itemId, ownerId, stockFirmId, newPreItemId, newItemId, newItemName, newItemMetal, newItemGSW, newItemGSQT, newItemNTW, newItemNTWT, newItemCryVal, newItemTunch, bisMarkVal, mkngCharges, mkngChargesType, barcodeText, color, cryNtWt, cryNtWtTp, bcPrice, itemCode, itemNum, itemPKW, itemPKWT, bcItemDate, bcItemPrefixId, bcItemModelNo, bcItemSize)
 {
 //    alert(bcPrice);
     loadXMLDoc();
@@ -487,7 +747,7 @@ function showSelectedItemTag(tag, itemId, ownerId, stockFirmId, newPreItemId, ne
             + "&newItemGSW=" + newItemGSW + "&newItemGSQT=" + newItemGSQT
             + "&newItemNTW=" + newItemNTW + "&newItemNTWT=" + newItemNTWT
             + "&newItemCryVal=" + newItemCryVal
-            + "&newItemTunch=" + newItemTunch + "&bisMarkVal=" + bisMarkVal + "&mkngCharges=" + mkngCharges + "&mkngChargesType=" + mkngChargesType + "&barcodeText=" + barcodeText + "&color=" + color + "&cryNtWt=" + cryNtWt + "&cryNtWtTp=" + cryNtWtTp + "&bcPrice=" + bcPrice, true);
+            + "&newItemTunch=" + newItemTunch + "&bisMarkVal=" + bisMarkVal + "&mkngCharges=" + mkngCharges + "&mkngChargesType=" + mkngChargesType + "&barcodeText=" + barcodeText + "&color=" + color + "&cryNtWt=" + cryNtWt + "&cryNtWtTp=" + cryNtWtTp + "&bcPrice=" + bcPrice + "&itemCode=" + itemCode + "&itemNum=" + itemNum + "&itemPKW=" + itemPKW + "&itemPKWT=" + itemPKWT + "&bcItemDate=" + bcItemDate + "&bcItemPrefixId=" + bcItemPrefixId + "&bcItemModelNo=" + bcItemModelNo + "&bcItemSize=" + bcItemSize, true);
     xmlhttp.send();
 }
 /*********End of Change in bcPrice function @AUTHOR: ANUJA27JUN15*****************************/
@@ -938,9 +1198,9 @@ function showTransactionDetails(transId, preVch, firmVch, postVch)
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
+            document.getElementById("addUpdateTransactionDiv").innerHTML = xmlhttp.responseText;
         } else {
-            document.getElementById("mainMiddle").innerHTML = xmlhttp.responseText;
+            document.getElementById("addUpdateTransactionDiv").innerHTML = xmlhttp.responseText;
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -1056,6 +1316,7 @@ function navigationTransactionPanel(pageNo) {
 /**********Start of changes in function @AUTHOR: SANDY19SEP13 *************/
 /**Start to add function to delete repair item @AUTHOR: SANDY26AUG13**/
 function deleteRepairItem(preId, postId, custId, panel) {
+
     confirm_box = confirm(deleteAlertMess + "\n\nDo you really want to delete this Item?");
     if (confirm_box == true)
     {

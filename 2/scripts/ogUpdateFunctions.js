@@ -420,9 +420,11 @@ function alertGetFirmVoucherNo() {
         document.getElementById("ajaxLoadNavigateTransactionList").style.visibility = "visible";
     }
 }
-function getFirmVoucherNo(selectedFirmNo) {
+function getFirmVoucherNo(selectedFirmNo,panel) {
     selFirmId = selectedFirmNo;
-    var poststr = "firmNo=" + encodeURIComponent(selectedFirmNo);
+    
+    var poststr = "firmNo=" + encodeURIComponent(selectedFirmNo)+
+                  "&panel="+encodeURIComponent(panel);
 
     get_firm_voucher_no('include/php/omtatrvn.php', poststr);
 
@@ -802,6 +804,7 @@ function addEmpAccess(panelName, staffId) {
                     + "&loanPanelLoanList=" + document.getElementById("loanPanelLoanList").checked
                     + "&loanPanelTrGirvi=" + document.getElementById("loanPanelTrGirvi").checked
                     + "&loanTallyPanel=" + document.getElementById("loanTallyPanel").checked
+                    + "&unReleaseGirvi=" + document.getElementById("unReleaseGirvi").checked
                     + "&loanPanelRelGirvi=" + document.getElementById("loanPanelRelGirvi").checked
                     + "&loanPanelExGirvi=" + document.getElementById("loanPanelExGirvi").checked
                     + "&loanPanelLossGirvi=" + document.getElementById("loanPanelLossGirvi").checked
@@ -858,7 +861,7 @@ function addEmpAccess(panelName, staffId) {
                     + "&addFormsAccess=" + document.getElementById("addFormsAccess").checked
                     + "&addRepairAccess=" + document.getElementById("addRepairAccess").checked
                     + "&addLayoutAccess=" + document.getElementById("addLayoutAccess").checked//to pass layout panel access val @AUTHOR: SANDY16JAN14
-                    + "&advanceMoneyAccess=" + document.getElementById("advanceMoneyAccess").checked
+//                    + "&advanceMoneyAccess=" + document.getElementById("advanceMoneyAccess").checked
                     + "&custCircleAccess=" + document.getElementById("custCircleAccess").checked
                     + "&empId=" + encodeURIComponent(empId)
                     + "&empPanelName=" + encodeURIComponent(empPanelName)
@@ -866,7 +869,11 @@ function addEmpAccess(panelName, staffId) {
                     // Start Udhaar Added in common Access File @Author: GAUR23JAN16
                     + "&addUdhaarAccess=" + document.getElementById("addUdhaarAccess").checked
                     + "&updateUdhaarAccess=" + document.getElementById("updateUdhaarAccess").checked
+//                    + "&updateDateUdhaarAccess=" + document.getElementById("updateDateUdhaarAccess").checked
                     + "&deleteUdhaarAccess=" + document.getElementById("deleteUdhaarAccess").checked
+                    + "&addAdvanceMoneyAccess=" + document.getElementById("addAdvanceMoneyAccess").checked
+                    + "&updAdvanceMoneyAccess=" + document.getElementById("updAdvanceMoneyAccess").checked
+                    + "&delAdvanceMoneyAccess=" + document.getElementById("delAdvanceMoneyAccess").checked;
 //                    + "&addUdhaarAccessUdhTyp=" + document.getElementById("addUdhaarAccessUdhTyp").checked
 //                    + "&updateUdhaarAccessAmnt=" + document.getElementById("updateUdhaarAccessAmnt").checked
 //                    + "&updateUdhaarAccessDepMny=" + document.getElementById("updateUdhaarAccessDepMny").checked;

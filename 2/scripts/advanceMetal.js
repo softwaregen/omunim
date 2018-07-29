@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-
+var cryCountGobal = 0;
 /***********Start code to add function for adv metal @Author:SHRI14JAN15*************/
 /***********Start code to change Div like addNewUdhaarDiv for adv metal @Author:ANUJA12JAN16*************/
 function getAdvanceMetalDiv(custId, panelName)
@@ -461,20 +461,20 @@ function calcAdvMetalValuation()
     {
         if (metalType == 'Gold') {
             if (wtType == 'MG') {
-                document.getElementById('advMetalValuation').value = Math.round((totWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('advMetalValuation').value = Math_round((totWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('advMetalValuation').value = Math.round((totWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('advMetalValuation').value = Math_round((totWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
             } else {
-                document.getElementById('advMetalValuation').value = Math.round((totWt * metalRate * document.getElementById('gmWtInKg').value)).toFixed(2);
+                document.getElementById('advMetalValuation').value = Math_round((totWt * metalRate * document.getElementById('gmWtInKg').value)).toFixed(2);
             }
         }
         else if (metalType == 'Silver') {
             if (wtType == 'MG') {
-                document.getElementById('advMetalValuation').value = Math.round((totWt * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
+                document.getElementById('advMetalValuation').value = Math_round((totWt * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('advMetalValuation').value = Math.round((totWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('advMetalValuation').value = Math_round((totWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
             } else {
-                document.getElementById('advMetalValuation').value = Math.round((totWt * metalRate * document.getElementById('srGmWtInKg').value)).toFixed(2);
+                document.getElementById('advMetalValuation').value = Math_round((totWt * metalRate * document.getElementById('srGmWtInKg').value)).toFixed(2);
             }
         }
 
@@ -505,7 +505,7 @@ function showPaidAdvanceMetalDetailsDiv(custId, firmId)
 /************Start code to add function for 61L stock @Author:SHRI11FEB15*************/
 function update61BarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayoutOptionLeft, omLayoutOptionLeftValue,
         fontSize, fontSizeValue, slipWidth, slipWidthValue, slipHeight, slipHeightValue,
-        noOfRows, noOfRowsValue, tailLength, tailLengthValue) {
+        noOfRows, noOfRowsValue, tailLength, tailLengthValue, blockWidth, blockWidthValue, blockHeight, blockHeightValue) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -524,11 +524,56 @@ function update61BarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayoutOpti
             + '&slipWidth=' + slipWidth + '&slipWidthValue=' + slipWidthValue
             + '&slipHeight=' + slipHeight + '&slipHeightValue=' + slipHeightValue
             + '&noOfRows=' + noOfRows + '&noOfRowsValue=' + noOfRowsValue
-            + '&tailLength=' + tailLength + '&tailLengthValue=' + tailLengthValue;
+            + '&tailLength=' + tailLength + '&tailLengthValue=' + tailLengthValue
+            + '&blockWidth=' + blockWidth + '&blockWidthValue=' + blockWidthValue
+            + '&blockHeight=' + blockHeight + '&blockHeightValue=' + blockHeightValue;
     xmlhttp.open("POST", "include/php/ombcbcup.php?" + postStr, true);
     xmlhttp.send();
 }
 /************End code to add function for 61L stock @Author:SHRI11FEB15*************/
+
+
+
+/****************Start code to add function for 61L LeftBarcode stock @Author:BAJRANG1JUN18********************/
+function update61LeftBarcode() {
+//    alert('hiiiiii');
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("barcode55x13").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+//    xmlhttp.open("GET", "include/php/ogibbc61x12dvleft.php", true);
+    xmlhttp.open("GET", "include/php/omstockTransibbc61x12dvleft.php", true);
+    xmlhttp.send();
+}
+/****************End code to add function for 61L LeftBarcode stock @Author:BAJRANG1JUN18********************/
+
+
+/****************Start code to add function for 61L LeftBarcode stock @Author:BAJRANG1JUN18********************/
+function update61RightBarcode() {
+//    alert('hiiiiii');
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("barcode55x13").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+//    xmlhttp.open("GET", "include/php/ogibbc61x12dv.php", true);
+    xmlhttp.open("GET", "include/php/omstockTransibbc61x12dvright.php", true);
+    xmlhttp.send();
+}
+/****************End code to add function for 61L LeftBarcode stock @Author:BAJRANG1JUN18********************/
+
+
 /*******START CODE TO Delete 61L Slip @AUTHOR:SHRI17FEB15***********/
 function deleteItemBarCode61L(barCodeSlipDiv, closeDivId, barCodePrintId, preId, postId) {
     confirm_box = confirm("Do you really want to Delete this Item Bar Code Slip?");
@@ -1733,7 +1778,11 @@ function getSellProfitLoss(panel) {
 }
 /****************End code to add function @OMMODTAG SHRI_01OCT15**********************/
 /**************Start code to add function @OMMODTAG SHRI_05OCT15*********************/
-function changeCalcByWeight(weightBy, itstId, pageNo) {
+/**************Start code to change ID Author:PRIYANKA-15JUN17*********************/
+function changeCalcByWeight(weightBy, sttrId, pageNo) {
+    
+    //alert('weightBy == ' + weightBy);
+    
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -1744,10 +1793,11 @@ function changeCalcByWeight(weightBy, itstId, pageNo) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("GET", "include/php/ogidchwt.php?weightType=" + weightBy + "&itstId=" + itstId + "&pageNo=" + pageNo, true);
+    xmlhttp.open("GET", "include/php/ogidchwt.php?weightType=" + weightBy + "&sttrId=" + sttrId + "&pageNo=" + pageNo, true);
     xmlhttp.send();
 }
-/******************End code to add function @OMMODTAG SHRI_05OCT15 ********************************/
+/**************END code to change ID Author:PRIYANKA-15JUN17*********************/
+/**********End code to add function @OMMODTAG SHRI_05OCT15 **********************/
 /************Start Code for Girvi  Pay Other Info @Author:SHE19OCT15******/
 
 function updateGirviPayOtherInfo(documentRootPath, custId, girviId, girviPayOtherInfo, girviDOB, girviFirmId, girviSerialNum, panelName) {
@@ -1768,7 +1818,24 @@ function updateGirviPayOtherInfo(documentRootPath, custId, girviId, girviPayOthe
     }
     return false;
 }
+function updateFinanceGirviPayOtherInfo(documentRootPath, custId, girviId, girviPayOtherInfo, girviDOB, girviFirmId, girviSerialNum, panelName) {
+// document.getElementById("ajaxUpdateGirviOtherInfoButt").innerHTML = "<img src='images/loading16.gif' />";
+    confirm_box = confirm(updateAlertMess + "\n\nDo you really want to add or update pay other info?"); //change in line @AUTHOR: SANDY28JAN14
 
+    if (confirm_box == true)
+    {
+        if (validateUpdateGirviPayOtherInfo()) {
+            var poststr = "custId=" + custId + "&girviId=" + girviId
+                    + "&girviPayOtherInfo=" + girviPayOtherInfo + "&girviDOB=" + girviDOB + "&girviFirmId=" + girviFirmId
+                    + "&girviSerialNum=" + girviSerialNum + "&panelName=" + panelName;
+            update_girvi_pay_other_info('http://' + documentRootPath + '/include/php/olguotin_1.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+        }
+    }
+    else {
+        document.getElementById("ajaxUpdateGirviPayOtherInfoButt").innerHTML = "<img src='images/updateButt.png' />";
+    }
+    return false;
+}
 
 function validateUpdateGirviPayOtherInfo() {
     if (validateEmptyField(document.getElementById("girviPayOtherInfo").value, "Please enter Girvi Pay Other Info!") == false) {
@@ -1798,6 +1865,7 @@ function alertUpdateGirviPayOtherInfo() {
 }
 /************End Code for Girvi  Pay Other Info @Author:SHE19OCT15******/
 /************ Start code to add function passGirviEMIValues @OMMODTAG SHRI_14OCT15************/
+/************ Start code to add parameter for new finance panel passGirviEMIValues @OMMODTAG SANT05APR17************/
 function passGirviEMIValues(emiNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, emiStatus, serialNo, custId, firmId, girviId,
         girviDOB, gDepId, gDepJrnlId, emiOccur, gEMIIntAmt, gEMIAmt, pageNo, intAmt, princAmt, dueDate) {
 //    alert(emiStatus);
@@ -1849,7 +1917,58 @@ function passGirviEMIValues(emiNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, emiS
         }
     }
 }
+/************ End code to add parameter for new finance panel passGirviEMIValues @OMMODTAG SANT05APR17************/
 /************ End code to add function passGirviEMIValues @OMMODTAG SHRI_14OCT15************/
+/************ Start code to add parameter for new finance panel passGirviEMIValues @OMMODTAG SANT05APR17************/
+function passGirviFinanceEMIValues(emiNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, emiStatus, serialNo, custId, firmId, girviId,
+        girviDOB, gDepId, gDepJrnlId, emiOccur, gEMIIntAmt, gEMIAmt, pageNo, intAmt, princAmt, dueDate, emiCounter) {
+    if (validateSelectField(document.getElementById("DOBDay" + gDepId + emiNo).value, "Please select Day!") == false) {
+        document.getElementById("DOBDay" + gDepId + emiNo).focus();
+        return false;
+    } else if (validateSelectField(document.getElementById("DOBMonth" + gDepId + emiNo).value, "Please select Month!") == false) {
+        document.getElementById("DOBMonth" + gDepId + emiNo).focus();
+        return false;
+    } else if (validateSelectField(document.getElementById("DOBYear" + gDepId + emiNo).value, "Please select Year!") == false) {
+        document.getElementById("DOBYear" + gDepId + emiNo).focus();
+        return false;
+    } else {
+
+        confirm_box = confirm("Do you really want to change the status !");
+        if (confirm_box == true) {
+
+            loadXMLDoc();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
+                }
+                else {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+                }
+            };
+            var emiPaidDate = emiPaidDD + ' ' + emiPaidMM + ' ' + emiPaidYY;
+            var poststr = "emiNo=" + emiNo
+                    + "&emiPaidDate=" + emiPaidDate
+                    + "&emiAmt=" + emiAmt
+                    + "&emiStatus=" + emiStatus
+                    + "&serialNo=" + serialNo
+                    + "&custId=" + custId
+                    + "&firmId=" + firmId
+                    + "&girviId=" + girviId
+                    + "&girviDOB=" + girviDOB
+                    + "&gDepId=" + gDepId
+                    + "&gDepJrnlId=" + gDepJrnlId
+                    + "&emiOccur=" + emiOccur
+                    + "&gEMIIntAmt=" + gEMIIntAmt
+                    + "&gEMIAmt=" + gEMIAmt
+                    + "&pageNo=" + pageNo
+                    + "&girviEndDate=" + dueDate;
+            xmlhttp.open("POST", "include/php/omfnemiin_1.php?" + poststr, true);
+            xmlhttp.send();
+        }
+    }
+}
+/************ End code to add parameter for new finance panel passGirviEMIValues @OMMODTAG SANT05APR17************/
 /******Start code to add function deleteCustFinanceDetails @OMMODTAG SHRI_16OCT15 ********/
 function deleteCustFinanceDetails(custId, firmId, girviId, girviJrnlId, gSerialNum, gDate, gAmt)
 {
@@ -1883,6 +2002,65 @@ function getTaxLedgerBook() {
     xmlhttp.send();
 }
 /********************End Code To Add function For Tax Report Stock @AUTHOR:SHE20OCT15*********************/
+/********************Start Code To Add function For Tax Details Report  @AUTHOR:SANT27MAR17*********************/
+function getTaxDetLedgerBook() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omledtaxin.php", true); //change file name @AUTHOR:BAJRANG27AUG17
+    xmlhttp.send();
+}
+
+
+//START CODE FOR NEW FUNCTION(TAX) AUTHOR:BAJRANG24AUG17
+function showTax(tax) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("ledgerBook").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    if (tax == 'taxpaid')
+    {
+        xmlhttp.open("GET", "include/php/omledtaxin.php", true);
+    }
+    else
+    {
+        xmlhttp.open("GET", "include/php/omledtaxout.php", true);
+    }
+    xmlhttp.send();
+}
+//END CODE FOR NEW FUNCTION(TAX) AUTHOR:BAJRANG24AUG17
+
+
+/********************End Code To Add function For Tax Details Report @AUTHOR:SANT27MAR17*********************/
+
+/**********Start code to add function for itemdetails @BAJRANG:29-MAR18 ******************************/
+function showCustGirviITMListPanel() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("ajaxLoadShowGirviListDiv").style.visibility = "hidden";
+            document.getElementById("girviListPanelDiv").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("ajaxLoadShowGirviListDiv").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/omitmdet.php", true);
+    xmlhttp.send();
+}
+/**********End code to add function for itemdetails @BAJRANG:29-MAR18******************************/
+
 /**********Start code to add function @OMMODTAG SHRI_29OCT15******************************/
 function showCustGirviEMIListPanel() {
     loadXMLDoc();
@@ -2005,6 +2183,88 @@ function updateGirviDepAmt(emiPaidDD, emiPaidMM, emiPaidYY, documentRootPath, cu
     document.getElementById("updateGirviDepAmtROIButton" + girviDepId).style.visibility = "visible";
     return false;
 }
+//*****************Start code for deposite principle amount for new finance panel Author:SANT24APR17
+function updateGirviDepPrinAmt(emiPaidDD, emiPaidMM, emiPaidYY, documentRootPath, custId, girviId, girviDepId, updateGirviDepPrinAmt, gFirmId, gDOB, gSerialNo, gStartDate, emiNo, gEndDate, emiStatus, girviDepIntAmount, panelName, counter) {
+//    alert('girviDepId=='+girviDepId);
+    document.getElementById("updateGirviPrinDepAmtCloseButton" + girviDepId).style.visibility = "hidden";
+    document.getElementById("updateGirviPrinDepAmtROIButton" + girviDepId).style.visibility = "hidden";
+    var totEMIAmt = parseFloat(document.getElementById('totEMIAmt' + girviId).value);
+    if (updateGirviDepPrinAmt == '') {
+        alert('Please Enter Girvi EMI Amount!');
+        document.getElementById("updateGirviDepPrinAmt" + girviDepId).focus();
+    } else if (totEMIAmt < updateGirviDepPrinAmt) {
+        alert('Amount should not be greater than total EMI amount!'); //change in line @AUTHOR: SANDY28JAN14
+        document.getElementById("updateGirviDepPrinAmt" + girviDepId).focus();
+    } else {
+        confirm_box = confirm("Do you really want to update amount?"); //change in line @AUTHOR: SANDY28JAN14
+
+        var emiPaidDate = emiPaidDD + ' ' + emiPaidMM + ' ' + emiPaidYY;
+        if (confirm_box == true)
+        {
+            var poststr = "custId=" + custId + "&girviId=" + girviId +
+                    "&girviDepId=" + girviDepId
+                    + "&gFirmId=" + gFirmId + "&updateGirviDepPrinAmt=" + updateGirviDepPrinAmt
+                    + "&gDOB=" + gDOB
+                    + "&gSerialNo=" + gSerialNo
+                    + "&totEMIAmt=" + totEMIAmt
+                    + "&emiPaidDate=" + emiPaidDate
+                    + "&gStartDate=" + gStartDate
+                    + "&emiNo=" + emiNo
+                    + "&gEndDate=" + gEndDate
+                    + "&emiStatus=" + emiStatus
+                    + "&panelName=" + panelName;
+//            alert(poststr);
+            update_girvi_dep_amt('http://' + documentRootPath + '/include/php/omfnuema_1.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+        }
+        else {
+            document.getElementById("updateGirviDepPrinAmt" + girviDepId).focus();
+        }
+    }
+    document.getElementById("updateGirviPrinDepAmtCloseButton" + girviDepId).style.visibility = "visible";
+    document.getElementById("updateGirviPrinDepAmtROIButton" + girviDepId).style.visibility = "visible";
+    return false;
+}
+//*****************End code for deposite principle amount for new finance panel Author:SANT24APR17
+//*****************Start code for deposite  Interest amount for new finance panel Author:SANT24APR17
+function updateGirviDepIntAmt(emiPaidDD, emiPaidMM, emiPaidYY, documentRootPath, custId, girviId, girviDepId, updateGirviDepIntAmt, gFirmId, gDOB, gSerialNo, gStartDate, emiNo, gEndDate, emiStatus, girviDepIntAmount, panelName, counter) {
+    document.getElementById("updateGirviDepIntAmtCloseButton" + girviDepId).style.visibility = "hidden";
+    document.getElementById("updateGirviDepIntAmtROIButton" + girviDepId).style.visibility = "hidden";
+    var totEMIAmt = parseFloat(document.getElementById('totEMIAmt' + girviId).value);
+    if (updateGirviDepIntAmt == '') {
+        alert('Please Enter Girvi EMI Amount!');
+        document.getElementById("updateGirviDepIntAmt" + girviDepId).focus();
+    } else if (totEMIAmt < updateGirviDepIntAmt) {
+        alert('Amount should not be greater than total EMI amount!'); //change in line @AUTHOR: SANDY28JAN14
+        document.getElementById("updateGirviDepIntAmt" + girviDepId).focus();
+    } else {
+        confirm_box = confirm("Do you really want to update amount?"); //change in line @AUTHOR: SANDY28JAN14
+
+        var emiPaidDate = emiPaidDD + ' ' + emiPaidMM + ' ' + emiPaidYY;
+        if (confirm_box == true)
+        {
+            var poststr = "custId=" + custId + "&girviId=" + girviId +
+                    "&girviDepId=" + girviDepId
+                    + "&gFirmId=" + gFirmId + "&updateGirviDepIntAmt=" + updateGirviDepIntAmt
+                    + "&gDOB=" + gDOB
+                    + "&gSerialNo=" + gSerialNo
+                    + "&totEMIAmt=" + totEMIAmt
+                    + "&emiPaidDate=" + emiPaidDate
+                    + "&gStartDate=" + gStartDate
+                    + "&emiNo=" + emiNo
+                    + "&gEndDate=" + gEndDate
+                    + "&emiStatus=" + emiStatus
+                    + "&panelName=" + panelName;
+            update_girvi_dep_amt('http://' + documentRootPath + '/include/php/omfnuema_1.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
+        }
+        else {
+            document.getElementById("updateGirviDepIntAmt" + girviDepId).focus();
+        }
+    }
+    document.getElementById("updateGirviDepIntAmtCloseButton" + girviDepId).style.visibility = "visible";
+    document.getElementById("updateGirviDepIntAmtROIButton" + girviDepId).style.visibility = "visible";
+    return false;
+}
+//*****************End code for deposite Interest amount for new finance panel Author:SANT24APR17
 function update_girvi_dep_amt(url, parameters) {
 
     loadXMLDoc();
@@ -2248,13 +2508,19 @@ function showSelectedPageActiveGirvi(pageNo, panel, rowsPerPage, noOfPagesAsLink
         xmlhttp.send();
     }
 }
-function showStockPanel(panel, stockPanel) {
+//************Start code for add parameter for supplier purchase:Author:SANT22JAN17
+function showStockPanel(panel, stockPanel, payPanelName, utinId, suppPurId, utansMetalType, payStockPanelName, documentRootPath) {
+//alert(panel);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById('main_ajax_loading_div').style.visibility = "hidden";
-            document.getElementById('stockPanelSubDiv').innerHTML = xmlhttp.responseText;
-            if (panel == "retailStock") {
+            if (stockPanel == 'AddByInv' || stockPanel == 'AddImitationByInv') {
+                document.getElementById('main_body').innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById('stockPanelSubDiv').innerHTML = xmlhttp.responseText;
+            }
+            if (panel == "retail") {
                 document.getElementById("addRetailStock").setAttribute("class", "greenFont frm-btn");
                 document.getElementById("addWholeStock").setAttribute("class", "grayFont frm-btn");
             } else {
@@ -2265,18 +2531,19 @@ function showStockPanel(panel, stockPanel) {
             document.getElementById('main_ajax_loading_div').style.visibility = "visible";
         }
     };
-    if (stockPanel == 'ImitationStock') {
-        xmlhttp.open("POST", "include/php/ogijsdv.php?stockType=" + panel, true);
-    } //<!--****description: START CODE TO Add customerStatement @Author: DISH14NOV16 i add this td .******-->
-    else if (stockPanel == 'CrystelStock') {
-        xmlhttp.open("POST", "include/php/ogcraddv.php?stockType=" + panel, true);
+    if (stockPanel == 'ImitationStock' || stockPanel == 'AddImitationByInv') {
+//        xmlhttp.open("POST", "include/php/ogijsdv.php?stockType=" + panel, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijsdv.php?stockType=" + panel + "&stockPanelName=" + payPanelName + "&utransInvId=" + utinId + "&utransUserId=" + suppPurId + "&utansMetalType=" + utansMetalType + "&payStockPanelName=" + payStockPanelName + "&invPanel=" + stockPanel, true);
+    } else if (stockPanel == 'CrystelStock') {
+//        xmlhttp.open("POST", "include/php/ogcraddv.php?stockType=" + panel + "&stockPanelName=" + payPanelName + "&utinId=" + utinId + "&suppPurId=" + suppPurId, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogcraddv.php?stockType=" + panel + "&stockPanelName=" + payPanelName + "&utransInvId=" + utinId + "&suppPurId=" + suppPurId + "&utansMetalType=" + utansMetalType + "&payStockPanelName=" + payStockPanelName + "&invPanel=" + stockPanel, true);
     }
-    //<!--****description: END CODE TO Add customerStatement @Author: DISH14NOV16 i add this td .******-->
     else {
-        xmlhttp.open("POST", "include/php/ogadstoc.php?stockType=" + panel, true);
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogadstoc.php?stockType=" + panel + "&stockPanelName=" + payPanelName + "&utransInvId=" + utinId + "&suppPurId=" + suppPurId + "&utansMetalType=" + utansMetalType + "&payStockPanelName=" + payStockPanelName + "&invPanel=" + stockPanel, true);
     }
     xmlhttp.send();
 }
+//************End code for add parameter for supplier purchase:Author:SANT22JAN17
 function getMoreStockRawMetalDiv(metalCnt, panelName, firmId, rawGdPreId, rawGdPostId, metalType, rawSlPreId, rawSlPostId, rawAlPreId, rawAlPostId,
         metalPanelName, mcntr, rawPreId, rawPostId, otherChgsBy, totFinGdWt, totFinSlWt) {
     metalPanel = panelName;
@@ -2314,268 +2581,6 @@ function getStockRawMetalType(panelName, metalType, metalCount, firmId, rawGdPre
             "&metalTypePanel=" + metalTypePanel + "&cntr=" + cntr + "&otherChgsBy=" + otherChgsBy + "&totFinGdWt=" + totFinGdWt + "&totFinSlWt=" + totFinSlWt, true);
     xmlhttp.send();
 }
-var goldWtBal = 0;
-var silverWtBal = 0;
-var GoldWtType = null;
-var SilverWtType = null;
-var stockDiv = null;
-function calcStockItemBalance() {
-//    alert('ss');
-//    alert(document.getElementById('metalPanel').value);
-    var metalEntered = 0;
-    var metalCount = document.getElementById("metalCount").value;
-    if (document.getElementById('metalPanel').value == 'StockPayment' || document.getElementById('metalPanel').value == 'StockPayUp') {
-        var prefix = 'stock';
-    } else if (document.getElementById('metalPanel').value == 'SlPrPayment' || document.getElementById('metalPanel').value == 'SellPayUp') {
-        prefix = 'slPr';
-    } else if (document.getElementById('metalPanel').value == 'CustSellPayment' || document.getElementById('metalPanel').value == 'CustSellPayUp') {
-        prefix = 'sell';
-    } else if (document.getElementById('metalPanel').value == 'NwOrPayment' || document.getElementById('metalPanel').value == 'NwOrPayUp') {
-        prefix = 'nwOr';
-    } else if (document.getElementById('metalPanel').value == 'RawPayment' || document.getElementById('metalPanel').value == 'RawPayUp') {
-        prefix = 'rwPr';
-    } else if (document.getElementById('metalPanel').value == 'SuppAddOrder' || document.getElementById('metalPanel').value == 'SuppOrderUp') { //add panel for order panel prev balance :Author:SANT01DEC16
-        prefix = 'spOr';
-    } else if (document.getElementById('metalPanel').value == 'InvoicePayment' || document.getElementById('metalPanel').value == 'InvoicePayUp') {
-        prefix = 'suppDep';
-    } else if (document.getElementById('metalPanel').value == 'SuppPayment' || document.getElementById('metalPanel').value == 'SuppPayUp') {
-        prefix = 'suppDep';
-    } else if (document.getElementById('metalPanel').value == 'SuppOrderDelivery' || document.getElementById('metalPanel').value == 'SuppOrderDeliveryUp') {  //add panel for order panel prev balance :Author:SANT01DEC16
-        prefix = 'spOrDel';
-    } else if (document.getElementById('metalPanel').value == 'NwOrDelPayment' || document.getElementById('metalPanel').value == 'NwOrDelPaymentUp') { //add panel for order panel prev balance :Author:SANT01DEC16
-        prefix = 'nwOrDel';
-    }
-    if (document.getElementById('metalPanel').value == 'StockPayment' || document.getElementById('metalPanel').value == 'SlPrPayment' ||
-            document.getElementById('metalPanel').value == 'CustSellPayment' || document.getElementById('metalPanel').value == 'NwOrPayment' ||
-            document.getElementById('metalPanel').value == 'RawPayment' || document.getElementById('metalPanel').value == 'SuppAddOrder' ||
-            document.getElementById('metalPanel').value == 'InvoicePayment' || document.getElementById('metalPanel').value == 'SuppPayment' || document.getElementById('metalPanel').value == 'SuppOrderDelivery' || document.getElementById('metalPanel').value == 'NwOrDelPayment') { //add panel for order panel prev balance :Author:SANT01DEC16
-        count = 1;
-        delId = 'del' + 1;
-    } else if (document.getElementById('metalPanel').value == 'StockPayUp' || document.getElementById('metalPanel').value == 'SellPayUp' ||
-            document.getElementById('metalPanel').value == 'CustSellPayUp' || document.getElementById('metalPanel').value == 'NwOrPayUp' ||
-            document.getElementById('metalPanel').value == 'RawPayUp' || document.getElementById('metalPanel').value == 'SuppOrderUp' ||
-            document.getElementById('metalPanel').value == 'InvoicePayUp' || document.getElementById('metalPanel').value == 'SuppPayUp' || document.getElementById('metalPanel').value == 'SuppOrderDeliveryUp' || document.getElementById('metalPanel').value == 'NwOrDelPaymentUp') { //add panel for order panel prev balance :Author:SANT01DEC16
-        getMetalDiv = document.getElementById('noOfRawMet').value;
-        var count = document.getElementById('rawId').value;
-        var delId = 'del' + count;
-    }
-    var totAmtRec = 0;
-    var gdBal = 0;
-    var slBal = 0;
-    var totRecGd = 0;
-    var totRecSl = 0;
-    var goldWeight = 0;
-    var silverWeight = 0;
-    var silverWeightType = '';
-    var goldWeightType = '';
-    GoldWtType = '';
-    SilverWtType = '';
-    goldWtBal = 0;
-    silverWtBal = 0;
-    var totSilverAmt = 0;
-    var totGoldAmt = 0;
-//    alert(count);
-//    alert(getMetalDiv);
-    for (var dc = count; getMetalDiv != ''; dc++) {
-        if (document.getElementById('metalDel' + dc).value != 'Deleted') {
-            var payTotalWeight1 = document.getElementById(prefix + 'PayMetal1RecWt' + dc).value;
-            var payTotalWeightType1 = document.getElementById(prefix + 'PayMetal1RecWtType' + dc).value;
-            var payMetalRate1 = document.getElementById(prefix + 'PayMetal1Rate' + dc).value;
-            var payMetalTunch1 = document.getElementById(prefix + 'PayMetal1Tunch' + dc).value;
-            var metalWeight = (payTotalWeight1 * payMetalTunch1) / 100;
-            document.getElementById(prefix + 'PayMetal1FnWt' + dc).value = parseFloat(metalWeight).toFixed(3);
-//            alert(document.getElementById(prefix + 'PayMetalType1' + dc).value);
-            if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Gold' || document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Alloy') {
-                goldWeight = parseFloat(metalWeight);
-                if (payTotalWeightType1 == 'KG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((goldWeight * payMetalRate1) * document.getElementById('gmWtInKg').value).toFixed(2);
-                } else if (payTotalWeightType1 == 'GM') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value).toFixed(2);
-                } else if (payTotalWeightType1 == 'MG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((goldWeight * payMetalRate1) / document.getElementById('gmWtInMg').value).toFixed(2);
-                }
-                if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Gold') {
-                    var payMetalDueWeightType1 = document.getElementById(prefix + 'GoldTotFineWtType').value;
-                    goldWeightType = payMetalDueWeightType1;
-                    if (gdBal == '') {
-                        gdBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value);
-                    }
-//                    alert(document.getElementById(prefix + 'GoldTotFineWt').value);
-                    if (payMetalDueWeightType1 == 'KG') {
-                        if (payTotalWeightType1 == 'KG') {
-                            gdBal = parseFloat((gdBal) - goldWeight).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'GM') {
-                            gdBal = parseFloat(((gdBal) - goldWeight / 1000)).toFixed(3);
-                            goldWeight = parseFloat(goldWeight / 1000).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'MG') {
-                            gdBal = parseFloat(((gdBal) - goldWeight / (1000 * 1000))).toFixed(3);
-                            goldWeight = parseFloat(goldWeight / (1000 * 1000)).toFixed(3);
-                        }
-                    }
-                    else if (payMetalDueWeightType1 == 'GM') {
-                        if (payTotalWeightType1 == 'KG') {
-                            gdBal = parseFloat(((gdBal) - goldWeight * 1000)).toFixed(3);
-                            goldWeight = parseFloat(goldWeight * 1000).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'GM') {
-                            gdBal = parseFloat((gdBal) - goldWeight).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'MG') {
-                            gdBal = parseFloat(((gdBal) - goldWeight / (1000))).toFixed(3);
-                            goldWeight = parseFloat(goldWeight / 1000).toFixed(3);
-                        }
-                    }
-                    else if (payMetalDueWeightType1 == 'MG') {
-                        if (payTotalWeightType1 == 'KG') {
-                            gdBal = parseFloat(((gdBal) - goldWeight * 1000 * 1000)).toFixed(3);
-                            goldWeight = parseFloat(goldWeight * 1000 * 1000).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'GM') {
-                            gdBal = parseFloat(((gdBal) - goldWeight * 1000)).toFixed(3);
-                            goldWeight = parseFloat(goldWeight * 1000).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'MG') {
-                            gdBal = parseFloat((gdBal - goldWeight)).toFixed(3);
-                        }
-                    }
-
-                    document.getElementById(prefix + 'PayMetal1Bal' + dc).value = gdBal;
-                    document.getElementById(prefix + 'PayMetalBal1Type' + dc).value = payMetalDueWeightType1;
-                    goldWtBal = parseFloat(gdBal).toFixed(3);
-                    GoldWtType = payMetalDueWeightType1;
-                    totRecGd += parseFloat(goldWeight);
-                    totGoldAmt += parseFloat(document.getElementById(prefix + 'PayMetal1Val' + dc).value);
-//                    alert(totGoldAmt);
-//                    alert(document.getElementById('stockPurPriceCut').value); || $payPanelName == 'SuppOrderDeliveryUp'
-                    if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-                        document.getElementById(prefix + 'PayMetal1WtBal').value = gdBal;
-                        document.getElementById(prefix + 'PayMetal1WtBalType').value = payMetalDueWeightType1;
-                        if ((document.getElementById('metalPanel').value != 'SuppOrderUp' && document.getElementById('metalPanel').value != 'NwOrPayUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'NwOrDelPaymentUp' && document.getElementById('metalPanel').value != 'SuppOrderDeliveryUp' && document.getElementById('metalPanel').value != 'StockPayUp' && document.getElementById('metalPanel').value != 'RawPayUp' && document.getElementById('metalPanel').value != 'SellPayUp') && document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
-                            document.getElementById(prefix + 'Metal1RtCtWtBal').value = gdBal;
-                            document.getElementById(prefix + 'Metal1RtCtWtBalType').value = payMetalDueWeightType1;
-                            document.getElementById('metal1RtCtWtBal').value = gdBal + '' + payMetalDueWeightType1;//Add Value this variable:Author:SANT24OCT16
-                        }
-                    }
-                    document.getElementById(prefix + 'Metal1WtFinBal').value = gdBal;
-                    document.getElementById(prefix + 'Metal1WtFinBalType').value = payMetalDueWeightType1;
-                }
-            }
-            if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Silver') {
-                silverWeight = parseFloat(metalWeight);
-                if (payTotalWeightType1 == 'KG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((silverWeight * payMetalRate1 * document.getElementById('srGmWtInKg').value)).toFixed(2);
-                } else if (payTotalWeightType1 == 'GM') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((silverWeight * payMetalRate1) / document.getElementById('srGmWtInGm').value).toFixed(2);
-                } else if (payTotalWeightType1 == 'MG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((silverWeight * payMetalRate1) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
-                }
-
-                payMetalDueWeightType1 = document.getElementById(prefix + 'SilverTotFineWtType').value;
-                silverWeightType = payMetalDueWeightType1;
-                if (slBal == '') {
-                    slBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value);
-                }
-                if (payMetalDueWeightType1 == 'KG') {
-                    if (payTotalWeightType1 == 'KG') {
-                        slBal = parseFloat((slBal) - silverWeight).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'GM') {
-                        slBal = parseFloat(((slBal) - silverWeight / 1000)).toFixed(3);
-                        silverWeight = parseFloat(silverWeight / 1000).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'MG') {
-                        slBal = parseFloat(((slBal) - silverWeight / (1000 * 1000))).toFixed(3);
-                        silverWeight = parseFloat(silverWeight / (1000 * 1000)).toFixed(3);
-                    }
-                }
-                else if (payMetalDueWeightType1 == 'GM') {
-                    if (payTotalWeightType1 == 'KG') {
-                        slBal = parseFloat(((slBal) - silverWeight * 1000)).toFixed(3);
-                        silverWeight = parseFloat(silverWeight * 1000).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'GM') {
-                        slBal = parseFloat((slBal) - silverWeight).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'MG') {
-                        slBal = parseFloat(((slBal) - silverWeight / (1000))).toFixed(3);
-                        silverWeight = parseFloat(silverWeight / 1000).toFixed(3);
-                    }
-                } else if (payMetalDueWeightType1 == 'MG') {
-                    if (payTotalWeightType1 == 'KG') {
-                        slBal = parseFloat(((slBal) - silverWeight * 1000 * 1000)).toFixed(3);
-                        silverWeight = parseFloat(silverWeight * 1000 * 1000).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'GM') {
-                        slBal = parseFloat(((slBal) - silverWeight * 1000)).toFixed(3);
-                        silverWeight = parseFloat(silverWeight * 1000).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'MG') {
-                        slBal = parseFloat((slBal - silverWeight)).toFixed(3);
-                    }
-                }
-                document.getElementById(prefix + 'PayMetal1Bal' + dc).value = slBal;
-                document.getElementById(prefix + 'PayMetalBal1Type' + dc).value = payMetalDueWeightType1;
-
-                if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-                    document.getElementById(prefix + 'PayMetal2WtBal').value = slBal;
-                    document.getElementById(prefix + 'PayMetal2WtBalType').value = payMetalDueWeightType1;
-                    if ((document.getElementById('metalPanel').value != 'NwOrPayUp' && document.getElementById('metalPanel').value != 'RawPayUp' && document.getElementById('metalPanel').value != 'SuppOrderUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'NwOrDelPaymentUp' && document.getElementById('metalPanel').value != 'StockPayUp' && document.getElementById('metalPanel').value != 'SuppOrderDeliveryUp' && document.getElementById('metalPanel').value != 'SellPayUp') && document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
-                        document.getElementById(prefix + 'Metal2RtCtWtBal').value = slBal;
-                        document.getElementById(prefix + 'Metal2RtCtWtBalType').value = payMetalDueWeightType1;
-                        document.getElementById('metal2RtCtWtBal').value = slBal + '' + payMetalDueWeightType1;//Add Value this variable:Author:SANT24OCT16
-                    }
-                }
-                document.getElementById(prefix + 'Metal2WtFinBal').value = slBal;
-                document.getElementById(prefix + 'Metal2WtFinBalType').value = payMetalDueWeightType1;
-
-                silverWtBal = parseFloat(slBal).toFixed(3);
-                SilverWtType = payMetalDueWeightType1;
-                totRecSl += parseFloat(silverWeight);
-                totSilverAmt += parseFloat(document.getElementById(prefix + 'PayMetal1Val' + dc).value);
-            }
-            if (document.getElementById(prefix + 'GoldTotFineWt').value != '' && goldWtBal == 0) {
-                goldWtBal = parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value);
-                GoldWtType = document.getElementById(prefix + 'GoldTotFineWtType').value;
-            }
-            if (document.getElementById(prefix + 'SilverTotFineWt').value != '' && silverWtBal == 0) {
-                silverWtBal = parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value);
-                SilverWtType = document.getElementById(prefix + 'SilverTotFineWtType').value;
-            }
-
-//            alert(Metal1WtFinBal);
-            document.getElementById(prefix + 'Metal1WtRecBal').value = parseFloat(totRecGd).toFixed(3);
-            document.getElementById(prefix + 'Metal1WtRecBalType').value = goldWeightType;
-            document.getElementById(prefix + 'Metal2WtRecBal').value = parseFloat(totRecSl).toFixed(3);
-            document.getElementById(prefix + 'Metal2WtRecBalType').value = silverWeightType;
-            if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-                document.getElementById('metal1WtRecBal').value = parseFloat(totRecGd).toFixed(3) + ' ' + goldWeightType;
-                document.getElementById('metal2WtRecBal').value = parseFloat(totRecSl).toFixed(3) + ' ' + silverWeightType;
-            }
-            if (document.getElementById(prefix + 'PayMetal1Val' + dc).value == '') {
-                document.getElementById(prefix + 'PayMetal1Val' + dc).value = 0;
-            }
-            totAmtRec += parseFloat(document.getElementById(prefix + 'PayMetal1Val' + dc).value);
-//            alert(document.getElementById('stockPurPriceCut').value);
-            if (document.getElementById('stockPurPriceCut').value == 'ByCash') {
-//                if ((document.getElementById('metalPanel').value != 'NwOrPayUp' && document.getElementById('metalPanel').value != 'SuppOrderUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'NwOrDelPaymentUp' && document.getElementById('metalPanel').value != 'StockPayUp' && document.getElementById('metalPanel').value != 'SuppOrderDeliveryUp' && document.getElementById('metalPanel').value != 'SellPayUp'))
-                document.getElementById(prefix + 'PayTotMetAmtRec').value = parseFloat(totAmtRec).toFixed(2);
-                document.getElementById(prefix + 'PayTotAmtRecDisp').value = parseFloat(totAmtRec).toFixed(2);
-            }
-            document.getElementById(prefix + 'PayTotMet1AmtRec').value = parseFloat(totGoldAmt).toFixed(2);
-            document.getElementById(prefix + 'PayTotMet2AmtRec').value = parseFloat(totSilverAmt).toFixed(2);
-
-            if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-                calcWholeSaleRateCut(prefix);
-                calcRawMetStock(prefix);
-            }
-            calcStockRrCtCashBalance(prefix);
-        }
-        metalEntered++;
-    }
-    return false;
-}
 function setRateCutValues(prefix) {
     document.getElementById('metal1RtCtWt').value = parseFloat(goldWtBal).toFixed(3);
     document.getElementById('metal1RtCtWtType').value = GoldWtType;
@@ -2585,7 +2590,7 @@ function setRateCutValues(prefix) {
     document.getElementById(prefix + 'PayMetal1WtBalType').value = GoldWtType;
     document.getElementById(prefix + 'PayMetal2WtBal').value = parseFloat(silverWtBal).toFixed(3);
     document.getElementById(prefix + 'PayMetal2WtBalType').value = SilverWtType;
-    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+    if (document.getElementById('paymentMode').value == 'RateCut') {
         if (stockDiv == 'wholeSaleStock') {
             document.getElementById(prefix + 'Metal1RtCtWtBalDisp').value = parseFloat(goldWtBal).toFixed(3) + ' ' + GoldWtType;
             document.getElementById(prefix + 'Metal2RtCtWtBalDisp').value = parseFloat(silverWtBal).toFixed(3) + ' ' + SilverWtType;
@@ -2628,7 +2633,6 @@ function wholesaleRateCut(rateCutId, totFinGdWt, goldTotFFineWtType, totFinSlWt,
             "&suppId=" + encodeURIComponent(suppId) +
             "&crystalVal=" + encodeURIComponent(crystalAmount) +
             "&mainPanel=" + encodeURIComponent(mainPanel);
-
     if (rateCutId == 'RateCut') {
         if (panel == 'sellPanel') {
             wholesale_rate_cut("include/php/ogswrtct.php", poststr);
@@ -2664,7 +2668,7 @@ function alertWholeSaleRateCut() {
         } else {
             calcWholeSaleRateCut(prefix);
         }
-        calcStockRrCtCashBalance(prefix);
+        calcPaymentCashBalance(prefix);
     } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
@@ -2686,7 +2690,7 @@ function calcStockCashBalance(prefix) {
         if (totalCardAmt == null || totalCardAmt == '') {
             totalCardAmt = 0;
         }
-        document.getElementById(prefix + 'PayCashRecDisp').value = Math.round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
+        document.getElementById(prefix + 'PayCashRecDisp').value = Math_round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
         document.getElementById(prefix + 'PayTotCashAmt').value = parseFloat(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
     }
 
@@ -2697,7 +2701,7 @@ function calcStockCashBalance(prefix) {
         }
         var totTax = parseFloat(document.getElementById('VATTax').value) / 100;
         document.getElementById(prefix + 'PayVATAmt').value = parseFloat(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
-        document.getElementById(prefix + 'PayVATAmtDisp').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
+        document.getElementById(prefix + 'PayVATAmtDisp').value = Math_round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
     }
 
     if (document.getElementById(prefix + 'PayVATAmt').value == 'NaN') {
@@ -2713,11 +2717,11 @@ function calcStockCashBalance(prefix) {
         if (document.getElementById(prefix + 'PayDiscount').value == null || document.getElementById(prefix + 'PayDiscount').value == '' || document.getElementById(prefix + 'PayDiscount').value == 'NaN') {
             document.getElementById(prefix + 'PayDiscount').value = 0;
         }
-        document.getElementById(prefix + 'PayDiscountDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
-        document.getElementById(prefix + 'PayVATAmtDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'PayVATAmt').value)).toFixed(2);
-        document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math.round((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
+        document.getElementById(prefix + 'PayDiscountDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+        document.getElementById(prefix + 'PayVATAmtDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayVATAmt').value)).toFixed(2);
+        document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
 //        alert(document.getElementById(prefix + 'PayTotAmt').value);
-        finalCashBal = Math.round((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+        finalCashBal = Math_round((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
         if (finalCashBal > 0) {
 //            finBalClass = 'redFont';
         } else if (finalCashBal <= 0) {
@@ -2730,92 +2734,7 @@ function calcStockCashBalance(prefix) {
         document.getElementById(prefix + 'PayTotAmtBal').value = parseFloat((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
     }
 }
-function calcRawMetStock(prefix) {
-    var weightBal = 0;
-    if (document.getElementById(prefix + 'Metal1WtPrevBal').value != '' || document.getElementById(prefix + 'GoldTotFineWt').value != '' || document.getElementById(prefix + 'Metal1WtRecBal').value != '') {
-        if (document.getElementById(prefix + 'Metal1WtPrevBal').value == '' || document.getElementById(prefix + 'Metal1WtPrevBal').value == 'NaN') {
-            document.getElementById(prefix + 'Metal1WtPrevBal').value = 0;
-        }
-        if (document.getElementById(prefix + 'GoldTotFineWt').value == '' || document.getElementById(prefix + 'GoldTotFineWt').value == 'NaN') {
-            document.getElementById(prefix + 'GoldTotFineWt').value = 0;
-        }
-        if (document.getElementById(prefix + 'Metal1WtRecBal').value == '' || document.getElementById(prefix + 'Metal1WtRecBal').value == 'NaN') {
-            document.getElementById(prefix + 'Metal1WtRecBal').value = 0;
-        }
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-            if (document.getElementById(prefix + 'Metal1RtCtWtBal').value == '' || document.getElementById(prefix + 'Metal1RtCtWtBal').value == 'NaN') {
-                document.getElementById(prefix + 'Metal1RtCtWtBal').value = 0;
-            }
-            var gdRateCut = convertWeight(parseFloat(document.getElementById(prefix + 'Metal1RtCtWtBal').value), document.getElementById(prefix + 'GoldTotFineWtType').value, document.getElementById(prefix + 'Metal1RtCtWtBalType').value);
-            var totFinGdWtBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal').value) - parseFloat(gdRateCut);
-        } else if (document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-            var totFinGdWtBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal').value);
-        }
 
-        document.getElementById('metal1WtFinBal').value = parseFloat(totFinGdWtBal).toFixed(3) + ' ' + document.getElementById(prefix + 'GoldTotFineWtType').value;
-        document.getElementById(prefix + 'Metal1WtFinBal').value = parseFloat(totFinGdWtBal).toFixed(3);
-        document.getElementById(prefix + 'Metal1WtFinBalType').value = document.getElementById(prefix + 'GoldTotFineWtType').value;
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-            var payTotalWeightType1 = document.getElementById(prefix + 'Metal1RtCtWtBalType').value;
-            var goldWeight = document.getElementById(prefix + 'Metal1RtCtWtBal').value;
-            var payMetalRate1 = document.getElementById(prefix + 'Metal1Rate').value;
-            if (payTotalWeightType1 == 'KG') {
-                document.getElementById(prefix + 'Metal1Valuation').value = Math.round((goldWeight * payMetalRate1 * document.getElementById('gmWtInKg').value));
-            } else if (payTotalWeightType1 == 'GM') {
-                document.getElementById(prefix + 'Metal1Valuation').value = Math.round((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value);
-            } else if (payTotalWeightType1 == 'MG') {
-                document.getElementById(prefix + 'Metal1Valuation').value = Math.round((goldWeight * payMetalRate1) / (document.getElementById('gmWtInMg').value));
-            }
-        }
-    }
-    if (document.getElementById(prefix + 'Metal2WtPrevBal').value != '' || document.getElementById(prefix + 'SilverTotFineWt').value != '' || document.getElementById(prefix + 'Metal2WtRecBal').value != '') {
-        if (document.getElementById(prefix + 'Metal2WtPrevBal').value == '' || document.getElementById(prefix + 'Metal2WtPrevBal').value == 'NaN') {
-            document.getElementById(prefix + 'Metal2WtPrevBal').value = 0;
-        }
-        if (document.getElementById(prefix + 'SilverTotFineWt').value == '' || document.getElementById(prefix + 'SilverTotFineWt').value == 'NaN') {
-            document.getElementById(prefix + 'SilverTotFineWt').value = 0;
-        }
-        if (document.getElementById(prefix + 'Metal2WtRecBal').value == '' || document.getElementById(prefix + 'Metal2WtRecBal').value == 'NaN') {
-            document.getElementById(prefix + 'Metal2WtRecBal').value = 0;
-        }
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-            if (document.getElementById(prefix + 'Metal2RtCtWtBal').value == '' || document.getElementById(prefix + 'Metal2RtCtWtBal').value == 'NaN') {
-                document.getElementById(prefix + 'Metal2RtCtWtBal').value = 0;
-            }
-            var slRateCut = convertWeight(parseFloat(document.getElementById(prefix + 'Metal2RtCtWtBal').value), document.getElementById(prefix + 'SilverTotFineWtType').value, document.getElementById(prefix + 'Metal2RtCtWtBalType').value);
-            var totFinSrWtBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal').value) - parseFloat(slRateCut);
-        } else if (document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-            var totFinSrWtBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal').value);
-        }
-
-        document.getElementById('metal2WtFinBal').value = parseFloat(totFinSrWtBal).toFixed(3) + ' ' + document.getElementById(prefix + 'SilverTotFineWtType').value;
-        document.getElementById(prefix + 'Metal2WtFinBal').value = parseFloat(totFinSrWtBal).toFixed(3);
-        document.getElementById(prefix + 'Metal2WtFinBalType').value = document.getElementById(prefix + 'SilverTotFineWtType').value;
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-            var payTotalWeightType2 = document.getElementById(prefix + 'Metal2RtCtWtBalType').value;
-            var silverWeight = parseFloat(document.getElementById(prefix + 'Metal2RtCtWtBal').value);
-            var payMetalRate2 = parseFloat(document.getElementById(prefix + 'Metal2Rate').value);
-            if (payTotalWeightType2 == 'KG') {
-                document.getElementById(prefix + 'Metal2Valuation').value = Math.round((silverWeight * payMetalRate2 * document.getElementById('srGmWtInKg').value));
-            } else if (payTotalWeightType2 == 'GM') {
-                document.getElementById(prefix + 'Metal2Valuation').value = Math.round((silverWeight * payMetalRate2) / document.getElementById('srGmWtInGm').value);
-            } else if (payTotalWeightType2 == 'MG') {
-                document.getElementById(prefix + 'Metal2Valuation').value = Math.round((silverWeight * payMetalRate2) / (document.getElementById('srGmWtInMg').value));
-            }
-        }
-    }
-    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-        if (document.getElementById(prefix + 'Metal1Valuation').value == '' || document.getElementById(prefix + 'Metal1Valuation').value == 'NaN') {
-            document.getElementById(prefix + 'Metal1Valuation').value = 0;
-        }
-        if (document.getElementById(prefix + 'Metal2Valuation').value == '' || document.getElementById(prefix + 'Metal2Valuation').value == 'NaN') {
-            document.getElementById(prefix + 'Metal2Valuation').value = 0;
-        }
-        document.getElementById(prefix + 'PayTotAmtBalDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'Metal1Valuation').value) + parseFloat(document.getElementById(prefix + 'Metal2Valuation').value)).toFixed(2);
-        document.getElementById(prefix + 'PayTotAmtRec').value = Math.round(parseFloat(document.getElementById(prefix + 'Metal1Valuation').value) + parseFloat(document.getElementById(prefix + 'Metal2Valuation').value)).toFixed(2);
-        document.getElementById(prefix + 'PayTotAmt').value = Math.round(parseFloat(document.getElementById(prefix + 'Metal1Valuation').value) + parseFloat(document.getElementById(prefix + 'Metal2Valuation').value)).toFixed(2);
-    }
-}
 
 //********Start code for add this option in Add Invoice:Author:SANT24OCT16
 /*****Start to change panel name variable for sellpayup and slprpayment @Author:SHRI04NOV16*********************/
@@ -2824,8 +2743,7 @@ function changeStockOtherChgsOpt(othChgsBy, stockPanelName, invPanel, preInvoice
     var rateCutOption = '';
     loadXMLDoc();
     if (stockPanelName == 'SlPrPayment' || stockPanelName == 'SellPayUp' || panel == 'InvoicePayment' || panel == 'InvoicePayUp')
-        rateCutOption = document.getElementById('stockPurPriceCut').value;
-
+        rateCutOption = document.getElementById('paymentMode').value;
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById('main_ajax_loading_div').style.visibility = "hidden";
@@ -2841,16 +2759,16 @@ function changeStockOtherChgsOpt(othChgsBy, stockPanelName, invPanel, preInvoice
                 document.getElementById('addStockCurrentInvoice').innerHTML = xmlhttp.responseText;
             }
             if (stockPanelName == 'SellPayUp') {
-                if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
+                if (document.getElementById('paymentMode').value == 'RateCut' || document.getElementById('paymentMode').value == 'NoRateCut') {
                     calcWholeSaleRateCut('slPr');
                 }
-                calcStockRrCtCashBalance('slPr');
+                calcPaymentCashBalance('slPr');
             } else if (panel == 'whSellPanel') {
                 calcWholeSaleSellRateCut('slPr');
-                calcStockRrCtCashBalance('slPr');
+                calcPaymentCashBalance('slPr');
             } else if (panel == 'InvoicePayment' || panel == 'InvoicePayUp') {
                 calcWholeSaleSellRateCut('suppDep');
-                calcStockRrCtCashBalance('suppDep');
+                calcPaymentCashBalance('suppDep');
             }
         } else {
             document.getElementById('main_ajax_loading_div').style.visibility = "visible";
@@ -2872,7 +2790,7 @@ function changeStockOtherChgsOpt(othChgsBy, stockPanelName, invPanel, preInvoice
 /*****End to change panel name variable for sellpayup and slprpayment @Author:SHRI04NOV16*********************/
 //********End code for add this option in Add Invoice:Author:SANT24OCT16
 
-function addWhStockExistingItemDiv(newPreInvoiceNo, newInvoiceNo, panelName, mainPanel, stockPanel) {
+function addWhStockExistingItemDiv(newPreInvoiceNo, newInvoiceNo, panelName, mainPanel, stockPanel, documentRootPath, sttrId) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2882,10 +2800,13 @@ function addWhStockExistingItemDiv(newPreInvoiceNo, newInvoiceNo, panelName, mai
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogwaexad.php?newPreInvoiceNo=" + newPreInvoiceNo + "&newInvoiceNo=" + newInvoiceNo + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&stockPanel=" + stockPanel, true);
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwaexad.php?newPreInvoiceNo=" + newPreInvoiceNo + "&newInvoiceNo=" + newInvoiceNo + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&stockPanel=" + stockPanel + "&sttrId=" + sttrId, true);
     xmlhttp.send();
 }
-function deleteWhStockListItem(stprId, panelName, mainPanel, pageNo, sellPresent, prevStockPresent, itemCategory, metalType) {
+//********Start code to delete particular add stock :Author:SANT25JAN17
+function deleteWhStockListItem(sttrId, panelName, mainPanel, pageNo, sellPresent, prevStockPresent, itemCategory, metalType, utinId) {
+
+    var documentRootPath = document.getElementById('documentRootPath').value;
     if (sellPresent > 0) {
         alert('To Delete,First Delete This Item From Customer Jewellery Panel!');
         return false;
@@ -2897,13 +2818,9 @@ function deleteWhStockListItem(stprId, panelName, mainPanel, pageNo, sellPresent
         }
         if (confirm_box == true)
         {
-            var stockDeleteConfirm = '';
             if (panelName != 'ItemStockList') {
-                confirm_box_for_stock = confirm(deleteItemAlertMess + "\n\nDo you want to delete this Item From Stock?");
-                if (confirm_box_for_stock == true)
-                {
-                    stockDeleteConfirm = 'yes';
-                }
+                var stockDeleteConfirm = 'yes';
+                var stockDelete = 'Y';
             }
 
             loadXMLDoc();
@@ -2924,7 +2841,7 @@ function deleteWhStockListItem(stprId, panelName, mainPanel, pageNo, sellPresent
                         else
                             closeMessDiv('messDisplayDiv', 'DELETED');
                     } else if (mainPanel == 'StockInvoice') {
-                        document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
+                        document.getElementById("mainAddStockDiv").innerHTML = xmlhttp.responseText;
                         closeMessDiv('messDisplayDiv', 'DELETED');
                     } else {
                         document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
@@ -2934,82 +2851,20 @@ function deleteWhStockListItem(stprId, panelName, mainPanel, pageNo, sellPresent
                     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
                 }
             };
-//xmlhttp.open("GET", "include/php/ogialdel.php?itstId=" + itstId + "&itprId=" + stprId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo, true);             
             if (panelName == 'ItemStockList') {
-                xmlhttp.open("GET", "include/php/ogwhstdl.php?stockId=" + stprId + "&panelName=" + panelName + "&pageNo=" + pageNo + "&itemCategory=" + itemCategory + "&metalType=" + metalType, true);
+                xmlhttp.open("GET", "include/php/ogwhstdl.php?stockId=" + sttrId + "&panelName=" + panelName + "&pageNo=" + pageNo + "&itemCategory=" + itemCategory + "&metalType=" + metalType, true);
             } else {
-                xmlhttp.open("GET", "include/php/ogwaldel.php?stprId=" + stprId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&stockDeleteConfirm=" + stockDeleteConfirm, true);
+                xmlhttp.open("GET", "http://" + documentRootPath + "/include/php/ogwaldel.php?sttrId=" + sttrId + "&stockDelete=" + stockDelete + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&stockDeleteConfirm=" + stockDeleteConfirm + "&utinId=" + utinId, true);
             }
             xmlhttp.send();
         }
     }
 }
-var goldRateCutWeight = 0;
-var silverRateCutWeight = 0;
-/********Start to add condidtion for NaN @Author:GAUR24MAY16****************/
-function calcWholeSaleRateCut(prefix) {
-    var gdRtCt = 0;
-    var metalType;
-    if ((document.getElementById(prefix + 'Metal1WtPrevBal').value).trim() == '' || document.getElementById(prefix + 'Metal1WtPrevBal').value == 'NaN') {
-        document.getElementById(prefix + 'Metal1WtPrevBal').value = 0;
-    }
-    if ((document.getElementById(prefix + 'GoldTotFineWt').value).trim() == '' || document.getElementById(prefix + 'GoldTotFineWt').value == 'NaN') {
-        document.getElementById(prefix + 'GoldTotFineWt').value = 0;
-    }
-    if ((document.getElementById(prefix + 'Metal1WtRecBal').value).trim() == '' || document.getElementById(prefix + 'Metal1WtRecBal').value == 'NaN') {
-        document.getElementById(prefix + 'Metal1WtRecBal').value = 0;
-    }
-    var gdBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal').value);
-    var goldWtType = document.getElementById(prefix + 'GoldTotFineWtType').value;
-    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-        if ((document.getElementById(prefix + 'Metal1RtCtWtBal').value).trim() == '' || document.getElementById(prefix + 'Metal1RtCtWtBal').value == 'NaN') {
-            document.getElementById(prefix + 'Metal1RtCtWtBal').value = 0;
-        }
-        var gdRtCt = parseFloat(document.getElementById(prefix + 'Metal1RtCtWtBal').value);
-        var goldRtCtWtType = document.getElementById(prefix + 'Metal1RtCtWtBalType').value;
-        if (gdBal == '' || gdBal == null) {
-            gdBal = 0;
-        }
-        gdRtCt = convertWeight(gdRtCt, goldWtType, goldRtCtWtType);
-        document.getElementById('metal1RtCtWtBal').value = gdRtCt + ' ' + goldWtType;
-    }
-    document.getElementById('metal1WtBal').value = parseFloat(gdBal - gdRtCt).toFixed(3) + ' ' + goldWtType;
-    document.getElementById('metal1WtFinBal').value = parseFloat(gdBal - gdRtCt).toFixed(3) + ' ' + goldWtType;
-//    alert(document.getElementById('metal1WtFinBal').value);
-    if ((document.getElementById(prefix + 'Metal2WtPrevBal').value).trim() == '' || document.getElementById(prefix + 'Metal2WtPrevBal').value == 'NaN') {
-        document.getElementById(prefix + 'Metal2WtPrevBal').value = 0;
-    }
-    if ((document.getElementById(prefix + 'SilverTotFineWt').value).trim() == '' || document.getElementById(prefix + 'SilverTotFineWt').value == 'NaN') {
-        document.getElementById(prefix + 'SilverTotFineWt').value = 0;
-    }
-    if ((document.getElementById(prefix + 'Metal2WtRecBal').value).trim() == '' || document.getElementById(prefix + 'Metal2WtRecBal').value == 'NaN') {
-        document.getElementById(prefix + 'Metal2WtRecBal').value = 0;
-    }
-    var silverRtCt = 0;
-    var silverBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal').value) + parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal').value);
-    var silverWtType = document.getElementById(prefix + 'SilverTotFineWtType').value;
-//    alert('sl wt:' + silverBal +'Rate Cut Opt : '+ document.getElementById('stockPurPriceCut').value);
-    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-        if ((document.getElementById(prefix + 'Metal2RtCtWtBal').value).trim() == '' || document.getElementById(prefix + 'Metal2RtCtWtBal').value == 'NaN') {
-            document.getElementById(prefix + 'Metal2RtCtWtBal').value = 0;
-        }
-        var silverRtCt = parseFloat(document.getElementById(prefix + 'Metal2RtCtWtBal').value);
-        var silverRtCtWtType = document.getElementById(prefix + 'Metal2RtCtWtBalType').value;
-//        alert(silverRtCtWtType);
-        if (silverBal == '' || silverBal == null) {
-            silverBal = 0;
-        }
-        silverRtCt = convertWeight(silverRtCt, silverWtType, silverRtCtWtType);
-        document.getElementById('metal2RtCtWtBal').value = silverRtCt + ' ' + silverWtType;
-    }
-    document.getElementById('metal2WtBal').value = parseFloat(silverBal - silverRtCt).toFixed(3) + ' ' + silverWtType;
-    document.getElementById('metal2WtFinBal').value = parseFloat(silverBal - silverRtCt).toFixed(3) + ' ' + silverWtType;
-    calcRawMetStock(prefix);
-    calcStockRrCtCashBalance(prefix);
-}
+//********End code to delete particular add stock :Author:SANT25JAN17
+
 function calcWholeSaleSellRateCut(prefix) {
-    if (document.getElementById(prefix + 'Metal1WtPrevBal1').value == '' || document.getElementById(prefix + 'Metal1WtPrevBal1').value == 'NaN') {
-        document.getElementById(prefix + 'Metal1WtPrevBal1').value = 0;
+    if (document.getElementById(prefix + 'GoldWtPrevBal1').value == '' || document.getElementById(prefix + 'GoldWtPrevBal1').value == 'NaN') {
+        document.getElementById(prefix + 'GoldWtPrevBal1').value = 0;
     }
     if (document.getElementById(prefix + 'Metal1WtPurBal1').value == '' || document.getElementById(prefix + 'Metal1WtPurBal1').value == 'NaN') {
         document.getElementById(prefix + 'Metal1WtPurBal1').value = 0;
@@ -3018,7 +2873,7 @@ function calcWholeSaleSellRateCut(prefix) {
         document.getElementById(prefix + 'Metal1WtRecBal1').value = 0;
     }
     var gdRtCt = 0;
-    var gdBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal1').value);
+    var gdBal = parseFloat(document.getElementById(prefix + 'GoldWtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal1').value);
     var gdRtCt = parseFloat(document.getElementById('metal1RtCtWt').value);
     var goldRtCtWtType = document.getElementById('metal1RtCtWtType').value;
     var goldWtType = document.getElementById(prefix + 'Metal1WtPurBal1Type').value;
@@ -3061,12 +2916,12 @@ function calcWholeSaleSellRateCut(prefix) {
 //        alert(gdRtCt);
         document.getElementById(prefix + 'PayMetal1WtBal').value = parseFloat(gdBal - gdRtCt).toFixed(3);
 //        alert('calcWholeSaleSellRateCut='+document.getElementById(prefix + 'PayMetal1WtBal').value);
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if (document.getElementById('paymentMode').value == 'RateCut') {
             document.getElementById(prefix + 'Metal1RtCtWtBalDisp').value = gdRtCt + ' ' + goldWtType;
         }
     }
-    if (document.getElementById(prefix + 'Metal2WtPrevBal1').value == '' || document.getElementById(prefix + 'Metal2WtPrevBal1').value == 'NaN') {
-        document.getElementById(prefix + 'Metal2WtPrevBal1').value = 0;
+    if (document.getElementById(prefix + 'SilverWtPrevBal1').value == '' || document.getElementById(prefix + 'SilverWtPrevBal1').value == 'NaN') {
+        document.getElementById(prefix + 'SilverWtPrevBal1').value = 0;
     }
     if (document.getElementById(prefix + 'Metal2WtPurBal1').value == '' || document.getElementById(prefix + 'Metal2WtPurBal1').value == 'NaN') {
         document.getElementById(prefix + 'Metal2WtPurBal1').value = 0;
@@ -3075,7 +2930,7 @@ function calcWholeSaleSellRateCut(prefix) {
         document.getElementById(prefix + 'Metal2WtRecBal1').value = 0;
     }
     var silverRtCt = 0;
-    var silverBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal2WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal1').value);
+    var silverBal = parseFloat(document.getElementById(prefix + 'SilverWtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal2WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal1').value);
     var silverRtCt = parseFloat(document.getElementById('metal2RtCtWt').value);
     var silverRtCtWtType = document.getElementById('metal2RtCtWtType').value;
     var silverWtType = document.getElementById(prefix + 'Metal2WtPurBal1Type').value;
@@ -3115,143 +2970,43 @@ function calcWholeSaleSellRateCut(prefix) {
         }
         document.getElementById(prefix + 'Metal2RtCtWtBal').value = silverRtCt;
         document.getElementById(prefix + 'PayMetal2WtBal').value = parseFloat(silverBal - silverRtCt).toFixed(3);
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if (document.getElementById('paymentMode').value == 'RateCut') {
             document.getElementById(prefix + 'Metal2RtCtWtBalDisp').value = silverRtCt + ' ' + silverWtType;
         }
     }
 
     calcSellRawMetStock(prefix);
-    calcStockRrCtCashBalance(prefix);
+    calcPaymentCashBalance(prefix);
 }
 
-function calcStockRrCtCashBalance(prefix) {
-//    alert('rate cut cash');
-    var finalCashBal;
-    var finBalLabel = 'FINAL CASH BALANCE :';
-    var totalCashPaidAmt = document.getElementById(prefix + 'PayCashAmtRec').value;
-    if (totalCashPaidAmt == null || totalCashPaidAmt == '') {
-        totalCashPaidAmt = 0;
-    }
-    var totalChequeAmt = document.getElementById(prefix + 'PayChequeAmt').value;
-    if (totalChequeAmt == null || totalChequeAmt == '') {
-        totalChequeAmt = 0;
-    }
-    var totalCardAmt = document.getElementById(prefix + 'PayCardAmt').value;
-    if (totalCardAmt == null || totalCardAmt == '') {
-        totalCardAmt = 0;
-    }
-    document.getElementById(prefix + 'PayCashRecDisp').value = Math.round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
-    document.getElementById(prefix + 'PayTotCashAmt').value = Math.round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
-
-
-    var totalAmt = 0;
-    var crystalAmnt = 0;
-//    alert(document.getElementById('stockPurPriceCut').value);
-    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
-        if (document.getElementById(prefix + 'PayCrystalAmt').value == '' || document.getElementById(prefix + 'PayCrystalAmt').value == 'NaN') {
-            document.getElementById(prefix + 'PayCrystalAmt').value = 0;
-        }
-        crystalAmnt = parseFloat(document.getElementById(prefix + 'PayCrystalAmt').value);
-        if (document.getElementById(prefix + 'PayTotAmt').value == '' || document.getElementById(prefix + 'PayTotAmt').value == 'NaN') {
-            document.getElementById(prefix + 'PayTotAmt').value = 0;
-        }
-        if (document.getElementById(prefix + 'PayTotOthChgs').value == '' || document.getElementById(prefix + 'PayTotOthChgs').value == 'NaN') {
-            document.getElementById(prefix + 'PayTotOthChgs').value = 0;
-        }
-//        alert(document.getElementById(prefix + 'PayTotAmt').value);
-//        alert(document.getElementById(prefix + 'PayTotOthChgs').value);
-        totalAmt = parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayTotOthChgs').value) + crystalAmnt;
-    } else if (document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-        if (document.getElementById(prefix + 'PayCrystalAmt').value == '' || document.getElementById(prefix + 'PayCrystalAmt').value == 'NaN') {
-            document.getElementById(prefix + 'PayCrystalAmt').value = 0;
-        }
-        crystalAmnt = parseFloat(document.getElementById(prefix + 'PayCrystalAmt').value);
-        if (document.getElementById(prefix + 'PayTotOthChgs').value == '' || document.getElementById(prefix + 'PayTotOthChgs').value == 'NaN') {
-            document.getElementById(prefix + 'PayTotOthChgs').value = 0;
-        }
-        totalAmt = crystalAmnt + parseFloat(document.getElementById(prefix + 'PayTotOthChgs').value);
-    } else if (document.getElementById('stockPurPriceCut').value == 'ByCash') {
-        if (document.getElementById(prefix + 'PayTotMetAmtRec').value == '' || document.getElementById(prefix + 'PayTotMetAmtRec').value == 'NaN') {
-            document.getElementById(prefix + 'PayTotMetAmtRec').value = 0;
-        }
-//        alert(document.getElementById(prefix + 'PayTotAmt').value);
-//        alert(document.getElementById(prefix + 'PayTotMetAmtRec').value);
-        totalAmt = parseFloat(document.getElementById(prefix + 'PayTotAmt').value) - parseFloat(document.getElementById(prefix + 'PayTotMetAmtRec').value);
-    } else {
-        totalAmt = parseFloat(document.getElementById(prefix + 'PayTotAmt').value);
-    }
-    var newTotalAmount = totalAmt;
-    document.getElementById('taxOnTotAmt').value = Math.round((parseFloat(totalAmt))).toFixed(2);
-
-    var totalValuation = document.getElementById('taxOnTotAmt').value;
-    if (totalValuation == null || totalValuation == '') {
-        totalValuation = 0;
-    }
-    if (document.getElementById(prefix + 'VATTax').value == '') {
-        document.getElementById(prefix + 'VATTax').value = 0;
-    }
-    var totTax = parseFloat(document.getElementById(prefix + 'VATTax').value) / 100;
-    document.getElementById(prefix + 'PayVATAmtDisp').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
-    document.getElementById(prefix + 'PayVATAmt').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
-    if (document.getElementById(prefix + 'PayVATAmt').value == 'NaN' || document.getElementById(prefix + 'PayVATAmt').value == '') {
-        document.getElementById(prefix + 'PayVATAmt').value = 0.00;
-    }
-
-    if (document.getElementById(prefix + 'PayPrevTotAmt').value == 'NaN' || document.getElementById(prefix + 'PayPrevTotAmt').value == '') {
-        document.getElementById(prefix + 'PayPrevTotAmt').value = 0;
-    }
-    if (document.getElementById(prefix + 'PayPrevTotAmt').value != '' || document.getElementById(prefix + 'PayPrevTotAmt').value != 0) {
-        if (document.getElementById(prefix + 'PayPrevTotAmt').value > 0) {
-            totalAmt = totalAmt + parseFloat(document.getElementById(prefix + 'PayPrevTotAmt').value);
-        } else {
-            totalAmt = totalAmt - Math.abs(parseFloat(document.getElementById(prefix + 'PayPrevTotAmt').value));
-        }
-    }
-    if (document.getElementById(prefix + 'PayVATAmt').value == '' || document.getElementById(prefix + 'PayVATAmt').value == 'NaN') {
-        document.getElementById(prefix + 'PayVATAmt').value = 0;
-    }
-    if (document.getElementById(prefix + 'PayDiscount').value == '' || document.getElementById(prefix + 'PayDiscount').value == 'NaN') {
-        document.getElementById(prefix + 'PayDiscount').value = 0;
-    }
-    if (document.getElementById(prefix + 'PayTotCashAmt').value == '' || document.getElementById(prefix + 'PayTotCashAmt').value == 'NaN') {
-        document.getElementById(prefix + 'PayTotCashAmt').value = 0;
-    }
-    document.getElementById(prefix + 'PayDiscountDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
-    if (document.getElementById('stockPurPriceCut').value == 'ByCash') {
-        document.getElementById(prefix + 'PayTotFinalAmt').value = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
-    }
-    document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
-
-    finalCashBal = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
-    if (finalCashBal <= 0) {
-        finBalLabel = 'FINAL CASH DEPOSIT :';
-    }
-    document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math.abs(finalCashBal).toFixed(2);
-    document.getElementById('finCashBalTd').innerHTML = finBalLabel;
-    document.getElementById(prefix + 'PayTotAmtBal').value = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
-    document.getElementById(prefix + 'PayTotRemAmtBal').value = Math.round((parseFloat(newTotalAmount) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
-//    alert(document.getElementById(prefix + 'PayVATAmt').value);
-//    alert(document.getElementById(prefix + 'VATTax').value);
-
-}
+//start code  to add jewllery purchase list@auth:athu2jun17
 function showAddWhStockPanel(panel) {
+
+//alert(panel);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
+
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            if (panel == 'StockList' || panel == 'stockListByItem' || panel == 'PurchaseList')
+            if (panel == 'StockList' || panel == 'stockListByItem' || panel == 'FineStock' || panel == 'AllStock')
                 document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
             else
                 document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
         }
+
         else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    if (panel == 'PurchaseList')
-        xmlhttp.open("POST", "include/php/ogwaprlt.php?panel=" + panel, true);
-    else if (panel == 'StockList' || panel == 'stockListByItem')
-        xmlhttp.open("POST", "include/php/ogwastlt.php?panel=" + panel, true);
+    if (panel == 'FineStock')
+        xmlhttp.open("POST", "include/php/ompurchase.php?panelName=" + panel, true);
+    else if (panel == 'stock' || panel == 'stockListByItem')
+        // xmlhttp.open("POST", "include/php/ogwastlt.php?panel=" + panel, true);
+        xmlhttp.open("POST", "include/php/ogwgstlt.php?divPanel=" + panel, true);
+    else if (panel == 'AllStock') {
+// xmlhttp.open("POST", "include/php/ogwastlt.php?panel=" + panel, true);
+        xmlhttp.open("POST", "include/php/ompurchaselist.php?panelName=" + panel, true);
+    }
     else
         xmlhttp.open("POST", "include/php/ogiamndv.php?panel=" + panel + "&panelName=AddStock", true);
     xmlhttp.send();
@@ -3325,7 +3080,7 @@ function alertNewChangeAddStockMetalRate() {
     }
 }
 function newChangeStockItemId(selectedMetalType, panelName) {
-    //    alert(selectedMetalType);
+//    alert(selectedMetalType);
     var poststr = "metalType=" + encodeURIComponent(selectedMetalType)
             + "&panelName=" + encodeURIComponent(panelName);
     new_change_stock_item_id('include/php/ogiaiddv.php', poststr);
@@ -3357,7 +3112,9 @@ function alertNewChangeStockItemId() {
     }
 }
 //add itemname Author:GAUR25JUL16
-function showWSStockItemDetailsDiv(documentRoot, itemCategory, metalType, panelName, stockType, itemName) {
+/*****************START code to change parameters @Author:PRIYANKA-21JUN17************************/
+function showWSStockItemDetailsDiv(itemCategory, metalType, panelName, itemName, itemNameDetail, stockType) {
+//alert(stockType);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -3368,13 +3125,63 @@ function showWSStockItemDetailsDiv(documentRoot, itemCategory, metalType, panelN
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    if (stockType == 'ImitationStock') {
-        xmlhttp.open("POST", "include/php/ogijstlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory, true);
+    //alert(panelName);
+    if (panelName == 'ImitationStock' || panelName == 'stock') {
+        var status = 'No';
+        xmlhttp.open("POST", "include/php/ogijstlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&itemNameDetail=" + itemNameDetail + "&stockType=" + stockType, true);
+    } else if (panelName == 'ImitationStockDetails' || panelName == 'StockDetails') {
+        xmlhttp.open("POST", "include/php/omimstocdet.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&itemNameDetail=" + itemNameDetail + "&stockType=" + stockType, true);
     } else {
-        xmlhttp.open("POST", "include/php/ogwastlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&stockType=" + stockType + "&metalType=" + metalType + "&itemName=" + itemName, true);
+        xmlhttp.open("POST", "include/php/ogwastlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&itemNameDetail=" + itemNameDetail + "&stockType=" + stockType, true);
     }
     xmlhttp.send();
 }
+//
+// /*****************START code to add function for FINE STOCK LIST @Author:PRIYANKA-05-07-17************************/
+function showFineStockItemDetailsDiv(itemCategory, itemName, panel, panelName, metalType, stockType) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    if (panelName == 'FineStock') {
+        xmlhttp.open("POST", "include/php/omstocitmlt.php?panel=" + panel + "&panelName=" + panelName + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&stockType=" + stockType, true);
+    } else {
+        xmlhttp.open("POST", "include/php/omstocitmdetlt.php?panel=" + panel + "&panelName=" + panelName + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&stockType=" + stockType, true);
+    }
+    xmlhttp.send();
+}
+/***************** END code to add function for FINE STOCK LIST @Author:PRIYANKA-05-07-17************************/
+//
+/*****************START code to add function for CRYSTAL STOCK LIST @Author:PRIYANKA-11-07-17************************/
+function showCrystalStockItemDetailsDiv(itemCategory, itemName, panel, panelName, metalType, stockType) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    if (panelName == 'CrystalStock') {
+        xmlhttp.open("POST", "include/php/omcryitmlt.php?panel=" + panel + "&panelName=" + panelName + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&stockType=" + stockType, true);
+    } else {
+        xmlhttp.open("POST", "include/php/omcryitmdetlt.php?panel=" + panel + "&panelName=" + panelName + "&itemCategory=" + itemCategory + "&metalType=" + metalType + "&itemName=" + itemName + "&stockType=" + stockType, true);
+    }
+    xmlhttp.send();
+}
+/***************** END code to add function for CRYSTAL STOCK LIST @Author:PRIYANKA-11-07-17************************/
+//
+//
+/*****************END code to change parameters @Author:PRIYANKA-21JUN17************************/
+//
 //add itemname Author:GAUR25JUL16
 function showStockNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, nwOrPanel, custId)
 {
@@ -3394,7 +3201,19 @@ function showStockNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, 
     }
     xmlhttp.send();
 }
-function getStockCrystalFunc(crystalCount, div, commonPanel) {
+//
+function getStockCrystalFunc(crystalCount, div, commonPanel, documentRootPath) {
+
+    //alert('UpdateItemPanel == ' + document.getElementById("UpdateItemPanel").value); 
+    //alert('noOfCry == ' + document.getElementById("noOfCry").value);  
+    //alert('crystalCount == ' + crystalCount);
+    // Add Stock => Entry Update time, after stone weight less from GS WT @PRIYANKA-04APR18
+    if (document.getElementById("UpdateItemPanel").value == 'UpdateItem') {
+        cryCountGobal = crystalCount;
+    } else {
+        cryCountGobal++;
+    }
+    //
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -3410,20 +3229,30 @@ function getStockCrystalFunc(crystalCount, div, commonPanel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogwacydv.php?crystalCount=" + crystalCount + "&commonPanel=" + commonPanel, true);
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogwacydv.php?crystalCount=" + crystalCount + "&commonPanel=" + commonPanel, true);
     xmlhttp.send();
 }
-function closeStockCrystalFunc(cryCount, panelName, stprCryId, itstCryId, stprId, wtId, wtTypeId, sellPanel) {
-    autoLessWeight(cryCount, document.getElementById('addItemAutoLessCryWt' + cryCount).checked, wtId, wtTypeId, 'deleteCry', sellPanel);
+function closeStockCrystalFunc(cryCount, panelName, stprCryId, itstCryId, sttrId, wtId, wtTypeId, sellPanel, documentRootPath) {
+    cryCountGobal--;
+//    alert(sttrId);
+//    autoLessWeight(cryCount, document.getElementById('sttr_wt_auto_less' + cryCount).checked, wtId, wtTypeId, 'deleteCry', sellPanel);
     document.getElementById("del" + cryCount).value = 'Deleted';
     document.getElementById("crystal" + cryCount).innerHTML = "";
-    if (stprCryId != '') {
-        deleteStockCrystalDiv(stprCryId, itstCryId, stprId, panelName);
+    if (sttrId != '') {
+        deleteStockCrystalDiv(stprCryId, itstCryId, sttrId, documentRootPath);
     }
     calcItemCryPrice();
     return false;
 }
-function deleteStockCrystalDiv(stprCryId, itstCryId, stprId, panelName) {
+//
+// START CODE TO RESET GLOBAL CRYSTAL COUNT @Author:PRIYANKA-22MAR18
+function resetStockCrystalFunc() {
+    cryCountGobal = 0;
+}
+// END CODE TO RESET GLOBAL CRYSTAL COUNT @Author:PRIYANKA-22MAR18
+// 
+// Start Code To Change ID & URL @Author:PRIYANKA-15JUN17
+function deleteStockCrystalDiv(stprCryId, itstCryId, sttrId, documentRootPath) {
     loadXMLDoc2();
     xmlhttp2.onreadystatechange = function () {
         if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
@@ -3431,9 +3260,10 @@ function deleteStockCrystalDiv(stprCryId, itstCryId, stprId, panelName) {
             closeMessDiv('messDisplayDiv', 'CRYSTAL DELETED');
         }
     };
-    xmlhttp2.open("POST", "include/php/ogadcydl.php?itprCryId=" + stprCryId + "&itstCryId=" + itstCryId + "&itprId=" + stprId + "&panelName=AddWholeSaleStock", true);
+    xmlhttp2.open("POST", "http://" + documentRootPath + "/include/php/ogadcydl.php?itprCryId=" + stprCryId + "&itstCryId=" + itstCryId + "&sttrId=" + sttrId + "&panelName=AddWholeSaleStock", true);
     xmlhttp2.send();
 }
+// END Code To Change ID & URL @Author:PRIYANKA-15JUN17
 function checkRawStockWeight(rawPreId, rawPostId, rawMetalType, rawMetalId, recWt, recWtType, panelName, rwSlStatus) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -3495,7 +3325,6 @@ function getWholesaleSellPanel(custId, panelName, sellPanel) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     if (panelName == 'DailyWholeSale') {
         xmlhttp.open("POST", "include/php/ogspdwsdv.php?custId=" + custId + "&panelName=" + panelName, true);
     } else {
@@ -3505,6 +3334,7 @@ function getWholesaleSellPanel(custId, panelName, sellPanel) {
 }
 function calculateWhSellLotPrice() {
 //    alert('hi');
+//alert(document.getElementById('slPrItemWtBy').value);
     if (document.getElementById('slPrItemWtBy').value == 'byNetWt') {
         var wt = document.getElementById('addItemNetWeight').value;
         var wtType = document.getElementById('addItemNetWeightType').value;
@@ -3515,6 +3345,7 @@ function calculateWhSellLotPrice() {
     var purWstg = document.getElementById('addItemWastage').value;
     if (purWstg == 'NaN' || purWstg == '')
         purWstg = 0;
+//    alert('Tunch : '+document.getElementById('addItemTunch').value);
     if (document.getElementById('addItemTunch').value != 'NotSelected' || document.getElementById('addItemTunch').value != '') {
         document.getElementById('addItemFineWeight').value = parseFloat(parseFloat(((document.getElementById('addItemTunch').value)) * wt) / 100).toFixed(3);
         var wstg = parseFloat(document.getElementById('addItemTunch').value) + parseFloat(purWstg);
@@ -3580,39 +3411,39 @@ function calculateWhSellLotPrice() {
                 var labNOthCharges = (labCharges * gsWt) / 100;
                 if (metalType == 'Gold') {
                     if (gsWtTyp == 'KG') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
                     } else if (gsWtTyp == 'GM') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
                     } else if (gsWtTyp == 'MG') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
                     }
                 } else if (metalType == 'Silver') {
                     if (gsWtTyp == 'KG') {
-                        totalLabNOthCharges = Math.round(labNOthCharges * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+                        totalLabNOthCharges = Math_round(labNOthCharges * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
                     } else if (gsWtTyp == 'GM') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
                     } else if (gsWtTyp == 'MG') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
                     }
                 }
             }
         }
-        document.getElementById('addItemLbNOthCh').value = Math.round(totalLabNOthCharges).toFixed(2);
+        document.getElementById('addItemLbNOthCh').value = Math_round(totalLabNOthCharges).toFixed(2);
         if (metalType == 'Gold') {
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
             }
         } else if (metalType == 'Silver') {
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round(ffnWt * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round(ffnWt * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
             }
         }
         else {
@@ -3621,20 +3452,20 @@ function calculateWhSellLotPrice() {
             document.getElementById('addItemFinalVal').value = 0;
         }
         if (metalType == 'Gold' || metalType == 'Silver') {
-            document.getElementById('addItemValuation').value = Math.round(parseFloat(document.getElementById('addItemNTWNMetRate').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+            document.getElementById('addItemValuation').value = Math_round(parseFloat(document.getElementById('addItemNTWNMetRate').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
 //            if (document.getElementById('valueAdd').value == 'false') {
-//                document.getElementById('slPrItemValueAdded').value = Math.round(parseFloat(document.getElementById('addItemNTWNMetRate').value * parseFloat(itemPurity)) / 100).toFixed(2);
+//                document.getElementById('slPrItemValueAdded').value = Math_round(parseFloat(document.getElementById('addItemNTWNMetRate').value * parseFloat(itemPurity)) / 100).toFixed(2);
 //            }
-            //            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('slPrItemValueAdded').value)).toFixed(2);
-            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(document.getElementById('addItemValuation').value)).toFixed(2);
+            //            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('slPrItemValueAdded').value)).toFixed(2);
+            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(document.getElementById('addItemValuation').value)).toFixed(2);
         }
         if (document.getElementById('addItemVATTax').value != '') {
-            document.getElementById('addItemTotTax').value = Math.round((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('addItemVATTax').value) / 100).toFixed(2);
-            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('addItemTotTax').value)).toFixed(2);
+            document.getElementById('addItemTotTax').value = Math_round((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('addItemVATTax').value) / 100).toFixed(2);
+            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('addItemTotTax').value)).toFixed(2);
         }
         var totVal = document.getElementById('addItemFinalVal').value;
         if (document.getElementById('slPrCryFinVal').value != '') {
-            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(totVal) + parseFloat(document.getElementById('slPrCryFinVal').value)).toFixed(2);
+            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(totVal) + parseFloat(document.getElementById('slPrCryFinVal').value)).toFixed(2);
         }
     }
     return false;
@@ -3665,16 +3496,16 @@ function calcWhSellCryPrice() {
             } else {
                 totalGSWTNRate = crystalRate * crystalGsWt;
             }
-            document.getElementById('slPrCryVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
+            document.getElementById('slPrCryVal' + dc).value = Math_round(totalGSWTNRate).toFixed(2);
             if (document.getElementById('slPrCryVal' + dc).value == 'NaN') {
                 document.getElementById('slPrCryVal' + dc).value = 0;
             }
             totalCryVal += parseFloat(document.getElementById('slPrCryVal' + dc).value);
-            document.getElementById('slPrCrystalValuation').value = Math.round(parseFloat(totalCryVal)).toFixed(2);
+            document.getElementById('slPrCrystalValuation').value = Math_round(parseFloat(totalCryVal)).toFixed(2);
             document.getElementById('slPrCryFinVal').value = document.getElementById('slPrCrystalValuation').value;
             if (document.getElementById('slPrItemCryTax').value != '') {
-                document.getElementById('slPrCrystalTotTax').value = Math.round(parseFloat((document.getElementById('slPrCrystalValuation').value * document.getElementById('slPrItemCryTax').value) / 100)).toFixed(2);
-                document.getElementById('slPrCryFinVal').value = Math.round(parseFloat(document.getElementById('slPrCrystalValuation').value) + parseFloat(document.getElementById('slPrCrystalTotTax').value)).toFixed(2);
+                document.getElementById('slPrCrystalTotTax').value = Math_round(parseFloat((document.getElementById('slPrCrystalValuation').value * document.getElementById('slPrItemCryTax').value) / 100)).toFixed(2);
+                document.getElementById('slPrCryFinVal').value = Math_round(parseFloat(document.getElementById('slPrCrystalValuation').value) + parseFloat(document.getElementById('slPrCrystalTotTax').value)).toFixed(2);
             }
             if (document.getElementById('slPrCryFinVal').value != '') {
                 calculateWhSellLotPrice();
@@ -3701,9 +3532,31 @@ function closeWhCrystalFunc(cryCount, panelName, itprCryId, itstCryId, itprId, w
     }
 //    alert('before')
 
-    calcWhSellCryPrice();
+    calcSellCryPrice();
     return false;
 }
+
+//deleteSellCrystalDiv
+
+function deleteSellCrystalDiv(itprCryId, itstCryId, itprId, panelName) {
+    loadXMLDoc2();
+//    var documentRootPath = document.getElementById('documentRootPath').value;
+    xmlhttp2.onreadystatechange = function () {
+        if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
+            if (panelName == 'UpdateUdhaar') {
+//                document.getElementById("udhaarItemDiv" + udhaarItmCnt).innerHTML = "";
+            } else {
+                alert(xmlhttp2.responseText);
+                document.getElementById("addStockCrystalDiv").innerHTML = xmlhttp2.responseText;
+                closeMessDiv('messDisplayDiv', 'CRYSTAL DELETED');
+            }
+        }
+    };
+//    xmlhttp2.open("POST", "include/php/ogslcydv.php?itprCryId=" + itprCryId + "&itstCryId=" + itstCryId + "&itprId=" + itprId + "&panelName=" + panelName, true);
+    xmlhttp2.open("POST", "include/php/ogadcydl.php?itprCryId=" + itprCryId + "&itstCryId=" + itstCryId + "&itprId=" + itprId + "&panelName=" + panelName, true);
+    xmlhttp2.send();
+}
+
 function getWhSellLotItemDetails() {
     loadXMLDoc2();
     var ntWeight = document.getElementById("addItemNetWeight").value;
@@ -3802,10 +3655,12 @@ function deleteWhSellItem(custId, slPrId, panelName, panel) {
         xmlhttp.send();
     }
 }
+// START CODE FOR METAL RECEIVED DIV - MULTIPLE DIV DELETE VALUATION NOT CHANGE ISSUE @PRIYANKA-21JUNE18
 function calcSellStockItemBalance() {
-//alert('calcSellStockItemBalance');
+ 
     var metalEntered = 0;
     var metalCount = document.getElementById("metalCount").value;
+
     if (document.getElementById('metalPanel').value == 'StockPayment' || document.getElementById('metalPanel').value == 'StockPayUp') {
         var prefix = 'stock';
     } else if (document.getElementById('metalPanel').value == 'SlPrPayment' || document.getElementById('metalPanel').value == 'SellPayUp') {
@@ -3819,11 +3674,12 @@ function calcSellStockItemBalance() {
     } else if (document.getElementById('metalPanel').value == 'SuppAddOrder' || document.getElementById('metalPanel').value == 'SuppOrderUp') {
         prefix = 'spOr';
     }
+ 
     if (document.getElementById('metalPanel').value == 'StockPayment' || document.getElementById('metalPanel').value == 'SlPrPayment' ||
-            document.getElementById('metalPanel').value == 'CustSellPayment' || document.getElementById('metalPanel').value == 'NwOrPayment' ||
-            document.getElementById('metalPanel').value == 'RawPayment' || document.getElementById('metalPanel').value == 'SuppAddOrder') {
-//        alert(document.getElementById('metalPayPanel').value);
-        if (document.getElementById('metalPanel').value == 'SlPrPayment' && document.getElementById('metalPayPanel').value == 'PaymentSaved') {
+        document.getElementById('metalPanel').value == 'CustSellPayment' || document.getElementById('metalPanel').value == 'NwOrPayment' ||
+        document.getElementById('metalPanel').value == 'RawPayment' || document.getElementById('metalPanel').value == 'SuppAddOrder') {
+
+        if (document.getElementById('metalPanel').value == 'SlPrPayment' && document.getElementById('metalPanel').value == 'PaymentSaved') {
             if (document.getElementById('rawId').value != '') {
                 count = document.getElementById('rawId').value;
             } else {
@@ -3838,12 +3694,13 @@ function calcSellStockItemBalance() {
         }
         delId = 'del' + count;
     } else if (document.getElementById('metalPanel').value == 'StockPayUp' || document.getElementById('metalPanel').value == 'SellPayUp' ||
-            document.getElementById('metalPanel').value == 'CustSellPayUp' || document.getElementById('metalPanel').value == 'NwOrPayUp' ||
-            document.getElementById('metalPanel').value == 'RawPayUp' || document.getElementById('metalPanel').value == 'SuppOrderUp') {
+               document.getElementById('metalPanel').value == 'CustSellPayUp' || document.getElementById('metalPanel').value == 'NwOrPayUp' ||
+               document.getElementById('metalPanel').value == 'RawPayUp' || document.getElementById('metalPanel').value == 'SuppOrderUp') {
         getMetalDiv = document.getElementById('noOfRawMet').value;
         var count = document.getElementById('rawId').value;
         var delId = 'del' + count;
     }
+    
     var totAmtRec = 0;
     var gdBal = 0;
     var slBal = 0;
@@ -3858,35 +3715,33 @@ function calcSellStockItemBalance() {
     goldWtBal = 0;
     silverWtBal = 0;
     stockDiv = 'wholeSaleStock';
-    //    for (var dc = count; dc <= getMetalDiv; dc++) { 
-//    alert(getMetalDiv);
+
     for (var dc = count; getMetalDiv != ''; dc++) {
         if (document.getElementById('metalDel' + dc).value != 'Deleted') {
-            var payTotalWeight1 = document.getElementById(prefix + 'PayMetal1RecWt' + dc).value;
-            var payTotalWeightType1 = document.getElementById(prefix + 'PayMetal1RecWtType' + dc).value;
-//            alert(payTotalWeightType1);
-            var payMetalRate1 = document.getElementById(prefix + 'PayMetal1Rate' + dc).value;
-            var payMetalTunch1 = document.getElementById(prefix + 'PayMetal1Tunch' + dc).value;
+            var payTotalWeight1 = document.getElementById('sttr_nt_weight' + dc).value;
+            var payTotalWeightType1 = document.getElementById('sttr_nt_weight_type' + dc).value;
+            var payMetalRate1 = document.getElementById('sttr_metal_rate' + dc).value;
+            var payMetalTunch1 = document.getElementById('sttr_purity' + dc).value;
             var metalWeight = (payTotalWeight1 * payMetalTunch1) / 100;
-            document.getElementById(prefix + 'PayMetal1FnWt' + dc).value = parseFloat(metalWeight).toFixed(3);
-            if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Gold' || document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Alloy') {
+            document.getElementById('sttr_fine_weight' + dc).value = parseFloat(metalWeight).toFixed(3);
+            
+            if (document.getElementById('sttr_metal_type' + dc).value == 'Gold' || document.getElementById('sttr_metal_type' + dc).value == 'Alloy') {
+                
                 goldWeight = parseFloat(metalWeight);
                 if (payTotalWeightType1 == 'KG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((goldWeight * payMetalRate1) * document.getElementById('gmWtInKg').value).toFixed(2);
+                    document.getElementById('sttr_valuation' + dc).value = ((goldWeight * payMetalRate1) * document.getElementById('gmWtInKg').value).toFixed(2);
                 } else if (payTotalWeightType1 == 'GM') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value).toFixed(2);
+                    document.getElementById('sttr_valuation' + dc).value = ((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value).toFixed(2);
                 } else if (payTotalWeightType1 == 'MG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((goldWeight * payMetalRate1) / document.getElementById('gmWtInMg').value).toFixed(2);
+                    document.getElementById('sttr_valuation' + dc).value = ((goldWeight * payMetalRate1) / document.getElementById('gmWtInMg').value).toFixed(2);
                 }
-
-                if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Gold') {
+          
+                if (document.getElementById('sttr_metal_type' + dc).value == 'Gold') {
                     var payMetalDueWeightType1 = document.getElementById(prefix + 'GoldTotFineWtType').value;
                     goldWeightType = payMetalDueWeightType1;
-                    //                    alert(payMetalDueWeightType1 + '-' + payTotalWeightType1);
                     if (gdBal == '') {
                         gdBal = document.getElementById(prefix + 'GoldTotFineWt').value;
                     }
-//                    alert(goldWeight);
                     if (payMetalDueWeightType1 == 'KG') {
                         if (payTotalWeightType1 == 'KG') {
                             gdBal = parseFloat((gdBal) - goldWeight).toFixed(3);
@@ -3927,30 +3782,37 @@ function calcSellStockItemBalance() {
                         }
                     }
 
-                    document.getElementById(prefix + 'PayMetal1Bal' + dc).value = gdBal;
-                    document.getElementById(prefix + 'PayMetalBal1Type' + dc).value = payMetalDueWeightType1;
+                    document.getElementById('PayMetal1Bal' + dc).value = gdBal;
+                    document.getElementById('PayMetalBal1Type' + dc).value = payMetalDueWeightType1;
                     goldWtBal = parseFloat(gdBal).toFixed(3);
                     GoldWtType = payMetalDueWeightType1;
                     totRecGd += parseFloat(goldWeight);
-
+                    //totGoldAmt += parseFloat(document.getElementById('sttr_valuation' + dc).value);
+                    //document.getElementById(prefix + 'PayTotGoldAmtRec').value = parseFloat(totGoldAmt).toFixed(2);
                 }
             }
-            if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Silver') {
+          
+            if (document.getElementById('sttr_metal_type' + dc).value == 'Silver') {
+                
                 silverWeight = parseFloat(metalWeight);
+                
                 if (payTotalWeightType1 == 'KG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((silverWeight * payMetalRate1 * document.getElementById('srGmWtInKg').value)).toFixed(2);
+                    document.getElementById('sttr_valuation' + dc).value = ((silverWeight * payMetalRate1 * document.getElementById('srGmWtInKg').value)).toFixed(2);
                 } else if (payTotalWeightType1 == 'GM') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((silverWeight * payMetalRate1) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                    document.getElementById('sttr_valuation' + dc).value = ((silverWeight * payMetalRate1) / document.getElementById('srGmWtInGm').value).toFixed(2);
                 } else if (payTotalWeightType1 == 'MG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = ((silverWeight * payMetalRate1) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                    document.getElementById('sttr_valuation' + dc).value = ((silverWeight * payMetalRate1) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
                 }
 
                 payMetalDueWeightType1 = document.getElementById(prefix + 'SilverTotFineWtType').value;
                 silverWeightType = payMetalDueWeightType1;
+                
                 if (slBal == '') {
                     slBal = document.getElementById(prefix + 'SilverTotFineWt').value;
                 }
+                
                 if (payMetalDueWeightType1 == 'KG') {
+                    
                     if (payTotalWeightType1 == 'KG') {
                         slBal = parseFloat((slBal) - silverWeight).toFixed(3);
                     }
@@ -3962,8 +3824,9 @@ function calcSellStockItemBalance() {
                         slBal = parseFloat(((slBal) - silverWeight / (1000 * 1000))).toFixed(3);
                         silverWeight = parseFloat(silverWeight / (1000 * 1000)).toFixed(3);
                     }
-                }
-                else if (payMetalDueWeightType1 == 'GM') {
+                    
+                } else if (payMetalDueWeightType1 == 'GM') {
+                    
                     if (payTotalWeightType1 == 'KG') {
                         slBal = parseFloat(((slBal) - silverWeight * 1000)).toFixed(3);
                         silverWeight = parseFloat(silverWeight * 1000).toFixed(3);
@@ -3975,7 +3838,9 @@ function calcSellStockItemBalance() {
                         slBal = parseFloat(((slBal) - silverWeight / (1000))).toFixed(3);
                         silverWeight = parseFloat(silverWeight / 1000).toFixed(3);
                     }
+                    
                 } else if (payMetalDueWeightType1 == 'MG') {
+                    
                     if (payTotalWeightType1 == 'KG') {
                         slBal = parseFloat(((slBal) - silverWeight * 1000 * 1000)).toFixed(3);
                         silverWeight = parseFloat(silverWeight * 1000 * 1000).toFixed(3);
@@ -3987,40 +3852,105 @@ function calcSellStockItemBalance() {
                     else if (payTotalWeightType1 == 'MG') {
                         slBal = parseFloat((slBal - silverWeight)).toFixed(3);
                     }
+                    
                 }
-                document.getElementById(prefix + 'PayMetal1Bal' + dc).value = slBal;
-                document.getElementById(prefix + 'PayMetalBal1Type' + dc).value = payMetalDueWeightType1;
-                //                alert(silverWtBal);
+
+                document.getElementById('PayMetal1Bal' + dc).value = parseFloat(slBal).toFixed(3);
+                document.getElementById('PayMetalBal1Type' + dc).value = payMetalDueWeightType1;
+
+                if (document.getElementById('paymentMode').value == 'RateCut' || document.getElementById('paymentMode').value == 'NoRateCut') {
+                    document.getElementById(prefix + 'PaySilverWtBal').value = parseFloat(Math.abs(slBal)).toFixed(3);
+                    document.getElementById(prefix + 'PaySilverWtBalType').value = payMetalDueWeightType1;
+                    if ((document.getElementById('metalPanel').value != 'RawPayUp' && document.getElementById('metalPanel').value != 'InvoicePayUp' && document.getElementById('metalPanel').value != 'SellPayUp' && document.getElementById('metalPanel').value != 'NwOrPayUp') && document.getElementById('paymentMode').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
+                        document.getElementById(prefix + 'SilverRtCtWtBal').value = parseFloat(Math.abs(slBal)).toFixed(3);
+                        document.getElementById(prefix + 'SilverRtCtWtBalType').value = payMetalDueWeightType1;
+                        document.getElementById('metal2RtCtWtBal').value = parseFloat(Math.abs(slBal)).toFixed(3) + '' + payMetalDueWeightType1; //Add Value this variable:Author:SANT24OCT16
+                    }
+                }
+
+                if (document.getElementById('paymentMode').value == 'RateCut' || document.getElementById('paymentMode').value == 'NoRateCut') {
+                    document.getElementById(prefix + 'SilverWtFinBal').value = parseFloat(Math.abs(slBal)).toFixed(3);
+                    document.getElementById(prefix + 'SilverWtFinBalType').value = payMetalDueWeightType1;
+                }
+
                 silverWtBal = parseFloat(slBal).toFixed(3);
                 SilverWtType = payMetalDueWeightType1;
                 totRecSl += parseFloat(silverWeight);
+                
+                silverPurRemWt = parseFloat(parseFloat(slBal) - parseFloat(document.getElementById(prefix + 'SilverWtPrevBal').value)).toFixed(3);
+                //totSilverAmt += parseFloat(document.getElementById('sttr_valuation' + dc).value);
+                //document.getElementById(prefix + 'PayTotSilverAmtRec').value = parseFloat(totSilverAmt).toFixed(2);
+                //alert('totSilverAmt == ' + totSilverAmt);
             }
-//            alert("totRecSl=" + totRecSl);
-//            alert("totRecGd=" + totRecGd);
-            document.getElementById(prefix + 'Metal1WtRecBal').value = parseFloat(totRecGd).toFixed(3) + ' ' + goldWeightType;
-//            alert(totRecGd);
-            document.getElementById(prefix + 'Metal1WtRecBal1').value = parseFloat(totRecGd).toFixed(3);
-            document.getElementById(prefix + 'Metal1WtRecBal1Typ').value = goldWeightType;
-            document.getElementById(prefix + 'Metal2WtRecBal').value = parseFloat(totRecSl).toFixed(3) + ' ' + silverWeightType;
-            document.getElementById(prefix + 'Metal2WtRecBal1').value = parseFloat(totRecSl).toFixed(3);
-            document.getElementById(prefix + 'Metal2WtRecBal1Typ').value = silverWeightType;
-            if (document.getElementById(prefix + 'PayMetal1Val' + dc).value == '') {
-                document.getElementById(prefix + 'PayMetal1Val' + dc).value = 0;
+
+            if (document.getElementById(prefix + 'GoldTotFineWt').value != '' && goldWtBal == 0) {
+                goldWtBal = parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value);
+                GoldWtType = document.getElementById(prefix + 'GoldTotFineWtType').value;
             }
-            totAmtRec += parseFloat(document.getElementById(prefix + 'PayMetal1Val' + dc).value);
-            document.getElementById(prefix + 'PayTotMetAmtRec').value = Math.round(totAmtRec).toFixed(2);
-//            alert(document.getElementById(prefix + 'PayTotMetAmtRec').value);
-            calcSellRawMetStock(prefix);
-            calcStockRrCtCashBalance(prefix);
-        }
+
+            if (document.getElementById(prefix + 'SilverTotFineWt').value != '' && silverWtBal == 0) {
+                silverWtBal = parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value);
+                SilverWtType = document.getElementById(prefix + 'SilverTotFineWtType').value;
+            }
+
+            document.getElementById(prefix + 'GoldWtRecBal').value = parseFloat(totRecGd).toFixed(3);
+            document.getElementById(prefix + 'GoldWtRecBalType').value = goldWeightType;
+            document.getElementById(prefix + 'SilverWtRecBal').value = parseFloat(totRecSl).toFixed(3);
+            document.getElementById(prefix + 'SilverWtRecBalType').value = silverWeightType;
+
+            if (document.getElementById('paymentMode').value == 'RateCut' || document.getElementById('paymentMode').value == 'NoRateCut') {
+                document.getElementById(prefix + 'GoldAvgRate').value = parseFloat((((parseFloat(document.getElementById(prefix + 'GoldPrevRate').value) * parseFloat(document.getElementById(prefix + 'GoldWtPrevBal').value) / 100) + (parseFloat(document.getElementById(prefix + 'GoldPurRate').value) * parseFloat(goldPurRemWt)) / 100) / parseFloat(parseFloat(document.getElementById(prefix + 'GoldWtPrevBal').value) / 10 + parseFloat(goldPurRemWt) / 10)) * 10).toFixed(2);
+                document.getElementById(prefix + 'SilverAvgRate').value = parseFloat((((parseFloat(document.getElementById(prefix + 'SilverPrevRate').value) * parseFloat(document.getElementById(prefix + 'SilverWtPrevBal').value) / 100) + (parseFloat(document.getElementById(prefix + 'SilverPurRate').value) * parseFloat(silverPurRemWt)) / 100) / parseFloat(parseFloat(document.getElementById(prefix + 'SilverWtPrevBal').value) / 10 + parseFloat(silverPurRemWt) / 10)) * 10).toFixed(2);
+                if (document.getElementById(prefix + 'GoldAvgRate').value == 'NaN') {
+                    document.getElementById(prefix + 'GoldAvgRate').value = document.getElementById(prefix + 'GoldPurRate').value;
+                }
+                if (document.getElementById(prefix + 'SilverAvgRate').value == 'NaN') {
+                    document.getElementById(prefix + 'SilverAvgRate').value = document.getElementById(prefix + 'SilverPurRate').value;
+                }
+                document.getElementById('metal1WtRecBal').value = parseFloat(totRecGd).toFixed(3) + ' ' + goldWeightType;
+                document.getElementById('metal2WtRecBal').value = parseFloat(totRecSl).toFixed(3) + ' ' + silverWeightType;
+            }
+
+            if (document.getElementById('sttr_valuation' + dc).value == '') {
+                document.getElementById('sttr_valuation' + dc).value = 0;
+            }
+
+            totAmtRec += parseFloat(document.getElementById('sttr_valuation' + dc).value);
+
+            //alert('paymentMode ==' + document.getElementById('paymentMode').value);
+                     
+            if (document.getElementById('paymentMode').value == 'ByCash') {
+                document.getElementById(prefix + 'PayTotAmtRec').value = Math_round(parseFloat(totAmtRec)).toFixed(2);
+                document.getElementById(prefix + 'PayTotAmtRecDisp').value = Math_round(parseFloat(totAmtRec)).toFixed(2); // METAL RECEIVED-PRIYANKA-19MAR18	
+                document.getElementById(prefix + 'PayTotAmtExchangeDisp').value = Math_round(parseFloat(totAmtRec)).toFixed(2); // METAL EXCHANGE-PRIYANKA-19MAR18
+                //alert('PayTotAmtExchangeDisp == ' + document.getElementById(prefix + 'PayTotAmtExchangeDisp').value);
+                //alert('totAmtRec == ' + totAmtRec);
+            }
+
+            if (document.getElementById('paymentMode').value == 'RateCut') {
+                if (document.getElementById('utin_metal_exchange_chk').checked) {
+                    document.getElementById(prefix + 'PayTotAmtRec').value = Math_round(parseFloat(totAmtRec)).toFixed(2);
+                    document.getElementById(prefix + 'PayTotAmtRecDisp').value = Math_round(parseFloat(totAmtRec)).toFixed(2); // METAL RECEIVED-PRIYANKA-19MAR18	
+                    document.getElementById(prefix + 'PayTotAmtExchangeDisp').value = Math_round(parseFloat(totAmtRec)).toFixed(2); // METAL EXCHANGE-PRIYANKA-19MAR18
+                }
+            }
+
+            if (document.getElementById('paymentMode').value == 'RateCut' ||
+                document.getElementById('paymentMode').value == 'NoRateCut') {
+                calcWholeSaleRateCut(prefix);
+                calcRawMetStock(prefix);
+            }
+            calcPaymentCashBalance(prefix);
+        }  
         metalEntered++;
     }
     return false;
 }
+// END CODE FOR METAL RECEIVED DIV - MULTIPLE DIV DELETE VALUATION NOT CHANGE ISSUE @PRIYANKA-21JUNE18
 function calcSellRawMetStock(prefix) {
-    if (document.getElementById(prefix + 'Metal1WtPrevBal1').value != '' || document.getElementById(prefix + 'Metal1WtPurBal1').value != '' || document.getElementById(prefix + 'Metal1WtRecBal1').value != '') {
-        if (document.getElementById(prefix + 'Metal1WtPrevBal1').value == '' || document.getElementById(prefix + 'Metal1WtPrevBal1').value == 'NaN') {
-            document.getElementById(prefix + 'Metal1WtPrevBal1').value = 0;
+    if (document.getElementById(prefix + 'GoldWtPrevBal1').value != '' || document.getElementById(prefix + 'Metal1WtPurBal1').value != '' || document.getElementById(prefix + 'Metal1WtRecBal1').value != '') {
+        if (document.getElementById(prefix + 'GoldWtPrevBal1').value == '' || document.getElementById(prefix + 'GoldWtPrevBal1').value == 'NaN') {
+            document.getElementById(prefix + 'GoldWtPrevBal1').value = 0;
         }
         if (document.getElementById(prefix + 'Metal1WtPurBal1').value == '' || document.getElementById(prefix + 'Metal1WtPurBal1').value == 'NaN') {
             document.getElementById(prefix + 'Metal1WtPurBal1').value = 0;
@@ -4028,34 +3958,34 @@ function calcSellRawMetStock(prefix) {
         if (document.getElementById(prefix + 'Metal1WtRecBal1').value == '' || document.getElementById(prefix + 'Metal1WtRecBal1').value == 'NaN') {
             document.getElementById(prefix + 'Metal1WtRecBal1').value = 0;
         }
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if (document.getElementById('paymentMode').value == 'RateCut') {
             if (document.getElementById('metal1RtCtWt').value == '' || document.getElementById('metal1RtCtWt').value == 'NaN') {
                 document.getElementById('metal1RtCtWt').value = 0;
             }
-            var totFinGdWtBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1RtCtWtBal').value);
+            var totFinGdWtBal = parseFloat(document.getElementById(prefix + 'GoldWtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1RtCtWtBal').value);
         } else {
-            var totFinGdWtBal = parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal1').value);
+            var totFinGdWtBal = parseFloat(document.getElementById(prefix + 'GoldWtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal1WtRecBal1').value);
         }
 
         document.getElementById(prefix + 'Metal1WtFinBal').value = parseFloat(totFinGdWtBal).toFixed(3) + ' ' + document.getElementById(prefix + 'Metal1WtPurBal1Type').value;
         document.getElementById(prefix + 'Metal1WtFinBal1').value = parseFloat(totFinGdWtBal).toFixed(3);
         document.getElementById(prefix + 'Metal1WtFinBal1Typ').value = document.getElementById(prefix + 'Metal1WtPurBal1Type').value;
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if (document.getElementById('paymentMode').value == 'RateCut') {
             var payTotalWeightType1 = document.getElementById('metal1RtCtWtType').value;
             var goldWeight = document.getElementById('metal1RtCtWt').value;
             var payMetalRate1 = document.getElementById('metal1Rate').value;
             if (payTotalWeightType1 == 'KG') {
-                document.getElementById('metal1Valuation').value = Math.round((goldWeight * payMetalRate1 * document.getElementById('gmWtInKg').value));
+                document.getElementById('metal1Valuation').value = Math_round((goldWeight * payMetalRate1 * document.getElementById('gmWtInKg').value));
             } else if (payTotalWeightType1 == 'GM') {
-                document.getElementById('metal1Valuation').value = Math.round((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value);
+                document.getElementById('metal1Valuation').value = Math_round((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value);
             } else if (payTotalWeightType1 == 'MG') {
-                document.getElementById('metal1Valuation').value = Math.round((goldWeight * payMetalRate1) / (document.getElementById('gmWtInMg').value));
+                document.getElementById('metal1Valuation').value = Math_round((goldWeight * payMetalRate1) / (document.getElementById('gmWtInMg').value));
             }
         }
     }
-    if (document.getElementById(prefix + 'Metal2WtPrevBal1').value != '' || document.getElementById(prefix + 'Metal2WtPurBal1').value != '' || document.getElementById(prefix + 'Metal2WtRecBal1').value != '') {
-        if (document.getElementById(prefix + 'Metal2WtPrevBal1').value == '' || document.getElementById(prefix + 'Metal2WtPrevBal1').value == 'NaN') {
-            document.getElementById(prefix + 'Metal2WtPrevBal1').value = 0;
+    if (document.getElementById(prefix + 'SilverWtPrevBal1').value != '' || document.getElementById(prefix + 'Metal2WtPurBal1').value != '' || document.getElementById(prefix + 'Metal2WtRecBal1').value != '') {
+        if (document.getElementById(prefix + 'SilverWtPrevBal1').value == '' || document.getElementById(prefix + 'SilverWtPrevBal1').value == 'NaN') {
+            document.getElementById(prefix + 'SilverWtPrevBal1').value = 0;
         }
         if (document.getElementById(prefix + 'Metal2WtPurBal1').value == '' || document.getElementById(prefix + 'Metal2WtPurBal1').value == 'NaN') {
             document.getElementById(prefix + 'Metal2WtPurBal1').value = 0;
@@ -4063,32 +3993,32 @@ function calcSellRawMetStock(prefix) {
         if (document.getElementById(prefix + 'Metal2WtRecBal1').value == '' || document.getElementById(prefix + 'Metal2WtRecBal1').value == 'NaN') {
             document.getElementById(prefix + 'Metal2WtRecBal1').value = 0;
         }
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if (document.getElementById('paymentMode').value == 'RateCut') {
             if (document.getElementById('metal2RtCtWt').value == '' || document.getElementById('metal2RtCtWt').value == 'NaN') {
                 document.getElementById('metal2RtCtWt').value = 0;
             }
 
-            var totFinSrWtBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal2WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2RtCtWtBal').value);
+            var totFinSrWtBal = parseFloat(document.getElementById(prefix + 'SilverWtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal2WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2RtCtWtBal').value);
         } else {
-            var totFinSrWtBal = parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal2WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal1').value);
+            var totFinSrWtBal = parseFloat(document.getElementById(prefix + 'SilverWtPrevBal1').value) + parseFloat(document.getElementById(prefix + 'Metal2WtPurBal1').value) - parseFloat(document.getElementById(prefix + 'Metal2WtRecBal1').value);
         }
         document.getElementById(prefix + 'Metal2WtFinBal').value = parseFloat(totFinSrWtBal).toFixed(3) + ' ' + document.getElementById(prefix + 'Metal2WtPurBal1Type').value;
         document.getElementById(prefix + 'Metal2WtFinBal1').value = parseFloat(totFinSrWtBal).toFixed(3);
         document.getElementById(prefix + 'Metal2WtFinBal1Typ').value = document.getElementById(prefix + 'Metal2WtPurBal1Type').value;
-        if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+        if (document.getElementById('paymentMode').value == 'RateCut') {
             var payTotalWeightType2 = document.getElementById('metal2RtCtWtType').value;
             var silverWeight = document.getElementById('metal2RtCtWt').value;
             var payMetalRate2 = document.getElementById('metal2Rate').value;
             if (payTotalWeightType2 == 'KG') {
-                document.getElementById('metal2Valuation').value = Math.round((silverWeight * payMetalRate2 * document.getElementById('srGmWtInKg').value));
+                document.getElementById('metal2Valuation').value = Math_round((silverWeight * payMetalRate2 * document.getElementById('srGmWtInKg').value));
             } else if (payTotalWeightType2 == 'GM') {
-                document.getElementById('metal2Valuation').value = Math.round((silverWeight * payMetalRate2) / document.getElementById('srGmWtInGm').value);
+                document.getElementById('metal2Valuation').value = Math_round((silverWeight * payMetalRate2) / document.getElementById('srGmWtInGm').value);
             } else if (payTotalWeightType2 == 'MG') {
-                document.getElementById('metal2Valuation').value = Math.round((silverWeight * payMetalRate2) / (document.getElementById('srGmWtInMg').value));
+                document.getElementById('metal2Valuation').value = Math_round((silverWeight * payMetalRate2) / (document.getElementById('srGmWtInMg').value));
             }
         }
     }
-    if (document.getElementById('stockPurPriceCut').value == 'RateCut') {
+    if (document.getElementById('paymentMode').value == 'RateCut') {
         if (document.getElementById('metal1Valuation').value == '') {
             document.getElementById('metal1Valuation').value = 0;
         }
@@ -4096,9 +4026,9 @@ function calcSellRawMetStock(prefix) {
             document.getElementById('metal2Valuation').value = 0;
         }
         if (document.getElementById('payPanelName').value != 'SellItemReturn' || document.getElementById('payPanelName').value != 'SellItemReturnUp') {
-            document.getElementById(prefix + 'PayTotAmtBalDisp').value = Math.round(parseFloat(document.getElementById('metal1Valuation').value) + parseFloat(document.getElementById('metal2Valuation').value)).toFixed(2);
+            document.getElementById(prefix + 'PayTotAmtBalDisp').value = Math_round(parseFloat(document.getElementById('metal1Valuation').value) + parseFloat(document.getElementById('metal2Valuation').value)).toFixed(2);
         }
-        document.getElementById(prefix + 'PayTotAmtRec').value = Math.round(parseFloat(document.getElementById('metal1Valuation').value) + parseFloat(document.getElementById('metal2Valuation').value)).toFixed(2);
+        document.getElementById(prefix + 'PayTotAmtRec').value = Math_round(parseFloat(document.getElementById('metal1Valuation').value) + parseFloat(document.getElementById('metal2Valuation').value)).toFixed(2);
     }
 }
 function searchWhSellItemNames(itemCategory, metalType, divNum, keyCodeInput) {
@@ -4258,51 +4188,84 @@ function alertChangeStockAccount() {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
+
 function calStockItemPrice() {
-//        alert('hii');
-    if (document.getElementById('addItemFfnWtBy').value == 'byGrossWt') {
-        wt = document.getElementById('addItemGrossWeight').value;
-        wtType = document.getElementById('addItemGrossWeightType').value;
+
+    if (document.getElementById('sttr_final_val_by').value == 'byGrossWt') {
+        var wt = document.getElementById('sttr_gs_weight').value;
+        var wtType = document.getElementById('sttr_gs_weight_type').value;
     } else {
-        var wt = document.getElementById('addItemNetWeight').value;
-        var wtType = document.getElementById('addItemNetWeightType').value;
+        var wt = document.getElementById('sttr_nt_weight').value;
+        var wtType = document.getElementById('sttr_nt_weight_type').value;
     }
-    if (document.getElementById('addItemTunch').value != 'NotSelected' || document.getElementById('addItemTunch').value != '') {
-        document.getElementById('addItemFineWeight').value = ((document.getElementById('addItemTunch').value * wt) / 100).toFixed(3);
+
+    if (document.getElementById('sttr_purity').value != 'NotSelected' || document.getElementById('sttr_purity').value != '') {
+        document.getElementById('sttr_fine_weight').value = ((document.getElementById('sttr_purity').value * wt) / 100).toFixed(3);
     }
-    if (document.getElementById('addItemFineWeight').value == '' || document.getElementById('addItemFineWeight').value == 'NaN') {
-        document.getElementById('addItemFineWeight').value = 0;
+    
+    if (document.getElementById('sttr_fine_weight').value == '' || document.getElementById('sttr_fine_weight').value == 'NaN') {
+        document.getElementById('sttr_fine_weight').value = 0;
     }
-    if (document.getElementById('addItemFinalTunch').value != '') {
-        document.getElementById('addItemFFineWeight').value = ((document.getElementById('addItemFinalTunch').value * wt) / 100).toFixed(3);
+    
+    if (document.getElementById('sttr_final_purity').value != '') {
+        document.getElementById('sttr_final_fine_weight').value = ((document.getElementById('sttr_final_purity').value * wt) / 100).toFixed(3);
     }
-    var finalFineWeight = parseFloat(document.getElementById('addItemFFineWeight').value);
-//    alert(document.getElementById('addItemFFineWeight').value);
-    var itemsQTY = parseInt(document.getElementById('addItemPieces').value);
-    var metalRate = parseFloat(document.getElementById('addItemMetalRate').value); //change metal rate id for tax in metal rate @Author:SHRI29FEB16
-//        alert('calStockItemPrice-metalRate='+metalRate);
-    var metalType = document.getElementById('addItemMetal').value;
-    var labCharges = document.getElementById('addItemLabCharges').value;
-    var labChargesType = document.getElementById('addItemLabChargesType').value;
+
+    var finalFineWeight = parseFloat(document.getElementById('sttr_final_fine_weight').value);
+
+    var itemsQTY = (document.getElementById('sttr_quantity').value);
+    if (itemsQTY == '' || itemsQTY == null || itemsQTY == 'NaN') {
+        itemsQTY = 0;
+    }
+    var metalRate = parseFloat(document.getElementById('metalRateCalculation').value); //change metal rate id for tax in metal rate @Author:SHRI29FEB16
+
+    // START CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
+       var metalType = document.getElementById('sttr_metal_type').value;
+       metalType = metalType.charAt(0).toUpperCase() + metalType.substr(1);
+    // END CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
+    
+    //alert('metalType == ' + metalType);
+    
+//    var str = new String(metalType);
+//    var stngCaseGold = str.localeCompare("Gold");
+//
+//    if (stngCaseGold == '-1') {
+//        metalType = 'Gold';
+//    }
+//   
+//    if (stngCaseGold == '1') {
+//        metalType = 'Silver';
+//    }
+    
+    //alert('metalType **== ' + metalType);
+    
+    var labCharges = document.getElementById('sttr_lab_charges').value;
+    var labChargesType = document.getElementById('sttr_lab_charges_type').value;
     var totalLabNOthCharges = 0;
     var totVal;
-    if (document.getElementById('addItemLabourChgsBy').value == 'lbByNetWt') {
-        labChargesBy = parseFloat(document.getElementById('addItemNetWeight').value);
-    } else if (document.getElementById('addItemLabourChgsBy').value == 'lbByGrossWt') {
-        labChargesBy = parseFloat(document.getElementById('addItemGrossWeight').value);
+    
+    if (document.getElementById('sttr_other_charges_by').value == 'lbByNetWt') {
+        labChargesBy = parseFloat(document.getElementById('sttr_nt_weight').value);
+    } else if (document.getElementById('sttr_other_charges_by').value == 'lbByGrossWt') {
+        labChargesBy = parseFloat(document.getElementById('sttr_gs_weight').value);
     } else {
         var labChargesBy = finalFineWeight;
     }
-    if (document.getElementById('addItemFineWeight').value == 'NaN') {
-        document.getElementById('addItemFineWeight').value = 0;
+    
+    if (document.getElementById('sttr_fine_weight').value == 'NaN') {
+        document.getElementById('sttr_fine_weight').value = 0;
     }
-    if (document.getElementById('addItemFFineWeight').value == '' || document.getElementById('addItemFFineWeight').value == 'NaN') {
-        document.getElementById('addItemFFineWeight').value = '';
+    
+    if (document.getElementById('sttr_final_fine_weight').value == '' || document.getElementById('sttr_final_fine_weight').value == 'NaN') {
+        document.getElementById('sttr_final_fine_weight').value = '';
     }
-    if (document.getElementById('addItemMetalRate').value == '') {
-        document.getElementById('addItemMetalRate').value = 0;
+    
+    if (document.getElementById('sttr_metal_rate').value == '') {
+        document.getElementById('sttr_metal_rate').value = 0;
     }
-    if (document.getElementById('addItemFFineWeight').value != '' && document.getElementById('addItemFFineWeight').value != 0) {
+    
+    if (document.getElementById('sttr_final_fine_weight').value != '' && document.getElementById('sttr_final_fine_weight').value != 0) {
+        
         if (labCharges != '') {
             if (labChargesType == 'KG') {
                 if (wtType == 'KG')
@@ -4318,8 +4281,7 @@ function calStockItemPrice() {
                     totalLabNOthCharges = labCharges * labChargesBy;
                 else
                     totalLabNOthCharges = (labCharges / 1000) * labChargesBy;
-            }
-            else if (labChargesType == 'MG') {
+            } else if (labChargesType == 'MG') {
                 if (wtType == 'KG')
                     totalLabNOthCharges = labCharges * 1000 * 1000 * labChargesBy;
                 else if (wtType == 'GM')
@@ -4329,45 +4291,51 @@ function calStockItemPrice() {
             } else if (labChargesType == 'PP') {
                 totalLabNOthCharges = labCharges * itemsQTY;
             }
-            document.getElementById('addItemLbNOthCh').value = Math.round(totalLabNOthCharges).toFixed(2);
-        }  ///////////////////////////Total Calc wth total charge @author ATHU18/11/16
-        else {
-            var totalLabrChrg = document.getElementById('addItemLbNOthCh').value;
-            if (document.getElementById('addItemLbNOthCh').value == '')
-            {
-                document.getElementById('addItemLbNOthCh').value = 0;
+            
+            document.getElementById('sttr_total_lab_charges').value = Math_round(totalLabNOthCharges).toFixed(2);
+            
+        } else {
+            
+            if (document.getElementById('sttr_total_lab_charges').value == '') {
+                document.getElementById('sttr_total_lab_charges').value = 0;
             }
+            
+            totalLabNOthCharges = parseFloat(document.getElementById('sttr_total_lab_charges').value);
+        }
+        
+        //alert('metalType == ' + metalType);
 
-            totalLabNOthCharges = parseFloat(totalLabrChrg);
-        }//////////////////////////////////////////////////////edited by ATHU16/11/2015
         if (metalType == 'Gold') {
+            
 //            if (wtType == 'KG') {
-//                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) * 100).toFixed(2);
-//                document.getElementById('addItemValuation').value = Math.round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = Math.round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
+//                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) * 100).toFixed(2);
+//                document.getElementById('addItemValuation').value = Math_round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
+//                document.getElementById('addItemFinalVal').value = Math_round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
 //            } else if (wtType == 'GM') {
-//                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / 10).toFixed(2);
-//                document.getElementById('addItemValuation').value = Math.round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = Math.round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
+//                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) / 10).toFixed(2);
+//                document.getElementById('addItemValuation').value = Math_round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
+//                document.getElementById('addItemFinalVal').value = Math_round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
 //            } else if (wtType == 'MG') {
-//                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / 10000).toFixed(2);
-//                document.getElementById('addItemValuation').value = Math.round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
-            //                document.getElementById('addItemFinalVal').value = Math.round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
+//                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) / 10000).toFixed(2);
+//                document.getElementById('addItemValuation').value = Math_round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
+//                document.getElementById('addItemFinalVal').value = Math_round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
 //            }
+
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
             }
         } else if (metalType == 'Silver') {
+            
 //            if (wtType == 'KG') {
 //                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate)).toFixed(2);
 //                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
@@ -4379,36 +4347,175 @@ function calStockItemPrice() {
 //            } else if (wtType == 'MG') {
 //                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / (1000 * 1000)).toFixed(2);
 //                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / (1000 * 1000)  + parseFloat(totalLabNOthCharges)).toFixed(2);
-            //                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / (1000 * 1000)  + parseFloat(totalLabNOthCharges)).toFixed(2);
+//                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / (1000 * 1000)  + parseFloat(totalLabNOthCharges)).toFixed(2);
 //            }
+
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) * document.getElementById('srGmWtInKg').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) * document.getElementById('srGmWtInKg').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'GM') {
-//                alert(finalFineWeight);
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             }
         } else {
-            document.getElementById('addItemNTWNMetRate').value = 0;
-            document.getElementById('addItemValuation').value = 0;
-            document.getElementById('addItemFinalVal').value = 0;
+            // START CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
+            if (wtType == 'KG') {
+                document.getElementById('sttr_valuation').value = (finalFineWeight * metalRate * 1000).toFixed(2);
+                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate * 1000) + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate* 1000) + totalLabNOthCharges).toFixed(2);
+            } else if (wtType == 'GM') {
+                document.getElementById('sttr_valuation').value = (finalFineWeight * metalRate).toFixed(2);
+                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
+            } else if (wtType == 'MG') {
+                document.getElementById('sttr_valuation').value = (finalFineWeight * metalRate * 0.001).toFixed(2);
+                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate * 0.001) + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = parseFloat((finalFineWeight * metalRate * 0.001) + totalLabNOthCharges).toFixed(2);
+            }
+            // END CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
+            
+            //alert('sttr_final_valuation == ' + document.getElementById('sttr_final_valuation').value);
         }
-        if (document.getElementById('addItemVATTax').value != '') {
-            document.getElementById('addItemTotTax').value = ((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('addItemVATTax').value) / 100).toFixed(2);
-            document.getElementById('addItemFinalVal').value = (parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('addItemTotTax').value)).toFixed(2);
+
+        // LAB CGST IN % @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_cgst_per').value == '' || document.getElementById('sttr_mkg_cgst_per').value == 'NaN') {
+            document.getElementById('sttr_mkg_cgst_per').value = 0;
         }
-        totVal = parseFloat(document.getElementById('addItemFinalVal').value).toFixed(2);
+
+        // CALCULATE LAB CGST AMT => (TOTAL LAB CHARGES * LAB CGST IN %) / 100 @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_cgst_per').value != '') {
+            document.getElementById('sttr_mkg_cgst_chrg').value = (parseFloat(document.getElementById('sttr_total_lab_charges').value) * (parseFloat(document.getElementById('sttr_mkg_cgst_per').value) / 100)).toFixed(2);
+        }
+
+        // LAB CGST CHRG @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_cgst_chrg').value == '' || document.getElementById('sttr_mkg_cgst_chrg').value == 'NaN') {
+            document.getElementById('sttr_mkg_cgst_chrg').value = 0;
+        }
+
+        // LAB SGST IN % @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_sgst_per').value == '' || document.getElementById('sttr_mkg_sgst_per').value == 'NaN') {
+            document.getElementById('sttr_mkg_sgst_per').value = 0;
+        }
+
+        // CALCULATE LAB CGST AMT => (TOTAL LAB CHARGES * LAB SGST IN %) / 100 @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_sgst_per').value != '') {
+            document.getElementById('sttr_mkg_sgst_chrg').value = (parseFloat(document.getElementById('sttr_total_lab_charges').value) * (parseFloat(document.getElementById('sttr_mkg_sgst_per').value) / 100)).toFixed(2);
+        }
+
+        // LAB SGST CHRG @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_sgst_chrg').value == '' || document.getElementById('sttr_mkg_sgst_chrg').value == 'NaN') {
+            document.getElementById('sttr_mkg_sgst_chrg').value = 0;
+        }
+
+        // LAB IGST IN % @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_igst_per').value == '' || document.getElementById('sttr_mkg_igst_per').value == 'NaN') {
+            document.getElementById('sttr_mkg_igst_per').value = 0;
+        }
+
+        // CALCULATE LAB CGST AMT => (TOTAL LAB CHARGES * LAB IGST IN %) / 100 @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_igst_per').value != '') {
+            document.getElementById('sttr_mkg_igst_chrg').value = (parseFloat(document.getElementById('sttr_total_lab_charges').value) * (parseFloat(document.getElementById('sttr_mkg_igst_per').value) / 100)).toFixed(2);
+        }
+
+        // LAB IGST CHRG @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_mkg_igst_chrg').value == '' || document.getElementById('sttr_mkg_igst_chrg').value == 'NaN') {
+            document.getElementById('sttr_mkg_igst_chrg').value = 0;
+        }
+
+        // METAL CGST IN % @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_cgst_per').value == '' || document.getElementById('sttr_tot_price_cgst_per').value == 'NaN') {
+            document.getElementById('sttr_tot_price_cgst_per').value = 0;
+        }
+
+        // CALCULATE MET CGST AMT => (METAL VAL * MET CGST IN %) / 100 @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_cgst_per').value != '') {
+            document.getElementById('sttr_tot_price_cgst_chrg').value = (parseFloat(document.getElementById('sttr_valuation').value) * (parseFloat(document.getElementById('sttr_tot_price_cgst_per').value) / 100)).toFixed(2);
+        }
+
+        // MET CGST CHRG @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_cgst_chrg').value == '' || document.getElementById('sttr_tot_price_cgst_chrg').value == 'NaN') {
+            document.getElementById('sttr_tot_price_cgst_chrg').value = 0;
+        }
+
+        // METAL SGST IN % @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_sgst_per').value == '' || document.getElementById('sttr_tot_price_sgst_per').value == 'NaN') {
+            document.getElementById('sttr_tot_price_sgst_per').value = 0;
+        }
+
+        // CALCULATE MET SGST AMT => (METAL VAL * MET SGST IN %) / 100 @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_sgst_per').value != '') {
+            document.getElementById('sttr_tot_price_sgst_chrg').value = (parseFloat(document.getElementById('sttr_valuation').value) * (parseFloat(document.getElementById('sttr_tot_price_sgst_per').value) / 100)).toFixed(2);
+        }
+
+        // MET SGST CHRG @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_sgst_chrg').value == '' || document.getElementById('sttr_tot_price_sgst_chrg').value == 'NaN') {
+            document.getElementById('sttr_tot_price_sgst_chrg').value = 0;
+        }
+
+        // METAL IGST IN % @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_igst_per').value == '' || document.getElementById('sttr_tot_price_igst_per').value == 'NaN') {
+            document.getElementById('sttr_tot_price_igst_per').value = 0;
+        }
+
+        // CALCULATE MET IGST AMT => (METAL VAL * MET IGST IN %) / 100 @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_igst_per').value != '') {
+            document.getElementById('sttr_tot_price_igst_chrg').value = (parseFloat(document.getElementById('sttr_valuation').value) * (parseFloat(document.getElementById('sttr_tot_price_igst_per').value) / 100)).toFixed(2);
+        }
+
+        // MET IGST CHRG @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_price_igst_chrg').value == '' || document.getElementById('sttr_tot_price_igst_chrg').value == 'NaN') {
+            document.getElementById('sttr_tot_price_igst_chrg').value = 0;
+        }
+
+        if (document.getElementById('sttr_tax').value == '' || document.getElementById('sttr_tax').value == 'NaN') {
+            document.getElementById('sttr_tax').value = 0;
+        }
+
+
+        // CALCULATE TOT TAX AMT => LAB CGST AMT + LAB SGST AMT + LAB IGST AMT + MET CGST AMT + MET SGST AMT + MET IGST AMT @PRIYANKA-23FEB18
+        document.getElementById('sttr_tot_tax').value = (parseFloat(document.getElementById('sttr_mkg_cgst_chrg').value) +
+                parseFloat(document.getElementById('sttr_mkg_sgst_chrg').value) +
+                parseFloat(document.getElementById('sttr_mkg_igst_chrg').value) +
+                parseFloat(document.getElementById('sttr_tot_price_cgst_chrg').value) +
+                parseFloat(document.getElementById('sttr_tot_price_sgst_chrg').value) +
+                parseFloat(document.getElementById('sttr_tot_price_igst_chrg').value) +
+                (parseFloat(document.getElementById('sttr_valuation').value) * (parseFloat(document.getElementById('sttr_tax').value) / 100))).toFixed(2);
+
+        if (document.getElementById('sttr_tot_tax').value == '' || document.getElementById('sttr_tot_tax').value == 'NaN') {
+            document.getElementById('sttr_tot_tax').value = 0;
+        }
+
+        // CALCULATE FINAL VALUATION @PRIYANKA-23FEB18
+        if (document.getElementById('sttr_tot_tax').value != '') {
+            document.getElementById('sttr_final_valuation').value = parseFloat(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('sttr_tot_tax').value)).toFixed(2);
+        }
+
+        // COMMENTED BY @PRIYANKA-23FEB18
+//        if (document.getElementById('sttr_tax').value != '') {
+//            document.getElementById('sttr_tot_tax').value = parseFloat((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('sttr_tax').value) / 100).toFixed(2);
+//            document.getElementById('sttr_final_valuation').value = parseFloat(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('sttr_tot_tax').value)).toFixed(2);
+//        }
+
+        totVal = parseFloat(document.getElementById('sttr_final_valuation').value).toFixed(2);
+
         if (document.getElementById('addItemCryFinVal').value != '') {
-            document.getElementById('addItemFinalVal').value = (parseFloat(totVal) + parseFloat(document.getElementById('addItemCryFinVal').value)).toFixed(2);
+            document.getElementById('sttr_final_valuation').value = (parseFloat(totVal) + parseFloat(document.getElementById('addItemCryFinVal').value)).toFixed(2);
         }
+
+//        var finalVal = parseFloat(document.getElementById('sttr_final_valuation').value).toFixed(2);
+//        
+//        if (document.getElementById('sttr_value_added').value > 0) {
+//            document.getElementById('sttr_final_valuation').value = (parseFloat(finalVal) + parseFloat(document.getElementById('sttr_value_added').value)).toFixed(2);
+//        }
+
     }
+
     return false;
 }
 function showImitationJewellery(panel) {
@@ -4425,26 +4532,22 @@ function showImitationJewellery(panel) {
         xmlhttp.open("POST", "include/php/ogijstlt.php", true);
     xmlhttp.send();
 }
-
-function searchStockItemNames(itemCategory, itemName, metalType, divNum, keyCodeInput, itemPreId, itemId) {
+// START CODE TO CHANGE FUNCTION FOR MASTER ITEM DETAILS @PRIYANKA-20MAR18
+function searchStockItemNames(itemCategory, itemName, metalType, divNum, keyCodeInput, itemPreId, itemId, documentRootPath, itemType) {
     keyCodeForItemNames = keyCodeInput;
     divNumForItemNames = divNum;
-//    alert(document.getElementById('addItemSuppName').value);
-
-    //document.getElementById("ajaxLoadGetItemListDiv").style.visibility = "visible";
-
+    //
     var poststr = "itemName=" + encodeURIComponent(itemName)
             + "&metalType=" + encodeURIComponent(metalType)
+            + "&itemType=" + encodeURIComponent(itemType)
             + "&divNum=" + encodeURIComponent(divNum)
-            + "&itemCategory=" + encodeURIComponent(itemCategory)
+            + "&itemCat=" + encodeURIComponent(itemCategory)
             + "&itemPreId=" + encodeURIComponent(itemPreId)
             + "&itemId=" + encodeURIComponent(itemId);
-//    alert(divNum);
-    if (divNum != 'slPrItemName' && divNum != 'slPrItemCategory') {
-        poststr += "&suppName=" + encodeURIComponent(document.getElementById('addItemSuppName').value);
-    }
-    search_stock_item_names('include/php/omiladgv.php', poststr);
+    //
+    search_stock_item_names("http://" + documentRootPath + "/include/php/ommasteritemsearch.php", poststr);
 }
+// END CODE TO CHANGE FUNCTION FOR MASTER ITEM DETAILS @PRIYANKA-20MAR18
 var keyCodeForItemNames;
 function search_stock_item_names(url, parameters) {
     loadXMLDoc();
@@ -4474,29 +4577,31 @@ function alertSearchStockItemNames() {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
+////START CODE TO CHANGE ID'S OF STOCK TRANSACTION @AUTH:ATHU6JUN17
 function getItemDetails(itemName, itemCategory, suppName, metalType) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            // alert(xmlhttp.responseText);
             var str = xmlhttp.responseText;
 //            alert(str);
             var strArray = new Array();
             strArray = str.split("*");
-            document.getElementById('addItemTunch').value = strArray[0];
-            document.getElementById('addItemPieces').value = strArray[1];
-            document.getElementById('addItemWastage').value = strArray[2];
-            document.getElementById('addItemGrossWeight').value = '';
-            document.getElementById('addItemNetWeight').value = '';
-            document.getElementById('addItemFinalTunch').value = strArray[3];
-            document.getElementById('addItemFineWeight').value = strArray[4];
-            document.getElementById('addItemFFineWeight').value = strArray[5];
-            document.getElementById('addItemLabCharges').value = strArray[6];
-            document.getElementById('addItemLabChargesType').value = strArray[7];
-            document.getElementById('addItemCustCharges').value = strArray[8];
-            document.getElementById('addItemCustChargesType').value = strArray[9];
-            document.getElementById('addItemVATTax').value = strArray[10];
-            document.getElementById('addItemFinalVal').value = '';
-            document.getElementById('addItemPiecesChanged').value = strArray[1];
+            document.getElementById('sttr_purity').value = strArray[0];
+//            document.getElementById('addItemPieces').value = strArray[1];
+            document.getElementById('sttr_wastage').value = strArray[2];
+            document.getElementById('sttr_gs_weight').value = '';
+            document.getElementById('sttr_nt_weight').value = '';
+            document.getElementById('sttr_final_purity').value = strArray[3];
+            document.getElementById('sttr_fine_weight').value = strArray[4];
+            document.getElementById('sttr_final_fine_weight').value = strArray[5];
+            document.getElementById('sttr_lab_charges').value = strArray[6];
+            document.getElementById('sttr_lab_charges_type').value = strArray[7];
+            document.getElementById('sttr_making_charges').value = strArray[8];
+            document.getElementById('sttr_making_charges_type').value = strArray[9];
+//            document.getElementById('addItemVATTax').value = strArray[10];
+            document.getElementById('sttr_final_valuation').value = '';
+//            document.getElementById('addItemPiecesChanged').value = strArray[1];
             document.getElementById('addItemWastageChanged').value = strArray[2];
             document.getElementById('addItemLabChargesChanged').value = strArray[6];
             document.getElementById('addItemCustChargesChanged').value = strArray[8];
@@ -4584,7 +4689,7 @@ function getPayAllUdhaField(payAllUdhaVal, payPanelName, mainPanel, payPreInvNo,
             document.getElementById("prevBalDiv").innerHTML = xmlhttp.responseText;
             document.getElementById(prefix + 'PayPrevTotAmt').value = document.getElementById('prevBalance').value;
 //            alert(document.getElementById(prefix + 'PayPrevTotAmt').value);
-            calcStockRrCtCashBalance(prefix);
+            calcPaymentCashBalance(prefix);
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
@@ -4592,96 +4697,587 @@ function getPayAllUdhaField(payAllUdhaVal, payPanelName, mainPanel, payPreInvNo,
     xmlhttp.open("POST", "include/php/ogsppyudh.php?payAllUdhaVal=" + payAllUdhaVal + "&payPanelName=" + payPanelName + "&mainPanel=" + mainPanel + "&payPreInvNo=" + payPreInvNo + "&payInvNo=" + payInvNo + "&custId=" + custId + "&suppPayId=" + payId, true);
     xmlhttp.send();
 }
+
+function changePktWt() {
+
+    var qty = document.getElementById('sttr_quantity').value;
+    var pktWt = document.getElementById('sttr_pkt_weight').value;
+    var newPktWt = ((document.getElementById('sttr_quantity').value) * (document.getElementById('sttr_pkt_weight').value));
+    document.getElementById('sttr_pkt_weight').value = newPktWt;
+}
+function changeSellPktWt() {
+
+    var qty = document.getElementById('slPrItemPieces').value;
+    var pktWt = document.getElementById('slPrPacketWeight').value;
+    var newPktWt = ((document.getElementById('slPrItemPieces').value) * (document.getElementById('slPrPacketWeight').value));
+    document.getElementById('slPrPacketWeight').value = newPktWt;
+}
 /*********************Start to add funtion @Author:SHRI30JUL16***************************/
 function changeNetWeightByPktWt() {
-//    alert(document.getElementById('addPanel').value);
-    if (document.getElementById('addPanel').value == 'InvoicePayment' || document.getElementById('addPanel').value == 'InvoicePayUp' || document.getElementById('addPanel').value == 'UpdateItem') {//update panel added @Author:SANT22NOV16
-        var gsWt = document.getElementById('suppItemGsWt1').value;
-        var gsWtType = document.getElementById('suppItemGsWtType1').value;
+    
+    //alert('addPanel == ' + document.getElementById('addPanel').value);
+
+    if ((document.getElementById('addPanel').value == 'InvoicePayment' || 
+         document.getElementById('addPanel').value == 'ItemApprovalRec' || 
+         document.getElementById('addPanel').value == 'ItemApprovalRecUp' || 
+         document.getElementById('addPanel').value == 'InvoicePayUp' || 
+         document.getElementById('addPanel').value == 'UpdateItem') && 
+         document.getElementById('addPanelInfo').value != 'InvoiceAddStock') {//update panel added @Author:SANT22NOV16
+     
+        var gsWt = document.getElementById('sttr_gs_weight').value;
+        var gsWtType = document.getElementById('sttr_gs_weight_type').value;
+        
         if (gsWt == '' || gsWt == null) {
             gsWt = 0;
         }
-
-        var pktWt = document.getElementById('addItemPacketWeight').value;
-        var pktWtType = document.getElementById('addItemPacketWeightType').value;
+        
+        var pktWt = document.getElementById('sttr_pkt_weight').value;
+        var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
         if (pktWt == '' || pktWt == null) {
             pktWt = 0;
         }
-
-        var NetWTID = document.getElementById('suppItemNtWt1');
-    } else if (document.getElementById('addPanel').value == 'SlPrPayment' || document.getElementById('addPanel').value == 'SellPayUp' || document.getElementById('addPanel').value == 'SellStock' || document.getElementById('addPanel').value == 'SellDetUpPanel') {
-        gsWt = document.getElementById('grossWeight').value;
-        gsWtType = document.getElementById('slPrItemGSWT').value;
-        if (gsWt == '' || gsWt == null) {
-            gsWt = 0;
+        
+        var NetWTID = document.getElementById('sttr_nt_weight');
+        
+    } else if (document.getElementById('addPanel').value == 'SlPrPayment' || 
+               document.getElementById('addPanel').value == 'EstimateUpdate' || 
+               document.getElementById('addPanel').value == 'EstimatePayUp' || 
+               document.getElementById('addPanel').value == 'Estimate' || 
+               document.getElementById('addPanel').value == 'SellPayUp' || 
+               document.getElementById('addPanel').value == 'SellStock' || 
+               document.getElementById('addPanel').value == 'SellDetUpPanel' || 
+               document.getElementById('addPanel').value == 'StockReturnPanel') {
+           
+        if (document.getElementById('netWeight').value == '' || 
+            document.getElementById('netWeight').value == null) {
+            document.getElementById('netWeight').value = 0;
         }
-
+        
+        gsWt = document.getElementById('netWeight').value;
+        gsWtType = document.getElementById('slPrItemNTWT').value;
+        
+        if (document.getElementById('slPrPacketWeight').value == '' || 
+            document.getElementById('slPrPacketWeight').value == null) {
+            document.getElementById('slPrPacketWeight').value = 0;
+        }
+        
         pktWt = document.getElementById('slPrPacketWeight').value;
         pktWtType = document.getElementById('slPrPacketWeightType').value;
-        if (pktWt == '' || pktWt == null) {
-            pktWt = 0;
-        }
+        
         NetWTID = document.getElementById('slPrItemNTW');
-    } else if (document.getElementById('addPanel').value == 'StockPayment' || document.getElementById('addPanel').value == 'StockPayUp' || document.getElementById('addPanel').value == 'AddStock' || document.getElementById('addPanel').value == 'UpdateStock' || document.getElementById('addPanel').value == 'SellByLot'
-            || document.getElementById('addPanel').value == 'DailyWholeSale') {
-        var gsWt = document.getElementById('addItemNetWeight').value;
-        var gsWtType = document.getElementById('addItemNetWeightType').value;
+        
+    } else if (document.getElementById('addPanel').value == 'StockPayment' || 
+               document.getElementById('addPanel').value == 'StockPayUp' || 
+               document.getElementById('addPanel').value == 'AddStock' || 
+               document.getElementById('addPanel').value == 'UpdateStock' || 
+               document.getElementById('addPanel').value == 'SellByLot' ||
+               document.getElementById('addPanel').value == 'DailyWholeSale') {
+
+        var gsWt = document.getElementById('netWeight').value;
+        var gsWtType = document.getElementById('sttr_nt_weight_type').value;
         if (gsWt == '' || gsWt == null) {
             gsWt = 0;
         }
-
-        var pktWt = document.getElementById('addItemPacketWeight').value;
-        var pktWtType = document.getElementById('addItemPacketWeightType').value;
+        var pktWt = document.getElementById('sttr_pkt_weight').value;
+        var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
         if (pktWt == '' || pktWt == null) {
             pktWt = 0;
         }
-
-        var NetWTID = document.getElementById('addItemNetWeight');
+        
+        var NetWTID = document.getElementById('sttr_nt_weight');
+        
+    } else if (document.getElementById('addPanelInfo').value == 'InvoiceAddStock') {
+        
+        var gsWt = document.getElementById('sttr_gs_weight').value;
+        var gsWtType = document.getElementById('sttr_gs_weight_type').value;
+        if (gsWt == '' || gsWt == null) {
+            gsWt = 0;
+        }
+        
+        var pktWt = document.getElementById('sttr_pkt_weight').value;
+        var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
+        if (pktWt == '' || pktWt == null) {
+            pktWt = 0;
+        }
+        
+        var NetWTID = document.getElementById('sttr_nt_weight');
     }
+    
     NetWTID.value = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
 }
 /*********************End to add funtion @Author:SHRI30JUL16***************************/
 /*******************Start to add function @Author:SHRI03AUG16***********************/
+
 function autoLessWeight(cryCount, autoChk, gsWtId, wtTypId, cryPanel, sellPanel) {
-//    alert(sellPanel);
+    //alert(cryCountGobal);
+    //
     var remWt = 0;
     if (sellPanel == 'AddStock') {
-        cryGSW = document.getElementById('addItemCryGSW' + cryCount).value;
-        cryGSWT = document.getElementById('addItemCryGSWTyp' + cryCount).value;
+        //
+        if (document.getElementById('sttr_gs_weight' + cryCount).value == '' || document.getElementById('sttr_gs_weight' + cryCount).value == 'NaN')
+            document.getElementById('sttr_gs_weight' + cryCount).value = 0;
+        //
+        var cryGSW = document.getElementById('sttr_gs_weight' + cryCount).value;
+        var cryGSWT = document.getElementById('sttr_gs_weight_type' + cryCount).value;
+        //
+        if (document.getElementById('sttr_gs_weight').value == '' || document.getElementById('sttr_gs_weight').value == 'NaN')
+            document.getElementById('sttr_gs_weight').value = 0;
+        //
+        var itemGSW = parseFloat(document.getElementById('sttr_gs_weight').value);
+        var itemGSWT = document.getElementById(wtTypId).value;
+        //
     } else {
+        //
+        if (document.getElementById('slPrCryGSW' + cryCount).value == '' || document.getElementById('slPrCryGSW' + cryCount).value == 'NaN')
+            document.getElementById('slPrCryGSW' + cryCount).value = 0;
+        //
         var cryGSW = document.getElementById('slPrCryGSW' + cryCount).value;
         var cryGSWT = document.getElementById('slPrCryGSWType' + cryCount).value;
+        //
+        if (document.getElementById('netWeight').value == '' || document.getElementById('netWeight').value == 'NaN')
+            document.getElementById('netWeight').value = 0;
+        //
+        var itemGSW = parseFloat(document.getElementById('netWeight').value);
+        var itemGSWT = document.getElementById(wtTypId).value;
+        //
     }
-
-    if (document.getElementById('netWeight').value == '' || document.getElementById('netWeight').value == 'NaN') {
-        document.getElementById('netWeight').value = 0;
+    //
+    //
+    // START CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-09MAR18
+    if (cryGSWT == 'KG') { // CRYSTAL WEIGHT TYPE IN KG
+        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSW = cryGSW;
+    } else if (cryGSWT == 'GM') { // CRYSTAL WEIGHT TYPE IN GM
+        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSW = (cryGSW * 0.001);
+        else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSW = cryGSW;
+        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSW = (cryGSW * 1000);
+    } else if (cryGSWT == 'MG') { // CRYSTAL WEIGHT TYPE IN MG
+        if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSW = (cryGSW * 0.001);
+        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSW = cryGSW;
+    } else if (cryGSWT == 'CT') { // CRYSTAL WEIGHT TYPE IN CT
+        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSW = (cryGSW * 0.0002);
+        else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSW = (cryGSW * 0.2);
+        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSW = (cryGSW * 200);
     }
-//    alert(document.getElementById('grossWeight').value);
-    var itemGSW = parseFloat(document.getElementById('netWeight').value);
-    var itemGSWT = document.getElementById(wtTypId).value;
-    cryGSW = convertWeight(cryGSW, itemGSWT, cryGSWT);
+    // END CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-09MAR18
+    //
+    //cryGSW = convertCryWeight(cryGSW, itemGSWT, cryGSWT);
+    //
     if (cryPanel == 'deleteCry') {
+        //
         if (autoChk) {
             remWt = parseFloat(itemGSW) + parseFloat(cryGSW);
             document.getElementById(gsWtId).value = parseFloat(remWt).toFixed(3);
             document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
             changeNetWeightByPktWt();
         }
+        //
+    } else {
+        //
+        if (autoChk) {
+            //
+            var gsWt = document.getElementById('sttr_gs_weight').value;
+            var gsWtType = document.getElementById('sttr_gs_weight_type').value;
+            if (gsWt == '' || gsWt == null) {
+                gsWt = 0;
+            }
+            //
+            var pktWt = document.getElementById('sttr_pkt_weight').value;
+            var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
+            if (pktWt == '' || pktWt == null) {
+                pktWt = 0;
+            }
+            //
+            //
+            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            var newPktWT = convertWeight(pktWt, gsWtType, pktWtType);
+
+            var totCryGSW = 0;
+            //
+            if (document.getElementById('noOfCry').value > 0 && cryCountGobal == 0)
+                cryCountGobal = document.getElementById('noOfCry').value;
+            for (var i = 1; i <= cryCountGobal; i++) {
+                //
+                if (sellPanel == 'AddStock') {
+                    var finalNtWt = document.getElementById('sttr_gs_weight').value;
+                    var itemGSWT = document.getElementById('sttr_gs_weight_type').value;
+                    var cryGSW = document.getElementById('sttr_gs_weight' + i).value;
+                    //alert('sttr_gs_weight ==' + document.getElementById('sttr_gs_weight' + i).value);
+                    var cryGSWT = document.getElementById('sttr_gs_weight_type' + i).value;
+                    //alert('sttr_gs_weight_type ==' + document.getElementById('sttr_gs_weight_type' + i).value);
+                } else {
+                    var finalNtWt = document.getElementById('netWeight').value;
+                    var itemGSWT = document.getElementById('netWeight').value;
+                    var cryGSW = document.getElementById('slPrCryGSW' + i).value;
+                    var cryGSWT = document.getElementById('slPrCryGSWType' + i).value;
+                }
+                //
+                if (document.getElementById('slPrAutoLessCryWt' + i).checked == true) {
+                    // START CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-10MAR18
+                    if (cryGSWT == 'KG') { // CRYSTAL WEIGHT TYPE IN KG
+                        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+                            cryGSW = cryGSW;
+                    } else if (cryGSWT == 'GM') { // CRYSTAL WEIGHT TYPE IN GM
+                        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+                            cryGSW = (cryGSW * 0.001);
+                        else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+                            cryGSW = cryGSW;
+                        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+                            cryGSW = (cryGSW * 1000);
+                    } else if (cryGSWT == 'MG') { // CRYSTAL WEIGHT TYPE IN MG
+                        if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+                            cryGSW = (cryGSW * 0.001);
+                        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+                            cryGSW = cryGSW;
+                    } else if (cryGSWT == 'CT') { // CRYSTAL WEIGHT TYPE IN CT
+                        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+                            cryGSW = (cryGSW * 0.0002);
+                        else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+                            cryGSW = (cryGSW * 0.2);
+                        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+                            cryGSW = (cryGSW * 200);
+                    }
+                    // END CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-10MAR18
+
+                    totCryGSW += parseFloat(cryGSW);
+                }
+            }
+
+            //
+            var NetWT = parseFloat(finalNtWt) - parseFloat(totCryGSW);
+            //
+            if (newPktWT != '' && cryCount <= 1) {
+                var newNtWeight = NetWT - newPktWT;
+                remWt = newNtWeight;
+            } else {
+                remWt = NetWT;
+            }
+
+            document.getElementById(gsWtId).value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+
+        } else {
+            //
+            var gsWt = document.getElementById('sttr_gs_weight').value;
+            var gsWtType = document.getElementById('sttr_gs_weight_type').value;
+            if (gsWt == '' || gsWt == null) {
+                gsWt = 0;
+            }
+            //
+            var pktWt = document.getElementById('sttr_pkt_weight').value;
+            var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
+            if (pktWt == '' || pktWt == null) {
+                pktWt = 0;
+            }
+            //
+            //
+            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            var remNTWt;
+            remNTWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+            //
+            if (newNetWT == remNTWt) {
+                remWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+            } else {
+                var finalNtWt = document.getElementById('netWeight').value;
+                remWt = parseFloat(finalNtWt) + parseFloat(cryGSW);
+            }
+            //
+            document.getElementById(gsWtId).value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+        }
+        //
+        if (sellPanel == 'AddStock') {
+            if (document.getElementById('suppPanelName').value == 'AddSuppStock') {
+                addInvoiceValue();
+            } else {
+                calStockItemPrice();
+            }
+        } else if (sellPanel == 'ItemSell') {
+            calculateSellPrice();
+        } else {
+            calculateWhSellLotPrice();
+        }
+    }
+}
+
+/*******************Start to add function @Author:SHRI03AUG16***********************/
+function autoSellLessWeight(cryCount, autoChk, gsWtId, wtTypId, cryPanel, sellPanel) {
+    
+    var remWt = 0;
+
+    if (document.getElementById('slPrCryGSW' + cryCount).value == '' || document.getElementById('slPrCryGSW' + cryCount).value == 'NaN')
+        document.getElementById('slPrCryGSW' + cryCount).value = 0;
+
+    var cryGSW = document.getElementById('slPrCryGSW' + cryCount).value;
+    var cryGSWT = document.getElementById('slPrCryGSWType' + cryCount).value;
+
+    var itemGSW = document.getElementById('slPrItemGSW').value;
+    var itemGSWT = document.getElementById('slPrItemGSWT').value;
+
+    // START CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-09MAR18
+    if (cryGSWT == 'KG') { // CRYSTAL WEIGHT TYPE IN KG
+        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSW = cryGSW;
+    } else if (cryGSWT == 'GM') { // CRYSTAL WEIGHT TYPE IN GM
+        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSW = (cryGSW * 0.001);
+        else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSW = cryGSW;
+        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSW = (cryGSW * 1000);
+    } else if (cryGSWT == 'MG') { // CRYSTAL WEIGHT TYPE IN MG
+        if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSW = (cryGSW * 0.001);
+        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSW = cryGSW;
+    } else if (cryGSWT == 'CT') { // CRYSTAL WEIGHT TYPE IN CT
+        if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSW = (cryGSW * 0.0002);
+        else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSW = (cryGSW * 0.2);
+        else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSW = (cryGSW * 200);
+    }
+    // END CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-09MAR18
+
+    if (cryPanel == 'deleteCry') {
+
+        if (autoChk) {
+            remWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+            document.getElementById('slPrItemNTW').value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+            changeNetWeightByPktWt();
+        }
+
     } else {
         if (autoChk) {
-            remWt = parseFloat(itemGSW) - parseFloat(cryGSW);
-        } else {
-            remWt = parseFloat(itemGSW) + parseFloat(cryGSW);
-        }
-//        alert(remWt);
-        document.getElementById(gsWtId).value = parseFloat(remWt).toFixed(3);
-        document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
 
-        if (document.getElementById('addPanel').value != 'UpdateStock')
+            var gsWt = document.getElementById('slPrItemGSW').value;
+            var gsWtType = document.getElementById('slPrItemGSWT').value;
+            if (gsWt == '' || gsWt == null) {
+                gsWt = 0;
+            }
+
+            var pktWt = document.getElementById('slPrPacketWeight').value;
+            var pktWtType = document.getElementById('slPrPacketWeightType').value;
+            if (pktWt == '' || pktWt == null) {
+                pktWt = 0;
+            }
+
+            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            var newPktWT = convertWeight(pktWt, gsWtType, pktWtType);
+
+            var finalNtWt = document.getElementById('slPrItemGSW').value;
+            var totCryGSW = 0;
+
+            if (document.getElementById('noOfCry').value > 0 && cryCountGobal == 0)
+                cryCountGobal = document.getElementById('noOfCry').value;
+            
+            for (var i = 1; i <= cryCountGobal; i++) {
+
+                var itemGSWT = document.getElementById('slPrItemGSWT').value;
+                var cryGSW = document.getElementById('slPrCryGSW' + i).value;
+                var cryGSWT = document.getElementById('slPrCryGSWType' + i).value;
+
+                // START CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-09MAR18
+                if (cryGSWT == 'KG') { // CRYSTAL WEIGHT TYPE IN KG
+                    if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+                        cryGSW = cryGSW;
+                } else if (cryGSWT == 'GM') { // CRYSTAL WEIGHT TYPE IN GM
+                    if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+                        cryGSW = (cryGSW * 0.001);
+                    else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+                        cryGSW = cryGSW;
+                    else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+                        cryGSW = (cryGSW * 1000);
+                } else if (cryGSWT == 'MG') { // CRYSTAL WEIGHT TYPE IN MG
+                    if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+                        cryGSW = (cryGSW * 0.001);
+                    else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+                        cryGSW = cryGSW;
+                } else if (cryGSWT == 'CT') { // CRYSTAL WEIGHT TYPE IN CT
+                    if (itemGSWT == 'KG') // METAL WEIGHT TYPE IN KG
+                        cryGSW = (cryGSW * 0.0002);
+                    else if (itemGSWT == 'GM') // METAL WEIGHT TYPE IN GM
+                        cryGSW = (cryGSW * 0.2);
+                    else if (itemGSWT == 'MG') // METAL WEIGHT TYPE IN MG
+                        cryGSW = (cryGSW * 200);
+                }
+                // END CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-09MAR18
+
+                if (document.getElementById('slPrAutoLessCryWt' + i).checked == true) {
+                    totCryGSW += parseFloat(cryGSW);
+                }
+            }
+
+            var NetWT = parseFloat(finalNtWt) - parseFloat(totCryGSW);
+
+            if (newPktWT != '' && cryCount <= 1) {
+                var newNtWeight = NetWT - newPktWT;
+                remWt = newNtWeight;
+            } else {
+                remWt = NetWT;
+            }
+
+            document.getElementById('slPrItemNTW').value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+
+        } else {
+
+            var gsWt = document.getElementById('slPrItemGSW').value;
+            var gsWtType = document.getElementById('slPrItemGSWT').value;
+            if (gsWt == '' || gsWt == null) {
+                gsWt = 0;
+            }
+
+            var pktWt = document.getElementById('slPrPacketWeight').value;
+            var pktWtType = document.getElementById('slPrPacketWeightType').value;
+            if (pktWt == '' || pktWt == null) {
+                pktWt = 0;
+            }
+
+            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            var remNTWt;
+
+            remNTWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+            if (newNetWT == remNTWt) {
+                remWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+            } else {
+                var finalNtWt = document.getElementById('netWeight').value;
+                remWt = parseFloat(finalNtWt) + parseFloat(cryGSW);
+            }
+            document.getElementById('slPrItemNTW').value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+        }
+
+        calculateSellPrice();
+    }
+}
+
+function nwautoLessWeight(cryCount, autoChk, gsWtId, wtTypId, cryPanel, sellPanel) {
+
+    var remWt = 0;
+    if (sellPanel == 'AddStock') {
+        if (document.getElementById('nwOrCryGSW' + cryCount).value == '' || document.getElementById('nwOrCryGSW' + cryCount).value == 'NaN')
+            document.getElementById('nwOrCryGSW' + cryCount).value = 0;
+        cryGSW = document.getElementById('nwOrCryGSW' + cryCount).value;
+        cryGSWT = document.getElementById('nwOrCryGSWType' + cryCount).value;
+    } else {
+        if (document.getElementById('slPrCryGSW' + cryCount).value == '' || document.getElementById('slPrCryGSW' + cryCount).value == 'NaN')
+            document.getElementById('slPrCryGSW' + cryCount).value = 0;
+        var cryGSW = document.getElementById('slPrCryGSW' + cryCount).value;
+        var cryGSWT = document.getElementById('slPrCryGSWType' + cryCount).value;
+    }
+    if (document.getElementById('nwOrItemNetWeight').value == '' || document.getElementById('nwOrItemNetWeight').value == 'NaN')
+        document.getElementById('nwOrItemNetWeight').value = 0;
+//alert(document.getElementById('netWeight').value);
+    var itemGSW = parseFloat(document.getElementById('nwOrItemNetWeight').value);
+    var itemGSWT = document.getElementById(wtTypId).value;
+    //var itemMainGSW = parseFloat(document.getElementById('grossWeight').value);
+
+    cryGSW = convertCryWeight(cryGSW, itemGSWT, cryGSWT);
+    if (cryPanel == 'deleteCry') {
+        if (autoChk) {
+            remWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+            alert('PlusremWt' + remWt);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
             changeNetWeightByPktWt();
+        }
+    } else {
+        if (autoChk) {
+
+            var gsWt = document.getElementById('nwOrItemGrossWeight').value;
+            var gsWtType = document.getElementById('nwOrItemGrossWeightType').value;
+            if (gsWt == '' || gsWt == null) {
+                gsWt = 0;
+            }
+
+//            var pktWt = document.getElementById('sttr_pkt_weight').value;
+//            var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
+//            if (pktWt == '' || pktWt == null) {
+//                pktWt = 0;
+//            } 
+
+//            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            var newNetWT = document.getElementById('nwOrItemNetWeight').value;
+            //alert('newNetWT='+newNetWT);
+
+            var remNTWt;
+            remNTWt = parseFloat(itemGSW) - parseFloat(cryGSW);
+            if (newNetWT == itemGSW) {
+
+                remWt = parseFloat(itemGSW) - parseFloat(cryGSW);
+                //alert('MyyyyyremWt='+remWt);
+
+            } else {
+                var NetWT = parseFloat(newNetWT) - parseFloat(cryGSW);
+                //alert('NNNNetWT='+NetWT);
+                remWt = NetWT;
+            }
+
+
+//            if (document.getElementById('addPanel').value != 'UpdateStock')
+//            changeNetWeightByPktWt();
+//            remWt = parseFloat(itemGSW) - parseFloat(cryGSW);
+//            
+//            
+//            alert('Minus'+remWt);
+        } else {
+
+            var gsWt = document.getElementById('nwOrItemGrossWeight').value;
+            var gsWtType = document.getElementById('nwOrItemGrossWeightType').value;
+            if (gsWt == '' || gsWt == null) {
+                gsWt = 0;
+            }
+
+//            var pktWt = document.getElementById('sttr_pkt_weight').value;
+//            var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
+//            if (pktWt == '' || pktWt == null) {
+//                pktWt = 0;
+//            }
+
+//            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+
+//alert('newNetWT='+newNetWT);
+            var newNetWT = document.getElementById('nwOrItemNetWeight').value;
+            var remNTWt;
+//            remNTWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+
+
+
+            if (newNetWT == remNTWt) {
+
+                remWt = parseFloat(itemGSW) + parseFloat(cryGSW);
+                //alert('MyyyyyremWt='+remWt);
+
+            } else {
+//                var NetWT = parseFloat(parseFloat(newNetWT) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+//alert('NNNNetWT='+NetWT);
+
+                var NetWT = newNetWT;
+                remWt = parseFloat(document.getElementById(gsWtId).value);
+                ;
+            }
+        }
+//        document.getElementById(gsWtId).value = parseFloat(remWt).toFixed(3);
+
+        document.getElementById('nwOrItemNetWeight').value = parseFloat(remWt).toFixed(3);
+        //alert(document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3));
+
+//        if (document.getElementById('addPanel').value != 'UpdateStock')
+//            changeNetWeightByPktWt();
+
 
         if (sellPanel == 'AddStock') {
-            calStockItemPrice();
+            calcNwOrItemPrice();
         } else if (sellPanel == 'ItemSell') {
             calculateSellPrice();
         } else {
@@ -4690,6 +5286,7 @@ function autoLessWeight(cryCount, autoChk, gsWtId, wtTypId, cryPanel, sellPanel)
     }
 
 }
+
 function convertWeight(wtBal, to, from) {
     var convertedWt = 0;
     if (wtBal != '') {
@@ -4729,11 +5326,108 @@ function convertWeight(wtBal, to, from) {
     }
     return convertedWt;
 }
+function convertCryWeight(weight, weightType, cryGSWT) {
+//    alert(weightType);
+//    alert(cryGSWT);
+    var totalWeight = 0;
+    if (cryGSWT == 'GM') {
+        if (weightType == 'KG') {
+            totalWeight = weight / 1000;
+            return totalWeight;
+        } else if (weightType == 'MG') {
+            totalWeight = weight * (1000);
+            return totalWeight;
+        } else if (weightType == 'GM') {
+            return weight;
+        }
+    }
+    if (cryGSWT == 'KG') {
+        if (weightType == 'KG') {
+            return weight;
+        } else if (weightType == 'MG') {
+            totalWeight = weight * 1000 * 1000;
+            return totalWeight;
+        } else if (weightType == 'GM') {
+            totalWeight = weight * 1000;
+            return totalWeight;
+        }
+    }
+    if (cryGSWT == 'MG') {
+        if (weightType == 'KG') {
+            totalWeight = weight / (1000 * 1000);
+            return totalWeight;
+        } else if (weightType == 'MG') {
+            return weight;
+        } else if (weightType == 'GM') {
+            totalWeight = weight / 1000;
+            return totalWeight;
+        }
+    }
+    if (cryGSWT == 'CT') {
+        if (weightType == 'KG') {
+            totalWeight = (weight / 5) / (1000 * 1000);
+            return totalWeight;
+        } else if (weightType == 'MG') {
+            return (weight / 5) * 1000;
+        } else if (weightType == 'GM') {
+            totalWeight = weight / 5;
+            return totalWeight;
+        }
+    }
+}
+function crystalWeightLess(sellPanel) {
+//    var sellPanel = 'AddStock';
+    var count = 1;
+    var delId = 'del' + count;
+    var remWt = 0;
+    var crystalCount = noOfCrystal;
+    var finalWeight = 0;
+    var totCrystalWeight = 0;
+    if (crystalCount === undefined) {
+        crystalCount = '';
+    }
+//    alert(crystalCount);
+    var itemGSW = parseFloat(document.getElementById('netWeight').value);
+    var itemGSWT = document.getElementById('sttr_nt_weight_type').value;
+    for (var dc = count; crystalCount != ''; dc++) {
+        if (document.getElementById('del' + dc).value != 'Deleted') {
+            var autoChk = document.getElementById('addItemAutoLessCryWt' + dc).checked;
+            if (document.getElementById('addItemCryGSW' + dc).value == '' || document.getElementById('addItemCryGSW' + dc).value == 'NaN')
+                document.getElementById('addItemCryGSW' + dc).value = 0;
+            var cryGSW = document.getElementById('addItemCryGSW' + dc).value;
+            var cryGSWT = document.getElementById('addItemCryGSWTyp' + dc).value;
+            cryGSW = convertCryWeight(cryGSW, itemGSWT, cryGSWT);
+//            alert(cryGSW);
+            if (autoChk) {
+                totCrystalWeight = parseFloat(totCrystalWeight) + parseFloat(cryGSW);
+            }
+            remWt = parseFloat(itemGSW) - totCrystalWeight;
+            if (document.getElementById('netWeight').value == '' || document.getElementById('netWeight').value == 'NaN')
+                document.getElementById('netWeight').value = 0;
+            document.getElementById('sttr_nt_weight').value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+            if (document.getElementById('addPanel').value != 'UpdateStock')
+                changeNetWeightByPktWt();
+            if (sellPanel == 'AddStock') {
+                calStockItemPrice();
+            } else if (sellPanel == 'ItemSell') {
+                calculateSellPrice();
+            } else {
+                calculateWhSellLotPrice();
+            }
+        }
+    }
+//    alert(itemGSW);
+//    alert(totCrystalWeight);
+
+}
 /*******************End to add function @Author:SHRI03AUG16***********************/
 function searchTunchForPanelBlank() {
     document.getElementById("tunchListDivToAddTUNCH").innerHTML = '';
 }
-function searchTunch(tunchValue, panelName, keyCodeInput, metalType, tunchId, nextId, prevId) {
+////start code to change poststr id names @auth:athu5jun17
+function searchTunch(tunchValue, panelName, keyCodeInput, metalType, tunchId, nextId, prevId, documentRootPath) {
+//alert(metalType);
     keyCodeForTunchValue = keyCodeInput;
     keyCodeForTunchValueOption = 0;
     tunchDivId = tunchId;
@@ -4744,9 +5438,9 @@ function searchTunch(tunchValue, panelName, keyCodeInput, metalType, tunchId, ne
             "&panelName=" + encodeURIComponent(panelName) +
             "&metalType=" + encodeURIComponent(metalType);
     if (panelName == 'AddWhStockPanel' || panelName == 'AddStockPanel') {
-        poststr += "&netWeightFieldId=addItemNetWeight" +
-                "&fineWeightFieldId=addItemFineWeight" +
-                "&finalFineWeightFieldId=addItemFFineWeight" +
+        poststr += "&netWeightFieldId=sttr_nt_weight" +
+                "&fineWeightFieldId=sttr_fine_weight" +
+                "&finalFineWeightFieldId=sttr_final_fine_weight" +
                 "&tunchDivClass=form-control-select20-font12 placeholderClass";
     } else if (panelName == 'SellPurchase') {
         poststr += "&netWeightFieldId=slPrItemNTW" +
@@ -4754,7 +5448,7 @@ function searchTunch(tunchValue, panelName, keyCodeInput, metalType, tunchId, ne
                 "&finalFineWeightFieldId=slPrItemFFineWeight" +
                 "&tunchDivClass=form-control-select20-font12 placeholderClass";
     }
-    search_tunch('include/php/ogiatnsl.php', poststr);
+    search_tunch("http://" + documentRootPath + "/include/php/ogiatnsl.php", poststr);
 }
 var keyCodeForTunchValue;
 var keyCodeForTunchValueOption = 0;
@@ -4776,12 +5470,21 @@ function search_tunch(url, parameters) {
 function alertSearchTunch() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-        document.getElementById("tunchListDivToAddTUNCH").innerHTML = xmlhttp.responseText;
-        document.getElementById('tunchListToAddTunchSelect').focus();
-        keyCodeForRoiValueOptionPrev = keyCodeForRoiValueOption;
-        document.getElementById('tunchListToAddTunchSelect').options[keyCodeForRoiValueOptionPrev].selected = false;
-        document.getElementById('tunchListToAddTunchSelect').options[keyCodeForRoiValueOption].selected = true;
-        document.getElementById(tunchDivId).focus();
+        if (tunchDivCount == 'AddInvoice') {
+            document.getElementById("tunchListDivToAddFineTUNCH").innerHTML = xmlhttp.responseText;
+            document.getElementById('tunchListToAddFineTunchSelect').focus();
+            keyCodeForRoiValueOptionPrev = keyCodeForRoiValueOption;
+            document.getElementById('tunchListToAddFineTunchSelect').options[keyCodeForRoiValueOptionPrev].selected = false;
+            document.getElementById('tunchListToAddFineTunchSelect').options[keyCodeForRoiValueOption].selected = true;
+            document.getElementById(tunchDivId).focus();
+        } else {
+            document.getElementById("tunchListDivToAddTUNCH").innerHTML = xmlhttp.responseText;
+            document.getElementById('tunchListToAddTunchSelect').focus();
+            keyCodeForRoiValueOptionPrev = keyCodeForRoiValueOption;
+            document.getElementById('tunchListToAddTunchSelect').options[keyCodeForRoiValueOptionPrev].selected = false;
+            document.getElementById('tunchListToAddTunchSelect').options[keyCodeForRoiValueOption].selected = true;
+            document.getElementById(tunchDivId).focus();
+        }
         if (tunchDivCount == 'SellPurchase') {
             calculateSellPrice();
         } else if (tunchDivCount == 'AddInvoice') {
@@ -4795,17 +5498,24 @@ function alertSearchTunch() {
     }
 }
 //*********End code to add condition for Fine Invoice Panel:Author:SANT18NOV16*****
-function getTunchValById(tunchId, panelName, metalType) {
+function getTunchValById(tunchId, panelName, metalType, documentRootPath) {
+//    alert(tunchId);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("tunchSelDiv").innerHTML = xmlhttp.responseText;
+            if (panelName == 'AddInvoice') {
+                document.getElementById("itemFineTunchDiv").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("tunchSelDiv").innerHTML = xmlhttp.responseText;
+            }
             document.getElementById(tunchDivId).focus();
             if (panelName == 'SellPurchase') {
                 calculateSellPrice();
             } else if (panelName == 'SellByLot') {
                 calculateWhSellLotPrice();
+            } else if (panelName == 'AddInvoice') {
+                addInvoiceValue();
             } else {
                 calStockItemPrice();
             }
@@ -4813,11 +5523,13 @@ function getTunchValById(tunchId, panelName, metalType) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     }
-    xmlhttp.open("POST", "include/php/ogtnsid.php?tunchId=" + tunchId + "&panelName=" + panelName + "&tunchDivId=" + tunchDivId + "&metalType=" + metalType + "&nextFieldId=" + nextFieldId + "&prevFieldId=" + prevFieldId, true);
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogtnsid.php?tunchId=" + tunchId + "&panelName=" + panelName + "&tunchDivId=" + tunchDivId + "&metalType=" + metalType + "&nextFieldId=" + nextFieldId + "&prevFieldId=" + prevFieldId, true);
     xmlhttp.send();
 }
 /*********** Start Code to add function @Author:SHRI08SEP16 **********************/
-function deleteRawStockMetalItm(rwstId, mainPanel, pageNum, rowsPerPage, metalType, metalRateId) {
+function deleteRawStockMetalItm(rwstId, mainPanel, pageNum, rowsPerPage, metalType, metalRateId, rawMetalType) {
+//    alert(metalType+'-'+rawMetalType);
+//    alert(mainPanel);
     confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Main Stock Item?"); //change in line @AUTHOR: SANDY28JAN14
     if (confirm_box == true)
     {
@@ -4832,7 +5544,7 @@ function deleteRawStockMetalItm(rwstId, mainPanel, pageNum, rowsPerPage, metalTy
             }
         };
         xmlhttp.open("POST", "include/php/ogrmdelt.php?rwprId=" + rwstId + "&mainPanel=" + mainPanel +
-                "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&metalType=" + metalType + "&metalRateId=" + metalRateId, true);
+                "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&metalType=" + metalType + "&metalRateId=" + metalRateId + "&rawMetalType=" + rawMetalType, true);
         xmlhttp.send();
     }
 }
@@ -4888,6 +5600,30 @@ function searchCustStatTranDetails(firmId, fromDay, fromMonth, fromYear, toDay, 
     }
 }
 /******description: END CODE TO Add customerStatement @Author: DISH14NOV16******/
+
+
+/******description: START CODE TO Sell Invoice Change to User @Author: Bajrang7APR18******/
+//function sellinvconvert(userid,slPrPreInvoiceNo,slPrInvoiceNo) {
+////    alert('userid == ' + userid);
+////    alert('slPrPreInvoiceNo == ' + slPrPreInvoiceNo);
+////    alert('slPrInvoiceNo == ' + slPrInvoiceNo);
+//    loadXMLDoc();
+//
+//    xmlhttp.onreadystatechange = function () {
+//        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+//            document.getElementById("sellMainDiv").innerHTML = xmlhttp.responseText;
+//        } else {
+//            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+//        }
+//
+//    };
+//        xmlhttp.open("POST", "include/php/omsellinvcon.php?userid=" + userid + "&slPrPreInvoiceNo=" + slPrPreInvoiceNo + "&slPrInvoiceNo=" + slPrInvoiceNo, true);
+//        xmlhttp.send();
+//
+//            }
+/******description: END CODE TO Sell Invoice Change to User @Author: Bajrang7APR18******/
+
 /**************Start code to add function @Author:SHRI05NOV16***************/
 function valKeyPressedForNumNChar(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode;
@@ -4900,18 +5636,71 @@ function valKeyPressedForNumNChar(evt) {
     return true;
 }
 function calcMetalRateCut(prefix) {
+
     var slBal = 0;
     var gdBal = 0;
     var slMetalTyp = document.getElementById(prefix + 'SilverTotFineWtType').value;
-    slBal = parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value) + parseFloat(document.getElementById(prefix + 'Metal2WtPrevBal').value);
+
+    if (document.getElementById(prefix + 'SilverWtPrevBal').value == '' || document.getElementById(prefix + 'SilverWtPrevBal').value == 'NaN')
+        document.getElementById(prefix + 'SilverWtPrevBal').value = 0;
+    if (document.getElementById(prefix + 'SilverTotFineWt').value == '' || document.getElementById(prefix + 'SilverTotFineWt').value == 'NaN')
+        document.getElementById(prefix + 'SilverTotFineWt').value = 0;
+    if ((document.getElementById(prefix + 'SilverWtRecBal').value).trim() == '' || document.getElementById(prefix + 'SilverWtRecBal').value == 'NaN') {
+        document.getElementById(prefix + 'SilverWtRecBal').value = 0;
+    }
+
+//    if (document.getElementById(prefix + 'SilverWtPrevBalCRDR').value == 'CR') {
+//        slBal = parseFloat(parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value) - parseFloat(document.getElementById(prefix + 'SilverWtPrevBal').value)).toFixed(3);
+//    } else {
+//        slBal = parseFloat(parseFloat(document.getElementById(prefix + 'SilverTotFineWt').value) + parseFloat(document.getElementById(prefix + 'SilverWtPrevBal').value)).toFixed(3);
+//    }
+//
+//    if (slBal < 0) {
+//        document.getElementById(prefix + 'RtCtSlCRDR').value = 'CR';
+//    } else {
+//        document.getElementById(prefix + 'RtCtSlCRDR').value = 'DR';
+//    }
+//    var rtCtCRDRID = document.getElementById(prefix + 'RtCtSlCRDR');
+//    alert('silverAdvMt');
+
+    slBal = calcWeightBalance(prefix, document.getElementById(prefix + 'SilverWtPrevBalCRDR').value, document.getElementById(prefix + 'SilverWtPrevBal').value, document.getElementById(prefix + 'SilverTotFineWt').value, document.getElementById(prefix + 'SilverWtRecBal').value, document.getElementById(prefix + 'RtCtSlCRDR'));
+
     var gdMetalTyp = document.getElementById(prefix + 'GoldTotFineWtType').value;
-    gdBal = parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) + parseFloat(document.getElementById(prefix + 'Metal1WtPrevBal').value);
-    if (document.getElementById('stockPurPriceCut').value == 'RateCut' || document.getElementById('stockPurPriceCut').value == 'NoRateCut') {
-        document.getElementById(prefix + 'PayMetal1WtBal').value = gdBal;
-        if (document.getElementById(prefix + 'PayMetal1WtBal').value == 'NaN' || document.getElementById(prefix + 'PayMetal1WtBal').value == '') {
-            document.getElementById(prefix + 'PayMetal1WtBal').value = 0;
+
+    //alert('gdMetalTyp == ' + gdMetalTyp);
+
+    if (document.getElementById(prefix + 'GoldWtPrevBal').value == '' || document.getElementById(prefix + 'GoldWtPrevBal').value == 'NaN')
+        document.getElementById(prefix + 'GoldWtPrevBal').value = 0;
+    if (document.getElementById(prefix + 'GoldTotFineWt').value == '' || document.getElementById(prefix + 'GoldTotFineWt').value == 'NaN')
+        document.getElementById(prefix + 'GoldTotFineWt').value = 0;
+    if ((document.getElementById(prefix + 'GoldWtRecBal').value).trim() == '' || document.getElementById(prefix + 'GoldWtRecBal').value == 'NaN') {
+        document.getElementById(prefix + 'GoldWtRecBal').value = 0;
+    }
+
+//    if (document.getElementById(prefix + 'GoldWtPrevBalCRDR').value == 'CR') {
+//        gdBal = parseFloat(parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) - parseFloat(document.getElementById(prefix + 'GoldWtPrevBal').value)).toFixed(3);
+//    } else {
+//        gdBal = parseFloat(parseFloat(document.getElementById(prefix + 'GoldTotFineWt').value) + parseFloat(document.getElementById(prefix + 'GoldWtPrevBal').value)).toFixed(3);
+//    }
+//
+//    if (gdBal < 0) {
+//        document.getElementById(prefix + 'RtCtGdCRDR').value = 'CR';
+//    } else {
+//        document.getElementById(prefix + 'RtCtGdCRDR').value = 'DR';
+//    }
+//    rtCtCRDRID = document.getElementById(prefix + 'RtCtGdCRDR');
+//    alert('goldAdvMt');
+
+    gdBal = calcWeightBalance(prefix, document.getElementById(prefix + 'GoldWtPrevBalCRDR').value, document.getElementById(prefix + 'GoldWtPrevBal').value, document.getElementById(prefix + 'GoldTotFineWt').value, document.getElementById(prefix + 'GoldWtRecBal').value, document.getElementById(prefix + 'RtCtGdCRDR'));
+
+    //alert(gdBal);
+
+    if (document.getElementById('paymentMode').value == 'RateCut' || document.getElementById('paymentMode').value == 'NoRateCut') {
+        document.getElementById(prefix + 'PayGoldWtBal').value = gdBal;
+        if (document.getElementById(prefix + 'PayGoldWtBal').value == 'NaN' || document.getElementById(prefix + 'PayGoldWtBal').value == '') {
+            document.getElementById(prefix + 'PayGoldWtBal').value = 0;
         }
-        document.getElementById(prefix + 'PayMetal1WtBalType').value = gdMetalTyp;
+        document.getElementById(prefix + 'PayGoldWtBalType').value = gdMetalTyp;
         if ((document.getElementById("payPanelName").value != 'InvoicePayUp' &&
                 document.getElementById("payPanelName").value != 'NwOrDelPaymentUp' &&
                 document.getElementById("payPanelName").value != 'SuppOrderDeliveryUp' &&
@@ -4920,17 +5709,18 @@ function calcMetalRateCut(prefix) {
                 document.getElementById("payPanelName").value != 'RawPayUp' &&
                 document.getElementById("payPanelName").value != 'SuppOrderUp' &&
                 document.getElementById("payPanelName").value != 'NwOrPayUp') &&
-                document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
-            document.getElementById(prefix + 'Metal1RtCtWtBal').value = gdBal;
-            document.getElementById(prefix + 'Metal1RtCtWtBalType').value = gdMetalTyp;
-            document.getElementById('metal1RtCtWtBal').value = gdBal + '' + gdMetalTyp;//Add Value this variable:Author:SANT24OCT16
+                document.getElementById('paymentMode').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
+            document.getElementById(prefix + 'GoldRtCtWtBal').value = parseFloat(gdBal);
+            document.getElementById(prefix + 'GoldRtCtWtBalType').value = gdMetalTyp;
+            document.getElementById('metal1RtCtWtBal').value = parseFloat(gdBal) + ' ' + gdMetalTyp; //Add Value this variable:Author:SANT24OCT16
+//           alert(document.getElementById(prefix + 'GoldRtCtWtBal').value);
         }
 
-        document.getElementById(prefix + 'PayMetal2WtBal').value = slBal;
-        if (document.getElementById(prefix + 'PayMetal2WtBal').value == 'NaN' || document.getElementById(prefix + 'PayMetal2WtBal').value == '') {
-            document.getElementById(prefix + 'PayMetal2WtBal').value = 0;
+        document.getElementById(prefix + 'PaySilverWtBal').value = slBal;
+        if (document.getElementById(prefix + 'PaySilverWtBal').value == 'NaN' || document.getElementById(prefix + 'PaySilverWtBal').value == '') {
+            document.getElementById(prefix + 'PaySilverWtBal').value = 0;
         }
-        document.getElementById(prefix + 'PayMetal2WtBalType').value = slMetalTyp;
+        document.getElementById(prefix + 'PaySilverWtBalType').value = slMetalTyp;
         if ((document.getElementById("payPanelName").value != 'InvoicePayUp' &&
                 document.getElementById("payPanelName").value != 'NwOrDelPaymentUp' &&
                 document.getElementById("payPanelName").value != 'SuppOrderDeliveryUp' &&
@@ -4939,22 +5729,27 @@ function calcMetalRateCut(prefix) {
                 document.getElementById("payPanelName").value != 'RawPayUp' &&
                 document.getElementById("payPanelName").value != 'SuppOrderUp' &&
                 document.getElementById("payPanelName").value != 'NwOrPayUp') &&
-                document.getElementById('stockPurPriceCut').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
-            document.getElementById(prefix + 'Metal2RtCtWtBal').value = slBal;
-            document.getElementById(prefix + 'Metal2RtCtWtBalType').value = slMetalTyp;
-            document.getElementById('metal2RtCtWtBal').value = slBal + '' + slMetalTyp;//Add Value this variable:Author:SANT24OCT16
+                document.getElementById('paymentMode').value == 'RateCut') { //add panel for order panel prev balance :Author:SANT01DEC16
+            document.getElementById(prefix + 'SilverRtCtWtBal').value = slBal;
+            document.getElementById(prefix + 'SilverRtCtWtBalType').value = slMetalTyp;
+            document.getElementById('metal2RtCtWtBal').value = slBal + ' ' + slMetalTyp; //Add Value this variable:Author:SANT24OCT16
         }
     }
-    document.getElementById(prefix + 'Metal1WtFinBal').value = gdBal;
-    document.getElementById(prefix + 'Metal1WtFinBalType').value = gdMetalTyp;
-    document.getElementById('metal1WtFinBal').value = gdBal + ' ' + gdMetalTyp;
-    document.getElementById(prefix + 'Metal2WtFinBal').value = slBal;
-    document.getElementById(prefix + 'Metal2WtFinBalType').value = slMetalTyp;
-    document.getElementById('metal2WtFinBal').value = slBal + ' ' + slMetalTyp;
+
+    document.getElementById(prefix + 'GoldWtFinBal').value = gdBal;
+    document.getElementById(prefix + 'GoldWtFinBalType').value = gdMetalTyp;
+    if (document.getElementById('metal1WtFinBal'))
+        document.getElementById('metal1WtFinBal').value = gdBal + ' ' + gdMetalTyp;
+    document.getElementById(prefix + 'SilverWtFinBal').value = slBal;
+    document.getElementById(prefix + 'SilverWtFinBalType').value = slMetalTyp;
+    if (document.getElementById('metal2WtFinBal'))
+        document.getElementById('metal2WtFinBal').value = slBal + ' ' + slMetalTyp;
+
 }
 /**************End code to add function @Author:SHRI05NOV16***************/
 //-----------------START DISH14NOV16-----------------------//
-function showWSStockItemDetailsDiv_1(documentRoot, itemCategory, metalType, panelName, stockType, itemName) {
+function showWSStockItemDetailsDiv_1(documentRoot, itemCategory, metalType, panelName, stockType, itemName, CrysName) {
+//    alert(CrysName);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -4966,7 +5761,7 @@ function showWSStockItemDetailsDiv_1(documentRoot, itemCategory, metalType, pane
         }
     };
     if (stockType == 'CrystalStock') {
-        xmlhttp.open("POST", "include/php/ogcrinvd_1.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&itemName=" + itemName, true);
+        xmlhttp.open("POST", "include/php/ogcrinvd_1.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&itemName=" + itemName + "&CrysName=" + CrysName, true);
     } else {
         xmlhttp.open("POST", "include/php/ogwastlt.php?panelName=" + panelName + "&itemCategory=" + itemCategory + "&stockType=" + stockType + "&metalType=" + metalType + "&itemName=" + itemName, true);
     }
@@ -4996,7 +5791,7 @@ function navigateBackToStockPanel_1(documentRootPath, panel, page) {
 /**************START code to add new function***********:DISH14NOV16****************************/
 function showSlPrInvDiv_1(srchItemPreId, srchItemPostId, custId, panelName) {
     var firstChar = srchItemPreId.charAt(0);
-    var res = firstChar.toUpperCase();//chnaged @OMMODTAG PRIYA_05MAY15
+    var res = firstChar.toUpperCase(); //chnaged @OMMODTAG PRIYA_05MAY15
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -5025,8 +5820,16 @@ function showSlPrInvDiv_1(srchItemPreId, srchItemPostId, custId, panelName) {
 /**************Start code for pass txtType parameter for delete Author:SANT16DEC16***************************/
 function showSlPrJewelleryInvDiv(srchItemPreId, srchItemPostId, custId, panelName, txtType) {
     var firstChar = srchItemPreId.charAt(0);
-    var res = firstChar.toUpperCase();//chnaged @OMMODTAG PRIYA_05MAY15
+    var res = firstChar.toUpperCase(); //chnaged @OMMODTAG PRIYA_05MAY15
     loadXMLDoc();
+    var preInvNo = "";
+    var postInvNo = "";
+    if (panelName == 'orderPickStock') {
+        var str = txtType.split(';');
+        preInvNo = str[0];
+        postInvNo = str[1];
+    }
+
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -5041,23 +5844,77 @@ function showSlPrJewelleryInvDiv(srchItemPreId, srchItemPostId, custId, panelNam
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
+    //alert('srchItemPreId=='+srchItemPreId);
+    //alert('srchItemPostId=='+srchItemPostId);
+//    alert('panelName=='+panelName);
+//alert('txtType=='+txtType);
 //         if (panelName == 'StockPurchasePanel') {
-    xmlhttp.open("POST", "include/php/ogspjsdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&txtType=" + txtType, true);
+
+    var returnItem = document.getElementById('srchDelItemId').value;
+    if (panelName == 'orderPickStock') {
+        xmlhttp.open("POST", "include/php/ogspjsdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&preOrdInvNo=" + preInvNo + "&postOrdInvNo=" + postInvNo, true);
+    } else if (panelName == 'windowshopping') {
+        if (txtType == 'delete')
+            xmlhttp.open("POST", "include/php/ogwsmndv.php?srchdelItemPreId=" + srchItemPreId + "&srchdelItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&txtType=" + txtType, true);
+        else
+            xmlhttp.open("POST", "include/php/ogwsmndv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&txtType=" + txtType, true);
+    } else if (panelName == 'ItemApproval' || panelName == 'ItemApprovalUp') {
+        var invoiceNo = document.getElementById('invoiceNo').value;
+        xmlhttp.open("POST", "include/php/ogiaijdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&txtType=" + txtType + "&returnItem=" + returnItem + "&invoiceNo=" + invoiceNo, true);
+    } else
+        xmlhttp.open("POST", "include/php/ogspjsdv.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName + "&txtType=" + txtType, true);
 //        } 
     xmlhttp.send();
 }
 /**************End code for pass txtType parameter for delete Author:SANT16DEC16***************************/
-function showSlPrImitationInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
-//    alert(panelName);
-    var firstChar = srchItemPreId.charAt(0);
-    var res = firstChar.toUpperCase();//chnaged @OMMODTAG PRIYA_05MAY15
-    loadXMLDoc();
+function showReturnInvDiv(srchInvNo, custId, panelName) {
+    var searchItemIdLen = srchInvNo.length;
+    var searchItemIdTemp = srchInvNo;
+    var tempLen = searchItemIdLen;
+    var charLen = 0;
+    var alphaExp = /^[a-zA-Z]+$/;
+    while (tempLen > 0) {
+
+        var field = searchItemIdTemp.substr(0, 1);
+        searchItemIdTemp = searchItemIdTemp.substr(1);
+        if (field.match(alphaExp)) {
+            charLen = charLen + 1;
+        } else {
+            break;
+        }
+        tempLen = tempLen - 1;
+    }
+    var searchItemIdCharPart = srchInvNo.substr(0, charLen);
+
+    var searchItemIdNumPart = srchInvNo.substr(charLen);
+
+    // alert('searchItemIdCharPart ==' + searchItemIdCharPart);
+
+    //  alert('searchItemIdNumPart ==' + searchItemIdNumPart);
+
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("sellPurchaseItemDetails").innerHTML = xmlhttp.responseText;
 
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("POST", "include/php/ogrtjsdv.php?srchPreInvNo=" + searchItemIdCharPart + "&srchInvNo=" + searchItemIdNumPart + "&custId=" + custId + "&panelName=" + panelName, true);
+    xmlhttp.send();
+}
+function showSlPrImitationInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
+//    alert(panelName);
+    var firstChar = srchItemPreId.charAt(0);
+    var res = firstChar.toUpperCase(); //chnaged @OMMODTAG PRIYA_05MAY15
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("sellPurchaseItemDetails").innerHTML = xmlhttp.responseText;
             document.getElementById('slPrDOBDay').focus();
         }
         else {
@@ -5074,27 +5931,25 @@ function showSlPrImitationInvDiv(srchItemPreId, srchItemPostId, custId, panelNam
 function showSlPrCrystalInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
 //    alert(panelName);
     var firstChar = srchItemPreId.charAt(0);
-    var res = firstChar.toUpperCase();//chnaged @OMMODTAG PRIYA_05MAY15
+    var res = firstChar.toUpperCase(); //chnaged @OMMODTAG PRIYA_05MAY15
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("sellPurchaseItemDetails").innerHTML = xmlhttp.responseText;
-
             document.getElementById('slPrDOBDay').focus();
         }
         else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
     if (panelName == 'CrystalPurchasePanel') {
-        //****************START code to sell :DISH14NOV16******************************//
+//****************START code to sell :DISH14NOV16******************************//
         xmlhttp.open("POST", "include/php/ogcrspdv_1.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
 //****************END code to sell :DISH14NOV16******************************//
     }
     else {
-        //****************START code to sell :DISH14NOV16******************************//
+//****************START code to sell :DISH14NOV16******************************//
         xmlhttp.open("POST", "include/php/ogcrspdv_1.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId, true);
         //****************END code to sell :DISH14NOV16******************************//
     }
@@ -5103,29 +5958,26 @@ function showSlPrCrystalInvDiv(srchItemPreId, srchItemPostId, custId, panelName)
 function calculateItemWeight(count) {
     var returnWt = document.getElementById('addItemReturnedWeight' + count).value;
     var rWtTyp = document.getElementById('addItemReturnedWeightType' + count).value;
-
     var gsWt = document.getElementById('addItemGsWt' + count).value;
     var gWtTyp = document.getElementById('addItemGsWtTyp' + count).value;
     if (returnWt == '' || returnWt == 'NaN') {
         returnWt = '0.00';
     }
     var convertedWt = convertWeight(parseFloat(returnWt), gWtTyp, rWtTyp);
-
     var purity = parseFloat(document.getElementById('addItemFinTunch' + count).value);
-
     var finalWt = parseFloat(gsWt) - convertedWt;
     if (document.getElementById('addItemFfnWtBy').value == 'byGrossWt') {
         wt = document.getElementById('addItemGsWt' + count).value;
     } else {
         var wt = document.getElementById('addItemNtWt' + count).value;
     }
+//    alert(count);
+//    alert(wt +' '+ convertedWt);
     var FinalFnWt = parseFloat(wt) - convertedWt;
     document.getElementById('addItemFinalWt' + count).innerHTML = (finalWt).toFixed(3) + ' ' + gWtTyp;
     document.getElementById('addItemFinalGsWt' + count).value = (finalWt).toFixed(3);
-
     document.getElementById('addItemFFineWt' + count).innerHTML = parseFloat(parseFloat(FinalFnWt * purity) / 100).toFixed(3) + ' ' + gWtTyp;
     document.getElementById('addItemFinalFinWt' + count).value = parseFloat(parseFloat(FinalFnWt * purity) / 100).toFixed(3);
-
 }
 //function calculateTotalWeight() {
 //    var totItem = parseFloat(document.getElementById('totalItem').value);
@@ -5158,13 +6010,11 @@ function calculateTotalWeight() {
     for (var count = 0; count < totItem; count++)
     {
         metal = document.getElementById('mtype' + count).value;
-
         var wtTyp = document.getElementById('addItemGsWtTyp' + count).value;
         if (document.getElementById('addItemFinalFinWt' + count).value == '' || document.getElementById('addItemFinalFinWt' + count).value == 'NaN')
             document.getElementById('addItemFinalFinWt' + count).value = '0.00';
         if (document.getElementById('addItemFinalGsWt' + count).value == '' || document.getElementById('addItemFinalGsWt' + count).value == 'NaN')
             document.getElementById('addItemFinalGsWt' + count).value = '0.00';
-
         var convGsWt = convertWeight(parseFloat(document.getElementById('addItemFinalGsWt' + count).value), 'GM', wtTyp);
         var convWt = convertWeight(parseFloat(document.getElementById('addItemFinalFinWt' + count).value), 'GM', wtTyp);
         if (metal == 'Gold')
@@ -5220,13 +6070,12 @@ function showRawStockPanel(panel, userId) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
+            document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText; //change in div name @AUTHOR: SANDY25SEP13
         }
         else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-
 //    if (panel == 'MetalPurchaseList')
     xmlhttp.open("POST", "include/php/ogrwwscprlt.php?panel=" + panel + "&userId=" + userId, true);
 //    else
@@ -5247,32 +6096,52 @@ function showMetalNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPanel, 
     xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogrwwsprlt.php?rowsPerPage=" + rowsPerPage + "&panelName=" + nwOrPanel + "&stockUpdateRows=" + upRowsPanel + "&userId=" + custId + "&mainPanel=" + mainPanel, true);
     xmlhttp.send();
 }
-function showUserRawMetalDetails(rawId, panelName, userId, mainPanel, metType, transPanel) {
+//start code to implement datatable onclick fn in raw sell list @AUTH:ATHU7APR17
+function showUserRawMetalDetails(rawId, panelName, userId, mainPanel, metType, transactionPanel, divName) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("supp_middle_body").innerHTML = xmlhttp.responseText;
+            document.getElementById(divName).innerHTML = xmlhttp.responseText;
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogrwmomf.php?rwprId=" + rawId + "&payPanelName=" + panelName + "&rawPanelName=" + panelName + "&suppPanelName=addMetalByCash&userId=" + userId + "&mainPanel=" + mainPanel + "&metType=" + metType + "&transactionPanel=" + transPanel, true);
+    xmlhttp.open("POST", "include/php/ogrwmomf.php?rwprId=" + rawId + "&payPanelName=RawPayUp&rawPanelName=RawPayUp&suppPanelName=addMetalByCash&userId=" + userId + "&mainPanel=" + mainPanel + "&metType=" + metType + "&transactionPanel=" + transactionPanel, true);
     xmlhttp.send();
 }
-function showCustTransactions(userId) {
+
+function showCustTransactions(panel, userId) {
     loadXMLDoc();
+    confirm_box = false;
+    if (panel == 'custAllTransDel') {
+        confirm_box = confirm(deleteAllTransaction + "\n\nDo you really want to delete all transaction of this customer?");
+    }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("custHomeTransDiv").innerHTML = xmlhttp.responseText;
+            if (panel == 'custAllTrans' || panel == 'custAllTransDel' || panel == 'custAllCashTrans' || panel == 'custAllMetalTrans' || panel == 'custPaymentTrans') {
+                document.getElementById("custHomeTransDiv").innerHTML = xmlhttp.responseText;
+            } else if (panel == 'custAllTransDel') {
+                if ((panel == 'custAllTransDel' && confirm_box == true))
+                    document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("supplierProductPurchasePanel").innerHTML = xmlhttp.responseText;
+            }
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogwsprdt.php?userId=" + userId + "&panelName=custAllTrans", true);
+    if (panel == 'custAllTransDel' && confirm_box == true) {
+        xmlhttp.open("POST", "include/php/omlondel.php?userId=" + userId + "&panelName=" + panel, true);
+    } else {
+        xmlhttp.open("POST", "include/php/ogwsprdt.php?userId=" + userId + "&panelName=" + panel, true);
+    }
+
     xmlhttp.send();
 }
+
+
 function getMetalByCashItemList(suppId, panelName, mainPanel) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -5287,3 +6156,633 @@ function getMetalByCashItemList(suppId, panelName, mainPanel) {
     xmlhttp.open("POST", "include/php/ogrwwscslt.php?transType=" + panelName + "&userId=" + suppId + "&mainPanel=" + mainPanel, true);
     xmlhttp.send();
 }
+
+function chnageAddRawMetalInv(metalType, transType, userId) {
+    var poststr = "metalType=" + encodeURIComponent(metalType) +
+            "&panelName=" + encodeURIComponent(addstockDiv) +
+            "&transType=" + encodeURIComponent(transType) +
+            "&userId=" + encodeURIComponent(userId);
+    chnage_add_raw_metal_inv('include/php/ogrminvdt.php', poststr);
+    return false;
+}
+function chnage_add_raw_metal_inv(url, parameters) {
+    loadXMLDoc2();
+    xmlhttp2.onreadystatechange = alertChnageAddRawMetalInv;
+    xmlhttp2.open('POST', url, true);
+    xmlhttp2.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+    xmlhttp2.setRequestHeader("Content-length", parameters.length);
+    xmlhttp2.setRequestHeader("Connection", "close");
+    xmlhttp2.send(parameters);
+}
+function alertChnageAddRawMetalInv() {
+    if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+        var str = xmlhttp2.responseText;
+        var strArr = new Array();
+        strArr = str.split("*");
+        document.getElementById('sttr_pre_invoice_no').value = strArr[0];
+        document.getElementById('sttr_invoice_no').value = strArr[1].replace(/\s/g, '');
+    } else {
+        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+    }
+}
+function changeRawMetalType(metalType) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("itemTypeDescDiv").innerHTML = xmlhttp.responseText;
+            chnageAddRawMetalInv(addStockMetalType, transType, userId);
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ogrmmtdt.php?metalType=" + metalType, true);
+    xmlhttp.send();
+}
+function searchInvTunchForPanelBlank() {
+    document.getElementById("tunchListDivToAddFineTUNCH").innerHTML = '';
+}
+
+function deleteRawMetalToCashItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, rowsPerPage, mainPanelNew, metType, userId) {
+
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");
+    if (confirm_box == true)
+    {
+        var rawDeleteConfirm = '';
+        confirm_box_for_raw_metal = confirm(deleteItemAlertMess + "\n\nDo you want to delete this Item From Raw Metal Stock?");
+        if (confirm_box_for_raw_metal == true)
+        {
+            rawDeleteConfirm = 'yes';
+        }
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (mainPanel == 'RawUserPanelPurchaseList') {
+                    document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(rawMetalFunctionCloseDiv, 1000);
+                } else if (mainPanel == 'RawStockPanelPurchaseList') {
+                    document.getElementById("rawPanelPurchaseList").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(rawMetalFunctionCloseDiv, 1000);
+                } else if (mainPanel == 'RawSellList') {
+                    document.getElementById("stockPanelSellList").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(rawMetalFunctionCloseDiv, 1000);
+                } else {
+                    document.getElementById("addRawStockInvoice").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(rawMetalFunctionCloseDiv, 1000);
+                }
+            }
+            else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("POST", "include/php/ogrmdelt.php?rwprId=" + rwprId + "&rwmtdrId=" + rwmtdrId + "&mainPanelNew=" + mainPanelNew + "&mainPanel=" + mainPanel +
+                "&payPanelName=" + payPanelName + "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&rawDeleteConfirm=" + rawDeleteConfirm + "&userId=" + userId + "&metType=" + metType, true);
+        xmlhttp.send();
+    }
+}
+function changeAddStockSuppWastage(metalType, suppId) {
+    var poststr = "metalType=" + encodeURIComponent(metalType) +
+            "&suppId=" + encodeURIComponent(suppId);
+    change_add_stock_supp_wastage('include/php/ogitwstg.php', poststr);
+    return false;
+}
+function change_add_stock_supp_wastage(url, parameters) {
+
+    loadXMLDoc2();
+    xmlhttp2.onreadystatechange = alertChangeAddStockSuppWastage;
+    xmlhttp2.open('POST', url, true);
+    xmlhttp2.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+    xmlhttp2.setRequestHeader("Content-length", parameters.length);
+    xmlhttp2.setRequestHeader("Connection", "close");
+    xmlhttp2.send(parameters);
+}
+function alertChangeAddStockSuppWastage() {
+    if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+        document.getElementById("suppItemwstg1").value = xmlhttp2.responseText;
+    } else {
+        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+    }
+}
+function changeSlPrInvoiceNo(panelName, firmId) {
+    var poststr = "panelName=" + encodeURIComponent(panelName) +
+            "&firmId=" + encodeURIComponent(firmId) +
+            "&custId=" + encodeURIComponent(document.getElementById('custId').value) +
+            "&metalType=" + encodeURIComponent(document.getElementById('slPrItemMetal').value);
+    change_slpr_invoice_no('include/php/ogspinchg.php', poststr);
+    return false;
+}
+function change_slpr_invoice_no(url, parameters) {
+    loadXMLDoc2();
+    xmlhttp2.onreadystatechange = alertChangeSlPrInvoiceNo;
+    xmlhttp2.open('POST', url, true);
+    xmlhttp2.setRequestHeader('Content-Type',
+            'application/x-www-form-urlencoded');
+    xmlhttp2.setRequestHeader("Content-length", parameters.length);
+    xmlhttp2.setRequestHeader("Connection", "close");
+    xmlhttp2.send(parameters);
+}
+function alertChangeSlPrInvoiceNo() {
+    if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+        document.getElementById("slPrInvoiceNoDiv").innerHTML = xmlhttp2.responseText;
+    } else {
+        document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+    }
+}
+function getItemPreInvDiv(preInvId, firmId, metalType, div, id, keyCodeInput, mainPanel, custId) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var str = xmlhttp.responseText;
+            if (str == '') {
+                document.getElementById(div).innerHTML = xmlhttp.responseText;
+                document.getElementById('addItemId').value = '1';
+                document.getElementById('changedItemId').value = '1';
+            } else {
+                document.getElementById(div).innerHTML = xmlhttp.responseText;
+                if (keyCodeInput == 40 || keyCodeInput == 38) {
+                    document.getElementById('itemPreIdListToSel').focus();
+                    document.getElementById('itemPreIdListToSel').options[0].selected = true;
+                }
+            }
+        }
+    };
+    xmlhttp.open("POST", "include/php/ogspinchg.php?firmId=" + firmId + "&metalType=" + metalType + "&preInvId=" + preInvId + "&div=" + div + "&id=" + id + "&mainPanel=preInvUpdate", true);
+    xmlhttp.send();
+}
+function changeMetalRateByVal(prefix, count) {
+    var goldWeight = 0;
+    var silverWeight = 0;
+    if (document.getElementById('metalDel' + count).value != 'Deleted') {
+        var payTotalWeight1 = document.getElementById(prefix + 'PayMetal1RecWt' + count).value;
+        var payTotalWeightType1 = document.getElementById(prefix + 'PayMetal1RecWtType' + count).value;
+        var payMetalTunch1 = document.getElementById(prefix + 'PayMetal1Tunch' + count).value;
+        var metalWeight = (payTotalWeight1 * payMetalTunch1) / 100;
+        if (document.getElementById(prefix + 'PayMetalType1' + count).value == 'Gold' || document.getElementById(prefix + 'PayMetalType1' + count).value == 'Alloy') {
+            goldWeight = parseFloat(metalWeight);
+            if (document.getElementById(prefix + 'PayMetal1Val' + count).value == '' || document.getElementById(prefix + 'PayMetal1Val' + count).value == 'NaN')
+                document.getElementById(prefix + 'PayMetal1Val' + count).value = 0;
+            if (document.getElementById(prefix + 'PayMetal1Val' + count).value != 0) {
+                if (payTotalWeightType1 == 'KG') {
+                    document.getElementById(prefix + 'PayMetal1Rate' + count).value = parseFloat(parseFloat(document.getElementById(prefix + 'PayMetal1Val' + count).value) / (goldWeight * document.getElementById('gmWtInKg').value)).toFixed(2);
+                } else if (payTotalWeightType1 == 'GM') {
+//                alert(parseFloat(document.getElementById(prefix + 'PayMetal1Val' + count).value) / goldWeight);
+                    document.getElementById(prefix + 'PayMetal1Rate' + count).value = parseFloat(parseFloat(parseFloat(document.getElementById(prefix + 'PayMetal1Val' + count).value) / goldWeight) * document.getElementById('gmWtInGm').value).toFixed(2);
+//                alert(document.getElementById(prefix + 'PayMetal1Rate' + count).value);
+                } else if (payTotalWeightType1 == 'MG') {
+                    document.getElementById(prefix + 'PayMetal1Rate' + count).value = parseFloat(parseFloat(parseFloat(document.getElementById(prefix + 'PayMetal1Val' + count).value) / goldWeight) * document.getElementById('gmWtInMg').value).toFixed(2);
+                }
+            }
+        }
+        if (document.getElementById(prefix + 'PayMetalType1' + count).value == 'Silver') {
+            silverWeight = parseFloat(metalWeight);
+            if (payTotalWeightType1 == 'KG') {
+                document.getElementById(prefix + 'PayMetal1Rate' + count).value = parseFloat(parseFloat(document.getElementById(prefix + 'PayMetal1Val' + count).value) / (silverWeight * document.getElementById('srGmWtInKg').value)).toFixed(2);
+            } else if (payTotalWeightType1 == 'GM') {
+                document.getElementById(prefix + 'PayMetal1Rate' + count).value = parseFloat((parseFloat(document.getElementById(prefix + 'PayMetal1Val' + count).value) / silverWeight) * (document.getElementById('srGmWtInGm').value)).toFixed(2);
+            } else if (payTotalWeightType1 == 'MG') {
+                document.getElementById(prefix + 'PayMetal1Rate' + count).value = parseFloat((parseFloat(document.getElementById(prefix + 'PayMetal1Val' + count).value) / silverWeight) * (document.getElementById('srGmWtInMg').value)).toFixed(2);
+            }
+        }
+    }
+    return false;
+}
+
+// When the user clicks the button, open the modal 
+function openAddStockPopUp(utransInvId) {
+    document.getElementById('myModal' + utransInvId).style.display = "block";
+}
+
+function openRemPopUp() {
+    document.getElementById('paymentPanelReminderDiv').style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+function closeAddStockPopUp(utransInvId) {
+    document.getElementById('myModal' + utransInvId).style.display = "none";
+}
+
+function closeRemPopUp() {
+    document.getElementById('paymentPanelReminderDiv').style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+//window.onclick = function (event) {
+//    if (event.target == document.getElementById('myModal')) {
+//        document.getElementById('myModal').style.display = "none";
+//    }
+//}
+//
+// START CODE TO CHANGE FUNCTION FOR MASTER ITEM DETAILS @PRIYANKA-20MAR18
+function searchAddStockItemNames(itemCat, metalType, divNum, keyCodeInput, documentRootPath, itemType) {
+    keyCodeForItemNames = keyCodeInput;
+    divNumForItemNames = divNum;
+    panelNameForItemNames = divNum;
+    //
+    var poststr = "itemCat=" + encodeURIComponent(itemCat)
+            + "&metalType=" + encodeURIComponent(metalType)
+            + "&divNum=" + encodeURIComponent(divNum)
+            + "&itemType=" + encodeURIComponent(itemType);
+    //
+    search_item_names("http://" + documentRootPath + "/include/php/ommasteritemsearch.php", poststr);
+}
+// END CODE TO CHANGE FUNCTION FOR MASTER ITEM DETAILS @PRIYANKA-20MAR18
+//
+function changeVATType(accountId, firmId) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            if (xmlhttp.responseText != 'INVALID_ACCOUNT') {
+                document.getElementById('vatAccountLabelDisp').value = xmlhttp.responseText;
+                document.getElementById('vatAmountLabelDisp').value = xmlhttp.responseText;
+            } else {
+                alert('INVALID ACCOUNT');
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/oggtaccnm.php?accId=" + accountId + "&firmId=" + firmId, true);
+    xmlhttp.send();
+}
+function changeItemMetalRate(metalType) {
+    var documentRootPath = document.getElementById('documentRootPath').value;
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            var str = xmlhttp.responseText;
+            var strArr = str.split('*');
+            document.getElementById('metalRateCalculation').value = strArr[0];
+            document.getElementById('sttr_tax').value = strArr[1];
+            document.getElementById('metalRateId').value = strArr[2];
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiachmr.php?metalType=" + metalType, true);
+    xmlhttp.send();
+}
+function getAddStockHelp() {
+    var documentRootPath = document.getElementById('documentRootPath').value;
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById('addItemHelpDiv').innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiafnh.php", true);
+    xmlhttp.send();
+}
+function changeCurrentMetalRate(metalType, metalRate) {
+    var documentRootPath = document.getElementById('documentRootPath').value;
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            var status = xmlhttp.responseText;
+            // alert(status);
+            if (status == 'RATE_NOT_PRESENT') {
+                document.getElementById('metalRateCalculation').value = parseFloat(metalRate);
+                document.getElementById('sttr_tax').value = ''; ///changed by @auth:athu6jun17
+                calStockItemPrice();
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiachmtrt.php?metalType=" + metalType + "&metalRate=" + metalRate, true);
+    xmlhttp.send();
+}
+//
+function barcodeDetails(barcode) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("addStockPanelFormMainDiv").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    //
+    xmlhttp.open("GET", "include/php/ogijsdv.php?barcode=" + barcode, true);
+    xmlhttp.send();
+}
+//
+/******* START CODE TO Delete From AllTransactionList @AUTHOR:PRIYANKA-20-08-17***********/
+function deleteAllTransactionList(panelName, utinId, transactionType, ownerId, utinType, userId) {
+    confirm_box = confirm("Do you really want to delete this entry... \n It will roll back all setlled invoice!!!");
+    if (confirm_box == true) {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                document.getElementById("suppHomePanelSubDiv").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        //
+        xmlhttp.open("GET", "include/php/ogwaldel.php?utinId=" + utinId + "&transactionType=" + transactionType + "&panelName=" + panelName + "&ownerId=" + ownerId + "&utinType=" + utinType + "&userId=" + userId, true);
+        xmlhttp.send();
+    }
+}
+/******* END CODE TO Delete From AllTransactionList @AUTHOR:PRIYANKA-20-08-17***********/
+
+//******************************************@AUTHOR:HARSHAD-20-01-18*************************************************//
+//------------------------------------------Theme Universe Navigation Function---------------------------------------//
+function navigation_universe(panelName) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            if (panelName == 'addStock') {
+                document.getElementById("mainSelectDiv_Universe").innerHTML = xmlhttp.responseText;
+            } else if (panelName == 'omAddImitationStock') {
+                document.getElementById("mainSelectDiv_Universe").innerHTML = xmlhttp.responseText;
+            } else if (panelName == 'omAddCustomer') {
+                document.getElementById("mainSelectDiv_Universe").innerHTML = xmlhttp.responseText;
+            } else if (panelName == 'omSell_Purchase') {
+                document.getElementById("mainSelectDiv_Universe").innerHTML = xmlhttp.responseText;
+            }
+        } else {
+            //document.getElementById("main_ajax_loading_div").style.visibility = "visible";     
+        }
+    };
+    if (panelName == 'addStock') {
+        xmlhttp.open("GET", "include/php/addStock/omAddStock.php?panelName=" + panelName, true);
+    } else if (panelName == 'omAddImitationStock') {
+        xmlhttp.open("GET", "include/php/addStock/omAddImitationStock.php?panelName=" + panelName, true);
+    } else if (panelName == 'omAddCustomer') {
+        xmlhttp.open("GET", "include/php/addCustomer/omAddCustomer.php?panelName=" + panelName, true);
+    } else if (panelName == 'omSell_Purchase') {
+        xmlhttp.open("GET", "include/php/sell_purchase Panel/omSell_Purchase.php?panelName=" + panelName, true);
+    }
+//xmlhttp.open("GET", "include/php/addStock/omAddStock.php?panelName=" + panelName, true);
+    xmlhttp.send();
+}
+//----------------------------------------Theme Universe Navigation Function End-----------------------------------//
+
+//----------------------------------------Delete Transaction Payment Panel Records----------------------------------//
+function deleteTransactionItem(utinId, panelName) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            location.reload();
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/omadtranspnl.php?panelName=" + panelName + "&utinId=" + utinId, true);
+    xmlhttp.send();
+}
+//----------------------------------------Delete Transaction Payment Panel Records----------------------------------//
+//****************************************End Code @AUTHOR: HARSHAD*************************************************//
+// ****************************************************************************************************************//
+// START CODE FOR FUNCTION TO LESS STONE WT FROM GS WT OR NT WT @PRIYANKA-25FEB18
+// ****************************************************************************************************************//
+function stoneWtLessBy(cryCount, autoChk, panel) {
+    // CRYSTAL WEIGHT
+    var cryGSWT = document.getElementById('sttr_gs_weight' + cryCount).value;
+    var cryGSWType = document.getElementById('sttr_gs_weight_type' + cryCount).value;
+    // NET WEIGHT
+    var ntWt = document.getElementById('sttr_nt_weight').value;
+    var ntWtType = document.getElementById('sttr_nt_weight_type').value;
+    if (ntWt == '' || ntWt == 'NaN') {
+        ntWt = 0;
+    }
+    // GROSS WEIGHT
+    var gsWt = document.getElementById('sttr_gs_weight').value;
+    var gsWtType = document.getElementById('sttr_gs_weight_type').value;
+    if (gsWt == '' || gsWt == 'NaN') {
+        gsWt = 0;
+    }
+    // PACKET WEIGHT
+    var pktWt = document.getElementById('sttr_pkt_weight').value;
+    var pktWtType = document.getElementById('sttr_pkt_weight_type').value;
+    if (pktWt == '' || pktWt == null) {
+        pktWt = 0;
+    }
+    // START CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-25FEB18
+    if (cryGSWType == 'KG') { // CRYSTAL WEIGHT TYPE IN KG
+        if (gsWtType == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSWT = cryGSWT;
+    } else if (cryGSWType == 'GM') { // CRYSTAL WEIGHT TYPE IN GM
+        if (gsWtType == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSWT = (cryGSWT * 0.001);
+        else if (gsWtType == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSWT = cryGSWT;
+        else if (gsWtType == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSWT = (cryGSWT * 1000);
+    } else if (cryGSWType == 'MG') { // CRYSTAL WEIGHT TYPE IN MG
+        if (gsWtType == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSWT = (cryGSWT * 0.001);
+        else if (gsWtType == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSWT = cryGSWT;
+    } else if (cryGSWType == 'CT') { // CRYSTAL WEIGHT TYPE IN CT
+        if (gsWtType == 'KG') // METAL WEIGHT TYPE IN KG
+            cryGSWT = (cryGSWT * 0.0002);
+        else if (gsWtType == 'GM') // METAL WEIGHT TYPE IN GM
+            cryGSWT = (cryGSWT * 0.2);
+        else if (gsWtType == 'MG') // METAL WEIGHT TYPE IN MG
+            cryGSWT = (cryGSWT * 200);
+    }
+    // END CODE TO CALCULATE CRYSTAL GS WT ACCORDING TO CRYSTAL WEIGHT TYPE & METAL WEIGHT TYPE @PRIYANKA-25FEB18
+    // IF STONE LESS WT CHECKBOX IS CHECKED                  
+    if (autoChk == 'true') {
+        // IF CHECKED STONE MINUS FROM GS WT/NT WT (MAIN ENTRY) @PRIYANKA-25FEB18
+        if (document.getElementById('sttr_stone_less_wt_by').value == 'lsByNetWt') {
+            // CALCULATE NT WT
+            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            var newPktWT = convertWeight(pktWt, gsWtType, pktWtType);
+            //
+            var remNTWt;
+            remNTWt = parseFloat(gsWt) - parseFloat(cryGSWT);
+            //
+            if (newNetWT == gsWt) {
+                var remWt = parseFloat(gsWt) - parseFloat(cryGSWT);
+            } else {
+                // CALCULATE NT WT
+                var finalNtWt = document.getElementById('netWeight').value;
+                var NetWT = parseFloat(finalNtWt) - parseFloat(cryGSWT);
+                //
+                if (newPktWT != '' && cryCount <= 1) {
+                    var newNtWeight = NetWT - newPktWT;
+                    var remWt = newNtWeight;
+                } else {
+                    var remWt = NetWT;
+                }
+            }
+            // ASSIGN WT VARIABLE TO NT WT
+            document.getElementById('sttr_nt_weight').value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+            // IF CHECKED STONE MINUS FROM GS WT/NT WT (MAIN ENTRY) @PRIYANKA-25FEB18
+        } else if (document.getElementById('sttr_stone_less_wt_by').value == 'lsByGrossWt') {
+            // CALCULATE GS WT
+            var remGSWT;
+            remGSWT = parseFloat(gsWt) - parseFloat(cryGSWT);
+            // ASSIGN WT VARIABLE TO GS WT
+            document.getElementById('sttr_gs_weight').value = parseFloat(remGSWT).toFixed(3);
+            document.getElementById('grossWeight').value = parseFloat(remGSWT).toFixed(3);
+            // CALCULATE NT WT
+            var NetWT = parseFloat(parseFloat(document.getElementById('sttr_gs_weight').value) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            // ASSIGN WT VARIABLE TO NT WT
+            document.getElementById('sttr_nt_weight').value = parseFloat(NetWT).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(NetWT).toFixed(3);
+        }
+    } else {
+        // IF UNCHECK STONE LESS WT CHECKBOX : STONE WT ADDED INTO GS WT/NT WT @PRIYANKA-25FEB18
+        if (document.getElementById('sttr_stone_less_wt_by').value == 'lsByNetWt') {
+            // CALCULATE NT WT
+            var newNetWT = parseFloat(parseFloat(gsWt) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            // CALCULATE ACTUAL NT WT
+            var remNTWt;
+            var remNTWt = parseFloat(gsWt) + parseFloat(cryGSWT);
+            //
+            if (newNetWT == remNTWt) {
+                var remWt = parseFloat(gsWt) + parseFloat(cryGSWT);
+            } else {
+                var finalNtWt = document.getElementById('netWeight').value;
+                var remWt = parseFloat(finalNtWt) + parseFloat(cryGSWT); // NT WT +  CRY GS WT
+            }
+            // ASSIGN WT VARIABLE TO NT WT
+            document.getElementById('sttr_nt_weight').value = parseFloat(remWt).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(remWt).toFixed(3);
+
+        } else if (document.getElementById('sttr_stone_less_wt_by').value == 'lsByGrossWt') {
+            // IF UNCHECK STONE LESS WT CHECKBOX : STONE WT ADDED INTO GS WT/NT WT @PRIYANKA-25FEB18
+            // CALCULATE ACTUAL GS WT
+            var remGSWT;
+            remGSWT = parseFloat(gsWt) + parseFloat(cryGSWT);
+            // ASSIGN WT VARIABLE TO GS WT
+            document.getElementById('sttr_gs_weight').value = parseFloat(remGSWT).toFixed(3);
+            document.getElementById('grossWeight').value = parseFloat(remGSWT).toFixed(3);
+            // CALCULATE ACTUAL NT WT
+            var NetWT = parseFloat(parseFloat(document.getElementById('sttr_gs_weight').value) - convertWeight(pktWt, gsWtType, pktWtType)).toFixed(3);
+            // ASSIGN WT VARIABLE TO NT WT
+            document.getElementById('sttr_nt_weight').value = parseFloat(NetWT).toFixed(3);
+            document.getElementById('netWeight').value = parseFloat(NetWT).toFixed(3);
+        }
+    }
+    // CALLING ADD STOCK CALCULATION FUNCTION AFTER GS WT/ NT WT CHANGE @PRIYANKA-25FEB18
+    calStockItemPrice();
+}
+// ****************************************************************************************************************//
+// END CODE FOR FUNCTION TO LESS STONE WT FROM GS WT OR NT WT @PRIYANKA-25FEB18
+// ****************************************************************************************************************//
+
+/********************************************************************************************************/
+// START CODE TO CALCULATE CUSTOMER WASTAGE ACCORDING TO CUSTOMER WASTAGE WEIGHT @PRIYANKA-11APR18
+/********************************************************************************************************/
+function calculateAddCustWastage() {
+
+    var wt = document.getElementById('sttr_nt_weight').value; // NET WEIGHT
+
+    if (wt == '' || wt == 'NaN') {
+        wt = 0;
+    }
+
+    var finalFineWt = ((parseFloat(document.getElementById('sttr_final_purity').value) * wt) / 100).toFixed(3);
+
+    if (document.getElementById('sttr_cust_wastage_wt').value > 0) { // CUSTOMER WASTAGE WEIGHT IS GREATER THAN ZERO
+
+        document.getElementById('sttr_cust_wastage').value = ((parseFloat(document.getElementById('sttr_cust_wastage_wt').value) * 100) / parseFloat(finalFineWt)); // CALCULATE CUSTOMER WASTAGE
+
+        document.getElementById('sttr_value_added').value = Math_round(((parseFloat(document.getElementById('sttr_cust_wastage_wt').value) * parseFloat(document.getElementById('sttr_metal_rate').value)) / document.getElementById('gmWtInGm').value));
+
+    } else {
+        document.getElementById('sttr_cust_wastage').value = '0'; // CUSTOMER WASTAGE
+        document.getElementById('sttr_value_added').value = '0'; // VALUE ADDED
+        document.getElementById('sttr_cust_wastage_wt').value = '0'; // CUSTOMER WASTAGE WEIGHT
+    }
+
+}
+
+function calculateAddCustWastageWt() {
+
+    var wt = document.getElementById('sttr_nt_weight').value; // NET WEIGHT
+
+    if (wt == '' || wt == 'NaN') {
+        wt = 0;
+    }
+
+    var FFNWT = ((parseFloat(document.getElementById('sttr_final_purity').value) * wt) / 100).toFixed(3);
+
+    if (document.getElementById('sttr_cust_wastage').value > 0) {
+
+        document.getElementById('sttr_cust_wastage_wt').value = ((parseFloat(FFNWT) * parseFloat(document.getElementById('sttr_cust_wastage').value)) / 100).toFixed(3);
+
+        document.getElementById('sttr_value_added').value = Math_round(((parseFloat(document.getElementById('sttr_cust_wastage_wt').value) * parseFloat(document.getElementById('sttr_metal_rate').value)) / document.getElementById('gmWtInGm').value));
+
+
+    } else {
+        document.getElementById('sttr_cust_wastage_wt').value = '0'; // CUSTOMER WASTAGE WEIGHT
+        document.getElementById('sttr_value_added').value = '0'; // VALUE ADDED
+        document.getElementById('sttr_cust_wastage').value = '0'; // CUSTOMER WASTAGE 
+    }
+
+}
+/********************************************************************************************************/
+// END CODE TO CALCULATE CUSTOMER WASTAGE ACCORDING TO CUSTOMER WASTAGE WEIGHT @PRIYANKA-11APR18
+/********************************************************************************************************/
+
+/********************************************************************************************************/
+// START CODE TO DELETE ESTIMATE @PRIYANKA-08JUNE18
+/********************************************************************************************************/
+function deleteEstimate(sttrId, panelName, custId) {
+    confirm_box = confirm("Do you really want to delete this Item?");
+    if (confirm_box == true) {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                if (panelName == 'EstimateList') {
+                    document.getElementById("EstimateList").innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById("estimateDetails").innerHTML = xmlhttp.responseText;
+                }
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("GET", "include/php/ogwaldel.php?sttrId=" + sttrId + "&panelName=" + panelName + "&custId=" + custId, true);
+        xmlhttp.send();
+    }
+}
+/********************************************************************************************************/
+// END CODE TO DELETE ESTIMATE @PRIYANKA-08JUNE18
+/********************************************************************************************************/
+
+/********************************************************************************************************/
+// START CODE FOR MAKE ESTIMATE @PRIYANKA-08JUNE18
+/********************************************************************************************************/
+function makeEstimate(custId, preInvoice, postInvoice, panelName, documentRoot) {
+    confirm_box = confirm("Do you really want to make Estimate?");
+    if (confirm_box == true) {
+        loadXMLDoc();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";               
+                document.getElementById("estimateDetails").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+            }
+        };
+        xmlhttp.open("GET", "include/php/omestimatenav.php?custId=" + custId + "&preInvoice=" + preInvoice + "&postInvoice=" + 
+                             postInvoice + "&panelName=" + panelName + "&documentRoot=" + documentRoot, true);
+        xmlhttp.send();
+    }
+}
+/********************************************************************************************************/
+// END CODE FOR MAKE ESTIMATE @PRIYANKA-08JUNE18
+/********************************************************************************************************/

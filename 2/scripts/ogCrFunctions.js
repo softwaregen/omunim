@@ -9,34 +9,42 @@ function showAddCrystalPanel(panel) {
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
-
     };
-
 
     xmlhttp.open("POST", "include/php/ogcraddv.php", true);
     xmlhttp.send();
 }
 
+
 // Start Code To Add  Crystal PurchasePanel
+//**********Start code to Crystal PurchasePanel in add stock panel:Author:ATHU2JUN17
 function showCystalPurchaseListPanel(panel) {
     loadXMLDoc();
 
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
+            document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
         }
         else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
 
     };
-    xmlhttp.open("POST", "include/php/ogcrprlt.php", true);
+    if(panel =='CrystalList')
+    {
+         xmlhttp.open("POST", "include/php/ompurchaselist.php?panelName=" + panel, true);
     xmlhttp.send();
+    } else {
+         xmlhttp.open("POST", "include/php/ompurchase.php?panelName=" + panel, true);
+    xmlhttp.send();
+    }
+   
 }
 
 // Start Code To Add  Crystal Sold Out List Panel
 function showCrystalSoldOutListPanel(panel, custId) {
+    // alert(panel);
     loadXMLDoc();
 
     xmlhttp.onreadystatechange = function () {
@@ -49,9 +57,13 @@ function showCrystalSoldOutListPanel(panel, custId) {
 
     };
     // file changd below sent main panel name insted of panel @Author:SHE23FEB15
+    if (panel == 'ReturnedItemList')
+      xmlhttp.open("GET", "include/php/ogspisdv.php?custId=" + custId + "&sellPanel=" + panel + "&mainPanel=ReturnedItemList", true);
+else
     xmlhttp.open("GET", "include/php/ogspisdv.php?custId=" + custId + "&sellPanel=" + panel + "&crystalPanel=CrystalSoldOutList&mainPanel=SoldOutList", true);
     xmlhttp.send();
 }
+
 //   Start Code For exist Stock Functionality
 function addCrystalExistingItemDiv(newPreInvoiceNo, newInvoiceNo, panelName, stockType) {
     loadXMLDoc();
@@ -71,14 +83,16 @@ function addCrystalExistingItemDiv(newPreInvoiceNo, newInvoiceNo, panelName, sto
 
 // Start Code to Calculate VAluations For Crystal
 function calcCryTotalTaxPrice() {
-    var crystalQTY = parseInt(document.getElementById('addItemCryQty').value);
-    var crystalGsWt = parseFloat(document.getElementById('addItemCryGSW').value);
-    var crystalGsWtTyp = document.getElementById('addItemCryGSWTyp').value;
-    var crystalRate = parseFloat(document.getElementById('addItemCryRate').value);
-    var crystalRateType = document.getElementById('addItemCryRateTyp').value;
-    var crystalVal = parseFloat(document.getElementById('addItemCryVal').value);
-    var crystalTax = parseFloat(document.getElementById('addCrystalVATTax').value);
-    var crystalTotTax = parseFloat(document.getElementById('addCrystalTotTax').value);
+//    alert(document.getElementById('addItemCryQty').value);
+    var crystalQTY = parseInt(document.getElementById('sttr_quantity').value);
+    var crystalGsWt = parseFloat(document.getElementById('sttr_gs_weight').value);
+    var crystalGsWtTyp = document.getElementById('sttr_gs_weight_type').value;
+    var crystalRate = parseFloat(document.getElementById('sttr_purchase_rate').value);
+    var crystalRateType = document.getElementById('sttr_purchase_rate_type').value;
+    var crystalVal = parseFloat(document.getElementById('sttr_valuation').value);
+    var crystalTax = parseFloat(document.getElementById('sttr_tax').value);
+    var crystalTotTax = parseFloat(document.getElementById('sttr_tot_tax').value);
+
     var totalGSWTNRate = 0;
     var totalCrystalTax = 0;
     var finalValuation = 0;
@@ -139,32 +153,37 @@ function calcCryTotalTaxPrice() {
     } else {//****END code to convert rate :DISH11NOV16****//
         totalGSWTNRate = crystalRate * crystalGsWt;
     }
-    document.getElementById('addItemCryVal').value = (totalGSWTNRate).toFixed(2);
-
-    if (document.getElementById('addItemCryVal').value == 'NaN' || document.getElementById('addItemCryVal').value == '') {
-        document.getElementById('addItemCryVal').value = 0;
+    if(document.getElementById('sttr_gs_weight').value == ''){
+        totalGSWTNRate = crystalRate * crystalQTY;
     }
-    document.getElementById('addCrystalFinalVal').value = document.getElementById('addItemCryVal').value;
-    if (document.getElementById('addCrystalVATTax').value != '') {
+    document.getElementById('sttr_valuation').value = (totalGSWTNRate).toFixed(2);
+
+    if (document.getElementById('sttr_valuation').value == 'NaN' || document.getElementById('sttr_valuation').value == '') {
+        document.getElementById('sttr_valuation').value = 0;
+    }
+    document.getElementById('sttr_final_valuation').value = document.getElementById('sttr_valuation').value;
+    if (document.getElementById('sttr_tax').value != '') {
         totalCrystalTax = totalGSWTNRate * (crystalTax / 100);
-        document.getElementById('addCrystalTotTax').value = (totalCrystalTax).toFixed(2);
-        if (document.getElementById('addCrystalTotTax').value == 'NaN') {
-            document.getElementById('addCrystalTotTax').value = 0;
+        document.getElementById('sttr_tot_tax').value = (totalCrystalTax).toFixed(2);
+        if (document.getElementById('sttr_tot_tax').value == 'NaN') {
+            document.getElementById('sttr_tot_tax').value = 0;
         }
         finalValuation = totalCrystalTax + totalGSWTNRate;
-        document.getElementById('addCrystalFinalVal').value = (finalValuation).toFixed(2);
+        document.getElementById('sttr_final_valuation').value = (finalValuation).toFixed(2);
     }
-    if (document.getElementById('addCrystalFinalVal').value == 'NaN') {
-        document.getElementById('addCrystalFinalVal').value = 0;
+    if (document.getElementById('sttr_final_valuation').value == 'NaN') {
+        document.getElementById('sttr_final_valuation').value = 0;
     }
 }
 
 // Start code for  Validation of crystal 
 function addCrystal() {
+//alert(document.getElementById('stockType').value);
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     if (document.getElementById('payButClickId').value == 'true') {
         return true;
     } else {
+//        alert(document.getElementById('stockType').value);
         if (document.getElementById('stockType').value == 'retailStock') {
             functionName = validateAddCrystalInputs;
         } else {
@@ -180,109 +199,128 @@ function addCrystal() {
 
 // Start code for  Validation of wholesale crystal stock
 function validateAddWhCrystalInputs() {
-    if (validateSelectField(document.getElementById("addCrystalDOBDay").value, "Please select Day!") == false) {
-        document.getElementById("addCrystalDOBDay").focus();
+    if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please select Day!") == false) {
+        document.getElementById("addItemDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addCrystalDOBMonth").value, "Please select Month!") == false) {
-        document.getElementById("addCrystalDOBMonth").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBMonth").value, "Please select Month!") == false) {
+        document.getElementById("addItemDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addCrystalDOBYear").value, "Please select Year!") == false) {
-        document.getElementById("addCrystalDOBYear").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBYear").value, "Please select Year!") == false) {
+        document.getElementById("addItemDOBYear").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
+    } else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
         document.getElementById("firmId").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addCrystalPreId").value, "Please enter Item Pre Id!") == false) {
-        document.getElementById("addCrystalPreId").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_pre_id").value, "Please enter Item Pre Id!") == false) {
+        document.getElementById("sttr_item_pre_id").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryId").value, "Please enter Crystal Id!") == false)
+    else if (validateEmptyField(document.getElementById("sttr_item_category").value, "Please enter Crystal Id!") == false)
     {
-        document.getElementById("addItemCryId").focus();
+        document.getElementById("sttr_item_category").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryName").value, "Please enter Crystal Name!") == false) {
-        document.getElementById("addItemCryName").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please enter Crystal Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryQty").value, "Please enter Crystal Quantity!") == false ||
-            validateNum(document.getElementById("addItemCryQty").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCryQty").focus();
+//    else if (validateEmptyField(document.getElementById("addItemCryQty").value, "Please enter Crystal Quantity!") == false ||
+//            validateNum(document.getElementById("addItemCryQty").value, "Accept only numeric characters without space!") == false) {
+//        document.getElementById("addItemCryQty").focus();
+//        return false;
+//    }
+    else if (document.getElementById('stockType').value != 'retailStock') {
+        if (document.getElementById("sttr_gs_weight").value == '') {
+            if (validateEmptyField(document.getElementById("sttr_quantity").value, "Please enter Crystal Quantity!") == false ||
+                    validateNum(document.getElementById("sttr_quantity").value, "Accept only numeric characters without space!") == false) {
+                document.getElementById("sttr_quantity").focus();
+                return false;
+            }
+        }
+    }
+//    alert(document.getElementById("sttr_gs_weight").value);
+        if (document.getElementById("sttr_gs_weight").value == '') {
+            alert('Please enter Gross Weight!');
+            document.getElementById("sttr_gs_weight").focus();
+            return false;
+        }
+    if (validateEmptyField(document.getElementById("sttr_purchase_rate").value, "Please enter Crystal Rate!") == false) {
+        document.getElementById("sttr_purchase_rate").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryGSW").value, "Please enter Gross Weight!") == false ||
-            validateNumWithDot(document.getElementById("addItemCryGSW").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCryGSW").focus();
-        return false;
+    if (document.getElementById('stockType').value == 'retailStock') {
+        if (validateEmptyField(document.getElementById("sttr_gs_weight").value, "Please enter Gross Weight!") == false ||
+                validateNumWithDot(document.getElementById("sttr_gs_weight").value, "Accept only numeric characters without space!") == false) {
+            document.getElementById("sttr_gs_weight").focus();
+            return false;
+        }
     }
-    else if (validateEmptyField(document.getElementById("addItemCryRate").value, "Please enter Crystal Rate!") == false ||
-            validateNum(document.getElementById("addItemCryRate").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCryRate").focus();
-        return false;
+    if (document.getElementById('stockType').value != 'retailStock') {
+        if (document.getElementById("sttr_gs_weight").value == '') {
+            if (validateEmptyField(document.getElementById("sttr_quantity").value, "Please enter Crystal Quantity!") == false ||
+                    validateNum(document.getElementById("sttr_quantity").value, "Accept only numeric characters without space!") == false) {
+                document.getElementById("sttr_quantity").focus();
+                return false;
+            }
+        }
     }
     return true;
 }
 // Start code for  Validation of retail crystal stock
 function validateAddCrystalInputs() {
-    if (validateSelectField(document.getElementById("addCrystalDOBDay").value, "Please select Day!") == false) {
-        document.getElementById("addCrystalDOBDay").focus();
+    if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please select Day!") == false) {
+        document.getElementById("addItemDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addCrystalDOBMonth").value, "Please select Month!") == false) {
-        document.getElementById("addCrystalDOBMonth").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBMonth").value, "Please select Month!") == false) {
+        document.getElementById("addItemDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addCrystalDOBYear").value, "Please select Year!") == false) {
-        document.getElementById("addCrystalDOBYear").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBYear").value, "Please select Year!") == false) {
+        document.getElementById("addItemDOBYear").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
+    } else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
         document.getElementById("firmId").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addCrystalPreId").value, "Please enter Item Pre Id!") == false) {
-        document.getElementById("addCrystalPreId").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_pre_id").value, "Please enter Item Pre Id!") == false) {
+        document.getElementById("sttr_item_pre_id").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addCrystalId").value, "Please enter Item Id!") == false) {
-        document.getElementById("addCrystalId").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_id").value, "Please enter Item Id!") == false) {
+        document.getElementById("sttr_item_id").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryId").value, "Please enter Crystal Id!") == false)
+    else if (validateEmptyField(document.getElementById("sttr_item_category").value, "Please enter Crystal Id!") == false)
     {
-        document.getElementById("addItemCryId").focus();
+        document.getElementById("sttr_item_category").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryName").value, "Please enter Crystal Name!") == false) {
-        document.getElementById("addItemCryName").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please enter Crystal Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryQty").value, "Please enter Crystal Quantity!") == false ||
-            validateNum(document.getElementById("addItemCryQty").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCryQty").focus();
+    else if (validateEmptyField(document.getElementById("sttr_quantity").value, "Please enter Crystal Quantity!") == false ||
+            validateNum(document.getElementById("sttr_quantity").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_quantity").focus();
         return false;
     }
 
-    else if (validateEmptyField(document.getElementById("addItemCryGSW").value, "Please enter Gross Weight!") == false ||
-            validateNumWithDot(document.getElementById("addItemCryGSW").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCryGSW").focus();
+    else if (validateEmptyField(document.getElementById("sttr_gs_weight").value, "Please enter Gross Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_gs_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_gs_weight").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemCryRate").value, "Please enter Crystal Rate!") == false ||
-            validateNum(document.getElementById("addItemCryRate").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCryRate").focus();
+    else if (validateEmptyField(document.getElementById("sttr_purchase_rate").value, "Please enter Crystal Rate!") == false) {
+        document.getElementById("sttr_purchase_rate").focus();
         return false;
     }
     return true;
 }
 
 /**********Start code to add function to get crystal name on enter kety @Author:SHEETAL20JAN15*********/
-function getCrystalType(div, id, keyCodeInput, mainPanel) {
-
+/**********Start code to add function to get crystal name on enter kety @Author:SANT23JAN17*********/
+/************code modified 1/17/2018  one extra paramenter added to function for auto suggestion crystal name*******/
+function getCrystalType(itemname,div, id, keyCodeInput, mainPanel, subPanelName) {
     var CryId = document.getElementById(id).value;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -294,9 +332,11 @@ function getCrystalType(div, id, keyCodeInput, mainPanel) {
             }
         }
     };
-    xmlhttp.open("POST", "include/php/ogcriaml.php?id=" + id + "&div=" + div + "&mainPanel=" + mainPanel + "&CryId=" + CryId, true);
+    xmlhttp.open("POST", "include/php/ogcriaml.php?id=" + id + "&div=" + div + "&mainPanel=" + mainPanel + "&CryId=" + CryId + "&subPanelName=" + subPanelName
+    + "&itemName=" + itemname, true);
     xmlhttp.send();
 }
+/**********End code to add function to get crystal name on enter kety @Author:SANT23JAN17*********/
 var addstockDiv;
 var addItemCryType;
 
@@ -332,9 +372,9 @@ function alertChangeStockCrystalId() {
             var str = xmlhttp.responseText;
             var strValue = new Array();
             strValue = str.split("*");
-            document.getElementById("addCrystalPreId").value = strValue[0];
-            document.getElementById("addCrystalId").value = strValue[1];
-            document.getElementById("addCrystalPreId").focus();
+            document.getElementById("sttr_item_pre_id").value = strValue[0];
+            document.getElementById("sttr_item_id").value = strValue[1];
+            document.getElementById("sttr_item_pre_id").focus();
             changeAddCrystalRate(addItemCryType);
         }
     }
@@ -345,13 +385,16 @@ function alertChangeStockCrystalId() {
 // Code to g crystal from Crystal Purchase List
 //*****************END code :DISH14NOV16**********************************//
 // Code to g crystal from Crystal Purchase List
-function deleteCrystal(itstId, itprId, panelName, mainPanel, pageNo, sellPresent, itprcryId, itprcryName) {
+//*****Start code for crystal purchase for supplier:Author:SANT22JAN17
+function deleteCrystal(itstId, sttrId, panelName, mainPanel, pageNo, sellPresent, itprcryId, itprcryName, utinId, itemDeletePanel) {
     if (sellPresent > 0) {
         alert('To Delete,First Delete This Item From Customer Purchase Panel!');
         return false;
     } else {
         confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?");//add variables of alert msgs @AUTHOR: SANDY29JAN14
-        if (confirm_box == true) {
+        var stockDelete = document.getElementById("stockDelete").value;
+        
+        if (confirm_box == true && stockDelete == 'Y') {
             confirm_box1 = confirm(deleteItemAlertMess + "\n\nDo you want to delete this Item from Stock?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
             if (confirm_box1 == true) {
                 var delFromStock = 'delfromstock'; //add variables of to delete from stock: DISH14NOV16
@@ -362,23 +405,25 @@ function deleteCrystal(itstId, itprId, panelName, mainPanel, pageNo, sellPresent
             loadXMLDoc();
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//alert(mainPanel);
                     document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                     if (panelName == 'ItemDetailPanel') {
                         document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
                         window.setTimeout(CrystalGlobalFunctionToCloseDiv, 1000);
-                    }
-                    else if (panelName == 'StockList') {
+                    } else if (mainPanel == 'StockList') {
 
-                        document.getElementById("stockList").innerHTML = xmlhttp.responseText;
+                        document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
                         window.setTimeout(CrystalGlobalFunctionToCloseDiv, 1000);
                     } else if (panelName == 'CrystalPurchaseList') {
 
                         document.getElementById("crystalPanelPurchaseList").innerHTML = xmlhttp.responseText;
                         closeMessDiv('messDisplayDiv', 'DELETED');
-                    }
-                    else if (mainPanel == 'StockInvoice') {
+                    } else if (mainPanel == 'StockInvoice') {
                         document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
                         closeMessDiv('messDisplayDiv', 'DELETED');
+                    } else if (panelName == 'TagItemDelete') {
+                        document.getElementById("crystalPanelFormDiv").innerHTML = xmlhttp.responseText;
+                       
                     } else if (pageNo == 'SuppPanel' || pageNo == 'addByItems') {
                         document.getElementById("suppPurchaseDivs").innerHTML = xmlhttp.responseText;
                         closeMessDiv('messDisplayDiv', 'DELETED');
@@ -390,12 +435,18 @@ function deleteCrystal(itstId, itprId, panelName, mainPanel, pageNo, sellPresent
                     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
                 }
             };
-            xmlhttp.open("GET", "include/php/ogcrldel.php?itstId=" + itstId + "&itprId=" + itprId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&itprcryCryId=" + itprcryId + "&itprcryName=" + itprcryName + "&delFromStock=" + delFromStock, true);
+
+            if(panelName == 'TagItemDelete') {
+                 xmlhttp.open("GET", "ogcrldel.php?itstId=" + itstId + "&sttrId=" + sttrId + "&stockDelete=" + stockDelete + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&itprcryCryId=" + itprcryId + "&itprcryName=" + itprcryName + "&delFromStock=" + delFromStock + "&utinId=" + utinId + "&itemDeletePanel=" + itemDeletePanel, true);
+            } else {
+                 xmlhttp.open("GET", "include/php/ogcrldel.php?itstId=" + itstId + "&sttrId=" + sttrId + "&stockDelete=" + stockDelete + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&itprcryCryId=" + itprcryId + "&itprcryName=" + itprcryName + "&delFromStock=" + delFromStock + "&utinId=" + utinId + "&itemDeletePanel=" + itemDeletePanel, true);
+            }
+           
             xmlhttp.send();
         }
     }
 }
-// Start code to display values in payment panel
+//*****End code for crystal purchase for supplier:Author:SANT22JAN17
 function CrystalGlobalFunctionToCloseDiv() {
     document.getElementById('messDisplayDiv').innerHTML = '';
 }
@@ -495,8 +546,7 @@ function alertSearchSuppIdForTextFieldCrystal() {
             document.getElementById('suppListForTextFieldSelect').focus();
             document.getElementById('suppListForTextFieldSelect').options[0].selected = true;
         }
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -550,8 +600,7 @@ function alertSearchCrystalNames() {
                 document.getElementById('itemListToAddItemSelect').focus();
                 document.getElementById('itemListToAddItemSelect').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     }
@@ -579,12 +628,13 @@ function showCrystalDetailsDiv(documentRootPath, itstId, panelName, page) {
 
 // Code to calculate valuation in sell purchase panel of crystal
 function calculateSellPriceCrystal() {
-    var crystalQTY = parseInt(document.getElementById('slPrItemPieces').value);
-    var crystalGsWt = parseFloat(document.getElementById('slPrItemGSW').value);
-    var crystalGsWtTyp = document.getElementById('slPrItemGSWT').value;
-    var crystalRate = parseFloat(document.getElementById('slPrCryRate').value);
-    var crystalRateType = document.getElementById('slPrCryRateTyp').value;
-    var crystalVal = parseFloat(document.getElementById('slPrCryVal').value);
+    
+    var crystalQTY = parseInt(document.getElementById('sttr_quantity').value);
+    var crystalGsWt = parseFloat(document.getElementById('sttr_gs_weight').value);
+    var crystalGsWtTyp = document.getElementById('sttr_gs_weight_type').value;
+    var crystalRate = parseFloat(document.getElementById('sttr_sell_rate').value);
+    var crystalRateType = document.getElementById('sttr_sell_rate_type').value;
+    var crystalVal = parseFloat(document.getElementById('sttr_valuation').value);
     var totalGSWTNRate = 0;
     var totalCryVal = 0.0;
     if (crystalRateType == 'PP') {
@@ -644,76 +694,121 @@ function calculateSellPriceCrystal() {
     } else {//****END code to convert rate :DISH14NOV16****//
         totalGSWTNRate = crystalRate * crystalGsWt;
     }//********************
-    document.getElementById('slPrCryVal').value = Math.round(totalGSWTNRate).toFixed(2);
-    if (document.getElementById('slPrCryVal').value == 'NaN') {
-        document.getElementById('slPrCryVal').value = 0;
+    document.getElementById('sttr_valuation').value = Math_round(totalGSWTNRate).toFixed(2);
+    if (document.getElementById('sttr_valuation').value == 'NaN') {
+        document.getElementById('sttr_valuation').value = 0;
     }
-    totalCryVal += parseFloat(document.getElementById('slPrCryVal').value);
-    document.getElementById('slPrCryVal').value = Math.round(parseFloat(totalCryVal)).toFixed(2);
-    document.getElementById('slPrCryFinVal').value = document.getElementById('slPrCryVal').value;
-    if (document.getElementById('slPrItemCryTax').value != '') {
-        document.getElementById('slPrCrystalTotTax').value = (parseFloat((document.getElementById('slPrCryVal').value * document.getElementById('slPrItemCryTax').value) / 100)).toFixed(2);
-        ;
-        document.getElementById('slPrCryFinVal').value = (parseFloat(document.getElementById('slPrCryVal').value) + parseFloat(document.getElementById('slPrCrystalTotTax').value)).toFixed(2);
+//    totalCryVal += parseFloat(document.getElementById('sttr_valuation').value);
+//    document.getElementById('sttr_valuation').value = Math_round(parseFloat(totalCryVal)).toFixed(2);
+    //START CHANGES BY AUTHOR:AMOL5Oct2017
+    if (document.getElementById('slPrItemPriMkgCgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgCgstChrg').value = 0;
     }
+    if (document.getElementById('slPrItemPriMkgSgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemPriMkgIgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = 0;
+    }
+     
+    //calculate CGST 
+    if (document.getElementById('slPrItemPriMkgCgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgCgstChrg').value = (parseFloat(document.getElementById('sttr_valuation').value) * (parseFloat(document.getElementById('slPrItemPriMkgCgstPer').value) / 100)).toFixed(2);
+    }
+   //calculate SGST 
+    if (document.getElementById('slPrItemPriMkgSgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = (parseFloat(document.getElementById('sttr_valuation').value) * (parseFloat(document.getElementById('slPrItemPriMkgSgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate IGST 
+    if (document.getElementById('slPrItemPriMkgIgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = (parseFloat(document.getElementById('sttr_valuation').value) * (parseFloat(document.getElementById('slPrItemPriMkgIgstPer').value) / 100)).toFixed(2);
+    }
+    
+     //Calculate Total Item Tax cgst+sgst+igst
+    document.getElementById('slPrItemTotTax').value = (parseFloat(document.getElementById('slPrItemPriMkgCgstChrg').value) +
+                                                    parseFloat(document.getElementById('slPrItemPriMkgSgstChrg').value) +
+                                                    parseFloat(document.getElementById('slPrItemPriMkgIgstChrg').value));
+     document.getElementById('sttr_final_valuation').value = (parseFloat(document.getElementById('sttr_valuation').value)) +
+                                                             (parseFloat(document.getElementById('slPrItemTotTax').value));
+    //END CHANGES BY AUTHOR:AMOL5Oct2017 
+//    if (document.getElementById('sttr_tax').value != '') {
+//        document.getElementById('sttr_tot_tax').value = (parseFloat((document.getElementById('sttr_valuation').value * document.getElementById('sttr_tax').value) / 100)).toFixed(2);
+//        ;
+//        document.getElementById('sttr_final_valuation').value = (parseFloat(document.getElementById('sttr_valuation').value) + parseFloat(document.getElementById('sttr_tot_tax').value)).toFixed(2);
+//    }
+    
+    
 //            if (document.getElementById('slPrCryFinVal').value != '') {
 //                calculateSellPriceCrystal();
 //            }
 
 }
 // Code to Add function for the delete crystal from the sell purchase table
-function deleteSellItemCrystal(custId, slPrId, panelName, mainPanel) {
-//    if (mainPanel == 'SellItemReturn' && panelName == 'ItemReturn') {
-//        confirm_box = confirm("Do you really want to Return this Item?");
-//    } else if (mainPanel == 'SellItemReturn' && panelName == 'ItemActive') {
-//        confirm_box = confirm("Do you really want to Reactive this Item?");
-//    } else {
-    confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
-//    }
-    if (confirm_box == true)
-    {
-        loadXMLDoc();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+function deleteSellItemCrystal(custId, slPrId, panelName, mainPanel, count,slPrInvoiceNo,slPrPreInvoiceNo) {
+//    alert("okkkkk");
+//    alert(slPrInvoiceNo+"="+slPrPreInvoiceNo);
+//    alert(document.getElementById("upPanel").value);
+    if ((document.getElementById("upPanel").value == 'ItemCrystalSoldOutList' || document.getElementById("upPanel").value == 'CrySellPayUp' || document.getElementById("upPanel").value == 'SellDetUpPanel') && parseFloat(document.getElementById("invoiceRow" + count).value) > 0) {
+        alert('You can not delete this Item');
+    } else {
+        confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
+        
+        var stockDelete = document.getElementById("stockDelete").value;
+        
+        if (confirm_box == true)
+        {
+            if (stockDelete == 'Y')
+            {
+                confirm_box1 = confirm(addItemAlertMess + "\n\nDo you want to add this Item to Stock ?");
+                if (confirm_box1 == true) {
+                    var addToStock = 'addtostock';
+                }
+            }
+
+            loadXMLDoc();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
 //                if (mainPanel == 'SellItemReturn') {
 //                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
 //                } else 
-                if (panelName == 'CrystalSoldOutList') {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(sellCryFunctionToCloseDiv, 1000);
-                } else if (mainPanel == 'MainSoldOutListDel' && panelName == '') {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    if (panelName == 'CrystalSoldOutList') {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(sellCryFunctionToCloseDiv, 1000);
+                    } else if (mainPanel == 'MainSoldOutListDel' && panelName == '') {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    } else {
+                        document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    }
                 } else {
-                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
                 }
-            } else {
-                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-            }
-        };
-        xmlhttp.open("GET", "include/php/ogcrspdl.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel, true);
-        xmlhttp.send();
-    }
+            };
+            xmlhttp.open("GET", "include/php/ogcrspdl.php?custId=" + custId + "&slPrId=" + slPrId + "&stockDelete=" + stockDelete + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&addToStock=" + addToStock  + "&slPrInvoiceNo=" + slPrInvoiceNo + "&slPrPreInvoiceNo=" + slPrPreInvoiceNo , true);
+            xmlhttp.send();
+        }
+}
 }
 
 function sellCryFunctionToCloseDiv() {
     document.getElementById('sellCryMessDisplayDiv').innerHTML = '';
 }
 // Function to display crystal list in stock Panel
-function showStockCrystalList(panel) {
+//amol
+function showStockCrystalList(divPanel) {
+    // alert(divPanel);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogcrmnlt.php?listPanel=" + panel, true);
+    xmlhttp.open("POST", "include/php/omwgstlt.php?divPanel=" + divPanel, true);
     xmlhttp.send();
 }
 
@@ -722,8 +817,7 @@ function showSelPageInStockListCrystal(pageNo, panel, rowsPerPage, start, end, w
     if (pageNo == 0) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
-    }
-    else {
+    } else {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -731,12 +825,10 @@ function showSelPageInStockListCrystal(pageNo, panel, rowsPerPage, start, end, w
                     document.getElementById("crystalStockListDiv").innerHTML = xmlhttp.responseText;
                     if (pageNo >= 10) {
                         setPageValue(pageNo, noOfPagesAsLink);
-                    }
-                    else {
+                    } else {
                         document.getElementById('pageNoTextField' + pageNo).setAttribute("class", "currentPageNoButton");
                     }
-                }
-                else {
+                } else {
                     document.getElementById("repairedItemListDiv").innerHTML = xmlhttp.responseText;
                 }
             }
@@ -791,7 +883,8 @@ function gettailBarCodeField(option, value, panelName) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogijlgcd.php?option=" + option + "&value=" + value + "&panelName=" + panelName, true);
+//    xmlhttp.open("POST", "include/php/ogijlgcd.php?option=" + option + "&value=" + value + "&panelName=" + panelName, true);
+    xmlhttp.open("POST", "include/php/omijlgcd.php?option=" + option + "&value=" + value + "&panelName=" + panelName, true);
     xmlhttp.send();
 }
 function showCrystalStokPanel(divPanel) {
@@ -809,7 +902,8 @@ function showCrystalStokPanel(divPanel) {
             + divPanel, true);
     xmlhttp.send();
 }
-function showItemCrystalDetailsDiv(documentRootPath, itstId, panelName, page, crystalId) {
+function showItemCrystalDetailsDiv(documentRootPath, sttrId, panelName, page, crystalId) {
+
     var panelNameItemDetails = panelName;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -824,7 +918,7 @@ function showItemCrystalDetailsDiv(documentRootPath, itstId, panelName, page, cr
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogcrisbd.php?itstId=" + itstId + "&page=" + page + "&crystalId=" + crystalId, true);
+    xmlhttp.open("POST", "include/php/ogcrisbd.php?sttrId=" + sttrId + "&page=" + page + "&crystalId=" + crystalId, true);
     xmlhttp.send();
 }
 function navigateBackToCrystalStockPanel(documentRootPath, panel, page) {
@@ -847,8 +941,7 @@ function navigationCrystalItemListPanel(pageNo, startRange, endRange, itemName, 
     if (pageNo == 0) {
         document.getElementById('enterPageNo').value = '';
         alert("Please select correct page Number!!");
-    }
-    else {
+    } else {
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -886,8 +979,7 @@ function navigateBackToCrystalPanel(documentRootPath, panel, page) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("CrystalPanel").innerHTML = xmlhttp.responseText;
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -990,8 +1082,7 @@ function alertSearchCrystalNames() {
                 document.getElementById('itemListToAddItemSelect').focus();
                 document.getElementById('itemListToAddItemSelect').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     }
@@ -1004,8 +1095,7 @@ function valSearchCrystalStockByRequirement(obj) {
     if (validateEmptyField(document.srch_crystalStock.stockAmtStartRange.value, "Please enter start range!") == false) {
         document.srch_crystalStock.stockAmtStartRange.focus();
         return false;
-    }
-    else if (validateEmptyField(document.srch_crystalStock.stockAmtEndRange.value, "Please enter end range!") == false)
+    } else if (validateEmptyField(document.srch_crystalStock.stockAmtEndRange.value, "Please enter end range!") == false)
     {
         document.srch_crystalStock.stockAmtEndRange.focus();
         return false;
@@ -1031,8 +1121,7 @@ function alertSearchCrystalStock() {
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("stockByAmtRangeGoButt").style.visibility = "visible";
         document.getElementById("crystalStockListDiv").innerHTML = xmlhttp.responseText;
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         document.getElementById("stockByAmtRangeGoButt").style.visibility = "hidden";
     }
@@ -1060,48 +1149,37 @@ function sellPurchaseSubmitCrystal() {
         if (validateSelectField(document.getElementById("slPrDOBDay").value, "Please select Day!") == false) {
             document.getElementById("slPrDOBDay").focus();
             return false;
-        }
-        else if (validateSelectField(document.getElementById("slPrDOBMonth").value, "Please select Month!") == false) {
+        } else if (validateSelectField(document.getElementById("slPrDOBMonth").value, "Please select Month!") == false) {
             document.getElementById("slPrDOBMonth").focus();
             return false;
-        }
-        else if (validateSelectField(document.getElementById("slPrDOBYear").value, "Please select Year!") == false) {
+        } else if (validateSelectField(document.getElementById("slPrDOBYear").value, "Please select Year!") == false) {
             document.getElementById("slPrDOBYear").focus();
             return false;
-        }
-        else if (validateEmptyField(document.getElementById("slPrInvoiceNo").value, "Please enter Invoice Number!") == false ||
+        } else if (validateEmptyField(document.getElementById("slPrInvoiceNo").value, "Please enter Invoice Number!") == false ||
                 validateNum(document.getElementById("slPrInvoiceNo").value, "Accept only numeric characters without space character!") == false) {
             document.getElementById("slPrInvoiceNo").focus();
             return false;
         } else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
             document.getElementById("firmId").focus();
             return false;
-        } else if (validateSelectField(document.getElementById("accountId").value, "Please select Account Name!") == false) {
-            document.getElementById("accountId").focus();
+        } else if (validateSelectField(document.getElementById("sttr_account_id").value, "Please select Account Name!") == false) {
+            document.getElementById("sttr_account_id").focus();
             return false;
-        }
+        } else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please enter Item Name!") == false) {
+            document.getElementById("sttr_item_name").focus();
 
-        else if (validateEmptyField(document.getElementById("slPrItemName").value, "Please enter Item Name!") == false) {
-            document.getElementById("slPrItemName").focus();
-
-        }
-
-        else if (validateEmptyField(document.getElementById("slPrItemPieces").value, "Please enter Crystal Quantity!") == false ||
-                validateNum(document.getElementById("slPrItemPieces").value, "Accept only numeric characters without space!") == false) {
-            document.getElementById("slPrItemPieces").focus();
+        } else if (validateEmptyField(document.getElementById("sttr_quantity").value, "Please enter Crystal Quantity!") == false ||
+                validateNum(document.getElementById("sttr_quantity").value, "Accept only numeric characters without space!") == false) {
+            document.getElementById("sttr_quantity").focus();
             return false;
-        }
-
-        else if (validateEmptyField(document.getElementById("slPrItemGSW").value, "Please enter Gross Weight!") == false ||
-                validateNumWithDot(document.getElementById("slPrItemGSW").value, "Accept only numeric characters without space!") == false) {
-            document.getElementById("slPrItemGSW").focus();
+        } else if (validateEmptyField(document.getElementById("sttr_gs_weight").value, "Please enter Gross Weight!") == false ||
+                validateNumWithDot(document.getElementById("sttr_gs_weight").value, "Accept only numeric characters without space!") == false) {
+            document.getElementById("sttr_gs_weight").focus();
             return false;
-        }
-        else if (validateEmptyField(document.getElementById("slPrCryRate").value, "Please enter Crystal Rate!") == false ||
-                validateNum(document.getElementById("slPrCryRate").value, "Accept only numeric characters without space!") == false) {
-            document.getElementById("slPrCryRate").focus();
+        } else if (validateEmptyField(document.getElementById("sttr_sell_rate").value, "Please enter Crystal Rate!") == false) {
+            document.getElementById("sttr_sell_rate").focus();
             return false;
-        }
+        } 
 //    else if (validateEmptyField(document.getElementById("slPrItemCryTax").value, "Please enter Crystal Tax!") == false ||
 //            validateNum(document.getElementById("slPrItemCryTax").value, "Accept only numeric characters without space!") == false) {
 //        document.getElementById("slPrItemCryTax").focus();
@@ -1127,8 +1205,7 @@ function labelsFormCrystal(count, labelType, fieldName, fieldValue, fontSize, fo
                 document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
                 document.getElementById("cuMessDisplayDiv").innerHTML = "<span class='fs_14 ff_calibri reddish'>UPDATED</span>";
                 window.setTimeout(closeMessDetails, 1500);
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
@@ -1150,8 +1227,7 @@ function getBackPanel(layoutPanel) {
             if (layoutPanel == 'CrystalSoldOutList') {
                 document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -1184,8 +1260,7 @@ function showSuppCrystalPurchaseDetails(newPreInvoiceNo, newInvoiceNo, panel) {
         {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("supp_middle_body").innerHTML = xmlhttp.responseText;
-        }
-        else
+        } else
         {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
@@ -1401,8 +1476,7 @@ function alertAddCrystalRate() {
         document.getElementById("settingTablesDiv").innerHTML = xmlhttp.responseText;
         refreshMetalRate();
         window.setTimeout(closeMetRateMessDiv, 1000);
-    }
-    else {
+    } else {
         document.getElementById("ajax_loading_div").style.visibility = "visible";
         document.getElementById("addCrystalRateButDiv").style.visibility = "hidden";
     }
@@ -1432,8 +1506,7 @@ function addCrystalRate(obj) {
 
         add_crystal_rate('include/php/ogcradmr.php', poststr);
 
-    }
-    else {
+    } else {
         document.getElementById("ajax_loading_div").style.visibility = "hidden";
         document.getElementById("addCrystalRateButDiv").style.visibility = "visible";
     }
@@ -1537,8 +1610,7 @@ function showCrystalStock() {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("crystalStockList").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
 
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
@@ -1580,7 +1652,9 @@ function changeStockCrystalRate(crystalRateValue, itstId, panelName, pageNum) {
 //    xmlhttp.send();
 //}
 /*********End code to comment code as panel is passed in original function @Author:PRIYA06APR15*********/
-function showSellPurchaseCryDetails(documentRootPath, custId, preInvoiceNo, postInvoiceNo, panelName, itemId) {
+/*********start code for crsytal sold out list onclick datatable  @Author:ATHU12APR17*********/
+function showSellPurchaseCryDetails(custId, preInvoiceNo, panelName, aa, postInvoiceNo, itemId) {
+    var documentRootPath = document.getElementById('documentRootPath').value;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -1590,14 +1664,14 @@ function showSellPurchaseCryDetails(documentRootPath, custId, preInvoiceNo, post
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/omcdccdd.php?custId=" + custId + "&panelDivName=" + 'SellPurchase' + "&panelName=" + 'CrySellPayUp' + "&divMainMiddlePanel=" + panelName + "&preInvoiceNo=" + preInvoiceNo +
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + custId + "&panelDivName=" + 'SellPurchase' + "&panelName=" + 'CrySellPayUp' + "&divMainMiddlePanel=" + panelName + "&preInvoiceNo=" + preInvoiceNo +
             "&postInvoiceNo=" + postInvoiceNo + "&mainPanel=CrystalPurchasePanel", true);
 //    panelDivName=SellPurchase&mainPanel=ItemPurchase&panelName=SellPayUp&divMainMiddlePanel=SellPayUp&preInvoiceNo=ICP&postInvoiceNo=1
 //    xmlhttp.open( "POST", "http://" + documentRootPath + "/include/php/ogspisdv.php?custId=" + custId + "&slPrId=" + itemId + "&mainPanel=CrystalPurchasePanel" + "&panelName=SellPayUp", true);
 
     xmlhttp.send();
 }
-
+/*********END CODE for crsytal sold out list onclick datatable  @Author:ATHU12APR17*********/
 function deleteCrystalSuppUdhaarDepAmt(suppUdhaarDepId, suppUdhaarDepDiv, newPreInvoiceNo, newInvoiceNo, jrnlId, payId) {
     globalSuppDepUdhaarDiv = suppUdhaarDepDiv;
 
@@ -1613,8 +1687,7 @@ function deleteCrystalSuppUdhaarDepAmt(suppUdhaarDepId, suppUdhaarDepDiv, newPre
                 "&jrnlId=" + jrnlId + "&payId=" + payId;
 
         delete_crystal_supp_udhar_dep_amt('include/php/ogcrdpdl.php', poststr);
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         exit();
     }
@@ -1642,21 +1715,25 @@ function alertDeleteCrystalSuppUdharDepAmt() {
     }
 
 }
-
+//amol
 function showJewelleryType(divPanel, metalType) {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById(divPanel).innerHTML = xmlhttp.responseText;
+            document.getElementById('jewelleryPanel').innerHTML = xmlhttp.responseText;
 
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         }
     };
-    if (metalType == 'Gold')
+//    if (metalType == 'Gold')
+//        xmlhttp.open("POST", "include/php/ogwgstlt.php?divPanel=" + divPanel + "&metalType=" + metalType, true);
+//    else if (metalType == 'Silver')
+//        xmlhttp.open("POST", "include/php/ogwsrslt.php?divPanel=" + divPanel + "&metalType=" + metalType, true);
+    if (divPanel == 'stock') {
         xmlhttp.open("POST", "include/php/ogwgstlt.php?divPanel=" + divPanel + "&metalType=" + metalType, true);
-    else if (metalType == 'Silver')
+    } else if (divPanel == 'rawMetal') {
         xmlhttp.open("POST", "include/php/ogwsrslt.php?divPanel=" + divPanel + "&metalType=" + metalType, true);
-
+    }
     xmlhttp.send();
 }
 /* Start code to Add functions for Raw metal OMMODTAG_SHE28DEC15 */
@@ -1694,8 +1771,7 @@ function calcRawItemBalance(prefix) {
     var metalCount = document.getElementById("metalCount").value;
     if (document.getElementById('metalPanel').value == 'RawPayment' || document.getElementById('metalPanel').value == 'RawPayUp') {
         prefix = 'rmpr';
-    }
-    else if (document.getElementById('metalPanel').value == 'CustSellPayment' || document.getElementById('metalPanel').value == 'CustSellPayUp') {
+    } else if (document.getElementById('metalPanel').value == 'CustSellPayment' || document.getElementById('metalPanel').value == 'CustSellPayUp') {
         prefix = 'sell';
     }
     if (document.getElementById('metalPanel').value == 'CustSellPayment' || document.getElementById('metalPanel').value == 'RawPayment') {
@@ -1758,41 +1834,33 @@ function calcRawItemBalance(prefix) {
                     if (payMetalDueWeightType1 == 'KG') {
                         if (payTotalWeightType1 == 'KG') {
                             gdBal = parseFloat((gdBal) - goldWeight).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'GM') {
+                        } else if (payTotalWeightType1 == 'GM') {
 
                             gdBal = parseFloat(((gdBal) - goldWeight / 1000)).toFixed(3);
                             goldWeight = parseFloat(goldWeight / 1000).toFixed(3);
 
-                        }
-                        else if (payTotalWeightType1 == 'MG') {
+                        } else if (payTotalWeightType1 == 'MG') {
                             gdBal = parseFloat(((gdBal) - goldWeight / (1000 * 1000))).toFixed(3);
                             goldWeight = parseFloat(goldWeight / (1000 * 1000)).toFixed(3);
                         }
-                    }
-                    else if (payMetalDueWeightType1 == 'GM') {
+                    } else if (payMetalDueWeightType1 == 'GM') {
                         if (payTotalWeightType1 == 'KG') {
                             gdBal = parseFloat(((gdBal) - goldWeight * 1000)).toFixed(3);
                             goldWeight = parseFloat(goldWeight * 1000).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'GM') {
+                        } else if (payTotalWeightType1 == 'GM') {
                             gdBal = parseFloat((gdBal) - goldWeight).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'MG') {
+                        } else if (payTotalWeightType1 == 'MG') {
                             gdBal = parseFloat(((gdBal) - goldWeight / (1000))).toFixed(3);
                             goldWeight = parseFloat(goldWeight / 1000).toFixed(3);
                         }
-                    }
-                    else if (payMetalDueWeightType1 == 'MG') {
+                    } else if (payMetalDueWeightType1 == 'MG') {
                         if (payTotalWeightType1 == 'KG') {
                             gdBal = parseFloat(((gdBal) - goldWeight * 1000 * 1000)).toFixed(3);
                             goldWeight = parseFloat(goldWeight * 1000 * 1000).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'GM') {
+                        } else if (payTotalWeightType1 == 'GM') {
                             gdBal = parseFloat(((gdBal) - goldWeight * 1000)).toFixed(3);
                             goldWeight = parseFloat(goldWeight * 1000).toFixed(3);
-                        }
-                        else if (payTotalWeightType1 == 'MG') {
+                        } else if (payTotalWeightType1 == 'MG') {
                             gdBal = parseFloat((gdBal - goldWeight)).toFixed(3);
                         }
                     }
@@ -1852,27 +1920,22 @@ function calcRawItemBalance(prefix) {
                 if (payMetalDueWeightType1 == 'KG') {
                     if (payTotalWeightType1 == 'KG') {
                         slBal = parseFloat((slBal) - silverWeight).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'GM') {
+                    } else if (payTotalWeightType1 == 'GM') {
                         slBal = parseFloat(((slBal) - silverWeight / 1000)).toFixed(3);
 
                         silverWeight = parseFloat(silverWeight / 1000).toFixed(3);
 
-                    }
-                    else if (payTotalWeightType1 == 'MG') {
+                    } else if (payTotalWeightType1 == 'MG') {
                         slBal = parseFloat(((slBal) - silverWeight / (1000 * 1000))).toFixed(3);
                         silverWeight = parseFloat(silverWeight / (1000 * 1000)).toFixed(3);
                     }
-                }
-                else if (payMetalDueWeightType1 == 'GM') {
+                } else if (payMetalDueWeightType1 == 'GM') {
                     if (payTotalWeightType1 == 'KG') {
                         slBal = parseFloat(((slBal) - silverWeight * 1000)).toFixed(3);
                         silverWeight = parseFloat(silverWeight * 1000).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'GM') {
+                    } else if (payTotalWeightType1 == 'GM') {
                         slBal = parseFloat((slBal) - silverWeight).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'MG') {
+                    } else if (payTotalWeightType1 == 'MG') {
                         slBal = parseFloat(((slBal) - silverWeight / (1000))).toFixed(3);
                         silverWeight = parseFloat(silverWeight / 1000).toFixed(3);
                     }
@@ -1880,12 +1943,10 @@ function calcRawItemBalance(prefix) {
                     if (payTotalWeightType1 == 'KG') {
                         slBal = parseFloat(((slBal) - silverWeight * 1000 * 1000)).toFixed(3);
                         silverWeight = parseFloat(silverWeight * 1000 * 1000).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'GM') {
+                    } else if (payTotalWeightType1 == 'GM') {
                         slBal = parseFloat(((slBal) - silverWeight * 1000)).toFixed(3);
                         silverWeight = parseFloat(silverWeight * 1000).toFixed(3);
-                    }
-                    else if (payTotalWeightType1 == 'MG') {
+                    } else if (payTotalWeightType1 == 'MG') {
                         slBal = parseFloat((slBal - silverWeight)).toFixed(3);
                     }
                 }
@@ -1955,7 +2016,7 @@ function calcRawRrCtCashBalance(prefix) {
         if (totalCardAmt == null || totalCardAmt == '') {
             totalCardAmt = 0;
         }
-        document.getElementById(prefix + 'PayCashRecDisp').value = Math.round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
+        document.getElementById(prefix + 'PayCashRecDisp').value = Math_round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
         document.getElementById(prefix + 'PayTotCashAmt').value = parseFloat(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
     }
 
@@ -1970,7 +2031,7 @@ function calcRawRrCtCashBalance(prefix) {
         }
 //        alert(document.getElementById('VATTax').value );
         var totTax = parseFloat(document.getElementById('VATTax').value) / 100;
-        document.getElementById(prefix + 'PayVATAmtDisp').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
+        document.getElementById(prefix + 'PayVATAmtDisp').value = Math_round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
         document.getElementById(prefix + 'PayVATAmt').value = parseFloat(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
 // alert(document.getElementById(prefix + 'PayVATAmt').value); alert(document.getElementById(prefix + 'PayVATAmtDisp').value);
     }
@@ -2014,15 +2075,15 @@ function calcRawRrCtCashBalance(prefix) {
         if (document.getElementById(prefix + 'PayTotCashAmt').value == '' || document.getElementById(prefix + 'PayTotCashAmt').value == 'NaN') {
             document.getElementById(prefix + 'PayTotCashAmt').value = 0;
         }
-        document.getElementById(prefix + 'PayDiscountDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+        document.getElementById(prefix + 'PayDiscountDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
 
 //        alert(totalAmt);
 //        alert(document.getElementById(prefix + 'PayVATAmt').value);
 
-        document.getElementById(prefix + 'PayTotalFinalAmtBalDisp').value = Math.round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
+        document.getElementById(prefix + 'PayTotalFinalAmtBalDisp').value = Math_round((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value))).toFixed(2);
 
 //        alert(document.getElementById(prefix + 'PayTotalFinalAmtBalDisp').value);
-        document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math.round((parseFloat(document.getElementById(prefix + 'PayTotalFinalAmtBalDisp').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+        document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotalFinalAmtBalDisp').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
 //        alert(document.getElementById(prefix + 'PayFinAmtBalDisp').value);
 
         document.getElementById(prefix + 'PayTotAmtBal').value = parseFloat((parseFloat(totalAmt) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
@@ -2324,7 +2385,7 @@ function calcRawMetItem(prefix) {
             }
         }
 
-//        var totFinSrWtBal = Math.round((parseFloat(silverPrevBal) + parseFloat(silverPurchaseBal)) - parseFloat(silverRecBal) - parseFloat(silverRtCtBal)).toFixed(3);
+//        var totFinSrWtBal = Math_round((parseFloat(silverPrevBal) + parseFloat(silverPurchaseBal)) - parseFloat(silverRecBal) - parseFloat(silverRtCtBal)).toFixed(3);
 //        alert(parseFloat(silverPrevBal) + '-' + parseFloat(silverPurchaseBal) + '-' + parseFloat(silverRecBal) + '-' + parseFloat(silverRtCtBal));
         var totFinSrWtBal = parseFloat((parseFloat(silverPrevBal) + parseFloat(silverPurchaseBal)) - parseFloat(silverRecBal) - parseFloat(silverRtCtBal)).toFixed(3);
 
@@ -2360,7 +2421,7 @@ function calcRawMetItem(prefix) {
         if (document.getElementById('metal2Valuation').value == '') {
             document.getElementById('metal2Valuation').value = 0;
         }
-        document.getElementById(prefix + 'PayBalDisp').value = Math.round(parseFloat(document.getElementById('metal1Valuation').value) + parseFloat(document.getElementById('metal2Valuation').value)).toFixed(2);
+        document.getElementById(prefix + 'PayBalDisp').value = Math_round(parseFloat(document.getElementById('metal1Valuation').value) + parseFloat(document.getElementById('metal2Valuation').value)).toFixed(2);
 
 //        alert(prefix + 'PayTotAmtBalDisp');
 //          document.getElementById('taxOnTotAmt').value = document.getElementById(prefix + 'PayBalDisp').value;
@@ -2421,7 +2482,7 @@ function calcRawMetItem(prefix) {
 //
 //        var silverRecBal = document.getElementById('metal2WtRecBal1').value;
 ////        alert(document.getElementById('metal2WtRecBal1').value);
-////        silverRecBal = Math.round(silverRecBal);
+////        silverRecBal = Math_round(silverRecBal);
 //        if (silverRecBal == '' || silverRecBal == null) {
 //            silverRecBal = 0;
 //        }
@@ -2510,7 +2571,7 @@ function calcRawCashBalance(prefix) {
         if (totalCardAmt == null || totalCardAmt == '') {
             totalCardAmt = 0;
         }
-        document.getElementById(prefix + 'PayCashRecDisp').value = Math.round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
+        document.getElementById(prefix + 'PayCashRecDisp').value = Math_round(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
         document.getElementById(prefix + 'PayTotCashAmt').value = parseFloat(parseFloat(totalCashPaidAmt) + parseFloat(totalChequeAmt) + parseFloat(totalCardAmt)).toFixed(2);
     }
 
@@ -2521,7 +2582,7 @@ function calcRawCashBalance(prefix) {
         }
         var totTax = parseFloat(document.getElementById('VATTax').value) / 100;
         document.getElementById(prefix + 'PayVATAmt').value = parseFloat(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
-        document.getElementById(prefix + 'PayVATAmtDisp').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
+        document.getElementById(prefix + 'PayVATAmtDisp').value = Math_round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
     }
 
     if (document.getElementById(prefix + 'PayVATAmt').value == 'NaN') {
@@ -2538,11 +2599,11 @@ function calcRawCashBalance(prefix) {
         if (document.getElementById(prefix + 'PayDiscount').value == null || document.getElementById(prefix + 'PayDiscount').value == '' || document.getElementById(prefix + 'PayDiscount').value == 'NaN') {
             document.getElementById(prefix + 'PayDiscount').value = 0;
         }
-        document.getElementById(prefix + 'PayDiscountDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
-        document.getElementById(prefix + 'PayVATAmtDisp').value = Math.round(parseFloat(document.getElementById(prefix + 'PayVATAmt').value)).toFixed(2);
+        document.getElementById(prefix + 'PayDiscountDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+        document.getElementById(prefix + 'PayVATAmtDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayVATAmt').value)).toFixed(2);
 //        alert(document.getElementById(prefix + 'PayTotAmt').value);
 //        alert(parseFloat(document.getElementById(calcRawRrCtCashBalance + 'PayTotCashAmt').value));
-        document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math.round((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
+        document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
 
         document.getElementById(prefix + 'PayTotAmtBal').value = parseFloat((parseFloat(document.getElementById(prefix + 'PayTotAmt').value) + parseFloat(document.getElementById(prefix + 'PayVATAmt').value)) - parseFloat(document.getElementById(prefix + 'PayTotCashAmt').value) - parseFloat(document.getElementById(prefix + 'PayDiscount').value)).toFixed(2);
     }
@@ -2588,7 +2649,7 @@ function calcRawCashBalance(prefix) {
 //            totalValuation = 0;
 //        }
 //        var totTax = parseFloat(document.getElementById('VATTax').value) / 100;
-//        document.getElementById(prefix + 'PayVATAmt').value = Math.round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
+//        document.getElementById(prefix + 'PayVATAmt').value = Math_round(parseFloat(totTax * parseFloat(totalValuation))).toFixed(2);
 //
 //    }
 //
@@ -2623,22 +2684,22 @@ function calcRawCashBalance(prefix) {
 //        {
 //            if (document.getElementById(prefix + 'PrevAmt').value < 0) {
 //                document.getElementById(prefix + 'PrevAmt').value = Math.abs(document.getElementById(prefix + 'PrevAmt').value);
-//                document.getElementById(prefix + 'PayTotalAmt').value = Math.round((parseFloat(document.getElementById(prefix + 'PayTotalAmt').value)) - parseFloat(document.getElementById(prefix + 'PrevAmt').value));
+//                document.getElementById(prefix + 'PayTotalAmt').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotalAmt').value)) - parseFloat(document.getElementById(prefix + 'PrevAmt').value));
 ////               alert('gfh' + document.getElementById(prefix + 'PayTotalAmt').value );
 //            }
 //            else if (document.getElementById(prefix + 'PrevAmt').value > 0) {
-//                document.getElementById(prefix + 'PayTotalAmt').value = Math.round((parseFloat(document.getElementById(prefix + 'PayTotalAmt').value)) + parseFloat(document.getElementById(prefix + 'PrevAmt').value));
+//                document.getElementById(prefix + 'PayTotalAmt').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotalAmt').value)) + parseFloat(document.getElementById(prefix + 'PrevAmt').value));
 ////                alert('err' + document.getElementById(prefix + 'PayTotalAmt').value );
 //            }
 //
 //        }
 //
-//        document.getElementById(prefix + 'PayDiscountDisp').value = Math.round(parseFloat(totalDiscountAmt)).toFixed(2);
-//        document.getElementById('VATDisp').value = Math.round(parseFloat(totalVATAmt)).toFixed(2);
+//        document.getElementById(prefix + 'PayDiscountDisp').value = Math_round(parseFloat(totalDiscountAmt)).toFixed(2);
+//        document.getElementById('VATDisp').value = Math_round(parseFloat(totalVATAmt)).toFixed(2);
 ////alert(document.getElementById(prefix + 'PayTotalAmt').value);
 ////alert(document.getElementById(prefix + 'PayCashRecDisp').value);
 ////alert(totalVATAmt);
-//        document.getElementById(prefix + 'PayFinalAmtBalDisp').value = Math.round((parseFloat(document.getElementById(prefix + 'PayTotalAmt').value)) - parseFloat(document.getElementById(prefix + 'PayCashRecDisp').value) - parseFloat(totalDiscountAmt) + parseFloat(totalVATAmt)).toFixed(2);
+//        document.getElementById(prefix + 'PayFinalAmtBalDisp').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotalAmt').value)) - parseFloat(document.getElementById(prefix + 'PayCashRecDisp').value) - parseFloat(totalDiscountAmt) + parseFloat(totalVATAmt)).toFixed(2);
 ////            alert(  document.getElementById(prefix + 'PayFinalAmtBalDisp').value);
 //        document.getElementById(prefix + 'PayTotalAmtBal').value = document.getElementById(prefix + 'PayFinalAmtBalDisp').value
 //
@@ -2994,9 +3055,18 @@ function alertGetStockRawMetalDiv() {
 //}
 
 
-function deleteRawMetalItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, rowsPerPage, mainPanelNew, metType, userId) {
-//    alert(rwprId + '-' + mainPanel + '-' + payPanelName + '-' + mainPanelNew + '-' + metType);
-    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");//change in line @AUTHOR: SANDY28JAN14
+//start code to implement datatable delete fn in raw sell list @AUTH:ATHU7APR17
+function deleteRawMetalItem(mainPanel, rwprId, userId) {
+    
+    if (mainPanel == 'RawSellList')
+    {
+        metType = 'SELL';
+    } else
+    {
+        metType = 'BUY';
+    }
+
+    confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");
     if (confirm_box == true)
     {
         var rawDeleteConfirm = '';
@@ -3005,40 +3075,42 @@ function deleteRawMetalItem(rwprId, rwmtdrId, mainPanel, payPanelName, pageNum, 
         {
             rawDeleteConfirm = 'yes';
         }
-//     alert(rawDeleteConfirm);
         loadXMLDoc();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                if (mainPanel == 'RawPurchaseList') {
+                if (mainPanel == 'RawPurchaseList') { // Metal - Metal
+                    document.getElementById("rawPanelPurchaseList").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(rawMetalFunctionCloseDiv, 1000);
+                } else if (mainPanel == 'RawUserPanelPurchaseList') {
                     document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(rawMetalFunctionCloseDiv, 1000);
+                } else if (mainPanel == 'RawStockPanelPurchaseList') { // Metal - Cash
+                    document.getElementById("rawPanelPurchaseList").innerHTML = xmlhttp.responseText;
                     window.setTimeout(rawMetalFunctionCloseDiv, 1000);
                 } else if (mainPanel == 'RawSellList') {
                     document.getElementById("stockPanelSellList").innerHTML = xmlhttp.responseText;
                     window.setTimeout(rawMetalFunctionCloseDiv, 1000);
-                }
-                else if (panelName == 'RawMetalList') {
+                } else if (mainPanel == 'RawMetalList') {
                     document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
                     window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                }
-                else if (payPanelName == 'RawPayment' || mainPanel == 'AddRawStock') {
+                } else if (payPanelName == 'RawPayment' || mainPanel == 'AddRawStock') {
                     document.getElementById("addRawStockInvoice").innerHTML = xmlhttp.responseText;
                     window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
                 } else {
                     document.getElementById("addRawStockInvoice").innerHTML = xmlhttp.responseText;
                     window.setTimeout(rawMetalFunctionCloseDiv, 1000);
                 }
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
         if (metType == 'SELL') {
-            xmlhttp.open("POST", "include/php/ogrwsldel.php?rwprId=" + rwprId + "&rwmtdrId=" + rwmtdrId + "&mainPanelNew=" + mainPanelNew + "&mainPanel=" + mainPanel +
-                    "&payPanelName=" + payPanelName + "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+            xmlhttp.open("POST", "include/php/ogrwsldel.php?rwprId=" + rwprId + "&mainPanelNew=CUSTOMER" + "&mainPanel=" + mainPanel +
+                    "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
         } else {
-            xmlhttp.open("POST", "include/php/ogrmdelt.php?rwprId=" + rwprId + "&rwmtdrId=" + rwmtdrId + "&mainPanelNew=" + mainPanelNew + "&mainPanel=" + mainPanel +
-                    "&payPanelName=" + payPanelName + "&pageNum=" + pageNum + "&rowsPerPage=" + rowsPerPage + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+            xmlhttp.open("POST", "include/php/ogrmdelt.php?rwprId=" + rwprId + "&mainPanelNew=CUSTOMER" + "&mainPanel=" + mainPanel +
+                    "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
         }
         xmlhttp.send();
     }
@@ -3170,8 +3242,7 @@ function calculateRawSellPrice() {
 
     if (document.getElementById('slItemTunch').value != 'NotSelected') {
         document.getElementById('slItemFineWeight').value = (parseFloat(document.getElementById('slItemTunch').value) * netWt) / 100;
-    }
-    else {
+    } else {
         document.getElementById('slItemTunch').value = 0.0;
         document.getElementById('slItemFineWeight').value = 0.0;
     }
@@ -3181,42 +3252,40 @@ function calculateRawSellPrice() {
         if (metalType == 'Gold') {
 
             if (netWtTp == 'MG') {
-                document.getElementById('slItemFnWNMetRate').value = Math.round((metalRate * fineWt) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('slItemFnWNMetRate').value = Math_round((metalRate * fineWt) / document.getElementById('gmWtInMg').value).toFixed(2);
             } else if (netWtTp == 'GM') {
 
 
-                document.getElementById('slItemFnWNMetRate').value = Math.round((metalRate * fineWt) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('slItemFnWNMetRate').value = Math_round((metalRate * fineWt) / document.getElementById('gmWtInGm').value).toFixed(2);
 
 
             } else {
-                document.getElementById('slItemFnWNMetRate').value = Math.round((metalRate * fineWt) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('slItemFnWNMetRate').value = Math_round((metalRate * fineWt) * document.getElementById('gmWtInKg').value).toFixed(2);
             }
-        }
-        else if (metalType == 'Silver') {
+        } else if (metalType == 'Silver') {
             if (netWtTp == 'MG') {
-                document.getElementById('slItemFnWNMetRate').value = Math.round((metalRate * fineWt) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                document.getElementById('slItemFnWNMetRate').value = Math_round((metalRate * fineWt) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
             } else if (netWtTp == 'GM') {
-                document.getElementById('slItemFnWNMetRate').value = Math.round((metalRate * fineWt) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('slItemFnWNMetRate').value = Math_round((metalRate * fineWt) / document.getElementById('srGmWtInGm').value).toFixed(2);
             } else {
-                document.getElementById('slItemFnWNMetRate').value = Math.round((metalRate * fineWt * document.getElementById('srGmWtInKg').value)).toFixed(2);
+                document.getElementById('slItemFnWNMetRate').value = Math_round((metalRate * fineWt * document.getElementById('srGmWtInKg').value)).toFixed(2);
             }
         }
     }
-    document.getElementById('slItemValuation').value = Math.round(document.getElementById('slItemFnWNMetRate').value).toFixed(2);
-    document.getElementById('slItemMetalTotValuation').value = Math.round(document.getElementById('slItemValuation').value).toFixed(2);
+    document.getElementById('slItemValuation').value = Math_round(document.getElementById('slItemFnWNMetRate').value).toFixed(2);
+    document.getElementById('slItemMetalTotValuation').value = Math_round(document.getElementById('slItemValuation').value).toFixed(2);
     if (document.getElementById('slItemVATTax').value != '') {
-        document.getElementById('slItemTotTax').value = Math.round(parseFloat(document.getElementById('slItemValuation').value * document.getElementById('slItemVATTax').value) / 100).toFixed(2);
-        document.getElementById('slItemMetalTotValuation').value = Math.round(parseFloat(document.getElementById('slItemValuation').value) + (parseFloat(document.getElementById('slItemVATTax').value) / 100 * document.getElementById('slItemValuation').value)).toFixed(2);
+        document.getElementById('slItemTotTax').value = Math_round(parseFloat(document.getElementById('slItemValuation').value * document.getElementById('slItemVATTax').value) / 100).toFixed(2);
+        document.getElementById('slItemMetalTotValuation').value = Math_round(parseFloat(document.getElementById('slItemValuation').value) + (parseFloat(document.getElementById('slItemVATTax').value) / 100 * document.getElementById('slItemValuation').value)).toFixed(2);
     } else {
         document.getElementById('slItemTotTax').value = '';
     }
     if (document.getElementById('slItemDisc').value != '') {
 //          alert(document.getElementById('addRawStockFinalValuation').value + document.getElementById('addRawStockDiscount').value );
-        document.getElementById('slItemFinalVal').value = Math.round(parseFloat(document.getElementById('slItemMetalTotValuation').value - document.getElementById('slItemDisc').value)).toFixed(2);
+        document.getElementById('slItemFinalVal').value = Math_round(parseFloat(document.getElementById('slItemMetalTotValuation').value - document.getElementById('slItemDisc').value)).toFixed(2);
 
-    }
-    else {
-        document.getElementById('slItemFinalVal').value = Math.round(document.getElementById('slItemMetalTotValuation').value).toFixed(2);
+    } else {
+        document.getElementById('slItemFinalVal').value = Math_round(document.getElementById('slItemMetalTotValuation').value).toFixed(2);
     }
     return false;
 }
@@ -3289,22 +3358,22 @@ function searchRawItemNames(itemName, metalType, divNum, metalId, keyCodeInput) 
     divNumForItemNames = divNum;
     panelNameForItemNames = divNum;
 
-    //document.getElementById("ajaxLoadGetItemListDiv").style.visibility = "visible";
-
+   
+    var documentRootPath=document.getElementById('documentRootPath').value;
     var poststr = "itemName=" + encodeURIComponent(itemName)
             + "&metalType=" + encodeURIComponent(metalType)
             + "&divNum=" + encodeURIComponent(divNum)
             + "&metalId=" + encodeURIComponent(metalId);
-
-    search_raw_item_names('include/php/omiladgv.php', poststr);
+    
+    search_raw_item_names("http://" + documentRootPath + "/include/php/omiladgv.php", poststr);
 }
 
 var keyCodeForItemNames;
-var divNumForItemNames;
+//var divNumForItemNames;
 var panelNameForItemNames;
 function search_raw_item_names(url, parameters) {
     loadXMLDoc();
-
+  
     xmlhttp.onreadystatechange = alertSearchRawItemNames;
 
     xmlhttp.open('POST', url, true);
@@ -3317,7 +3386,7 @@ function search_raw_item_names(url, parameters) {
 
 function alertSearchRawItemNames() {
 
-    if (panelNameForItemNames == 'addStockItemName' || panelNameForItemNames == 'addItemCategory') {
+    if (panelNameForItemNames == 'addStockItemName' || panelNameForItemNames == 'addItemCategory' ) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("itemListDivToAddStock").innerHTML = xmlhttp.responseText;
@@ -3325,13 +3394,10 @@ function alertSearchRawItemNames() {
                 document.getElementById('itemListToAddItemSelect').focus();
                 document.getElementById('itemListToAddItemSelect').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
-    }
-
-    else if (panelNameForItemNames == 'addRawStockItemName') {
+    } else if (panelNameForItemNames == 'addRawStockItemName' || panelNameForItemNames=='addWhStockItemName') {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("itemListDivToaddRawStock").innerHTML = xmlhttp.responseText;
@@ -3341,12 +3407,23 @@ function alertSearchRawItemNames() {
                 document.getElementById('itemListToaddRawStock').options[0].selected = true;
 
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
-    }
+    }else if (panelNameForItemNames == 'RawStockItemName' ) {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("itemListDivToaddRawStock").innerHTML = xmlhttp.responseText;
+            if (keyCodeForItemNames == 40 || keyCodeForItemNames == 38) {
 
+                document.getElementById('itemListToAddItemSelect').focus();
+                document.getElementById('itemListToAddItemSelect').options[0].selected = true;
+
+            }
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    }  
     else if (panelNameForItemNames == 'slItemName') {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
@@ -3357,13 +3434,10 @@ function alertSearchRawItemNames() {
                 document.getElementById('itemListToaddRawCustStock').options[0].selected = true;
 
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
-    }
-
-    else {
+    } else {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("itemListDivToAddGirvi" + divNumForItemNames).innerHTML = xmlhttp.responseText;
@@ -3371,8 +3445,7 @@ function alertSearchRawItemNames() {
                 document.getElementById('itemListToAddItemSelect').focus();
                 document.getElementById('itemListToAddItemSelect').options[0].selected = true;
             }
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     }
@@ -3425,8 +3498,7 @@ function alertSearchRawSellItemNames() {
             document.getElementById('itemListToaddRawMetSellStock').options[0].selected = true;
             /****End of changes in Code @AUTHOR: SANDY23SEP13 ******/
         }
-    }
-    else {
+    } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
     }
 }
@@ -3572,82 +3644,76 @@ function deleteCrystal_1(itstId, itprId, panelName, mainPanel, pageNo, sellPrese
 
 //*****************END code :DISH14NOV16**********************************//
 //*******************START code to delete fields from :DISH14NOV16***************//
-function deleteSellItemCrystal_1(custId, slPrId, panelName, mainPanel) {
-//    alert(panelName);
-//    alert(mainPanel);
-//    if (mainPanel == 'SellItemReturn' && panelName == 'ItemReturn') {
-//        confirm_box = confirm("Do you really want to Return this Item?");
-//    } else if (mainPanel == 'SellItemReturn' && panelName == 'ItemActive') {
-//        confirm_box = confirm("Do you really want to Reactive this Item?");
-//    } else {
-    confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
-    if (confirm_box == true) {
-        confirm_box1 = confirm(addItemAlertMess + "\n\nDo you want to add this Item to Stock ?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
-        if (confirm_box1 == true) {
-            var addToStock = 'addtostock'; //add variables of alert msgs @AUTHOR: SANDY29JAN14
-        }
-    }
-//    }
-    if (confirm_box == true)
-    {
-        loadXMLDoc();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
-                window.setTimeout(sellFunctionToCloseDiv, 1000);
-            } else {
-                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+//####################START CODE TO DELETE SINGLE CRYSTAL ENTRY @SWAP22JUL17#################//
+function deleteSellItemCrystal_1(custId, slPrId, panelName, mainPanel) { 
+   
+        confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
+        
+        var stockDelete = document.getElementById("stockDelete").value;
+        
+        if (confirm_box == true && stockDelete == 'Y') {
+            confirm_box1 = confirm(addItemAlertMess + "\n\nDo you want to add this Item to Stock ?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
+            if (confirm_box1 == true) {
+                var addToStock = 'addtostock'; //add variables of alert msgs @AUTHOR: SANDY29JAN14
             }
-        };
-        xmlhttp.open("GET", "include/php/ogcrspdl_1.php?custId=" + custId + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&addToStock=" + addToStock, true);
-        xmlhttp.send();
-    }
+        }
+//    }
+        if (confirm_box == true)
+        {
+            loadXMLDoc();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    document.getElementById("slPrCurrentInvoice").innerHTML = xmlhttp.responseText;
+                    window.setTimeout(sellFunctionToCloseDiv, 1000);
+                } else {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+                }
+            };
+            xmlhttp.open("GET", "include/php/ogcrspdl_1.php?custId=" + custId + "&stockDelete=" + stockDelete + "&slPrId=" + slPrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&addToStock=" + addToStock, true);
+            xmlhttp.send();
+        }
+    
 }
+//####################END CODE TO DELETE SINGLE CRYSTAL ENTRY  IN CRYSTAL SELL PANEL @SWAP22JUL17#################//
 //*******************START code to delete fields from :DISH14NOV16***************//
 function validateAddSuppRawStockInputs() {
-    if (validateSelectField(document.getElementById("addRawStockDOBDay").value, "Please Select Date Day!") == false) {
-        document.getElementById("addRawStockDOBDay").focus();
+    if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please Select Date Day!") == false) {
+        document.getElementById("addItemDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addRawStockDOBMonth").value, "Please Select Date Month!") == false) {
-        document.getElementById("addRawStockDOBMonth").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBMonth").value, "Please Select Date Month!") == false) {
+        document.getElementById("addItemDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addRawStockDOBYear").value, "Please Select Date Year!") == false) {
-        document.getElementById("addRawStockDOBYear").focus();
+    } else if (validateSelectField(document.getElementById("addItemDOBYear").value, "Please Select Date Year!") == false) {
+        document.getElementById("addItemDOBYear").focus();
         return false;
     } else if (validateSelectField(document.getElementById("firmId").value, "Please Select Firm Id!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addRawStockInvoiceNo").value, "Please enter Invoice Number!") == false ||
-            validateNum(document.getElementById("addRawStockInvoiceNo").value, "Accept only numeric characters without space character!") == false) {
-        document.getElementById("addRawStockInvoiceNo").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_invoice_no").value, "Please enter Invoice Number!") == false ||
+            validateNum(document.getElementById("sttr_invoice_no").value, "Accept only numeric characters without space character!") == false) {
+        document.getElementById("sttr_invoice_no").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addRawStockItemMetalRate").value, "Please Enter item metal rate!") == false) {
-        document.getElementById("addRawStockItemMetalRate").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_metal_rate").value, "Please Enter item metal rate!") == false) {
+        document.getElementById("sttr_metal_rate").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addRawStockItemName").value, "Please Enter Item Name!") == false) {
-        document.getElementById("addRawStockItemName").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please Enter Item Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawStockItemPieces").value, "Please Enter Item Pieces!") == false ||
-            validateNum(document.getElementById("addRawStockItemPieces").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addRawStockItemPieces").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_quantity").value, "Please Enter Item Pieces!") == false ||
+            validateNum(document.getElementById("sttr_quantity").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_quantity").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawStockItemGrossWeight").value, "Please Enter Gross Weight!") == false ||
-            validateNumWithDot(document.getElementById("addRawStockItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addRawStockItemGrossWeight").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_gs_weight").value, "Please Enter Gross Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_gs_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_gs_weight").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("addRawStockItemNetWeight").value, "Please Enter Net Weight!") == false ||
-            validateNumWithDot(document.getElementById("addRawStockItemNetWeight").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addRawStockItemNetWeight").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_nt_weight").value, "Please Enter Net Weight!") == false ||
+            validateNumWithDot(document.getElementById("sttr_nt_weight").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_nt_weight").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addRawStockItemTunch").value, "Please Select Item Tunch or Purity!") == false) {
-        document.getElementById("addRawStockItemTunch").focus();
+    } else if (validateSelectField(document.getElementById("sttr_purity").value, "Please Select Item Tunch or Purity!") == false) {
+        document.getElementById("sttr_purity").focus();
         return false;
     }
     return true;
@@ -3670,8 +3736,7 @@ function addSuppRawStock() {
         document.getElementById("addItemDOBDay").focus();
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-    }
-    else {
+    } else {
         if (stockDateMMM == 'FEB' || stockDateMMM == 'APR' || stockDateMMM == 'JUN' || stockDateMMM == 'SEP' || stockDateMMM == 'NOV') {
             if (stockDateMMM == 'FEB' && stockDateDay > 29 && stockDateYY % 4 == 0) {
                 alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 29 days.');
@@ -3705,12 +3770,10 @@ function validateAddSuppRawMetalInputs() {
     if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please Select Date Day!") == false) {
         document.getElementById("addItemDOBDay").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addItemDOBMonth").value, "Please Select Date Month!") == false) {
+    } else if (validateSelectField(document.getElementById("addItemDOBMonth").value, "Please Select Date Month!") == false) {
         document.getElementById("addItemDOBMonth").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("addItemDOBYear").value, "Please Select Date Year!") == false) {
+    } else if (validateSelectField(document.getElementById("addItemDOBYear").value, "Please Select Date Year!") == false) {
         document.getElementById("addItemDOBYear").focus();
         return false;
     } else if (validateEmptyField(document.getElementById("addItemInvoiceNo").value, "Please enter Invoice Number!") == false ||
@@ -3726,18 +3789,15 @@ function validateAddSuppRawMetalInputs() {
     } else if (validateEmptyField(document.getElementById("slItemName").value, "Please Enter Item Name!") == false) {
         document.getElementById("slItemName").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemGrossWeight").value, "Please Enter Gross Weight!") == false ||
+    } else if (validateEmptyField(document.getElementById("slItemGrossWeight").value, "Please Enter Gross Weight!") == false ||
             validateNumWithDot(document.getElementById("slItemGrossWeight").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("slItemGrossWeight").focus();
         return false;
-    }
-    else if (validateEmptyField(document.getElementById("slItemNetWeight").value, "Please Enter Net Weight!") == false ||
+    } else if (validateEmptyField(document.getElementById("slItemNetWeight").value, "Please Enter Net Weight!") == false ||
             validateNumWithDot(document.getElementById("slItemNetWeight").value, "Accept only numeric characters without space!") == false) {
         document.getElementById("slItemNetWeight").focus();
         return false;
-    }
-    else if (validateSelectField(document.getElementById("slItemTunch").value, "Please Select Item Tunch or Purity!") == false) {
+    } else if (validateSelectField(document.getElementById("slItemTunch").value, "Please Select Item Tunch or Purity!") == false) {
         document.getElementById("slItemTunch").focus();
         return false;
     }
@@ -3745,6 +3805,7 @@ function validateAddSuppRawMetalInputs() {
 }
 
 function deleteRawMetalList(utransId, panelName, mainPanel, payPanelName, userId, metType) {
+//    alert(metType);
 //    alert('utransId:' + utransId + 'panelName:' + panelName + 'mainPanel:' + mainPanel + 'payPanelName:' + payPanelName + 'userId:' + userId + 'metType:' + metType);
     confirm_box = confirm(deleteAlertMess + "\nDo you really want to delete this Item?");
     if (confirm_box == true)
@@ -3762,18 +3823,19 @@ function deleteRawMetalList(utransId, panelName, mainPanel, payPanelName, userId
                 if (panelName == 'ItemDelete') {
                     document.getElementById("SuppMetalPurchaseDiv").innerHTML = xmlhttp.responseText;
                     window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
+                } else if (panelName == 'StockPanelRawPurchaseList' || panelName == 'StockPanelRawSellList') {
+                    document.getElementById("rawPanelPurchaseList").innerHTML = xmlhttp.responseText;
                 }
-            }
-            else {
+            } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
         };
         if (metType == 'BUY') {
-            xmlhttp.open("POST", "include/php/ogrwmtdel.php?utransId=" + utransId + "&mainPanel=" + mainPanel +
-                    "&payPanelName=" + payPanelName + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+            xmlhttp.open("POST", "include/php/ogrwmtdel.php?utransId=" + utransId + "&panelName=" + panelName + "&mainPanel=" + mainPanel +
+                    "&payPanelName=" + payPanelName + "&rawDeleteConfirm=" + rawDeleteConfirm + "&userId=" + userId + "&metType=" + metType, true);
         } else {
-            xmlhttp.open("POST", "include/php/ogrwmtsldel.php?utransId=" + utransId + "&mainPanel=" + mainPanel +
-                    "&payPanelName=" + payPanelName + "&rawDeleteConfirm=" + rawDeleteConfirm + "&custId=" + userId + "&metType=" + metType, true);
+            xmlhttp.open("POST", "include/php/ogrwmtsldel.php?utransId=" + utransId + "&panelName=" + panelName + "&mainPanel=" + mainPanel +
+                    "&payPanelName=" + payPanelName + "&rawDeleteConfirm=" + rawDeleteConfirm + "&userId=" + userId + "&metType=" + metType, true);
         }
         xmlhttp.send();
     }

@@ -233,6 +233,7 @@ function alertDeleteSuppUdharDepAmt() {
 
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("suppUdhaarDiv").innerHTML = xmlhttp.responseText;
+        document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
     } else {
         //  document.getElementById("suppUdharDepAmtDelButt" + globalSuppDepUdhaarDiv).innerHTML = "<img src='images/loading16.gif' />";
     }
@@ -241,7 +242,9 @@ function alertDeleteSuppUdharDepAmt() {
 /*******End code to hide div @Author:PRIYA20JUN14*********************/
 /*********Start code to add jrnl Id @Author:PRIYA27APR14************/
 /*********Start code to change div @Author:PRIYA21JUN14***************/
-function deleteSuppUdhaarDepAmt(suppUdhaarDepId, suppUdhaarDepDiv, newPreInvoiceNo, newInvoiceNo, jrnlId, payId, goldRate, silverRate, goldFnWtTyp, silverFnWtTyp, goldFnWt, silverFnWt, checkGd) {
+function deleteSuppUdhaarDepAmt(utransId, suppUdhaarDepDiv, newPreInvoiceNo, newInvoiceNo, jrnlId, payId, goldRate, silverRate, goldFnWtTyp, silverFnWtTyp, goldFnWt, silverFnWt, checkGd, suppId) {
+//    alert(suppId);
+//    return;
     globalSuppDepUdhaarDiv = suppUdhaarDepDiv;
 
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
@@ -250,7 +253,7 @@ function deleteSuppUdhaarDepAmt(suppUdhaarDepId, suppUdhaarDepDiv, newPreInvoice
 
     if (confirm_box == true)
     {
-        var poststr = "suppUdhaarDepId=" + suppUdhaarDepId +
+        var poststr = "utransId=" + utransId +
                 "&newPreInvoiceNo=" + newPreInvoiceNo +
                 "&newInvoiceNo=" + newInvoiceNo +
                 "&jrnlId=" + jrnlId +
@@ -261,7 +264,8 @@ function deleteSuppUdhaarDepAmt(suppUdhaarDepId, suppUdhaarDepDiv, newPreInvoice
                 "&silverFnWtTyp=" + silverFnWtTyp +
                 "&goldFnWt=" + goldFnWt +
                 "&silverFnWt=" + silverFnWt +
-                "&checkGd=" + checkGd;
+                "&checkGd=" + checkGd +
+                "&suppId=" + suppId;
 
         delete_supp_udhar_dep_amt('include/php/ogwudpdl.php', poststr);
     }
@@ -297,38 +301,43 @@ function deleteNwOrInvoice(newPreInvoiceNo, newInvoiceNo, panelName) {
 /***********Start code to add custId @Author:PRIYA19SEP13**********************/
 /***********Start code to add delay function @Author:PRIYA20SEP13**********************/
 /***********Start code to change div @Author:PRIYA30JAN14**********************/
-function deleteNewOrderItem(nworId, custId, panelName, pageNum, itemPanel) {
-    confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?");//add variables of alert msgs @AUTHOR: SANDY29JAN14
-    if (confirm_box == true)
-    {
-        loadXMLDoc();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                if (itemPanel == 'NwOrPayUp') {
-                    document.getElementById("nwOrInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
-                } else if (panelName == 'NwOrPayment' && itemPanel == 'NwOrPayment') {
-                    document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
-                } else if (panelName == '' && itemPanel == 'NwOrPayment') {
-                    document.getElementById("nwOrInvoice").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
-                } else if (itemPanel == 'nwOrItemList') {
-                    document.getElementById("newOrderStatus").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
+function deleteNewOrderItem(nworId, custId, panelName, pageNum, itemPanel, count) {
+//    alert(document.getElementById("invoiceRow" + count).value);
+    if (parseFloat(document.getElementById("invoiceRow" + count).value) > 0) {
+        alert('You can not delete this Item');
+    } else {
+        confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?");//add variables of alert msgs @AUTHOR: SANDY29JAN14
+        if (confirm_box == true)
+        {
+            loadXMLDoc();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+                    if (itemPanel == 'NwOrPayUp') {
+                        document.getElementById("newOrderDiv").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
+                    } else if (panelName == 'NwOrPayment' && itemPanel == 'NwOrPayment') {
+                        document.getElementById("paymentDiv").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(stockGlobalFunctionToCloseDiv, 1000);
+                    } else if (panelName == '' && itemPanel == 'NwOrPayment') {
+                        document.getElementById("nwOrInvoice").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
+                    } else if (itemPanel == 'nwOrItemList') {
+                        document.getElementById("newOrderStatus").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
+                    } else {
+                        document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
+                        window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
+                    }
+
                 } else {
-                    document.getElementById("cust_middle_body").innerHTML = xmlhttp.responseText;
-                    window.setTimeout(nwOrGlobalFunctionToCloseDiv, 1000);
+                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
                 }
+            };
+            xmlhttp.open("GET", "include/php/ognoidel.php?nworId=" + nworId + "&custId=" + custId + "&panelName=" + panelName + "&pageNum=" + pageNum + "&itemPanel=" + itemPanel, true);
+            xmlhttp.send();
 
-            } else {
-                document.getElementById("main_ajax_loading_div").style.visibility = "visible";
-            }
-        };
-        xmlhttp.open("GET", "include/php/ognoidel.php?nworId=" + nworId + "&custId=" + custId + "&panelName=" + panelName + "&pageNum=" + pageNum + "&itemPanel=" + itemPanel, true);
-        xmlhttp.send();
-
+        }
     }
 }
 function nwOrGlobalFunctionToCloseDiv() {

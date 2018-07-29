@@ -110,8 +110,7 @@ function validateLength10(field, alerttxt) {
     if (field.length < 10) {
         alert(alerttxt);
         return false;
-    }
-    else {
+    } else {
         return true;
     }
 }
@@ -287,8 +286,7 @@ function valMultiMobNo(field, evt) {
             if (charCode > 31 && (charCode < 48 || charCode > 57))
                 return false;
         }
-    }
-    else {
+    } else {
         mobNoLen = mobNoLen - 11 * parseInt(mobNoLen / 11);
         if (mobNoLen < 10) {
             if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -345,8 +343,7 @@ function relNPrintReleaseCart(obj, subButtId) {
         WindowObject.document.writeln(html);
         WindowObject.document.close();
         WindowObject.focus();
-    }
-    else if (subButtId == 'release') {
+    } else if (subButtId == 'release') {
 
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         confirm_box = confirm("Do you really want to release this Girvi?");
@@ -388,8 +385,7 @@ function relNPrintReleaseCart(obj, subButtId) {
             }
 
 //********* Release All Girvi From Release Girvi Cart *****************
-        }
-        else {
+        } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
         }
     }
@@ -594,8 +590,7 @@ function printBarCodeDiv(printpage) {
         WindowObject.print();
         WindowObject.close();
         document.getElementById('print_link').style.display = 'block';
-    }
-    else {
+    } else {
         DocumentContainer = document.getElementById(printpage);
         html = '<html><head>' +
                 '<link href="css/print.css" rel="stylesheet" type="text/css" />' +
@@ -640,7 +635,7 @@ function updateOMDongle(dgHWId, versionNo) {
                 //document.getElementById("ajax_loading_div").style.visibility = "visible";
             }
         };
-        xmlhttp.open("POST", "include/php/omssupdg.php", true);
+        xmlhttp.open("POST", "include/php/system/omssupdg.php", true);
         xmlhttp.send();
     }
 }
@@ -666,8 +661,7 @@ function printDirectDiv(printpage) {
             printDoc.write("</head><body onload='this.focus(); this.print();'>");
             printDoc.write(content + "</body></html>");
             printDoc.close();
-        }
-        catch (e) {
+        } catch (e) {
             self.print();
         }
 //        html = '<html><head>'+
@@ -690,8 +684,7 @@ function printDirectDiv(printpage) {
 //        //WindowObject.print();
 //        //WindowObject.close();
 //        document.getElementById('print_link').style.display='block';
-    }
-    else {
+    } else {
         DocumentContainer = document.getElementById(printpage);
         html = '<html><head>' +
                 '<link href="css/print.css" rel="stylesheet" type="text/css" />' +
@@ -716,6 +709,105 @@ function printDirectDiv(printpage) {
         document.getElementById('print_link').style.display = 'block';
     }
 }
+function datepicker() {
+    $(".datepicker").datepicker({
+        autoclose: true,
+        keyboardNavigation: true,
+        todayHighlight: true
+    }).datepicker('update', new Date());
+}
+
+function draggable_barcode_setting(panel)
+{
+    //alert(panel);
+    $(".element").draggable({
+        /* drag: function(event, ui){
+         var img = $(this);
+         
+         var offset = $(this).offset();
+         var center_x = (offset.left) + (img.width() / 2);
+         var center_y = (offset.top) + (img.height() / 2);
+         var mouse_x = event.pageX;
+         var mouse_y = event.pageY;
+         var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
+         var degree = (radians * (180 / Math.PI) * -1) + 90;
+         var rotateCSS = 'rotate(' + degree + 'deg)';
+         //alert(rotateCSS);
+         $(this).css({
+         '-moz-transform': rotateCSS,
+         '-webkit-transform': rotateCSS
+         });
+         },*/
+        containment: '#glassbox',
+        scroll: false
+    })
+
+
+            .mouseup(function () {
+                var coords = [];
+                var coord = $(this).position();
+                var element = $(this).attr('id');
+                //alert("Top: " + coord.top + " Left: " + coord.left);
+                var item = {coordTop: coord.top, coordLeft: coord.left};
+                coords.push(item);
+                //var angle = getRotationDegrees($(this));
+                //alert(angle);
+                var dataTosend = 'coordTop=' + coord.top + '&coordLeft=' + coord.left + '&element=' + element + '&panel=' + panel;
+
+
+                //alert(dataTosend);
+                $.ajax({
+                    type: "POST",
+                    url: "include/php/updatecoords.php",
+                    //async: true,
+                    data: dataTosend,
+                    success: function (msg) {
+                        //alert(msg);
+                        if (msg == "success")
+                        {
+                            //$("#respond").html('<div class="success">X and Y Coordinates Saved!</div>').hide().fadeIn(1000);
+                            //setTimeout(function () {
+                            // $('#respond').fadeOut(1000);
+                            //  }, 2000);
+                        }
+                        else if (msg == "MulBcPanel") {
+                            //alert("hi");
+                            //location.reload();
+                            //window.location.replace("http://stackoverflow.com");
+                            //alert("url  ="+window.location.href);
+                            //alert("PathName  ="+ window.location.pathname);
+                            // window.location.replace("/include/php/ogibbc20x12.php");
+
+                        }
+
+                    }
+
+                });
+
+
+            });
+}
+
+
+
+function getRotationDegrees(obj) {
+    var matrix = obj.css("-webkit-transform") ||
+            obj.css("-moz-transform") ||
+            obj.css("-ms-transform") ||
+            obj.css("-o-transform") ||
+            obj.css("transform");
+    if (matrix !== 'none') {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+    } else {
+        var angle = 0;
+    }
+    return (angle < 0) ? angle + 360 : angle;
+}
+
+
 // Start Code to Update Software Update @LOVE29JUL2014
 function updateSoftwareWithoutDongleForm(versionNo, prodKey, loginId)
 {
@@ -743,7 +835,7 @@ function updateSoftwareWithoutDongleForm(versionNo, prodKey, loginId)
                 document.getElementById("updateSoftwareWithoutDongleDiv").innerHTML = "<img src='images/ajaxSearch.png' style='vertical-align: middle;' />";
             }
         };
-        xmlhttp.open("POST", "include/php/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
+        xmlhttp.open("POST", "include/php/system/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
         xmlhttp.send();
     }
 }
@@ -771,7 +863,7 @@ function updateSoftwareWithoutDongle(prodKey, loginId, versionNo)
                 document.getElementById("updateSoftwareWithoutDongleDiv").innerHTML = "<img src='images/ajaxSearch.png' style='vertical-align: middle;' />";
             }
         };
-        xmlhttp2.open("POST", "include/php/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
+        xmlhttp2.open("POST", "include/php/system/omssupdg.php?prodKey=" + prodKey + "&loginId=" + loginId, true);
         xmlhttp2.send();
     }
 }
@@ -779,3 +871,70 @@ function closeUpdateSoftwareWithoutDongleDiv() {
     document.getElementById("showUpdateSoftwareWithoutDongleDiv").style.visibility = "hidden";
 }
 // End Code to Update Software Update @LOVE29JUL2014
+//start code to add print all labels in one click @AUTH:ATHU5MAR17
+function printDirectAllLabels(AllLabelId)
+{
+    document.getElementById("a4SheetsPrintButtonDiv").style.visibility = "hidden";
+    document.getElementById("a4SheetsPrintButtonPrinting").style.visibility = "visible";
+    AllLabelId = JSON.parse(AllLabelId);
+    var i = 0;                                      //  set your counter to 0
+    function printDirectLabelsLoop() {              //  create a loop function
+        setTimeout(function () {                    //  call a 5s setTimeout when the loop is called
+            var argument = AllLabelId[i];
+            printDirectAllLabelBarcode(argument);
+            i++;                                    //  increment the counter
+            if (i < AllLabelId.length) {            //  if the counter < 10, call the loop function
+                printDirectLabelsLoop();            //  ..  again which will trigger another 
+            }                                       //  ..  setTimeout()
+            if (i == AllLabelId.length) {
+                document.getElementById("a4SheetsPrintButtonPrinting").style.visibility = "hidden";
+                document.getElementById("a4SheetsPrintButtonDiv").style.visibility = "visible";
+            }
+        }, 5000)                                    //1s=1000ms
+
+    }
+    printDirectLabelsLoop();                        //  start the loop
+    //document.getElementById("a4SheetsPrintButtonDiv").style.visibility = "visible";
+}
+function printDirectAllLabelBarcode(barcodeId)
+{
+
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("AllLabelsDivs").innerHTML = xmlhttp.responseText;
+            //return  xmlhttp.responseText;
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogibbc55x13.php?barCodeId=" + barcodeId + "&panel=" + panel, true);
+    xmlhttp.send();
+}
+function printOneAllLabelBarcode(barcodeId)
+{ //alert(barcodeId);
+    var panel = 'Items55x13BarCodePanel';
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //  alert(xmlhttp.responseText);
+            document.getElementById("AllLabelsDivs").innerHTML = xmlhttp.responseText;
+            //printDirectDiv('allLabelsThermalDiv');
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogibbc55x13.php?barCodeId=" + barcodeId + "&panel=" + panel, true);
+    xmlhttp.send();
+}
+function printOneAllLabelBarcodeBySttrId(sttrId)
+{ //alert(sttrId);
+    var panel = 'Items55x13BarCodePanel';
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //  alert(xmlhttp.responseText);
+            document.getElementById("AllLabelsDivs").innerHTML = xmlhttp.responseText;
+            //printDirectDiv('allLabelsThermalDiv');
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogibbc55x13.php?sttrId=" + sttrId + "&panel=" + panel, true);
+    xmlhttp.send();
+}
+//End Code to add print all labels in one click @AUTH:ATHU5MAR17

@@ -5,8 +5,22 @@
 /***********Start Code To change Func For change Sell Item Calcn @Author:SHRI03MAR15***********/
 /***********Start Code To Add Func For Add Sell Iteem Calcn @Author:PRIYA04AUG13***********/
 /************Start code to change value added option @Author:PRIYA14JUN14***************/
+/************Start code to remove round off @Author:SHRI30JAN17***************/
+function calculateGsWt() {
+    if (document.getElementById('slPrItemGSW').value != document.getElementById('newGsWt').value) {
+
+        alert("Please Change GS Wt.");
+    }
+}
 function calculateSellPrice() {
-//    alert('hii');
+    //
+    if (document.getElementById('slPrItemGSWT').value != document.getElementById('slPrItemNTWT').value) {
+        document.getElementById('slPrItemNTWT').value = document.getElementById('slPrItemGSWT').value;
+        document.getElementById('slPrPacketWeightType').value = document.getElementById('slPrItemGSWT').value;
+        document.getElementById('slPrItemLabChargesType').value = document.getElementById('slPrItemGSWT').value;
+    }
+    // 
+     //alert(document.getElementById('slPrItemWtBy').value);
     if (document.getElementById('slPrItemWtBy').value == 'byNetWt') {
         var wt = document.getElementById('slPrItemNTW').value;
         var wtType = document.getElementById('slPrItemNTWT').value;
@@ -14,35 +28,72 @@ function calculateSellPrice() {
         wt = document.getElementById('slPrItemGSW').value;
         wtType = document.getElementById('slPrItemGSWT').value;
     }
+    //
+    // alert('addItemLabourChgsBy ==' + document.getElementById('addItemLabourChgsBy').value);  
+    //alert('sttr_mkg_charges_by ==' + document.getElementById('sttr_mkg_charges_by').value);
+    //
+    if (document.getElementById('sttr_mkg_charges_by').value == '') {
+        document.getElementById('sttr_mkg_charges_by').value = document.getElementById('addItemLabourChgsBy').value;
+    }
+    //
+    // alert('sttr_mkg_charges_by ==' + document.getElementById('sttr_mkg_charges_by').value);
+    // START CODE for Making Charges apply on GS WT, NT WT or FFine WT @PRIYANKA-28-MAR-18
+    // if (document.getElementById('sttr_mkg_charges_by').value != '' && document.getElementById('sttr_mkg_charges_by').value != 'NaN') {
+    //
+    if (document.getElementById('sttr_mkg_charges_by').value == 'mkgByNetWt') {
+        var labChargesBy = parseFloat(document.getElementById('slPrItemNTW').value);
+    } else if (document.getElementById('sttr_mkg_charges_by').value == 'mkgByGrossWt') {
+        var labChargesBy = parseFloat(document.getElementById('slPrItemGSW').value);
+    } else if (document.getElementById('sttr_mkg_charges_by').value == 'mkgByFineWt') {
+        var labChargesBy = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+    } else {
+        var labChargesBy = parseFloat(document.getElementById('slPrItemGSW').value);
+    }
+    //
+    // } 
+    // END CODE for Making Charges apply on GS WT, NT WT or FFine WT @PRIYANKA-28-MAR-18
+    // alert('sttr_mkg_charges_by ==' + document.getElementById('sttr_mkg_charges_by').value);
+    //
     var labCharges = document.getElementById('slPrItemLabCharges').value;
     var labChargesType = document.getElementById('slPrItemLabChargesType').value;
     var totalLabNOthCharges = 0;
     var itemsQTY = parseInt(document.getElementById('slPrItemPieces').value);
     var metalRate = parseFloat(document.getElementById('slPrItemMetalRate').value);
     var metalType = document.getElementById('slPrItemMetal').value;
+    //
+    if (metalType == 'GOLD' || metalType == 'Gold') {
+        metalType = 'Gold';
+    } else if (metalType == 'SILVER' || metalType == 'Silver') {
+        metalType = 'Silver';
+    }
+    //
     var itemPurity = parseFloat(document.getElementById('slPrCustWastage').value);//changed @Author:SHRI31AUG16
     var panelName = document.getElementById('panelName').value;
-
-    if (document.getElementById('slPrCustWastage').value == '' || document.getElementById('slPrCustWastage').value == 'NaN') {
-        document.getElementById('slPrCustWastage').value = 0;
+    //
+//    if (document.getElementById('slPrCustWastage').value == '' || document.getElementById('slPrCustWastage').value == 'NaN') {
+//        document.getElementById('slPrCustWastage').value = 0;
+//    }
+    //
+    if (document.getElementById('sttr_purity').value != '') {
+        document.getElementById('slPrItemFineWeight').value = (((document.getElementById('sttr_purity').value) * wt) / 100).toFixed(3);
     }
-    if (document.getElementById('slPrItemTunch').value != '') {
-        document.getElementById('slPrItemFineWeight').value = (((document.getElementById('slPrItemTunch').value) * wt) / 100).toFixed(3);
-    }
-
+    //
     if (document.getElementById('slPrFinalTunch').value != '') {
-        document.getElementById('slPrItemFFineWeight').value = (((parseFloat(document.getElementById('slPrFinalTunch').value) + parseFloat(document.getElementById('slPrCustWastage').value)) * wt) / 100).toFixed(3);
+        var finalTunchCal = parseFloat(document.getElementById('slPrFinalTunch').value) + parseFloat(parseFloat(document.getElementById('slPrCustWastage').value).toFixed(3));
+        //alert(finalTunchCal); alert(wt);
+        document.getElementById('slPrItemFFineWeight').value = (((finalTunchCal) * wt) / 100).toFixed(3);
     }
-
+    //
     if (document.getElementById('slPrItemFineWeight').value == '' || document.getElementById('slPrItemFineWeight').value == 'NaN') {
         document.getElementById('slPrItemFineWeight').value = 0;
     }
+    //
     if (document.getElementById('slPrItemFFineWeight').value == '' || document.getElementById('slPrItemFFineWeight').value == 'NaN') {
         document.getElementById('slPrItemFFineWeight').value = 0;
     }
-
-
+    // FINAL FINE WEIGHT
     var finalFineWeight = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+    //
     if (document.getElementById('valueAdd').value == 'false') {
         if (document.getElementById('slPrCustWastage').value != '') {
             itemPurity = itemPurity - 100;
@@ -53,120 +104,452 @@ function calculateSellPrice() {
         if (document.getElementById('slPrItemValueAdded').value == '')
             document.getElementById('slPrItemValueAdded').value = '0.00';
     }
-//    alert(document.getElementById('addItemLabourChgsBy').value);
-    if (document.getElementById('addItemLabourChgsBy').value == 'lbByNetWt') {
-        labChargesBy = parseFloat(document.getElementById('slPrItemNTW').value);
-    } else if (document.getElementById('addItemLabourChgsBy').value == 'lbByGrossWt') {
-        labChargesBy = parseFloat(document.getElementById('slPrItemGSW').value);
-    } else {
-        var labChargesBy = document.getElementById('slPrItemFFineWeight').value;
-    }
-    if (labCharges != '') {
-        if (labChargesType == 'KG') {
-            if (wtType == 'KG')
-                totalLabNOthCharges = labCharges * labChargesBy;
-            else if (wtType == 'GM')
-                totalLabNOthCharges = (labCharges / 1000) * labChargesBy;
-            else
-                totalLabNOthCharges = (labCharges / (1000 * 1000)) * labChargesBy;
-        }
-        else if (labChargesType == 'GM') {
-            if (wtType == 'KG')
-                totalLabNOthCharges = labCharges * 1000 * labChargesBy;
-            else if (wtType == 'GM')
-                totalLabNOthCharges = labCharges * labChargesBy;
-            else
-                totalLabNOthCharges = (labCharges / 1000) * labChargesBy;
-        }
-        else if (labChargesType == 'MG') {
-            if (wtType == 'KG')
-                totalLabNOthCharges = labCharges * 1000 * 1000 * labChargesBy;
-            else if (wtType == 'GM')
-                totalLabNOthCharges = labCharges * 1000 * labChargesBy;
-            else
-                totalLabNOthCharges = labCharges * labChargesBy;
-        }
-        else if (labChargesType == 'PP') {
-            totalLabNOthCharges = labCharges * itemsQTY;
-        }
-        else if (labChargesType == 'per') {
-            var gsWt = document.getElementById('slPrItemGSW').value;
-            var gsWtTyp = document.getElementById('slPrItemGSWT').value;
-            var labNOthCharges = (labCharges * gsWt) / 100;
-            if (metalType == 'Gold') {
-                if (gsWtTyp == 'KG') {
-                    totalLabNOthCharges = Math.round((labNOthCharges * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
-                } else if (gsWtTyp == 'GM') {
-                    totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
-                } else if (gsWtTyp == 'MG') {
-                    totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+    //
+    // END CODE TO CALCULATE CUSTOMER WASTAGE WEIGHT ACCORDING TO CUSTOMER WASTAGE @PRIYANKA-21MAR18
+    if (document.getElementById('slPrItemFFineWeight').value != '' && document.getElementById('slPrItemFFineWeight').value != 0) {
+        if (labCharges != '') {
+            if (labChargesType == 'KG') {
+                if (wtType == 'KG')
+                    totalLabNOthCharges = labCharges * labChargesBy;
+                else if (wtType == 'GM')
+                    totalLabNOthCharges = (labCharges / 1000) * labChargesBy;
+                else
+                    totalLabNOthCharges = (labCharges / (1000 * 1000)) * labChargesBy;
+            } else if (labChargesType == 'GM') {
+                if (wtType == 'KG')
+                    totalLabNOthCharges = labCharges * 1000 * labChargesBy;
+                else if (wtType == 'GM')
+                    totalLabNOthCharges = labCharges * labChargesBy;
+                else
+                    totalLabNOthCharges = (labCharges / 1000) * labChargesBy;
+            } else if (labChargesType == 'MG') {
+                if (wtType == 'KG')
+                    totalLabNOthCharges = labCharges * 1000 * 1000 * labChargesBy;
+                else if (wtType == 'GM')
+                    totalLabNOthCharges = labCharges * 1000 * labChargesBy;
+                else
+                    totalLabNOthCharges = labCharges * labChargesBy;
+            } else if (labChargesType == 'PP') {
+                totalLabNOthCharges = labCharges * itemsQTY;
+            } else if (labChargesType == 'per') {
+                //
+                // START CODE for Making Charges apply on GS WT, NT WT or FFine WT @PRIYANKA-04-12-17
+//                if (document.getElementById('addItemLabourChgsBy').value == 'lbByNetWt') {
+//                    var gsWt = parseFloat(document.getElementById('slPrItemNTW').value);
+//                    var gsWtTyp = document.getElementById('slPrItemNTWT').value;
+//                } else if (document.getElementById('addItemLabourChgsBy').value == 'lbByGrossWt') {
+//                    var gsWt = parseFloat(document.getElementById('slPrItemGSW').value);
+//                    var gsWtTyp = document.getElementById('slPrItemGSWT').value;
+//                } else if (document.getElementById('addItemLabourChgsBy').value == 'lbByFineWt') {
+//                    var gsWt = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+//                    var gsWtTyp = document.getElementById('slPrItemGSWT').value;
+//                } else {
+//                    var gsWt = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+//                    var gsWtTyp = document.getElementById('slPrItemGSWT').value;
+//                }
+
+                if (document.getElementById('sttr_mkg_charges_by').value == 'mkgByNetWt') {
+                    var labChargesBy = parseFloat(document.getElementById('slPrItemNTW').value);
+                    var gsWt = parseFloat(document.getElementById('slPrItemNTW').value);
+                    var gsWtTyp = document.getElementById('slPrItemNTWT').value;
+                } else if (document.getElementById('sttr_mkg_charges_by').value == 'mkgByGrossWt') {
+                    var labChargesBy = parseFloat(document.getElementById('slPrItemGSW').value);
+                    var gsWt = parseFloat(document.getElementById('slPrItemGSW').value);
+                    var gsWtTyp = document.getElementById('slPrItemGSWT').value;
+                } else if (document.getElementById('sttr_mkg_charges_by').value == 'mkgByFineWt') {
+                    var labChargesBy = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+                    var gsWt = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+                    var gsWtTyp = document.getElementById('slPrItemGSWT').value;
+                } else {
+                    var labChargesBy = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+                    var gsWt = parseFloat(document.getElementById('slPrItemFFineWeight').value);
+                    var gsWtTyp = document.getElementById('slPrItemGSWT').value;
                 }
-            } else if (metalType == 'Silver') {
-                if (gsWtTyp == 'KG') {
-                    totalLabNOthCharges = Math.round(labNOthCharges * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
-                } else if (gsWtTyp == 'GM') {
-                    totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
-                } else if (gsWtTyp == 'MG') {
-                    totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+
+
+                var labNOthCharges = (labCharges * gsWt) / 100;
+                if (metalType == 'Gold') {
+                    if (gsWtTyp == 'KG') {
+                        totalLabNOthCharges = ((labNOthCharges * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                    } else if (gsWtTyp == 'GM') {
+                        totalLabNOthCharges = ((labNOthCharges * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                    } else if (gsWtTyp == 'MG') {
+                        totalLabNOthCharges = ((labNOthCharges * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                    }
+                } else if (metalType == 'Silver') {
+                    if (gsWtTyp == 'KG') {
+                        totalLabNOthCharges = (labNOthCharges * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+                    } else if (gsWtTyp == 'GM') {
+                        totalLabNOthCharges = ((labNOthCharges * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                    } else if (gsWtTyp == 'MG') {
+                        totalLabNOthCharges = ((labNOthCharges * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                    }
+                } else {
+                    // START CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
+                    if (gsWtTyp == 'KG') {
+                        totalLabNOthCharges = (labNOthCharges * metalRate * 1000).toFixed(2);
+                    } else if (gsWtTyp == 'GM') {
+                        totalLabNOthCharges = ((labNOthCharges * metalRate)).toFixed(2);
+                    } else if (gsWtTyp == 'MG') {
+                        totalLabNOthCharges = ((labNOthCharges * metalRate) * 0.001).toFixed(2);
+                    }
+                    // END CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
                 }
             }
         }
-    }
-    document.getElementById('addItemLbNOthCh').value = Math.round(totalLabNOthCharges).toFixed(2);
-    if (metalType == 'Gold') {
-        if (wtType == 'KG') {
-            document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
-        } else if (wtType == 'GM') {
-            document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
-        } else if (wtType == 'MG') {
-            document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+
+        // var oldValuation = document.getElementById('addItemNTWNMetRate').value;
+
+        // TOTAL OTHER CHARGES @PRIYANKA-12APR18      
+        document.getElementById('addItemLbNOthCh').value = Math_round(parseFloat(totalLabNOthCharges)).toFixed(2);
+
+        // TOTAL OTHER CHARGES @PRIYANKA-19APR18      
+        if (document.getElementById('addItemLbNOthCh').value == 'NaN') {
+            document.getElementById('addItemLbNOthCh').value = '0';
         }
-    } else if (metalType == 'Silver') {
-        if (wtType == 'KG') {
-            document.getElementById('addItemNTWNMetRate').value = Math.round(finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
-        } else if (wtType == 'GM') {
-            document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+
+        // TOTAL MAKING AMOUNT @PRIYANKA-16APR18      
+        document.getElementById('sttr_total_making_amt').value = Math_round(parseFloat(totalLabNOthCharges)).toFixed(2);
+
+        // TOTAL MAKING AMOUNT @PRIYANKA-19APR18      
+        if (document.getElementById('sttr_total_making_amt').value == 'NaN') {
+            document.getElementById('sttr_total_making_amt').value = '0';
         }
-        else if (wtType == 'MG') {
-            document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+
+        // MKG DISCOUNT IN % @PRIYANKA-12APR18     
+        if (document.getElementById('sttr_mkg_discount_per').value == 'NaN') {
+            document.getElementById('sttr_mkg_discount_per').value = '0';
         }
-    }
-    else {
-        document.getElementById('slPrItemValuation').value = 0;
-        document.getElementById('slPrItemFinalVal').value = 0;
-    }
-    if (metalType == 'Gold' || metalType == 'Silver') {
-        document.getElementById('slPrItemValuation').value = Math.round(parseFloat(document.getElementById('addItemNTWNMetRate').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
-        if (document.getElementById('valueAdd').value == 'false') {
-            document.getElementById('slPrItemValueAdded').value = Math.round(parseFloat(document.getElementById('addItemNTWNMetRate').value * parseFloat(itemPurity)) / 100).toFixed(2);
-            if (document.getElementById('slPrItemValueAdded').value < 0) {
-                document.getElementById('slPrItemValueAdded').value = '0.00';
+
+        // MKG DISCOUNT IN AMT @PRIYANKA-12APR18  
+        if (document.getElementById('sttr_mkg_discount_amt').value == 'NaN') {
+            document.getElementById('sttr_mkg_discount_amt').value = '0.00';
+        }
+
+        // START CODE FOR MKG DISCOUNT IN % & MKG DISCOUNT AMT @PRIYANKA-12APR18      
+        if ((document.getElementById('sttr_mkg_discount_per').value != '') && (document.getElementById('sttr_mkg_discount_amt').value == '' || document.getElementById('sttr_mkg_discount_amt').value == '0.00')) {
+            // CALCULATE MKG DISCOUNT AMT @PRIYANKA-12APR18
+            var sttr_mkg_discount_per = document.getElementById('sttr_mkg_discount_per').value; // MKG DISCOUNT IN % @PRIYANKA-12APR18            
+            var mkgDiscountAmt = (Math_round(parseFloat(totalLabNOthCharges)) * parseFloat(sttr_mkg_discount_per) / 100).toFixed(2);
+            document.getElementById('sttr_mkg_discount_amt').value = Math_round(parseFloat(mkgDiscountAmt)).toFixed(2);
+
+            if (mkgDiscountAmt > 0) {
+                document.getElementById('addItemLbNOthCh').value = (Math_round(parseFloat(totalLabNOthCharges)) - Math_round(parseFloat(mkgDiscountAmt))).toFixed(2);
+                //totalLabNOthCharges = parseFloat(document.getElementById('addItemLbNOthCh').value).toFixed(2);
             }
+
+            //alert('addItemLbNOthCh == ' + document.getElementById('addItemLbNOthCh').value);
+
+        } else {
+            // START CODE TO CALCULATE MKG DISCOUNT IN % ACCORDING TO MKG DISCOUNT AMT @PRIYANKA-12APR18          
+            var mkgTotalAmt = Math_round(parseFloat(totalLabNOthCharges)).toFixed(2);
+            if (mkgTotalAmt > 0) {
+                // MKG DISCOUNT AMT @PRIYANKA-12APR18
+                var mkgDiscountAmt = Math_round(parseFloat(document.getElementById('sttr_mkg_discount_amt').value)).toFixed(2);
+                var mkgDiscountPer = ((parseFloat(mkgDiscountAmt) * 100) / parseFloat(mkgTotalAmt));
+                document.getElementById('sttr_mkg_discount_per').value = parseFloat(mkgDiscountPer);
+
+                if (mkgDiscountAmt > 0) {
+                    document.getElementById('addItemLbNOthCh').value = (Math_round(parseFloat(totalLabNOthCharges)) - parseFloat(mkgDiscountAmt)).toFixed(2);
+                    //totalLabNOthCharges = parseFloat(document.getElementById('addItemLbNOthCh').value).toFixed(2);       
+                }
+
+                //alert('addItemLbNOthCh **== ' + document.getElementById('addItemLbNOthCh').value);
+
+            }
+            // END CODE TO CALCULATE MKG DISCOUNT IN % ACCORDING TO MKG DISCOUNT AMT @PRIYANKA-12APR18
         }
-        document.getElementById('slPrMetalTotValuation').value = Math.round(parseFloat(document.getElementById('slPrItemValuation').value) + parseFloat(document.getElementById('slPrItemValueAdded').value)).toFixed(2);
-        document.getElementById('slPrItemFinalVal').value = Math.round(document.getElementById('slPrMetalTotValuation').value).toFixed(2);
-    }
-    var sellItemTotValuation = document.getElementById('slPrMetalTotValuation').value;
-    if (document.getElementById('slPrItemVATTax').value != '') {
-        document.getElementById('slPrItemTotTax').value = Math.round(((parseFloat(sellItemTotValuation)) * (document.getElementById('slPrItemVATTax')).value) / 100).toFixed(2);
-        document.getElementById('slPrMetalTotValuation').value = Math.round(parseFloat(sellItemTotValuation) + parseFloat(document.getElementById('slPrItemTotTax').value)).toFixed(2);
-        document.getElementById('slPrItemFinalVal').value = Math.round(document.getElementById('slPrMetalTotValuation').value).toFixed(2);
-    }
-    if (document.getElementById('slPrCrystalValuation').value != '') {
-        if (document.getElementById('slPrMetalTotValuation').value == '' || document.getElementById('slPrMetalTotValuation').value == 'NaN') {
-            document.getElementById('slPrMetalTotValuation').value = 0;
+        // END CODE FOR MKG DISCOUNT IN % & MKG DISCOUNT AMT @PRIYANKA-12APR18
+
+        // MKG DISCOUNT IN % @PRIYANKA-12APR18   
+        if (document.getElementById('sttr_mkg_discount_per').value == 'NaN') {
+            document.getElementById('sttr_mkg_discount_per').value = '0';
         }
-        document.getElementById('slPrItemFinalVal').value = Math.round(parseFloat(document.getElementById('slPrMetalTotValuation').value) + parseFloat(document.getElementById('slPrCrystalValuation').value)).toFixed(2);
+
+        // MKG DISCOUNT IN AMT @PRIYANKA-12APR18   
+        if (document.getElementById('sttr_mkg_discount_amt').value == 'NaN' || document.getElementById('sttr_mkg_discount_amt').value == '0') {
+            document.getElementById('sttr_mkg_discount_amt').value = '0.00';
+        }
+
+        if (metalType == 'Gold') {
+            if (wtType == 'KG') {
+                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math_round((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+            } else if (wtType == 'GM') {
+                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+            } else if (wtType == 'MG') {
+                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+            }
+        } else if (metalType == 'Silver') {
+            if (wtType == 'KG') {
+                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) * document.getElementById('srGmWtInKg').value).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math_round((finalFineWeight * metalRate) * document.getElementById('srGmWtInKg').value).toFixed(2);
+            } else if (wtType == 'GM') {
+                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math_round((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+            } else if (wtType == 'MG') {
+                document.getElementById('addItemNTWNMetRate').value = Math_round((finalFineWeight * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math_round((finalFineWeight * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
+            }
+        } else {
+            // START CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
+            if (wtType == 'KG') {
+                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) * 1000).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math.round((finalFineWeight * metalRate) * 1000).toFixed(2);
+            } else if (wtType == 'GM') {
+                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate)).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math.round((finalFineWeight * metalRate)).toFixed(2);
+            } else if (wtType == 'MG') {
+                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) * 0.001).toFixed(2);
+                document.getElementById('sttr_metal_amt').value = Math.round((finalFineWeight * metalRate) * 0.001).toFixed(2);
+            }
+            // END CODE TO ADD CODE FOR OTHER METAL @PRIYANKA-06JUNE18
+        }
+
+
+        // METAL DISCOUNT IN % @PRIYANKA-12APR18
+        if (document.getElementById('sttr_metal_discount_per').value == 'NaN') {
+            document.getElementById('sttr_metal_discount_per').value = '0';
+        }
+
+        // METAL DISCOUNT IN AMT @PRIYANKA-12APR18
+        if (document.getElementById('sttr_metal_discount_amt').value == 'NaN') {
+            document.getElementById('sttr_metal_discount_amt').value = '0.00';
+        }
+
+        // START CODE FOR METAL DISCOUNT IN % & METAL DISCOUNT AMT @PRIYANKA-12APR18
+        if ((document.getElementById('sttr_metal_discount_per').value != '') && (document.getElementById('sttr_metal_discount_amt').value == '' || document.getElementById('sttr_metal_discount_amt').value == '0.00')) {
+            var sttr_metal_discount_per = document.getElementById('sttr_metal_discount_per').value; // METAL DISCOUNT IN % @PRIYANKA-12APR18
+            // CALCULATE METAL DISCOUNT AMT @PRIYANKA-12APR18
+            var metalDiscountAmt = Math_round(parseFloat(document.getElementById('addItemNTWNMetRate').value) * parseFloat(sttr_metal_discount_per) / 100).toFixed(2);
+            // METAL DISCOUNT AMT @PRIYANKA-12APR18
+            document.getElementById('sttr_metal_discount_amt').value = Math_round(parseFloat(metalDiscountAmt)).toFixed(2);
+
+            if (metalDiscountAmt > 0) {
+                var stockTotalVal = parseFloat(document.getElementById('addItemNTWNMetRate').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = (Math_round(parseFloat(stockTotalVal) - parseFloat(metalDiscountAmt))).toFixed(2);
+            }
+
+        } else {
+            // START CODE TO CALCULATE METAL DISCOUNT IN % ACCORDING TO METAL DISCOUNT AMT @PRIYANKA-12APR18            
+            var stockTotalVal = parseFloat(document.getElementById('addItemNTWNMetRate').value).toFixed(2);
+            if (stockTotalVal > 0) {
+                // METAL DISCOUNT AMT @PRIYANKA-12APR18
+                var metalDiscountAmt = Math_round(parseFloat(document.getElementById('sttr_metal_discount_amt').value)).toFixed(2);
+                var metalDiscountPer = ((parseFloat(metalDiscountAmt) * 100) / parseFloat(document.getElementById('addItemNTWNMetRate').value)).toFixed(2);
+                document.getElementById('sttr_metal_discount_per').value = parseFloat(metalDiscountPer);
+
+                if (metalDiscountAmt > 0) {
+                    document.getElementById('addItemNTWNMetRate').value = (Math_round(parseFloat(stockTotalVal) - parseFloat(metalDiscountAmt))).toFixed(2);
+                }
+            }
+            // END CODE TO CALCULATE METAL DISCOUNT IN % ACCORDING TO METAL DISCOUNT AMT @PRIYANKA-12APR18
+        }
+        // END CODE FOR METAL DISCOUNT IN % & METAL DISCOUNT AMT @PRIYANKA-12APR18
+
+        // METAL DISCOUNT IN % @PRIYANKA-12APR18
+        if (document.getElementById('sttr_metal_discount_per').value == 'NaN') {
+            document.getElementById('sttr_metal_discount_per').value = '0';
+        }
+
+        // METAL DISCOUNT IN AMT @PRIYANKA-12APR18
+        if (document.getElementById('sttr_metal_discount_amt').value == 'NaN' || document.getElementById('sttr_metal_discount_amt').value == '0') {
+            document.getElementById('sttr_metal_discount_amt').value = '0.00';
+        }
+
+
+        // var newValuation = document.getElementById('addItemNTWNMetRate').value;        
+        // var valueAdded = newValuation - oldValuation;
+
+        // if(document.getElementById('panelName').value != 'SellDetUpPanel' && document.getElementById('panelName').value != 'SellPayUp'){ 
+        if (document.getElementById('slPrCustWastageWt').value > 0) {
+            document.getElementById('slPrItemValueAdded').value = Math_round(((parseFloat(document.getElementById('slPrCustWastageWt').value) * metalRate) / 10)).toFixed(2);
+            //document.getElementById('addItemNTWNMetRate').value =  (newValuation - valueAdded).toFixed(2);               
+            //alert('slPrItemValueAdded == ' + document.getElementById('slPrItemValueAdded').value);
+        }
+        // }
+
+        //if (metalType == 'Gold' || metalType == 'Silver') {
+            document.getElementById('slPrItemValuation').value = (parseFloat(document.getElementById('addItemNTWNMetRate').value) + parseFloat(document.getElementById('addItemLbNOthCh').value)).toFixed(2);
+            if (document.getElementById('valueAdd').value == 'false') {
+
+                if (document.getElementById('slPrItemValueAdded').value < 0) {
+                    document.getElementById('slPrItemValueAdded').value = '0.00';
+                }
+            }
+            //
+            document.getElementById('slPrMetalTotValuation').value = (parseFloat(document.getElementById('slPrItemValuation').value)).toFixed(2);
+            //
+            document.getElementById('totalValuation').value = Math_round(parseFloat(document.getElementById('slPrMetalTotValuation').value)).toFixed(2);
+            //
+            //calculate CGST for QTY * MKG CHRG
+            //
+            //if (document.getElementById('slPrItemQtyMkgCgstPer').value != '') {
+            document.getElementById('slPrItemMkgCgstChrg').value = (parseFloat(document.getElementById('addItemLbNOthCh').value) * (parseFloat(document.getElementById('slPrItemQtyMkgCgstPer').value) / 100)).toFixed(2);
+            //}
+            //calculate SGST for QTY * MKG CHRG
+            //if (document.getElementById('slPrItemMkgSgstPer').value != '') {
+            document.getElementById('slPrItemMkgSgstChrg').value = (parseFloat(document.getElementById('addItemLbNOthCh').value) * (parseFloat(document.getElementById('slPrItemMkgSgstPer').value) / 100)).toFixed(2);
+            //}
+            //calculate IGST for QTY * MKG CHRG
+            //if (document.getElementById('slPrItemMkgIgstPer').value != '') {
+            document.getElementById('slPrItemMkgIgstChrg').value = (parseFloat(document.getElementById('addItemLbNOthCh').value) * (parseFloat(document.getElementById('slPrItemMkgIgstPer').value) / 100)).toFixed(2);
+            //}
+            //
+            //calculate CGST for QTY * Valuation
+            //if (document.getElementById('slPrItemPriMkgCgstPer').value != '') {
+            document.getElementById('slPrItemPriMkgCgstChrg').value = (parseFloat(document.getElementById('addItemNTWNMetRate').value) * (parseFloat(document.getElementById('slPrItemPriMkgCgstPer').value) / 100)).toFixed(2);
+            //}
+            //calculate SGST for QTY * Valuation
+            //if (document.getElementById('slPrItemPriMkgSgstPer').value != '') {
+            document.getElementById('slPrItemPriMkgSgstChrg').value = (parseFloat(document.getElementById('addItemNTWNMetRate').value) * (parseFloat(document.getElementById('slPrItemPriMkgSgstPer').value) / 100)).toFixed(2);
+            //}
+            //calculate IGST for QTY * Valuation
+            //if (document.getElementById('slPrItemPriMkgIgstPer').value != '') {
+            document.getElementById('slPrItemPriMkgIgstChrg').value = (parseFloat(document.getElementById('addItemNTWNMetRate').value) * (parseFloat(document.getElementById('slPrItemPriMkgIgstPer').value) / 100)).toFixed(2);
+            //}
+
+            if (document.getElementById('sttr_tax').value == '' || document.getElementById('sttr_tax').value == 'NaN') {
+                document.getElementById('sttr_tax').value = 0;
+            }
+
+            if (document.getElementById('slPrItemMkgCgstChrg').value == '' || document.getElementById('slPrItemMkgCgstChrg').value == 'NaN') {
+                document.getElementById('slPrItemMkgCgstChrg').value = 0;
+            }
+
+            if (document.getElementById('slPrItemMkgSgstChrg').value == '' || document.getElementById('slPrItemMkgSgstChrg').value == 'NaN') {
+                document.getElementById('slPrItemMkgSgstChrg').value = 0;
+            }
+
+            if (document.getElementById('slPrItemMkgIgstChrg').value == '' || document.getElementById('slPrItemMkgIgstChrg').value == 'NaN') {
+                document.getElementById('slPrItemMkgIgstChrg').value = 0;
+            }
+
+            if (document.getElementById('slPrItemPriMkgCgstChrg').value == '' || document.getElementById('slPrItemPriMkgCgstChrg').value == 'NaN') {
+                document.getElementById('slPrItemPriMkgCgstChrg').value = 0;
+            }
+
+            if (document.getElementById('slPrItemPriMkgSgstChrg').value == '' || document.getElementById('slPrItemPriMkgSgstChrg').value == 'NaN') {
+                document.getElementById('slPrItemPriMkgSgstChrg').value = 0;
+            }
+
+            if (document.getElementById('slPrItemPriMkgIgstChrg').value == '' || document.getElementById('slPrItemPriMkgIgstChrg').value == 'NaN') {
+                document.getElementById('slPrItemPriMkgIgstChrg').value = 0;
+            }
+
+
+            if (document.getElementById('sttr_tax').value > 0) {
+                //Calculate Total Item Tax cgst+sgst+igst
+
+                document.getElementById('slPrItemTotTax').value = (parseFloat(document.getElementById('slPrItemMkgCgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemMkgSgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemMkgIgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemPriMkgCgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemPriMkgSgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemPriMkgIgstChrg').value) +
+                        parseFloat(document.getElementById('addItemNTWNMetRate').value) * (parseFloat(document.getElementById('sttr_tax').value) / 100)).toFixed(2);
+
+            } else {
+                //Calculate Total Item Tax cgst+sgst+igst
+                document.getElementById('slPrItemTotTax').value = (parseFloat(document.getElementById('slPrItemMkgCgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemMkgSgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemMkgIgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemPriMkgCgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemPriMkgSgstChrg').value) +
+                        parseFloat(document.getElementById('slPrItemPriMkgIgstChrg').value)).toFixed(2);
+
+            }
+
+            //alert('slPrItemTotTax ==' + document.getElementById('slPrItemTotTax').value);
+
+            if (document.getElementById('slPrItemTotTax').value == '' || document.getElementById('slPrItemTotTax').value == 'NaN') {
+                document.getElementById('slPrItemTotTax').value = 0;
+            }
+
+            document.getElementById('slPrItemFinalVal').value = Math_round(((parseFloat(document.getElementById('totalValuation').value)) +
+                    (parseFloat(document.getElementById('slPrItemTotTax').value)))).toFixed(2);
+
+            if (parseFloat(document.getElementById('slPrItemValueAdded').value) != '0.00')
+            {
+//                var totalChrgs = (parseFloat(totalLabNOthCharges)).toFixed(2);
+//                document.getElementById('addItemLbNOthCh').value = Math_round(parseFloat(totalChrgs)).toFixed(2);
+                document.getElementById('totalValuation').value = Math_round(parseFloat(document.getElementById('slPrItemValuation').value)).toFixed(2);
+            }
+
+            //document.getElementById('slPrItemFinalVal').value = parseFloat(document.getElementById('slPrMetalTotValuation').value).toFixed(2);
+        //}
+
+        // START CODE TO ADD STONE VALUATION IN FINAL VALUATION @PRIYANKA-04JAN18
+        var finalVal = document.getElementById('slPrItemFinalVal').value; // FINAL VALUATION
+
+        if (document.getElementById('addItemCryFinVal').value != '') { // CRYSTAL VALUATION 
+            // FINAL VALUATION + CRYSTAL VALUATION 
+            document.getElementById('slPrItemFinalVal').value = Math_round(parseFloat(finalVal) + parseFloat(document.getElementById('addItemCryFinVal').value)).toFixed(2);
+        }
+        // END CODE TO ADD STONE VALUATION IN FINAL VALUATION @PRIYANKA-04JAN18
+
+        var sellItemTotValuation = document.getElementById('slPrMetalTotValuation').value;
+
+        // COMMENTED THIS CODE BECAUSE IT REMOVED FROM CUSTOMER STOCK @RATNAKAR10JAN2018
+//        if (document.getElementById('slPrItemVATTax').value != '') {
+//            document.getElementById('slPrItemTotTax').value = parseFloat(((parseFloat(sellItemTotValuation)) * (document.getElementById('slPrItemVATTax')).value) / 100).toFixed(2);
+//            document.getElementById('slPrMetalTotValuation').value = parseFloat(parseFloat(sellItemTotValuation) + parseFloat(document.getElementById('slPrItemTotTax').value)).toFixed(2);
+//            //document.getElementById('slPrItemFinalVal').value = parseFloat(document.getElementById('slPrMetalTotValuation').value).toFixed(2);
+//        }
+
+        if (document.getElementById('slPrCrystalValuation').value != '') {
+            if (document.getElementById('slPrMetalTotValuation').value == '' || document.getElementById('slPrMetalTotValuation').value == 'NaN') {
+                document.getElementById('slPrMetalTotValuation').value = 0;
+            }
+            //document.getElementById('slPrItemFinalVal').value = (parseFloat(document.getElementById('slPrMetalTotValuation').value) + parseFloat(document.getElementById('slPrCrystalValuation').value)).toFixed(2);
+        }
+
     }
     return false;
 }
-/***********End code to change value added option @Author:PRIYA14JUN14***************/
+/************End code to remove round off @Author:SHRI30JAN17***************/
 /***********End Code To Add Func For Add Sell Iteem Calcn @Author:PRIYA04AUG13***********/
 /***********End Code To change Func For change Sell Item Calcn @Author:SHRI03MAR15***********/
+//
+function calculateCustWastg() {
 
+    if (document.getElementById('slPrItemWtBy').value == 'byNetWt') {
+        var wt = document.getElementById('slPrItemNTW').value;
+        var wtType = document.getElementById('slPrItemNTWT').value;
+    } else if (document.getElementById('slPrItemWtBy').value == 'byGrossWt') {
+        wt = document.getElementById('slPrItemGSW').value;
+        wtType = document.getElementById('slPrItemGSWT').value;
+    }
+
+    var fineWT = document.getElementById('slPrItemNTW').value;
+
+    if (document.getElementById('slPrCustWastageWt').value != '' && document.getElementById('slPrCustWastageWt').value != '0') {
+
+        var newWt = document.getElementById('slPrCustWastageWt').value;
+
+        var finalFineWt = parseFloat(fineWT) + parseFloat(newWt);
+
+        document.getElementById('slPrItemFFineWeight').value = finalFineWt;
+
+        var newfinalFineWt = (parseFloat(finalFineWt) * 100);
+
+        var newTunch = (parseFloat(newfinalFineWt) / wt);
+
+        var tunch = document.getElementById('slPrFinalTunch').value;
+
+        var finalCustWT = parseFloat(newTunch) - parseFloat(tunch);
+
+        document.getElementById('slPrCustWastage').value = parseFloat(finalCustWT);
+    }
+
+}
 /***********Start Code To Add Fn For New Order @Author:PRIYA15AUG13************/
 /***********Start Code To Add Id in New Order @Author:PRIYA16SEP13************/
-/***********Start Code To change new order var @Author:PRIYA26OCT13************/
+/***********Start Code 
+ * 
+ * To change new order var @Author:PRIYA26OCT13************/
 /***********Start Code To change new order var @Author:SANT26AUG16************/
 /***********Start Code To change new order var @Author:SANT01SEP16************/
 /***********Start Code To change new order var @Author:SANT03SEP16************/
@@ -194,7 +577,13 @@ function calcNwOrItemPrice() {
         var fineWt = (((parseFloat(document.getElementById('nwOrItemPurity').value) + parseFloat(document.getElementById('addItemWastage').value)) * wt) / 100).toFixed(3);
     }
     if (document.getElementById('addItemCustWastage').value == '' || document.getElementById('addItemCustWastage').value == '0') {
-        document.getElementById('addItemCustWastage').value = (100 - (parseFloat(document.getElementById('nwOrItemPurity').value) + parseFloat(document.getElementById('addItemWastage').value)));
+        document.getElementById('addItemCustWastage').value = 0;
+    }
+    document.getElementById('nwOrItemFnWeight').value = fineWt;
+    if (document.getElementById('addItemCustWastage').value != '') {
+
+        fineWt = (parseFloat(document.getElementById('nwOrItemFnWeight').value) + ((((parseFloat(document.getElementById('nwOrItemPurity').value) + parseFloat(document.getElementById('addItemCustWastage').value)) * wt) / 100) - wt)).toFixed(3);
+
     }
     document.getElementById('nwOrItemFnWeight').value = fineWt;
     if (document.getElementById('nwOrItemFnWeight').value == 'NaN') {
@@ -231,46 +620,46 @@ function calcNwOrItemPrice() {
             totalLabNOthCharges = labCharges * itemsQTY;
         }
     }
-    document.getElementById('nwOrItemTotLabCharges').value = Math.round(totalLabNOthCharges).toFixed(2);
+    document.getElementById('nwOrItemTotLabCharges').value = Math_round(totalLabNOthCharges).toFixed(2);
     if (metalType == 'Gold') {
         if (wtType == 'KG') {
-            document.getElementById('nwOrItemGSWNMetalRate').value = Math.round((fineWt * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+            document.getElementById('nwOrItemGSWNMetalRate').value = Math_round((fineWt * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
         } else if (wtType == 'GM') {
-            document.getElementById('nwOrItemGSWNMetalRate').value = Math.round((fineWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+            document.getElementById('nwOrItemGSWNMetalRate').value = Math_round((fineWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
         } else if (wtType == 'MG') {
-            document.getElementById('nwOrItemGSWNMetalRate').value = Math.round((fineWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+            document.getElementById('nwOrItemGSWNMetalRate').value = Math_round((fineWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
         }
     } else if (metalType == 'Silver') {
         if (wtType == 'KG') {
-            document.getElementById('nwOrItemGSWNMetalRate').value = Math.round(fineWt * metalRate) * document.getElementById('srGmWtInKg').value.toFixed(2);
+            document.getElementById('nwOrItemGSWNMetalRate').value = Math_round(fineWt * metalRate) * document.getElementById('srGmWtInKg').value.toFixed(2);
         } else if (wtType == 'GM') {
-            document.getElementById('nwOrItemGSWNMetalRate').value = Math.round((fineWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+            document.getElementById('nwOrItemGSWNMetalRate').value = Math_round((fineWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
         } else if (wtType == 'MG') {
-            document.getElementById('nwOrItemGSWNMetalRate').value = Math.round((fineWt * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+            document.getElementById('nwOrItemGSWNMetalRate').value = Math_round((fineWt * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
         }
     } else {
         document.getElementById('nwOrItemValuation').value = 0;
         document.getElementById('nwOrItemFinalValuation').value = 0;
     }
-    document.getElementById('nwOrItemValuation').value = Math.round(parseFloat(document.getElementById('nwOrItemGSWNMetalRate').value) + parseFloat(document.getElementById('nwOrItemTotLabCharges').value)).toFixed(2);
-    document.getElementById('nwOrItemFinalValuation').value = Math.round(document.getElementById('nwOrItemValuation').value).toFixed(2);
-    document.getElementById('nwOrMetalTotValuation').value = Math.round(document.getElementById('nwOrItemValuation').value).toFixed(2);
+    document.getElementById('nwOrItemValuation').value = Math_round(parseFloat(document.getElementById('nwOrItemGSWNMetalRate').value) + parseFloat(document.getElementById('nwOrItemTotLabCharges').value)).toFixed(2);
+    document.getElementById('nwOrItemFinalValuation').value = Math_round(document.getElementById('nwOrItemValuation').value).toFixed(2);
+    document.getElementById('nwOrMetalTotValuation').value = Math_round(document.getElementById('nwOrItemValuation').value).toFixed(2);
     if (document.getElementById('nwOrItemCryFinVal').value != '') {
         var crystalValuation = document.getElementById('nwOrItemCryFinVal').value;
     }
     if (crystalValuation == null || crystalValuation == '') {
         crystalValuation = 0;
     }
-    if (document.getElementById('nwOrItemVATTax').value != '') {
-        document.getElementById('nwOrItemTotTax').value = Math.round((parseFloat(document.getElementById('nwOrItemValuation').value) * document.getElementById('nwOrItemVATTax').value) / 100).toFixed(2);
-        document.getElementById('nwOrMetalTotValuation').value = Math.round(parseFloat(document.getElementById('nwOrItemValuation').value) + parseFloat(document.getElementById('nwOrItemTotTax').value)).toFixed(2);
-        document.getElementById('nwOrItemFinalValuation').value = Math.round(document.getElementById('nwOrMetalTotValuation').value).toFixed(2);
-    }
+//    if (document.getElementById('nwOrItemVATTax').value != '') {
+//        document.getElementById('nwOrItemTotTax').value = Math_round((parseFloat(document.getElementById('nwOrItemValuation').value) * document.getElementById('nwOrItemVATTax').value) / 100).toFixed(2);
+//        document.getElementById('nwOrMetalTotValuation').value = Math_round(parseFloat(document.getElementById('nwOrItemValuation').value) + parseFloat(document.getElementById('nwOrItemTotTax').value)).toFixed(2);
+//        document.getElementById('nwOrItemFinalValuation').value = Math_round(document.getElementById('nwOrMetalTotValuation').value).toFixed(2);
+//    }
     if (document.getElementById('nwOrItemCryFinVal').value != '') {
         if (document.getElementById('nwOrMetalTotValuation').value == '' || document.getElementById('nwOrMetalTotValuation').value == 'NaN') {
             document.getElementById('nwOrMetalTotValuation').value = 0;
         }
-        document.getElementById('nwOrItemFinalValuation').value = Math.round(parseFloat(document.getElementById('nwOrMetalTotValuation').value) + parseFloat(document.getElementById('nwOrItemCryFinVal').value)).toFixed(2);
+        document.getElementById('nwOrItemFinalValuation').value = Math_round(parseFloat(document.getElementById('nwOrMetalTotValuation').value) + parseFloat(document.getElementById('nwOrItemCryFinVal').value)).toFixed(2);
     }
     if (document.getElementById('nwOrItemValuation').value == 'NaN') {
         document.getElementById('nwOrItemValuation').value = 0;
@@ -302,6 +691,7 @@ function calcNwOrCrystalPrice() {
     var totalCryVal = 0;
     /***********Start Code To Calc New order crystal balance @Author:SANT11AUG16***************/
     /***********Start Code To Calc New order crystal balance @Author:SANT03SEP16***************/
+
     if (document.getElementById('panelName').value == 'addItem') {
         getCrystalDiv = getCrystalDiv;
         var count = 1;
@@ -314,6 +704,7 @@ function calcNwOrCrystalPrice() {
     }
     /***********End Code To Calc New order crystal balance @Author:SANT03SEP16***************/
     /***********End Code To Calc New order crystal balance @Author:SANT11AUG16***************/
+
     var delId = 'del' + count;
     for (var dc = count; getCrystalDiv != ''; dc++) {
         if (document.getElementById('del' + dc).value != 'Deleted') {
@@ -330,17 +721,17 @@ function calcNwOrCrystalPrice() {
             } else {
                 totalGSWTNRate = crystalRate * crystalGsWt;
             }
-            document.getElementById('nwOrCryVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
+            document.getElementById('nwOrCryVal' + dc).value = Math_round(totalGSWTNRate).toFixed(2);
             if (document.getElementById('nwOrCryVal' + dc).value == 'NaN') {
                 document.getElementById('nwOrCryVal' + dc).value = 0;
             }
             totalCryVal += parseFloat(document.getElementById('nwOrCryVal' + dc).value);
-            document.getElementById('nwOrItemTotCryVal').value = Math.round(parseFloat(totalCryVal)).toFixed(2);
+            document.getElementById('nwOrItemTotCryVal').value = Math_round(parseFloat(totalCryVal)).toFixed(2);
             document.getElementById('nwOrItemCryFinVal').value = document.getElementById('nwOrItemTotCryVal').value;
-            if (document.getElementById('nwOrItemCryTax').value != '') {
-                document.getElementById('nwOrItemCryTotalTax').value = Math.round(parseFloat((document.getElementById('nwOrItemTotCryVal').value * document.getElementById('nwOrItemCryTax').value) / 100)).toFixed(2);
-                document.getElementById('nwOrItemCryFinVal').value = Math.round(parseFloat(document.getElementById('nwOrItemTotCryVal').value) + parseFloat(document.getElementById('nwOrItemCryTotalTax').value)).toFixed(2);
-            }
+//            if (document.getElementById('nwOrItemCryTax').value != '') {
+//                document.getElementById('nwOrItemCryTotalTax').value = Math_round(parseFloat((document.getElementById('nwOrItemTotCryVal').value * document.getElementById('nwOrItemCryTax').value) / 100)).toFixed(2);
+//                document.getElementById('nwOrItemCryFinVal').value = Math_round(parseFloat(document.getElementById('nwOrItemTotCryVal').value) + parseFloat(document.getElementById('nwOrItemCryTotalTax').value)).toFixed(2);
+//            }
             if (document.getElementById('nwOrItemCryFinVal').value != '') {
                 calcNwOrItemPrice();
             }
@@ -450,34 +841,34 @@ function calcSuppOrderItemPrice() {
             totalLabNOthCharges += othCharges * itemsQTY;
         }
     }
-    document.getElementById('suppNwOrTotalLabChrg').value = Math.round(totalLabNOthCharges).toFixed(2);
+    document.getElementById('suppNwOrTotalLabChrg').value = Math_round(totalLabNOthCharges).toFixed(2);
     if (metalType == 'Gold') {
         if (netWeightType == 'KG') {
-            document.getElementById('suppNwOrFFNWtNMetRate').value = Math.round((finalFineWeight * metalRate) * 100).toFixed(2);
-            document.getElementById('suppNwOrItemValuation').value = Math.round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
-            document.getElementById('suppNwOrItemFinalVal').value = Math.round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrFFNWtNMetRate').value = Math_round((finalFineWeight * metalRate) * 100).toFixed(2);
+            document.getElementById('suppNwOrItemValuation').value = Math_round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrItemFinalVal').value = Math_round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
         } else if (netWeightType == 'GM') {
-            document.getElementById('suppNwOrFFNWtNMetRate').value = Math.round((finalFineWeight * metalRate) / 10).toFixed(2);
-            document.getElementById('suppNwOrItemValuation').value = Math.round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
-            document.getElementById('suppNwOrItemFinalVal').value = Math.round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrFFNWtNMetRate').value = Math_round((finalFineWeight * metalRate) / 10).toFixed(2);
+            document.getElementById('suppNwOrItemValuation').value = Math_round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrItemFinalVal').value = Math_round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
         } else if (netWeightType == 'MG') {
-            document.getElementById('suppNwOrFFNWtNMetRate').value = Math.round((finalFineWeight * metalRate) / 10000).toFixed(2);
-            document.getElementById('suppNwOrItemValuation').value = Math.round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
-            document.getElementById('suppNwOrItemFinalVal').value = Math.round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrFFNWtNMetRate').value = Math_round((finalFineWeight * metalRate) / 10000).toFixed(2);
+            document.getElementById('suppNwOrItemValuation').value = Math_round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrItemFinalVal').value = Math_round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
         }
     } else if (metalType == 'Silver') {
         if (netWeightType == 'KG') {
-            document.getElementById('suppNwOrFFNWtNMetRate').value = Math.round(finalFineWeight * metalRate).toFixed(2);
-            document.getElementById('suppNwOrItemValuation').value = Math.round((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
-            document.getElementById('suppNwOrItemFinalVal').value = Math.round((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrFFNWtNMetRate').value = Math_round(finalFineWeight * metalRate).toFixed(2);
+            document.getElementById('suppNwOrItemValuation').value = Math_round((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrItemFinalVal').value = Math_round((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
         } else if (netWeightType == 'GM') {
-            document.getElementById('suppNwOrFFNWtNMetRate').value = Math.round((finalFineWeight * metalRate) / 1000).toFixed(2);
-            document.getElementById('suppNwOrItemValuation').value = Math.round((finalFineWeight * metalRate) / 1000 + totalLabNOthCharges).toFixed(2);
-            document.getElementById('suppNwOrItemFinalVal').value = Math.round((finalFineWeight * metalRate) / 1000 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrFFNWtNMetRate').value = Math_round((finalFineWeight * metalRate) / 1000).toFixed(2);
+            document.getElementById('suppNwOrItemValuation').value = Math_round((finalFineWeight * metalRate) / 1000 + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrItemFinalVal').value = Math_round((finalFineWeight * metalRate) / 1000 + totalLabNOthCharges).toFixed(2);
         } else if (netWeightType == 'MG') {
-            document.getElementById('suppNwOrFFNWtNMetRate').value = Math.round((finalFineWeight * metalRate) / (1000 * 1000)).toFixed(2);
-            document.getElementById('suppNwOrItemValuation').value = Math.round((finalFineWeight * metalRate) / (1000 * 1000) + totalLabNOthCharges).toFixed(2);
-            document.getElementById('suppNwOrItemFinalVal').value = Math.round((finalFineWeight * metalRate) / (10000 * 1000) + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrFFNWtNMetRate').value = Math_round((finalFineWeight * metalRate) / (1000 * 1000)).toFixed(2);
+            document.getElementById('suppNwOrItemValuation').value = Math_round((finalFineWeight * metalRate) / (1000 * 1000) + totalLabNOthCharges).toFixed(2);
+            document.getElementById('suppNwOrItemFinalVal').value = Math_round((finalFineWeight * metalRate) / (10000 * 1000) + totalLabNOthCharges).toFixed(2);
         }
     } else {
         document.getElementById('suppNwOrItemValuation').value = 0;
@@ -491,17 +882,17 @@ function calcSuppOrderItemPrice() {
         crystalValuation = 0;
     }
     if (document.getElementById('suppNwOrItemVATTax').value != '') {
-        document.getElementById('suppNwOrTotalTax').value = Math.round(((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemVATTax').value) / 100).toFixed(2);
-        document.getElementById('suppNwOrMetalTotValuation').value = Math.round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(document.getElementById('suppNwOrTotalTax').value)).toFixed(2);
-        document.getElementById('suppNwOrItemFinalVal').value = Math.round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * (document.getElementById('suppNwOrItemVATTax').value)) / 100)).toFixed(2);
+        document.getElementById('suppNwOrTotalTax').value = Math_round(((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemVATTax').value) / 100).toFixed(2);
+        document.getElementById('suppNwOrMetalTotValuation').value = Math_round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(document.getElementById('suppNwOrTotalTax').value)).toFixed(2);
+        document.getElementById('suppNwOrItemFinalVal').value = Math_round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * (document.getElementById('suppNwOrItemVATTax').value)) / 100)).toFixed(2);
     }
     if (document.getElementById('suppNwOrItemOthTax').value != '') {
-        document.getElementById('suppNwOrTotalTax').value = Math.round((((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemVATTax').value) / 100) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemOthTax').value) / 100)).toFixed(2);
-        document.getElementById('suppNwOrMetalTotValuation').value = Math.round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(document.getElementById('suppNwOrTotalTax').value)).toFixed(2);
-        document.getElementById('suppNwOrItemFinalVal').value = Math.round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * (document.getElementById('suppNwOrItemVATTax').value)) / 100) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemOthTax').value) / 100)).toFixed(2);
+        document.getElementById('suppNwOrTotalTax').value = Math_round((((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemVATTax').value) / 100) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemOthTax').value) / 100)).toFixed(2);
+        document.getElementById('suppNwOrMetalTotValuation').value = Math_round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(document.getElementById('suppNwOrTotalTax').value)).toFixed(2);
+        document.getElementById('suppNwOrItemFinalVal').value = Math_round(parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * (document.getElementById('suppNwOrItemVATTax').value)) / 100) + (((parseFloat(document.getElementById('suppNwOrItemValuation').value) + parseFloat(crystalValuation)) * document.getElementById('suppNwOrItemOthTax').value) / 100)).toFixed(2);
     }
     if (document.getElementById('suppNwOrCryValuation').value != '') {
-        document.getElementById('suppNwOrItemFinalVal').value = Math.round(parseFloat(document.getElementById('suppNwOrMetalTotValuation').value) + parseFloat(document.getElementById('suppNwOrCryValuation').value)).toFixed(2);
+        document.getElementById('suppNwOrItemFinalVal').value = Math_round(parseFloat(document.getElementById('suppNwOrMetalTotValuation').value) + parseFloat(document.getElementById('suppNwOrCryValuation').value)).toFixed(2);
     }
     if (document.getElementById('suppNwOrTotalLabChrg').value == 'NaN') {
         document.getElementById('suppNwOrTotalLabChrg').value = 0;
@@ -535,11 +926,11 @@ function calcTotalItemBal(metType, recWt, recWtType, tunch, fineWt, metRate, met
     document.getElementById(fineWt).value = goldWeight;
     if (metalType == 'Gold') {
         if (payTotalWeightType1 == 'KG') {
-            document.getElementById(metVal1).value = Math.round((goldWeight * payMetalRate1) * 100).toFixed(2);
+            document.getElementById(metVal1).value = Math_round((goldWeight * payMetalRate1) * 100).toFixed(2);
         } else if (payTotalWeightType1 == 'GM') {
-            document.getElementById(metVal1).value = Math.round((goldWeight * payMetalRate1) / 10).toFixed(2);
+            document.getElementById(metVal1).value = Math_round((goldWeight * payMetalRate1) / 10).toFixed(2);
         } else if (payTotalWeightType1 == 'MG') {
-            document.getElementById(metVal1).value = Math.round((goldWeight * payMetalRate1) / 10000).toFixed(2);
+            document.getElementById(metVal1).value = Math_round((goldWeight * payMetalRate1) / 10000).toFixed(2);
         }
     }
     else if (metalType == 'Silver') {
@@ -547,12 +938,12 @@ function calcTotalItemBal(metType, recWt, recWtType, tunch, fineWt, metRate, met
             metVal2 = metVal1;
         }
         if (payTotalWeightType1 == 'KG') {
-            document.getElementById(metVal2).value = Math.round((goldWeight * payMetalRate1)).toFixed(2);
+            document.getElementById(metVal2).value = Math_round((goldWeight * payMetalRate1)).toFixed(2);
         } else if (payTotalWeightType1 == 'GM') {
-            document.getElementById(metVal2).value = Math.round((goldWeight * payMetalRate1) / 1000).toFixed(2);
+            document.getElementById(metVal2).value = Math_round((goldWeight * payMetalRate1) / 1000).toFixed(2);
         }
         else if (payTotalWeightType1 == 'MG') {
-            document.getElementById(metVal2).value = Math.round((goldWeight * payMetalRate1) / (1000 * 1000)).toFixed(2);
+            document.getElementById(metVal2).value = Math_round((goldWeight * payMetalRate1) / (1000 * 1000)).toFixed(2);
         }
     }
 
@@ -601,19 +992,19 @@ function calcTotalItemBal(metType, recWt, recWtType, tunch, fineWt, metRate, met
         metalValuation2 = 0;
     }
 
-    document.getElementById(totAmt).value = Math.round(document.getElementById(totAmt).value).toFixed(2);
+    document.getElementById(totAmt).value = Math_round(document.getElementById(totAmt).value).toFixed(2);
     if (payPanelName == 'SellItemReturn') {
-        document.getElementById(totAmtRec).value = Math.round(parseFloat(metalValuation1)).toFixed(2);
+        document.getElementById(totAmtRec).value = Math_round(parseFloat(metalValuation1)).toFixed(2);
     } else {
-        document.getElementById(totAmtRec).value = Math.round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
+        document.getElementById(totAmtRec).value = Math_round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
     }
 //    if (payPanelName == 'SuppOrderDelivery' || payPanelName == 'suppPendingOrderUp' || payPanelName == 'SuppPaymentPanel') {
 //        if (document.getElementById('suppOrCryfinVal').value != '') {
-//            document.getElementById(totAmtRec).value = Math.round(parseFloat(document.getElementById('suppOrCryfinVal').value) + parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
+//            document.getElementById(totAmtRec).value = Math_round(parseFloat(document.getElementById('suppOrCryfinVal').value) + parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
 //        }
 //    }
     document.getElementById(totAmtRecDisp).value = document.getElementById(totAmtRec).value;
-    document.getElementById(totAmtBal).value = Math.round(parseFloat(document.getElementById(totAmt).value) - parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
+    document.getElementById(totAmtBal).value = Math_round(parseFloat(document.getElementById(totAmt).value) - parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
     if (document.getElementById(cashRec).value != '' || document.getElementById(discount).value != '') {
         var totalCashPaidAmt = document.getElementById(cashRec).value;
         if (totalCashPaidAmt == null || totalCashPaidAmt == '') {
@@ -625,7 +1016,7 @@ function calcTotalItemBal(metType, recWt, recWtType, tunch, fineWt, metRate, met
         }
         document.getElementById(totAmtBal).value = parseFloat(document.getElementById(totAmtBal).value) - parseFloat(totalCashPaidAmt) - parseFloat(totalDiscountAmt);
     }
-    document.getElementById(totAmtBalDisp).value = Math.round(document.getElementById(totAmtBal).value).toFixed(2);
+    document.getElementById(totAmtBalDisp).value = Math_round(document.getElementById(totAmtBal).value).toFixed(2);
     return false;
 }
 /***********End Code cal Supp gold and silver Item bal @Author:PRIYA29SEP13***************/
@@ -704,10 +1095,10 @@ function calcSuppNwOrCrystalPrice(prefix) {
                     totalGSWTNRate = crystalRate * crystalQTY;
                 }
 
-                document.getElementById(prefix + 'PayCryVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
-                document.getElementById(prefix + 'PayCryFinVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
+                document.getElementById(prefix + 'PayCryVal' + dc).value = Math_round(totalGSWTNRate).toFixed(2);
+                document.getElementById(prefix + 'PayCryFinVal' + dc).value = Math_round(totalGSWTNRate).toFixed(2);
                 if (document.getElementById(prefix + 'PayCryTax' + dc).value != '') {
-                    document.getElementById(prefix + 'PayCryFinVal' + dc).value = Math.round(parseFloat(document.getElementById(prefix + 'PayCryVal' + dc).value) + parseFloat((document.getElementById(prefix + 'PayCryVal' + dc).value * document.getElementById(prefix + 'PayCryTax' + dc).value) / 100)).toFixed(2);
+                    document.getElementById(prefix + 'PayCryFinVal' + dc).value = Math_round(parseFloat(document.getElementById(prefix + 'PayCryVal' + dc).value) + parseFloat((document.getElementById(prefix + 'PayCryVal' + dc).value * document.getElementById(prefix + 'PayCryTax' + dc).value) / 100)).toFixed(2);
                 }
                 if (document.getElementById(prefix + 'PayCryVal' + dc).value == 'NaN') {
                     document.getElementById(prefix + 'PayCryVal' + dc).value = 0;
@@ -716,25 +1107,25 @@ function calcSuppNwOrCrystalPrice(prefix) {
                     document.getElementById(prefix + 'PayCryFinVal' + dc).value = 0;
                 }
                 totalCryVal += parseFloat(document.getElementById(prefix + 'PayCryFinVal' + dc).value);
-                document.getElementById('suppOrCryfinVal').value = Math.round(totalCryVal).toFixed(2);
-                document.getElementById(prefix + 'PayTotAmtRec').value = Math.round(parseFloat(document.getElementById(prefix + 'PayMetal1Val').value) + parseFloat(document.getElementById(prefix + 'PayMetal2Val').value) + parseFloat(document.getElementById('suppOrCryfinVal').value)).toFixed(2);
+                document.getElementById('suppOrCryfinVal').value = Math_round(totalCryVal).toFixed(2);
+                document.getElementById(prefix + 'PayTotAmtRec').value = Math_round(parseFloat(document.getElementById(prefix + 'PayMetal1Val').value) + parseFloat(document.getElementById(prefix + 'PayMetal2Val').value) + parseFloat(document.getElementById('suppOrCryfinVal').value)).toFixed(2);
                 document.getElementById(prefix + 'PayTotAmtRecDisp').value = document.getElementById(prefix + 'PayTotAmtRec').value;
-                document.getElementById(prefix + 'PayTotAmtBal').value = Math.round(parseFloat(document.getElementById(prefix + 'PayTotAmt').value) - parseFloat(document.getElementById(prefix + 'PayTotAmtRec').value)).toFixed(2);
+                document.getElementById(prefix + 'PayTotAmtBal').value = Math_round(parseFloat(document.getElementById(prefix + 'PayTotAmt').value) - parseFloat(document.getElementById(prefix + 'PayTotAmtRec').value)).toFixed(2);
                 if (document.getElementById(prefix + 'PayCashAmtRec').value != '' || document.getElementById(prefix + 'PayDiscount').value != '') {
 
                     document.getElementById(prefix + 'PayTotAmtBal').value = parseFloat(document.getElementById(prefix + 'PayTotAmtBal').value) - parseFloat(totalCashPaidAmt) - parseFloat(totalDiscountAmt);
                 }
-                document.getElementById(prefix + 'PayTotAmtBalDisp').value = Math.round(document.getElementById(prefix + 'PayTotAmtBal').value).toFixed(2);
+                document.getElementById(prefix + 'PayTotAmtBalDisp').value = Math_round(document.getElementById(prefix + 'PayTotAmtBal').value).toFixed(2);
             }
             if (document.getElementById('suppPaydel' + 1).value == 'Deleted') {
                 document.getElementById('suppOrCryfinVal').value = 0 + totalCryVal;
-                document.getElementById(prefix + 'PayTotAmtRec').value = Math.round(parseFloat(document.getElementById(prefix + 'PayMetal1Val').value) + parseFloat(document.getElementById(prefix + 'PayMetal2Val').value) + parseFloat(document.getElementById('suppOrCryfinVal').value)).toFixed(2);
+                document.getElementById(prefix + 'PayTotAmtRec').value = Math_round(parseFloat(document.getElementById(prefix + 'PayMetal1Val').value) + parseFloat(document.getElementById(prefix + 'PayMetal2Val').value) + parseFloat(document.getElementById('suppOrCryfinVal').value)).toFixed(2);
                 document.getElementById(prefix + 'PayTotAmtRecDisp').value = document.getElementById(prefix + 'PayTotAmtRec').value;
-                document.getElementById(prefix + 'PayTotAmtBal').value = Math.round(parseFloat(document.getElementById(prefix + 'PayTotAmt').value) - parseFloat(document.getElementById(prefix + 'PayTotAmtRec').value)).toFixed(2);
+                document.getElementById(prefix + 'PayTotAmtBal').value = Math_round(parseFloat(document.getElementById(prefix + 'PayTotAmt').value) - parseFloat(document.getElementById(prefix + 'PayTotAmtRec').value)).toFixed(2);
                 if (document.getElementById(prefix + 'PayCashAmtRec').value != '' || document.getElementById(prefix + 'PayDiscount').value != '') {
                     document.getElementById(prefix + 'PayTotAmtBal').value = parseFloat(document.getElementById(prefix + 'PayTotAmtBal').value) - parseFloat(totalCashPaidAmt) - parseFloat(totalDiscountAmt);
                 }
-                document.getElementById(prefix + 'PayTotAmtBalDisp').value = Math.round(document.getElementById(prefix + 'PayTotAmtBal').value).toFixed(2);
+                document.getElementById(prefix + 'PayTotAmtBalDisp').value = Math_round(document.getElementById(prefix + 'PayTotAmtBal').value).toFixed(2);
 //                alert(document.getElementById(prefix + 'PayTotAmtBal').value);
             }
             crystalEntered++;
@@ -781,10 +1172,10 @@ function calcSuppAddCryPrice() {
             else if (crystalRateType == 'PP') {
                 totalGSWTNRate = crystalRate * crystalQTY;
             }
-            document.getElementById('suppNwOrCryVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
-            document.getElementById('suppNwOrCryFinalVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
+            document.getElementById('suppNwOrCryVal' + dc).value = Math_round(totalGSWTNRate).toFixed(2);
+            document.getElementById('suppNwOrCryFinalVal' + dc).value = Math_round(totalGSWTNRate).toFixed(2);
             if (document.getElementById('suppNwOrCryTax' + dc).value != '') {
-                document.getElementById('suppNwOrCryFinalVal' + dc).value = Math.round(parseFloat(document.getElementById('suppNwOrCryVal' + dc).value) + parseFloat((document.getElementById('suppNwOrCryVal' + dc).value * document.getElementById('suppNwOrCryTax' + dc).value) / 100)).toFixed(2);
+                document.getElementById('suppNwOrCryFinalVal' + dc).value = Math_round(parseFloat(document.getElementById('suppNwOrCryVal' + dc).value) + parseFloat((document.getElementById('suppNwOrCryVal' + dc).value * document.getElementById('suppNwOrCryTax' + dc).value) / 100)).toFixed(2);
             }
             if (document.getElementById('suppNwOrCryVal' + dc).value == 'NaN') {
                 document.getElementById('suppNwOrCryVal' + dc).value = 0;
@@ -793,7 +1184,7 @@ function calcSuppAddCryPrice() {
                 document.getElementById('suppNwOrCryFinalVal' + dc).value = 0;
             }
             totalCryVal += parseFloat(document.getElementById('suppNwOrCryFinalVal' + dc).value);
-            document.getElementById('suppNwOrCryValuation').value = Math.round(parseFloat(totalCryVal)).toFixed(2);
+            document.getElementById('suppNwOrCryValuation').value = Math_round(parseFloat(totalCryVal)).toFixed(2);
             calcSuppOrderItemPrice();
         }
         if ((document.getElementById('suppNwOrCryDel' + 1).value == 'Deleted')) {
@@ -875,11 +1266,11 @@ function calcItemDeliveryPrice(sporId) {
         document.getElementById('spOrDvPayTotGdFnWt').value = parseFloat(document.getElementById('spOrDvPayGdFnWt').value) - parseFloat(document.getElementById('spOrDvReqGdPaid').value);
         document.getElementById('spOrDvPayTotGdFnWt').value = Math.ceil((document.getElementById('spOrDvPayTotGdFnWt').value) * 1000) / 1000;
         if (spOrDvTotalWeightType1 == 'KG') {
-            document.getElementById('spOrDvPayGdVal').value = Math.round((document.getElementById('spOrDvPayTotGdFnWt').value * document.getElementById('spOrDvPayGdRate').value) * document.getElementById('gmWtInKg').value).toFixed(2);
+            document.getElementById('spOrDvPayGdVal').value = Math_round((document.getElementById('spOrDvPayTotGdFnWt').value * document.getElementById('spOrDvPayGdRate').value) * document.getElementById('gmWtInKg').value).toFixed(2);
         } else if (spOrDvTotalWeightType1 == 'GM') {
-            document.getElementById('spOrDvPayGdVal').value = Math.round((document.getElementById('spOrDvPayTotGdFnWt').value * document.getElementById('spOrDvPayGdRate').value) / document.getElementById('gmWtInGm').value).toFixed(2);
+            document.getElementById('spOrDvPayGdVal').value = Math_round((document.getElementById('spOrDvPayTotGdFnWt').value * document.getElementById('spOrDvPayGdRate').value) / document.getElementById('gmWtInGm').value).toFixed(2);
         } else if (spOrDvTotalWeightType1 == 'MG') {
-            document.getElementById('spOrDvPayGdVal').value = Math.round((document.getElementById('spOrDvPayTotGdFnWt').value * document.getElementById('spOrDvPayGdRate').value) / document.getElementById('gmWtInMg').value).toFixed(2);
+            document.getElementById('spOrDvPayGdVal').value = Math_round((document.getElementById('spOrDvPayTotGdFnWt').value * document.getElementById('spOrDvPayGdRate').value) / document.getElementById('gmWtInMg').value).toFixed(2);
         }
     }
     var spOrDvSrWeightType1 = document.getElementById('spOrDvPayTotSrFnWtType').value;
@@ -909,14 +1300,14 @@ function calcItemDeliveryPrice(sporId) {
 
     document.getElementById('spOrDvPayTotSrFnWt').value = Math.ceil((document.getElementById('spOrDvPayTotSrFnWt').value) * 1000) / 1000;
     if (spOrDvSrWeightType1 == 'KG') {
-        document.getElementById('spOrDvPaySrVal').value = Math.round(document.getElementById('spOrDvPayTotSrFnWt').value * document.getElementById('spOrDvPaySrRate').value * document.getElementById('srGmWtInKg').value).toFixed(2);
+        document.getElementById('spOrDvPaySrVal').value = Math_round(document.getElementById('spOrDvPayTotSrFnWt').value * document.getElementById('spOrDvPaySrRate').value * document.getElementById('srGmWtInKg').value).toFixed(2);
     } else if (spOrDvSrWeightType1 == 'GM') {
-        document.getElementById('spOrDvPaySrVal').value = Math.round((document.getElementById('spOrDvPayTotSrFnWt').value * document.getElementById('spOrDvPaySrRate').value) / document.getElementById('srGmWtInGm').value).toFixed(2);
+        document.getElementById('spOrDvPaySrVal').value = Math_round((document.getElementById('spOrDvPayTotSrFnWt').value * document.getElementById('spOrDvPaySrRate').value) / document.getElementById('srGmWtInGm').value).toFixed(2);
     } else if (spOrDvSrWeightType1 == 'MG') {
-        document.getElementById('spOrDvPaySrVal').value = Math.round((document.getElementById('spOrDvPayTotSrFnWt').value * document.getElementById('spOrDvPaySrRate').value) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+        document.getElementById('spOrDvPaySrVal').value = Math_round((document.getElementById('spOrDvPayTotSrFnWt').value * document.getElementById('spOrDvPaySrRate').value) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
     }
-    document.getElementById('spOrDvPayTotVal').value = Math.round(parseFloat(document.getElementById('spOrDvPayGdVal').value) + parseFloat(document.getElementById('spOrDvPaySrVal').value)).toFixed(2);
-    document.getElementById('spOrDvReqCashPaid').value = Math.round(document.getElementById('spOrDvReqCashRec').value).toFixed(2);
+    document.getElementById('spOrDvPayTotVal').value = Math_round(parseFloat(document.getElementById('spOrDvPayGdVal').value) + parseFloat(document.getElementById('spOrDvPaySrVal').value)).toFixed(2);
+    document.getElementById('spOrDvReqCashPaid').value = Math_round(document.getElementById('spOrDvReqCashRec').value).toFixed(2);
     if (document.getElementById('spOrDvPayCashPaid').value == '' || document.getElementById('spOrDvPayCashPaid').value == 'NaN') {
         document.getElementById('spOrDvPayCashPaid').value = 0;
     }
@@ -942,62 +1333,251 @@ function calcItemDeliveryPrice(sporId) {
         document.getElementById('spOrDvPayStoneTotVal').value = 0;
     }
 
-    document.getElementById('spOrDvPayTotAmtBal').value = Math.round((parseFloat(document.getElementById('spOrDvPayTotVal').value) + parseFloat(document.getElementById('spOrDvTotTax').value) + parseFloat(document.getElementById('spOrDvPayStoneTotVal').value)) - parseFloat(document.getElementById('spOrDvPayCashPaid').value) -
+    document.getElementById('spOrDvPayTotAmtBal').value = Math_round((parseFloat(document.getElementById('spOrDvPayTotVal').value) + parseFloat(document.getElementById('spOrDvTotTax').value) + parseFloat(document.getElementById('spOrDvPayStoneTotVal').value)) - parseFloat(document.getElementById('spOrDvPayCashPaid').value) -
             parseFloat(document.getElementById('spOrDvReqCashPaid').value)).toFixed(2);
     return false;
 }
 /***********Start code to add func for sell crystal cal @Author:PRIYA04DEC13******************/
-/***********Start code to add panel @Author:PRIYA20DEC13******************/ function calcSellCryPrice() {
-    var crystalEntered = 0;
-    var totalCryVal = 0;
-    if (document.getElementById('panelName').value == 'SellDetUpPanel' || document.getElementById('panelName').value == 'SellPayUp') {
-        getCrystalDiv = document.getElementById('noOfCry').value;
-        var count = document.getElementById('slPrCrystalId').value;
-        var delId = 'del' + count;
-    } else {
-        count = 1;
-        delId = 'del' + 1;
-    }
+/***********Start code to add panel @Author:PRIYA20DEC13******************/
 
-    for (var dc = count; getCrystalDiv != ''; dc++) {
+function calcSellCryPrice() {
+
+    var crystalEntered = document.getElementById('crystalCount').value;
+    var totalCryVal = 0;
+    var cryGSWT = 0;
+    var count = 1;
+    var totCryTax = 0;
+
+    var delId = 'del' + count;
+
+    for (var dc = count; crystalEntered != ''; dc++) {
+
+        //alert('del == ' + document.getElementById('del' + dc).value);
+
         if (document.getElementById('del' + dc).value != 'Deleted') {
+
             var crystalQTY = parseInt(document.getElementById('slPrCryQty' + dc).value);
             var crystalGsWt = parseFloat(document.getElementById('slPrCryGSW' + dc).value);
             var crystalGsWtTyp = document.getElementById('slPrCryGSWType' + dc).value;
             var crystalRate = parseFloat(document.getElementById('slPrCryRate' + dc).value);
             var crystalRateType = document.getElementById('slPrCryRateType' + dc).value;
             var crystalVal = parseFloat(document.getElementById('slPrCryVal' + dc).value);
+
             var totalGSWTNRate = 0;
-            if (crystalRateType == 'PP') {
-                totalGSWTNRate = crystalRate * crystalQTY;
+
+//            if (crystalRateType == 'PP') {
+//                totalGSWTNRate = crystalRate * crystalQTY;
+//            } else {
+//                totalGSWTNRate = crystalRate * crystalGsWt;
+//            }
+
+            // START CODE TO CALCULATE VALUATION ACCORDING TO CRYSTAL WEIGHT TYPE & CRYSTAL RATE TYPE @PRIYANKA-25FEB18
+            if (crystalRateType == 'KG') { // CRYSTAL RATE TYPE IN KG
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = crystalRate * crystalGsWt;
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = (crystalRate / 1000) * crystalGsWt;
+                else if (crystalGsWtTyp == 'CT') // CRYSTAL WEIGHT TYPE IN CT
+                    totalGSWTNRate = (crystalRate * 0.0002) * crystalGsWt;
+                else
+                    totalGSWTNRate = (crystalRate / (1000 * 1000)) * crystalGsWt;
+            } else if (crystalRateType == 'GM') { // CRYSTAL RATE TYPE IN GM
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = crystalRate * 1000 * crystalGsWt;
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = crystalRate * crystalGsWt;
+                else if (crystalGsWtTyp == 'CT') // CRYSTAL WEIGHT TYPE IN CT
+                    totalGSWTNRate = (crystalRate * 0.2) * crystalGsWt;
+                else
+                    totalGSWTNRate = (crystalRate / 1000) * crystalGsWt;
+            } else if (crystalRateType == 'MG') { // CRYSTAL RATE TYPE IN MG
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = crystalRate * 1000 * 1000 * crystalGsWt;
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = crystalRate * 1000 * crystalGsWt;
+                else if (crystalGsWtTyp == 'CT') // CRYSTAL WEIGHT TYPE IN CT
+                    totalGSWTNRate = (crystalRate * 200) * crystalGsWt;
+                else
+                    totalGSWTNRate = crystalRate * crystalGsWt;
+            } else if (crystalRateType == 'CT') { // CRYSTAL RATE TYPE IN CT
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = ((crystalRate / 0.0002) * crystalGsWt);
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = ((crystalRate / 0.2) * crystalGsWt);
+                else if (crystalGsWtTyp == 'MG') // CRYSTAL WEIGHT TYPE IN MG
+                    totalGSWTNRate = ((crystalRate / 200) * crystalGsWt);
+                else
+                    totalGSWTNRate = crystalRate * crystalGsWt;
             } else {
-                totalGSWTNRate = crystalRate * crystalGsWt;
+                totalGSWTNRate = crystalRate * crystalQTY;
             }
-            document.getElementById('slPrCryVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
+            // END CODE TO CALCULATE VALUATION ACCORDING TO CRYSTAL WEIGHT TYPE & CRYSTAL RATE TYPE @PRIYANKA-25FEB18
+
+            document.getElementById('sttr_stone_amt' + dc).value = parseFloat(totalGSWTNRate).toFixed(2);
+
+            if (document.getElementById('sttr_stone_amt' + dc).value == 'NaN' ||
+                    document.getElementById('sttr_stone_amt' + dc).value == '0') {
+                document.getElementById('sttr_stone_amt' + dc).value = '0.00';
+            }
+
+            document.getElementById('slPrCryVal' + dc).value = parseFloat(totalGSWTNRate).toFixed(2);
+
+            // STONE DISCOUNT IN % @PRIYANKA-12APR18     
+            if (document.getElementById('sttr_stone_discount_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_stone_discount_per' + dc).value = '0';
+            }
+
+            // STONE DISCOUNT IN AMT @PRIYANKA-12APR18  
+            if (document.getElementById('sttr_stone_discount_amt' + dc).value == 'NaN') {
+                document.getElementById('sttr_stone_discount_amt' + dc).value = '0.00';
+            }
+
+            // START CODE FOR STONE DISCOUNT IN % & STONE DISCOUNT AMT @PRIYANKA-12APR18      
+            if ((document.getElementById('sttr_stone_discount_per' + dc).value != '') &&
+                    (document.getElementById('sttr_stone_discount_amt' + dc).value == '' ||
+                            document.getElementById('sttr_stone_discount_amt' + dc).value == '0.00')) {
+
+                // CALCULATE STONE DISCOUNT AMT @PRIYANKA-12APR18
+                var sttr_stone_discount_per = document.getElementById('sttr_stone_discount_per' + dc).value; // STONE DISCOUNT IN % @PRIYANKA-12APR18            
+                var stoneDiscountAmt = (Math_round(parseFloat(totalGSWTNRate)) * parseFloat(sttr_stone_discount_per) / 100).toFixed(2);
+                document.getElementById('sttr_stone_discount_amt' + dc).value = Math_round(parseFloat(stoneDiscountAmt)).toFixed(2);
+
+                if (stoneDiscountAmt > 0) {
+                    document.getElementById('slPrCryVal' + dc).value = (Math_round(parseFloat(totalGSWTNRate)) - Math_round(parseFloat(stoneDiscountAmt))).toFixed(2);
+                    //totalGSWTNRate = parseFloat(document.getElementById('slPrCryVal' + dc).value).toFixed(2);
+                }
+
+
+            } else {
+                // START CODE TO CALCULATE STONE DISCOUNT IN % ACCORDING TO STONE DISCOUNT AMT @PRIYANKA-12APR18          
+                var stoneTotalAmt = Math_round(parseFloat(totalGSWTNRate)).toFixed(2);
+                if (stoneTotalAmt > 0) {
+                    // STONE DISCOUNT AMT @PRIYANKA-12APR18
+                    var stoneDiscountAmt = Math_round(parseFloat(document.getElementById('sttr_stone_discount_amt' + dc).value)).toFixed(2);
+                    var stoneDiscountPer = ((parseFloat(stoneDiscountAmt) * 100) / parseFloat(stoneTotalAmt)).toFixed(2);
+                    document.getElementById('sttr_stone_discount_per' + dc).value = parseFloat(stoneDiscountPer);
+
+                    if (stoneDiscountAmt > 0) {
+                        document.getElementById('slPrCryVal' + dc).value = (Math_round(parseFloat(totalGSWTNRate)) - parseFloat(stoneDiscountAmt)).toFixed(2);
+                        //totalGSWTNRate = parseFloat(document.getElementById('slPrCryVal' + dc).value).toFixed(2);
+                    }
+                }
+                // END CODE TO CALCULATE STONE DISCOUNT IN % ACCORDING TO STONE DISCOUNT AMT @PRIYANKA-12APR18
+            }
+            // END CODE FOR STONE DISCOUNT IN % & STONE DISCOUNT AMT @PRIYANKA-12APR18
+
+            // STONE DISCOUNT IN % @PRIYANKA-12APR18   
+            if (document.getElementById('sttr_stone_discount_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_stone_discount_per' + dc).value = '0';
+            }
+
+            // STONE DISCOUNT IN AMT @PRIYANKA-12APR18   
+            if (document.getElementById('sttr_stone_discount_amt' + dc).value == 'NaN' ||
+                    document.getElementById('sttr_stone_discount_amt' + dc).value == '0') {
+                document.getElementById('sttr_stone_discount_amt' + dc).value = '0.00';
+            }
+
+            // STONE CGST IN % @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_cgst_per' + dc).value == '' || document.getElementById('sttr_tot_price_cgst_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_cgst_per' + dc).value = 0;
+            }
+
+            // CALCULATE STONE CGST AMT => (STONE VAL * STONE CGST IN %) / 100 @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_cgst_per' + dc).value != '') {
+                document.getElementById('sttr_tot_price_cgst_chrg' + dc).value = (parseFloat(document.getElementById('slPrCryVal' + dc).value) * (parseFloat(document.getElementById('sttr_tot_price_cgst_per' + dc).value) / 100)).toFixed(2);
+            }
+
+            // STONE CGST CHRG @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_cgst_chrg' + dc).value == '' || document.getElementById('sttr_tot_price_cgst_chrg' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_cgst_chrg' + dc).value = 0;
+            }
+
+            // STONE SGST IN % @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_sgst_per' + dc).value == '' || document.getElementById('sttr_tot_price_sgst_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_sgst_per' + dc).value = 0;
+            }
+
+            // CALCULATE STONE SGST AMT => (STONE VAL * STONE SGST IN %) / 100 @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_sgst_per' + dc).value != '') {
+                document.getElementById('sttr_tot_price_sgst_chrg' + dc).value = (parseFloat(document.getElementById('slPrCryVal' + dc).value) * (parseFloat(document.getElementById('sttr_tot_price_sgst_per' + dc).value) / 100)).toFixed(2);
+            }
+
+            // STONE SGST CHRG @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_sgst_chrg' + dc).value == '' || document.getElementById('sttr_tot_price_sgst_chrg' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_sgst_chrg' + dc).value = 0;
+            }
+
+            // STONE IGST IN % @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_igst_per' + dc).value == '' || document.getElementById('sttr_tot_price_igst_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_igst_per' + dc).value = 0;
+            }
+
+            // CALCULATE STONE IGST AMT => (STONE VAL * STONE IGST IN %) / 100 @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_igst_per' + dc).value != '') {
+                document.getElementById('sttr_tot_price_igst_chrg' + dc).value = (parseFloat(document.getElementById('slPrCryVal' + dc).value) * (parseFloat(document.getElementById('sttr_tot_price_igst_per' + dc).value) / 100)).toFixed(2);
+            }
+
+            // STONE IGST CHRG @PRIYANKA-25FEB18
+            if (document.getElementById('sttr_tot_price_igst_chrg' + dc).value == '' || document.getElementById('sttr_tot_price_igst_chrg' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_igst_chrg' + dc).value = 0;
+            }
+
+            // CALCULATE TOT TAX AMT =>  STONE CGST AMT + STONE SGST AMT + STONE IGST AMT @PRIYANKA-25FEB18
+            document.getElementById('sttr_tot_tax' + dc).value = (parseFloat(document.getElementById('sttr_tot_price_cgst_chrg' + dc).value) +
+                    parseFloat(document.getElementById('sttr_tot_price_sgst_chrg' + dc).value) +
+                    parseFloat(document.getElementById('sttr_tot_price_igst_chrg' + dc).value)).toFixed(2);
+
+            if (document.getElementById('sttr_tot_tax' + dc).value == '' || document.getElementById('sttr_tot_tax' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_tax' + dc).value = 0;
+            }
+
+            //document.getElementById('slPrCryVal' + dc).value = parseFloat(totalGSWTNRate).toFixed(2);
+
             if (document.getElementById('slPrCryVal' + dc).value == 'NaN') {
                 document.getElementById('slPrCryVal' + dc).value = 0;
             }
+
+            totCryTax += parseFloat(document.getElementById('sttr_tot_tax' + dc).value);
+
             totalCryVal += parseFloat(document.getElementById('slPrCryVal' + dc).value);
-            document.getElementById('slPrCrystalValuation').value = Math.round(parseFloat(totalCryVal)).toFixed(2);
-            document.getElementById('slPrCryFinVal').value = document.getElementById('slPrCrystalValuation').value;
-            if (document.getElementById('slPrItemCryTax').value != '') {
-                document.getElementById('slPrCrystalTotTax').value = Math.round(parseFloat((document.getElementById('slPrCrystalValuation').value * document.getElementById('slPrItemCryTax').value) / 100)).toFixed(2);
-                document.getElementById('slPrCryFinVal').value = Math.round(parseFloat(document.getElementById('slPrCrystalValuation').value) + parseFloat(document.getElementById('slPrCrystalTotTax').value)).toFixed(2);
+
+            cryGSWT += parseFloat(document.getElementById('slPrCryGSW' + dc).value);
+
+            // CALCULATE FINAL VALUATION @PRIYANKA-23FEB18
+            document.getElementById('addItemCryFinVal').value = parseFloat(parseFloat(totalCryVal) + parseFloat(totCryTax)).toFixed(2);
+
+            if (document.getElementById('addItemCryFinVal').value == 'NaN') {
+                document.getElementById('addItemCryFinVal').value = 0;
             }
-            if (document.getElementById('slPrCryFinVal').value != '') {
+
+            document.getElementById('sttr_final_valuation' + dc).value = parseFloat(parseFloat(document.getElementById('slPrCryVal' + dc).value) + parseFloat(document.getElementById('sttr_tot_tax' + dc).value)).toFixed(2);
+
+            if (document.getElementById('sttr_final_valuation' + dc).value == 'NaN') {
+                document.getElementById('sttr_final_valuation' + dc).value = 0;
+            }
+
+            // document.getElementById('addItemCryFinVal').value = (parseFloat(totalCryVal)).toFixed(2);
+
+            // alert('addItemCryFinVal == ' + document.getElementById('addItemCryFinVal').value);
+
+            if (document.getElementById('addItemCryFinVal').value != '') {
+
+//                    document.getElementById('sttr_stone_wt').value = (parseFloat(cryGSWT)).toFixed(2);
+//                    document.getElementById('sttr_stone_wt_type').value = document.getElementById('slPrCryGSWType' + dc).value;
+//                    document.getElementById('sttr_stone_valuation').value = (parseFloat(totalCryVal)).toFixed(2);
+
                 calculateSellPrice();
             }
         }
-//if(document.getElementById('panelName').value == 'AddStock'){
+    
         if (document.getElementById(delId).value == 'Deleted') {
-            document.getElementById('slPrCrystalValuation').value = '';
-            document.getElementById('slPrItemCryTax').value = '';
-            document.getElementById('slPrCrystalTotTax').value = '';
-            document.getElementById('slPrCryFinVal').value = 0 + totalCryVal;
+                        document.getElementById('addItemCryFinVal').value = 0 + totalCryVal;
             calculateSellPrice();
         }
-//  }
+    
+        count++;
         crystalEntered++;
+
     }
     return false;
 }
@@ -1016,21 +1596,21 @@ function calcTotalItemReturnBal(metType, recWt, recWtType, tunch, fineWt, metRat
     document.getElementById(fineWt).value = goldWeight;
     if (metalType == 'Gold') {
         if (payTotalWeightType1 == 'KG') {
-            document.getElementById(metVal1).value = Math.round((goldWeight * payMetalRate1) * 100).toFixed(2);
+            document.getElementById(metVal1).value = Math_round((goldWeight * payMetalRate1) * 100).toFixed(2);
         } else if (payTotalWeightType1 == 'GM') {
-            document.getElementById(metVal1).value = Math.round((goldWeight * payMetalRate1) / 10).toFixed(2);
+            document.getElementById(metVal1).value = Math_round((goldWeight * payMetalRate1) / 10).toFixed(2);
         } else if (payTotalWeightType1 == 'MG') {
-            document.getElementById(metVal1).value = Math.round((goldWeight * payMetalRate1) / 10000).toFixed(2);
+            document.getElementById(metVal1).value = Math_round((goldWeight * payMetalRate1) / 10000).toFixed(2);
         }
     }
     else if (metalType == 'Silver') {
         if (payTotalWeightType1 == 'KG') {
-            document.getElementById(metVal2).value = Math.round((goldWeight * payMetalRate1)).toFixed(2);
+            document.getElementById(metVal2).value = Math_round((goldWeight * payMetalRate1)).toFixed(2);
         } else if (payTotalWeightType1 == 'GM') {
-            document.getElementById(metVal2).value = Math.round((goldWeight * payMetalRate1) / 1000).toFixed(2);
+            document.getElementById(metVal2).value = Math_round((goldWeight * payMetalRate1) / 1000).toFixed(2);
         }
         else if (payTotalWeightType1 == 'MG') {
-            document.getElementById(metVal2).value = Math.round((goldWeight * payMetalRate1) / (1000 * 1000)).toFixed(2);
+            document.getElementById(metVal2).value = Math_round((goldWeight * payMetalRate1) / (1000 * 1000)).toFixed(2);
         }
     }
 
@@ -1076,15 +1656,15 @@ function calcTotalItemReturnBal(metType, recWt, recWtType, tunch, fineWt, metRat
     if (metalValuation2 == '') {
         metalValuation2 = 0;
     }
-    document.getElementById(totAmt).value = Math.round(document.getElementById(totAmt).value).toFixed(2);
-    document.getElementById(totAmtRec).value = Math.round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
+    document.getElementById(totAmt).value = Math_round(document.getElementById(totAmt).value).toFixed(2);
+    document.getElementById(totAmtRec).value = Math_round(parseFloat(metalValuation1) + parseFloat(metalValuation2)).toFixed(2);
     if (payPanelName == 'SuppOrderDelivery' || payPanelName == 'suppPendingOrderUp' || payPanelName == 'SuppPaymentPanel') {
         if (document.getElementById('suppOrCryfinVal').value != '') {
-            document.getElementById(totAmtRec).value = Math.round(parseFloat(document.getElementById('suppOrCryfinVal').value) + parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
+            document.getElementById(totAmtRec).value = Math_round(parseFloat(document.getElementById('suppOrCryfinVal').value) + parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
         }
     }
     document.getElementById(totAmtRecDisp).value = document.getElementById(totAmtRec).value;
-    document.getElementById(totAmtBal).value = Math.round(parseFloat(document.getElementById(totAmt).value) - parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
+    document.getElementById(totAmtBal).value = Math_round(parseFloat(document.getElementById(totAmt).value) - parseFloat(document.getElementById(totAmtRec).value)).toFixed(2);
     if (document.getElementById(cashRec).value != '' || document.getElementById(discount).value != '') {
         var totalCashPaidAmt = document.getElementById(cashRec).value;
         if (totalCashPaidAmt == null || totalCashPaidAmt == '') {
@@ -1096,7 +1676,7 @@ function calcTotalItemReturnBal(metType, recWt, recWtType, tunch, fineWt, metRat
         }
         document.getElementById(totAmtBal).value = parseFloat(document.getElementById(totAmtBal).value) - parseFloat(totalCashPaidAmt) - parseFloat(totalDiscountAmt);
     }
-    document.getElementById(totAmtBalDisp).value = Math.round(document.getElementById(totAmtBal).value).toFixed(2);
+    document.getElementById(totAmtBalDisp).value = Math_round(document.getElementById(totAmtBal).value).toFixed(2);
     return false;
 }
 /***********End Code cal Supp gold and silver Item bal @Author:PRIYA29SEP13***************/
@@ -1131,19 +1711,19 @@ function calculateCustSellPrice() {
             if (metalType == 'Gold') {
                 if (wtType == 'KG') {
 
-                    document.getElementById('slItemFnWNMetRate').value = Math.round((finalWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                    document.getElementById('slItemFnWNMetRate').value = Math_round((finalWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
                 } else if (wtType == 'GM') {
-                    document.getElementById('slItemFnWNMetRate').value = Math.round((finalWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                    document.getElementById('slItemFnWNMetRate').value = Math_round((finalWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
                 } else if (wtType == 'MG') {
-                    document.getElementById('slItemFnWNMetRate').value = Math.round((finalWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                    document.getElementById('slItemFnWNMetRate').value = Math_round((finalWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
                 }
             } else if (metalType == 'Silver') {
                 if (wtType == 'KG') {
-                    document.getElementById('slItemFnWNMetRate').value = Math.round(finalWeight * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+                    document.getElementById('slItemFnWNMetRate').value = Math_round(finalWeight * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
                 } else if (wtType == 'GM') {
-                    document.getElementById('slItemFnWNMetRate').value = Math.round((finalWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                    document.getElementById('slItemFnWNMetRate').value = Math_round((finalWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
                 } else if (wtType == 'MG') {
-                    document.getElementById('slItemFnWNMetRate').value = Math.round((finalWeight * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                    document.getElementById('slItemFnWNMetRate').value = Math_round((finalWeight * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
                 }
             } else {
                 document.getElementById('slItemFnWNMetRate').value = 0;
@@ -1157,15 +1737,15 @@ function calculateCustSellPrice() {
         }
 
         if (document.getElementById('slItemVATTax').value != '') {
-            document.getElementById('slItemTotTax').value = Math.round((parseFloat(itemValuation) * document.getElementById('slItemVATTax').value) / 100).toFixed(2);
-            document.getElementById('slItemMetalTotValuation').value = Math.round(parseFloat(document.getElementById('slItemValuation').value) + parseFloat(document.getElementById('slItemTotTax').value)).toFixed(2);
-            document.getElementById('slItemFinalVal').value = Math.round(document.getElementById('slItemMetalTotValuation').value).toFixed(2);
+            document.getElementById('slItemTotTax').value = Math_round((parseFloat(itemValuation) * document.getElementById('slItemVATTax').value) / 100).toFixed(2);
+            document.getElementById('slItemMetalTotValuation').value = Math_round(parseFloat(document.getElementById('slItemValuation').value) + parseFloat(document.getElementById('slItemTotTax').value)).toFixed(2);
+            document.getElementById('slItemFinalVal').value = Math_round(document.getElementById('slItemMetalTotValuation').value).toFixed(2);
         }
 //        if (document.getElementById('slItemCryFinVal').value != '') {
         if (document.getElementById('slItemMetalTotValuation').value == '' || document.getElementById('slItemMetalTotValuation').value == 'NaN') {
             document.getElementById('slItemMetalTotValuation').value = 0;
 //            }
-            document.getElementById('slItemFinalVal').value = Math.round(parseFloat(document.getElementById('slItemMetalTotValuation').value)).toFixed(2);
+            document.getElementById('slItemFinalVal').value = Math_round(parseFloat(document.getElementById('slItemMetalTotValuation').value)).toFixed(2);
         }
     }
     return false;
@@ -1173,6 +1753,9 @@ function calculateCustSellPrice() {
 /***********End Code To remove slItemCryFinVal from function for cust sell @Author:ANUJA14APR15***********/
 /***********End code to add panel @Author:PRIYA25DEC13******************/
 function calcCustSellCryPrice() {
+
+    //  alert('Hiii');
+
     var crystalEntered = 0;
     var totalCryVal = 0;
     if (document.getElementById('panelName').value == 'CustSellUpPanel' || document.getElementById('panelName').value == 'CustSellPayUp') {
@@ -1197,16 +1780,16 @@ function calcCustSellCryPrice() {
             } else {
                 totalGSWTNRate = crystalRate * crystalGsWt;
             }
-            document.getElementById('sellCryVal' + dc).value = Math.round(totalGSWTNRate).toFixed(2);
+            document.getElementById('sellCryVal' + dc).value = Math_round(totalGSWTNRate).toFixed(2);
             if (document.getElementById('sellCryVal' + dc).value == 'NaN') {
                 document.getElementById('sellCryVal' + dc).value = 0;
             }
             totalCryVal += parseFloat(document.getElementById('sellCryVal' + dc).value);
-            document.getElementById('slItemCryVal').value = Math.round(parseFloat(totalCryVal)).toFixed(2);
+            document.getElementById('slItemCryVal').value = Math_round(parseFloat(totalCryVal)).toFixed(2);
             document.getElementById('slItemCryFinVal').value = document.getElementById('slItemCryVal').value;
             if (document.getElementById('slItemCryTax').value != '') {
-                document.getElementById('slItemCryTotalTax').value = Math.round(parseFloat((document.getElementById('slItemCryVal').value * document.getElementById('slItemCryTax').value) / 100)).toFixed(2);
-                document.getElementById('slItemCryFinVal').value = Math.round(parseFloat(document.getElementById('slItemCryVal').value) + parseFloat(document.getElementById('slItemCryTotalTax').value)).toFixed(2);
+                document.getElementById('slItemCryTotalTax').value = Math_round(parseFloat((document.getElementById('slItemCryVal').value * document.getElementById('slItemCryTax').value) / 100)).toFixed(2);
+                document.getElementById('slItemCryFinVal').value = Math_round(parseFloat(document.getElementById('slItemCryVal').value) + parseFloat(document.getElementById('slItemCryTotalTax').value)).toFixed(2);
             }
             if (document.getElementById('slItemCryFinVal').value != '') {
                 calculateCustSellPrice();
@@ -1449,34 +2032,34 @@ function calcCashBalance(prefix) {
 /****Start code to calculate final valuation of raw metal @OMMODTAG SHE02APR16****/
 /****Start code to calculate final valuation of raw metal @OMMODTAG SHE18MAY16****/
 function  calRawMetalFinVal() {
-    var wt = parseFloat(document.getElementById('addRawStockItemNetWeight').value);
-    var wtType = document.getElementById('addRawStockItemNetWeightType').value;
-    var metalRate = parseFloat(document.getElementById('addRawStockItemMetalRate').value);
-    var metalType = document.getElementById('addRawStockItemMetal').value;
+    var wt = parseFloat(document.getElementById('sttr_nt_weight').value);
+    var wtType = document.getElementById('sttr_nt_weight_type').value;
+    var metalRate = parseFloat(document.getElementById('sttr_metal_rate').value);
+    var metalType = document.getElementById('sttr_metal_type').value;
 
 
-    if (document.getElementById('addRawStockItemTunch').value != 'NotSelected') {
-        document.getElementById('addRawStockFineWeight').value = parseFloat((parseFloat(document.getElementById('addRawStockItemTunch').value) * wt) / 100).toFixed(3);
+    if (document.getElementById('sttr_purity').value != 'NotSelected') {
+        document.getElementById('sttr_fine_weight').value = parseFloat((parseFloat(document.getElementById('sttr_purity').value) * wt) / 100).toFixed(3);
     }
-    if (document.getElementById('addRawStockItemFinalTunch').value != '') {
-        document.getElementById('addRawStockFFineWeight').value = ((document.getElementById('addRawStockItemFinalTunch').value * wt) / 100).toFixed(3);
+    if (document.getElementById('sttr_final_purity').value != '') {
+        document.getElementById('sttr_final_fine_weight').value = ((document.getElementById('sttr_final_purity').value * wt) / 100).toFixed(3);
     }
 
-    if (document.getElementById('addRawStockFineWeight').value == 'NaN') {
-        document.getElementById('addRawStockFineWeight').value = 0;
+    if (document.getElementById('sttr_fine_weight').value == 'NaN') {
+        document.getElementById('sttr_fine_weight').value = 0;
     }
-    if (document.getElementById('addRawStockFFineWeight').value == '' || document.getElementById('addRawStockFFineWeight').value == 'NaN') {
-        document.getElementById('addRawStockFFineWeight').value = 0;
+    if (document.getElementById('sttr_final_fine_weight').value == '' || document.getElementById('sttr_final_fine_weight').value == 'NaN') {
+        document.getElementById('sttr_final_fine_weight').value = 0;
     }
-    var finalFineWeight = parseFloat(document.getElementById('addRawStockFFineWeight').value);
-    var itemsQTY = parseInt(document.getElementById('addRawStockItemPieces').value);
-    var labCharges = document.getElementById('addRawStockLabCharges').value;
-    var labChargesType = document.getElementById('addRawStockLabChargesType').value;
+    var finalFineWeight = parseFloat(document.getElementById('sttr_final_fine_weight').value);
+    var itemsQTY = parseInt(document.getElementById('sttr_quantity').value);
+    var labCharges = document.getElementById('sttr_lab_charges').value;
+    var labChargesType = document.getElementById('sttr_lab_charges_type').value;
     var totalLabNOthCharges = 0;
     var totVal;
 
     var labChargesBy = finalFineWeight;
-    if (document.getElementById('addRawStockFFineWeight').value != '' && document.getElementById('addRawStockFFineWeight').value != 0) {
+    if (document.getElementById('sttr_final_fine_weight').value != '' && document.getElementById('sttr_final_fine_weight').value != 0) {
         if (labCharges != '') {
             if (labChargesType == 'KG') {
                 if (wtType == 'KG')
@@ -1503,42 +2086,41 @@ function  calRawMetalFinVal() {
             } else if (labChargesType == 'PP') {
                 totalLabNOthCharges = labCharges * itemsQTY;
             }
-            document.getElementById('addRawItemLbNOthCh').value = Math.round(totalLabNOthCharges).toFixed(2);
+            document.getElementById('sttr_total_lab_charges').value = parseFloat(totalLabNOthCharges).toFixed(2);
         } else {
-            document.getElementById('addRawItemLbNOthCh').value = 0;
+            document.getElementById('sttr_total_lab_charges').value = 0;
         }
-
         if (metalType == 'Gold') {
             if (wtType == 'MG') {
-                document.getElementById('addRawStockItemFnWNMetRate').value = Math.round((metalRate * finalFineWeight) / document.getElementById('gmWtInMg').value).toFixed(2);
-                document.getElementById('addRawStockValuation').value = Math.round(parseFloat((metalRate * finalFineWeight) / document.getElementById('gmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) / document.getElementById('gmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addRawStockItemFnWNMetRate').value = Math.round((metalRate * finalFineWeight) / document.getElementById('gmWtInGm').value).toFixed(2);
-                document.getElementById('addRawStockValuation').value = Math.round(parseFloat((metalRate * finalFineWeight) / document.getElementById('gmWtInGm').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) / document.getElementById('gmWtInGm').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             } else {
-                document.getElementById('addRawStockItemFnWNMetRate').value = Math.round((metalRate * finalFineWeight) * document.getElementById('gmWtInKg').value).toFixed(2);
-                document.getElementById('addRawStockValuation').value = Math.round(parseFloat((metalRate * finalFineWeight) * document.getElementById('gmWtInKg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) * document.getElementById('gmWtInKg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             }
         }
         else if (metalType == 'Silver') {
             if (wtType == 'MG') {
-                document.getElementById('addRawStockItemFnWNMetRate').value = Math.round((metalRate * finalFineWeight) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
-                document.getElementById('addRawStockValuation').value = Math.round(parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addRawStockItemFnWNMetRate').value = Math.round((metalRate * finalFineWeight) / document.getElementById('srGmWtInGm').value).toFixed(2);
-                document.getElementById('addRawStockValuation').value = Math.round(parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInGm').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInGm').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             } else {
-                document.getElementById('addRawStockItemFnWNMetRate').value = Math.round((metalRate * finalFineWeight * document.getElementById('srGmWtInKg').value)).toFixed(2);
-                document.getElementById('addRawStockValuation').value = Math.round(parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInKg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight * document.getElementById('srGmWtInKg').value)).toFixed(2);
+                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInKg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             }
         }
-        document.getElementById('addRawStockValuation').value = Math.round(parseFloat(document.getElementById('addRawStockItemFnWNMetRate').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
-        document.getElementById('addRawStockFinalValuation').value = Math.round(document.getElementById('addRawStockValuation').value).toFixed(2);
-        if (document.getElementById('addRawStockItemTax').value != '') {
-            document.getElementById('addRawStockItemTotTax').value = Math.round(parseFloat(document.getElementById('addRawStockValuation').value * document.getElementById('addRawStockItemTax').value) / 100).toFixed(2);
-            document.getElementById('addRawStockFinalValuation').value = Math.round(parseFloat(document.getElementById('addRawStockValuation').value) + (parseFloat(document.getElementById('addRawStockItemTax').value) / 100 * document.getElementById('addRawStockValuation').value)).toFixed(2);
+        document.getElementById('sttr_valuation').value = parseFloat(document.getElementById('sttr_valuation').value);
+        document.getElementById('sttr_final_valuation').value = parseFloat(document.getElementById('sttr_valuation').value).toFixed(2);
+        if (document.getElementById('sttr_tax').value != '') {
+            document.getElementById('sttr_tot_tax').value = (parseFloat(document.getElementById('sttr_valuation').value * document.getElementById('sttr_tax').value) / 100).toFixed(2);
+            document.getElementById('sttr_final_valuation').value = (parseFloat(document.getElementById('sttr_valuation').value) + (parseFloat(document.getElementById('sttr_tax').value) / 100 * document.getElementById('sttr_valuation').value)).toFixed(2);
         } else {
-            document.getElementById('addRawStockItemTotTax').value = '';
+            document.getElementById('sttr_tot_tax').value = '';
         }
     }
     return false;
@@ -1557,9 +2139,17 @@ function  calRawMetalFinVal() {
     var totAmtRec = 0;
     var gdVal = 0;
     var slVal = 0;
-    var cash = document.getElementById('suppUdhaarCash').value;
-    if (cash == '')
-        cash = 0;
+    var cashAmt = document.getElementById('suppUdDpPayCashAmtRec').value;
+    var cardAmt = document.getElementById('suppUdDpPayCardAmt').value;
+    var chequeAmt = document.getElementById('suppUdDpPayChequeAmt').value;
+    if (cashAmt == '')
+        cashAmt = 0;
+    if (cardAmt == '')
+        cardAmt = 0;
+    if (chequeAmt == '')
+        chequeAmt = 0;
+    var totalPaidAmt = parseFloat(cashAmt) + parseFloat(cardAmt) + parseFloat(chequeAmt);
+//    alert(getMetalDiv);
     for (var dc = count; getMetalDiv != ''; dc++) {
         if (document.getElementById('metalDel' + dc).value != 'Deleted') {
 
@@ -1569,32 +2159,33 @@ function  calRawMetalFinVal() {
             var payMetalTunch1 = document.getElementById(prefix + 'PayMetal1Tunch' + dc).value;
             var goldWeight = (payTotalWeight1 * payMetalTunch1) / 100;
             document.getElementById(prefix + 'PayMetal1FnWt' + dc).value = goldWeight;
+//            alert(document.getElementById(prefix + 'PayMetalType1' + dc).value);
             if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Gold') {
                 if (payTotalWeightType1 == 'KG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math.round((goldWeight * payMetalRate1) * document.getElementById('gmWtInKg').value).toFixed(2);
+                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math_round((goldWeight * payMetalRate1) * document.getElementById('gmWtInKg').value).toFixed(2);
                 } else if (payTotalWeightType1 == 'GM') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math.round((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value).toFixed(2);
+                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math_round((goldWeight * payMetalRate1) / document.getElementById('gmWtInGm').value).toFixed(2);
                 } else if (payTotalWeightType1 == 'MG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math.round((goldWeight * payMetalRate1) / document.getElementById('gmWtInMg').value).toFixed(2);
+                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math_round((goldWeight * payMetalRate1) / document.getElementById('gmWtInMg').value).toFixed(2);
                 }
                 gdVal = parseFloat(document.getElementById(prefix + 'PayMetal1Val' + dc).value)
             }
             if (document.getElementById(prefix + 'PayMetalType1' + dc).value == 'Silver') {
                 if (payTotalWeightType1 == 'KG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math.round((goldWeight * payMetalRate1 * document.getElementById('srGmWtInKg').value)).toFixed(2);
+                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math_round((goldWeight * payMetalRate1 * document.getElementById('srGmWtInKg').value)).toFixed(2);
                 } else if (payTotalWeightType1 == 'GM') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math.round((goldWeight * payMetalRate1) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math_round((goldWeight * payMetalRate1) / document.getElementById('srGmWtInGm').value).toFixed(2);
                 }
                 else if (payTotalWeightType1 == 'MG') {
-                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math.round((goldWeight * payMetalRate1) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                    document.getElementById(prefix + 'PayMetal1Val' + dc).value = Math_round((goldWeight * payMetalRate1) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
                 }
                 slVal = parseFloat(document.getElementById(prefix + 'PayMetal1Val' + dc).value).toFixed(2);
             }
-            document.getElementById('suppUdhaarAmtBal').value = Math.round(parseFloat(gdVal) + parseFloat(slVal) + parseFloat(cash)).toFixed(2);
+            document.getElementById('suppUdhaarAmtBal').value = Math_round(parseFloat(gdVal) + parseFloat(slVal) + parseFloat(totalPaidAmt)).toFixed(2);
         }
         metalEntered++;
     }
-    document.getElementById('suppUdhaarAmtBal').value = Math.round(parseFloat(gdVal) + parseFloat(slVal) + parseFloat(cash)).toFixed(2);
+    document.getElementById('suppUdhaarAmtBal').value = Math_round(parseFloat(gdVal) + parseFloat(slVal) + parseFloat(totalPaidAmt)).toFixed(2);
     return false;
 }
 /***************End code to calculate supplier depoit bal @Author:PRIYA20JUN14***************/
@@ -1655,25 +2246,25 @@ function suppPurLotValue() {
         }
         if (metalType == 'Gold') {
             if (wtType == 'KG') {
-                document.getElementById('suppItemValuation' + dc).value = Math.round((weight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
-                document.getElementById('suppItemTotVal' + dc).value = Math.round((weight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('suppItemValuation' + dc).value = Math_round((weight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('suppItemTotVal' + dc).value = Math_round((weight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('suppItemValuation' + dc).value = Math.round((weight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
-                document.getElementById('suppItemTotVal' + dc).value = Math.round((weight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('suppItemValuation' + dc).value = Math_round((weight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('suppItemTotVal' + dc).value = Math_round((weight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('suppItemValuation' + dc).value = Math.round((weight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
-                document.getElementById('suppItemTotVal' + dc).value = Math.round((weight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('suppItemValuation' + dc).value = Math_round((weight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('suppItemTotVal' + dc).value = Math_round((weight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
             }
         } else if (metalType == 'Silver') {
             if (wtType == 'KG') {
-                document.getElementById('suppItemValuation' + dc).value = Math.round(weight * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
-                document.getElementById('suppItemTotVal' + dc).value = Math.round((weight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
+                document.getElementById('suppItemValuation' + dc).value = Math_round(weight * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+                document.getElementById('suppItemTotVal' + dc).value = Math_round((weight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('suppItemValuation' + dc).value = Math.round((weight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
-                document.getElementById('suppItemTotVal' + dc).value = Math.round((weight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('suppItemValuation' + dc).value = Math_round((weight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('suppItemTotVal' + dc).value = Math_round((weight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('suppItemValuation' + dc).value = Math.round((weight * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
-                document.getElementById('suppItemTotVal' + dc).value = Math.round((weight * metalRate) / document.getElementById('srGmWtInMg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('suppItemValuation' + dc).value = Math_round((weight * metalRate) / document.getElementById('srGmWtInMg').value).toFixed(2);
+                document.getElementById('suppItemTotVal' + dc).value = Math_round((weight * metalRate) / document.getElementById('srGmWtInMg').value + totalLabNOthCharges).toFixed(2);
             }
         } else {
             document.getElementById('suppItemValuation' + dc).value = 0;
@@ -1684,7 +2275,7 @@ function suppPurLotValue() {
         var per = /%/;
         var checkPer = tax.search(per);
         if (checkPer != -1) {
-            tax = Math.round(parseFloat(val) * parseFloat(tax) / 100).toFixed(2);
+            tax = Math_round(parseFloat(val) * parseFloat(tax) / 100).toFixed(2);
         }
         if (val == '')
             val = 0;
@@ -1692,11 +2283,11 @@ function suppPurLotValue() {
             tax = 0;
         document.getElementById('suppItemFinVal' + dc).value = parseFloat(val) + parseFloat(tax);
         totalFinVal += parseFloat(document.getElementById('suppItemFinVal' + dc).value);
-        document.getElementById('stockPayCashAmtRec').value = Math.round(totalFinVal).toFixed(2);
-        document.getElementById('stockPayTotAmt').value = Math.round(totalFinVal).toFixed(2);
-        document.getElementById('stockPayTotAmtDisp').value = Math.round(totalFinVal).toFixed(2);
+        document.getElementById('stockPayCashAmtRec').value = Math_round(totalFinVal).toFixed(2);
+        document.getElementById('stockPayTotAmt').value = Math_round(totalFinVal).toFixed(2);
+        document.getElementById('stockPayTotAmtDisp').value = Math_round(totalFinVal).toFixed(2);
         var cashRec = document.getElementById('stockPayCashAmtRec').value;
-        document.getElementById('stockPayCashRecDisp').value = Math.round(cashRec).toFixed(2);
+        document.getElementById('stockPayCashRecDisp').value = Math_round(cashRec).toFixed(2);
         if (cashRec == '')
             cashRec = 0;
         var totAmt = document.getElementById('stockPayTotAmt').value;
@@ -1705,8 +2296,8 @@ function suppPurLotValue() {
         var totAmtRec = document.getElementById('stockPayTotAmtRec').value;
         if (totAmtRec == '')
             totAmtRec = 0;
-        document.getElementById('stockPayTotAmtBal').value = Math.round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
-        document.getElementById('stockPayTotAmtBalDisp').value = Math.round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
+        document.getElementById('stockPayTotAmtBal').value = Math_round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
+        document.getElementById('stockPayTotAmtBalDisp').value = Math_round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
         totalLabNOthCharges = 0;
         suppPurLotEntered++;
     }
@@ -1813,31 +2404,31 @@ function suppPurLotItemValue() {
             }
             if (metalType == 'Gold') {
                 if (ntWtType == 'KG') {
-                    rateNWt = Math.round((finalFineWeight * metalRate) * 100).toFixed(2);
-                    document.getElementById('addStockItemValuation' + dc).value = Math.round((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
-                    document.getElementById('addStockItemFinalVal' + dc).value = Math.round((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
+                    rateNWt = Math_round((finalFineWeight * metalRate) * 100).toFixed(2);
+                    document.getElementById('addStockItemValuation' + dc).value = Math_round((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
+                    document.getElementById('addStockItemFinalVal' + dc).value = Math_round((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
                 } else if (ntWtType == 'GM') {
-                    rateNWt = Math.round((finalFineWeight * metalRate) / 10).toFixed(2);
-                    document.getElementById('addStockItemValuation' + dc).value = Math.round((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
-                    document.getElementById('addStockItemFinalVal' + dc).value = Math.round((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                    rateNWt = Math_round((finalFineWeight * metalRate) / 10).toFixed(2);
+                    document.getElementById('addStockItemValuation' + dc).value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                    document.getElementById('addStockItemFinalVal' + dc).value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
                 } else if (ntWtType == 'MG') {
-                    rateNWt = Math.round((finalFineWeight * metalRate) / 10000).toFixed(2);
-                    document.getElementById('addStockItemValuation' + dc).value = Math.round((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
-                    document.getElementById('addStockItemFinalVal' + dc).value = Math.round((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
+                    rateNWt = Math_round((finalFineWeight * metalRate) / 10000).toFixed(2);
+                    document.getElementById('addStockItemValuation' + dc).value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
+                    document.getElementById('addStockItemFinalVal' + dc).value = Math_round((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
                 }
             } else if (metalType == 'Silver') {
                 if (ntWtType == 'KG') {
-                    rateNWt = Math.round((finalFineWeight * metalRate)).toFixed(2);
-                    document.getElementById('addStockItemValuation' + dc).value = Math.round((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
-                    document.getElementById('addStockItemFinalVal' + dc).value = Math.round((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
+                    rateNWt = Math_round((finalFineWeight * metalRate)).toFixed(2);
+                    document.getElementById('addStockItemValuation' + dc).value = Math_round((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
+                    document.getElementById('addStockItemFinalVal' + dc).value = Math_round((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
                 } else if (ntWtType == 'GM') {
-                    rateNWt = Math.round((finalFineWeight * metalRate) / 1000).toFixed(2);
-                    document.getElementById('addStockItemValuation' + dc).value = Math.round((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
-                    document.getElementById('addStockItemFinalVal' + dc).value = Math.round((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                    rateNWt = Math_round((finalFineWeight * metalRate) / 1000).toFixed(2);
+                    document.getElementById('addStockItemValuation' + dc).value = Math_round((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                    document.getElementById('addStockItemFinalVal' + dc).value = Math_round((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
                 } else if (ntWtType == 'MG') {
-                    rateNWt = Math.round((finalFineWeight * metalRate) / (1000 * 1000)).toFixed(2);
-                    document.getElementById('addStockItemValuation' + dc).value = Math.round((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + totalLabNOthCharges).toFixed(2);
-                    document.getElementById('addStockItemFinalVal' + dc).value = Math.round((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + totalLabNOthCharges).toFixed(2);
+                    rateNWt = Math_round((finalFineWeight * metalRate) / (1000 * 1000)).toFixed(2);
+                    document.getElementById('addStockItemValuation' + dc).value = Math_round((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + totalLabNOthCharges).toFixed(2);
+                    document.getElementById('addStockItemFinalVal' + dc).value = Math_round((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + totalLabNOthCharges).toFixed(2);
                 }
             } else {
                 rateNWt = 0;
@@ -1857,11 +2448,11 @@ function suppPurLotItemValue() {
             document.getElementById('suppItemValuation' + c).value = totalRateNWt;
             document.getElementById('suppItemTotVal' + c).value = parseFloat(itemCryVal + finVal).toFixed(2);
             document.getElementById('suppItemFinVal' + c).value = parseFloat(totVal).toFixed(2);
-            document.getElementById('stockPayCashAmtRec').value = Math.round(document.getElementById('suppItemFinVal' + c).value).toFixed(2);
-            document.getElementById('stockPayTotAmt').value = Math.round(finalTotalVal).toFixed(2);
-            document.getElementById('stockPayTotAmtDisp').value = Math.round(document.getElementById('suppItemFinVal' + c).value).toFixed(2);
+            document.getElementById('stockPayCashAmtRec').value = Math_round(document.getElementById('suppItemFinVal' + c).value).toFixed(2);
+            document.getElementById('stockPayTotAmt').value = Math_round(finalTotalVal).toFixed(2);
+            document.getElementById('stockPayTotAmtDisp').value = Math_round(document.getElementById('suppItemFinVal' + c).value).toFixed(2);
             var cashRec = document.getElementById('stockPayCashAmtRec').value;
-            document.getElementById('stockPayCashRecDisp').value = Math.round(cashRec).toFixed(2);
+            document.getElementById('stockPayCashRecDisp').value = Math_round(cashRec).toFixed(2);
             if (cashRec == '')
                 cashRec = 0;
             var totAmt = document.getElementById('stockPayTotAmt').value;
@@ -1870,8 +2461,8 @@ function suppPurLotItemValue() {
             var totAmtRec = document.getElementById('stockPayTotAmtRec').value;
             if (totAmtRec == '')
                 totAmtRec = 0;
-            document.getElementById('stockPayTotAmtBal').value = Math.round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
-            document.getElementById('stockPayTotAmtBalDisp').value = Math.round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
+            document.getElementById('stockPayTotAmtBal').value = Math_round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
+            document.getElementById('stockPayTotAmtBalDisp').value = Math_round(parseFloat(totAmt) - parseFloat(cashRec) - parseFloat(totAmtRec)).toFixed(2);
             totalLabNOthCharges = 0;
             suppPurItemEntered++;
         }
@@ -1913,7 +2504,7 @@ function calcSuppPurCryPrice() {
                 } else {
                     totalGSWTNRate = crystalRate * crystalGsWt;
                 }
-                document.getElementById('addStockCryVal' + dc + cry).value = Math.round(totalGSWTNRate).toFixed(2);
+                document.getElementById('addStockCryVal' + dc + cry).value = Math_round(totalGSWTNRate).toFixed(2);
                 if (document.getElementById('addStockCryVal' + dc + cry).value == 'NaN') {
                     document.getElementById('addStockCryVal' + dc + cry).value = 0;
                 }
@@ -1933,46 +2524,52 @@ function calcSuppPurCryPrice() {
     }
     return false;
 }
+
 function calItemPrice() {
-    if (document.getElementById('addItemFfnWtBy').value == 'byGrossWt') {
-        wt = document.getElementById('addItemGrossWeight').value;
-        wtType = document.getElementById('addItemGrossWeightType').value;
+
+    if (document.getElementById('sttr_final_val_by').value == 'byGrossWt') {
+        var wt = document.getElementById('sttr_gs_weight').value;
+        var wtType = document.getElementById('sttr_gs_weight_type').value;
     } else {
-        var wt = document.getElementById('addItemNetWeight').value;
-        var wtType = document.getElementById('addItemNetWeightType').value;
+        var wt = document.getElementById('sttr_nt_weight').value;
+        var wtType = document.getElementById('sttr_nt_weight_type').value;
     }
-    if (document.getElementById('addItemTunch').value != 'NotSelected') {
-        document.getElementById('addItemFineWeight').value = ((document.getElementById('addItemTunch').value * wt) / 100).toFixed(3);
+
+    if (document.getElementById('sttr_purity').value != 'NotSelected') {
+        document.getElementById('sttr_fine_weight').value = ((document.getElementById('sttr_purity').value * wt) / 100).toFixed(3);
     }
-    if (document.getElementById('addItemFinalTunch').value != '') {
-        document.getElementById('addItemFFineWeight').value = ((document.getElementById('addItemFinalTunch').value * wt) / 100).toFixed(3);
+    
+    if (document.getElementById('sttr_final_purity').value != '') {
+        document.getElementById('sttr_final_fine_weight').value = ((document.getElementById('sttr_final_purity').value * wt) / 100).toFixed(3);
     }
-    var finalFineWeight = parseFloat(document.getElementById('addItemFFineWeight').value);
-    var itemsQTY = parseInt(document.getElementById('addItemPieces').value);
-    var metalRate = parseFloat(document.getElementById('addItemMetalRate').value); //change metal rate id for tax in metal rate @Author:SHRI29FEB16
-    var metalType = document.getElementById('addItemMetal').value;
-    var labCharges = document.getElementById('addItemLabCharges').value;
-    var labChargesType = document.getElementById('addItemLabChargesType').value;
+    
+    var finalFineWeight = parseFloat(document.getElementById('sttr_final_fine_weight').value);
+    var itemsQTY = parseInt(document.getElementById('sttr_quantity').value);
+    var metalRate = parseFloat(document.getElementById('sttr_metal_rate').value); //change metal rate id for tax in metal rate @Author:SHRI29FEB16
+    var metalType = document.getElementById('sttr_metal_type').value;
+    var labCharges = document.getElementById('sttr_lab_charges').value;
+    var labChargesType = document.getElementById('sttr_lab_charges_type').value;
     var totalLabNOthCharges = 0;
     var totVal;
-//alert(document.getElementById('addItemLabourChgsBy').value);
-    if (document.getElementById('addItemLabourChgsBy').value == 'lbByNetWt') {
-        labChargesBy = parseFloat(document.getElementById('addItemNetWeight').value);
-    } else if (document.getElementById('addItemLabourChgsBy').value == 'lbByGrossWt') {
-        labChargesBy = parseFloat(document.getElementById('addItemGrossWeight').value);
+
+    if (document.getElementById('sttr_other_charges_by').value == 'lbByNetWt') {
+        labChargesBy = parseFloat(document.getElementById('sttr_nt_weight').value);
+    } else if (document.getElementById('sttr_other_charges_by').value == 'lbByGrossWt') {
+        labChargesBy = parseFloat(document.getElementById('sttr_gs_weight').value);
     } else {
         var labChargesBy = finalFineWeight;
     }
-    if (document.getElementById('addItemFineWeight').value == 'NaN') {
-        document.getElementById('addItemFineWeight').value = 0;
+    if (document.getElementById('sttr_fine_weight').value == 'NaN') {
+        document.getElementById('sttr_fine_weight').value = 0;
     }
-    if (document.getElementById('addItemFFineWeight').value == '' || document.getElementById('addItemFFineWeight').value == 'NaN') {
-        document.getElementById('addItemFFineWeight').value = '';
+    if (document.getElementById('sttr_final_fine_weight').value == '' || document.getElementById('sttr_final_fine_weight').value == 'NaN') {
+        document.getElementById('sttr_final_fine_weight').value = '';
     }
-    if (document.getElementById('addItemMetalRate').value == '') {
-        document.getElementById('addItemMetalRate').value = 0;
+    if (document.getElementById('sttr_metal_rate').value == '') {
+        document.getElementById('sttr_metal_rate').value = 0;
     }
-    if (document.getElementById('addItemFFineWeight').value != '' && document.getElementById('addItemFFineWeight').value != 0) {
+
+    if (document.getElementById('sttr_final_fine_weight').value != '' && document.getElementById('sttr_final_fine_weight').value != 0) {
         if (labCharges != '') {
             if (labChargesType == 'KG') {
                 if (wtType == 'KG')
@@ -1999,123 +2596,242 @@ function calItemPrice() {
             } else if (labChargesType == 'PP') {
                 totalLabNOthCharges = labCharges * itemsQTY;
             }
-            document.getElementById('addItemLbNOthCh').value = Math.round(totalLabNOthCharges).toFixed(2);
+            document.getElementById('sttr_total_lab_charges').value = Math_round(totalLabNOthCharges).toFixed(2);
         } else {
-            document.getElementById('addItemLbNOthCh').value = 0;
+            document.getElementById('sttr_total_lab_charges').value = 0;
         }
         if (metalType == 'Gold') {
-//            if (wtType == 'KG') {
-//                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) * 100).toFixed(2);
-//                document.getElementById('addItemValuation').value = Math.round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = Math.round((finalFineWeight * metalRate) * 100 + totalLabNOthCharges).toFixed(2);
-//            } else if (wtType == 'GM') {
-//                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / 10).toFixed(2);
-//                document.getElementById('addItemValuation').value = Math.round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = Math.round((finalFineWeight * metalRate) / 10 + totalLabNOthCharges).toFixed(2);
-//            } else if (wtType == 'MG') {
-//                document.getElementById('addItemNTWNMetRate').value = Math.round((finalFineWeight * metalRate) / 10000).toFixed(2);
-//                document.getElementById('addItemValuation').value = Math.round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = Math.round((finalFineWeight * metalRate) / 10000 + totalLabNOthCharges).toFixed(2);
-//            }
+
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInKg').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInGm').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
-                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) * document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('gmWtInMg').value + totalLabNOthCharges).toFixed(2);
             }
         } else if (metalType == 'Silver') {
-//            if (wtType == 'KG') {
-//                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate)).toFixed(2);
-//                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) + totalLabNOthCharges).toFixed(2);
-//            } else if (wtType == 'GM') {
-//                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / 1000).toFixed(2);
-//                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / 1000 + totalLabNOthCharges).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / 1000 + totalLabNOthCharges).toFixed(2);
-//            } else if (wtType == 'MG') {
-//                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / (1000 * 1000)).toFixed(2);
-//                document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / (1000 * 1000)  + parseFloat(totalLabNOthCharges)).toFixed(2);
-//                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / (1000 * 1000)  + parseFloat(totalLabNOthCharges)).toFixed(2);
-//            }
+            
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) * document.getElementById('srGmWtInKg').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) * document.getElementById('srGmWtInKg').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = ((finalFineWeight * metalRate * document.getElementById('srGmWtInKg').value) + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = ((finalFineWeight * metalRate) / document.getElementById('srGmWtInGm').value + totalLabNOthCharges).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                document.getElementById('sttr_valuation').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
                 document.getElementById('addItemValuation').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
-                document.getElementById('addItemFinalVal').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_final_valuation').value = ((finalFineWeight * metalRate) / (document.getElementById('srGmWtInMg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             }
         } else {
-            document.getElementById('addItemNTWNMetRate').value = 0;
+            document.getElementById('sttr_valuation').value = 0;
             document.getElementById('addItemValuation').value = 0;
-            document.getElementById('addItemFinalVal').value = 0;
+            document.getElementById('sttr_final_valuation').value = 0;
         }
 
-        if (document.getElementById('addItemVATTax').value != '') {
-            document.getElementById('addItemTotTax').value = ((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('addItemVATTax').value) / 100).toFixed(2);
-            document.getElementById('addItemFinalVal').value = (parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('addItemTotTax').value)).toFixed(2);
+        if (document.getElementById('sttr_tax').value != '') {
+            document.getElementById('sttr_tot_tax').value = ((parseFloat(document.getElementById('sttr_valuation').value) * document.getElementById('sttr_tax').value) / 100).toFixed(2);
+            document.getElementById('sttr_final_valuation').value = (parseFloat(document.getElementById('sttr_valuation').value) + parseFloat(document.getElementById('sttr_tot_tax').value)).toFixed(2);
         }
-        totVal = parseFloat(document.getElementById('addItemFinalVal').value).toFixed(2);
-        if (document.getElementById('addItemCryFinVal').value != '') {
-            document.getElementById('addItemFinalVal').value = (parseFloat(totVal) + parseFloat(document.getElementById('addItemCryFinVal').value)).toFixed(2);
+        totVal = parseFloat(document.getElementById('sttr_final_valuation').value).toFixed(2);
+        if (document.getElementById('sttr_final_valuation').value != '') {
+            document.getElementById('sttr_final_valuation').value = parseFloat(document.getElementById('sttr_final_valuation').value).toFixed(2);
         }
     }
     return false;
 }
 //*********Start code to check condition for supplier deleivery panel add multiple crystal :Author:SANT14SEP16******
 //*********Start code to check condition for supplier deleivery panel add multiple crystal :Author:SANT14SEP16******
+//*************** START code to add multiple crystal in supplier panel - @Author:PRIYANKA-13NOV17 *******************
 function calcItemCryPrice() {
+
     var crystalEntered = 0;
     var totalCryVal = 0;
+    var cryGSWT = 0;
     var count = 1;
     var delId = 'del' + count;
+    var totCryTax = 0;
+
     for (var dc = count; noOfCrystal != ''; dc++) {
+
         if (document.getElementById('del' + dc).value != 'Deleted') {
-            var crystalQTY = parseInt(document.getElementById('addItemCryQty' + dc).value);
-            var crystalGsWt = parseFloat(document.getElementById('addItemCryGSW' + dc).value);
-            var crystalGsWtTyp = document.getElementById('addItemCryGSWTyp' + dc).value;
-            var crystalRate = parseFloat(document.getElementById('addItemCryRate' + dc).value);
-            var crystalRateType = document.getElementById('addItemCryRateTyp' + dc).value;
-            var crystalVal = parseFloat(document.getElementById('addItemCryVal' + dc).value);
+
+            var crystalQTY = parseInt(document.getElementById('sttr_quantity' + dc).value);
+            var crystalGsWt = parseFloat(document.getElementById('sttr_gs_weight' + dc).value);
+            var crystalGsWtTyp = document.getElementById('sttr_gs_weight_type' + dc).value;
+            var crystalRate = parseFloat(document.getElementById('sttr_purchase_rate' + dc).value);
+            var crystalRateType = document.getElementById('sttr_purchase_rate_type' + dc).value;
+            var crystalVal = parseFloat(document.getElementById('sttr_valuation' + dc).value);
             var totalGSWTNRate = 0;
-            if (crystalRateType == 'PP') {
-                totalGSWTNRate = crystalRate * crystalQTY;
+
+            // START CODE TO CALCULATE VALUATION ACCORDING TO CRYSTAL WEIGHT TYPE & CRYSTAL RATE TYPE @PRIYANKA-18FEB18
+            if (crystalRateType == 'KG') { // CRYSTAL RATE TYPE IN KG
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = crystalRate * crystalGsWt;
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = (crystalRate / 1000) * crystalGsWt;
+                else if (crystalGsWtTyp == 'CT') // CRYSTAL WEIGHT TYPE IN CT
+                    totalGSWTNRate = (crystalRate * 0.0002) * crystalGsWt;
+                else
+                    totalGSWTNRate = (crystalRate / (1000 * 1000)) * crystalGsWt;
+            } else if (crystalRateType == 'GM') { // CRYSTAL RATE TYPE IN GM
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = crystalRate * 1000 * crystalGsWt;
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = crystalRate * crystalGsWt;
+                else if (crystalGsWtTyp == 'CT') // CRYSTAL WEIGHT TYPE IN CT
+                    totalGSWTNRate = (crystalRate * 0.2) * crystalGsWt;
+                else
+                    totalGSWTNRate = (crystalRate / 1000) * crystalGsWt;
+            } else if (crystalRateType == 'MG') { // CRYSTAL RATE TYPE IN MG
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = crystalRate * 1000 * 1000 * crystalGsWt;
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = crystalRate * 1000 * crystalGsWt;
+                else if (crystalGsWtTyp == 'CT') // CRYSTAL WEIGHT TYPE IN CT
+                    totalGSWTNRate = (crystalRate * 200) * crystalGsWt;
+                else
+                    totalGSWTNRate = crystalRate * crystalGsWt;
+            } else if (crystalRateType == 'CT') { // CRYSTAL RATE TYPE IN CT
+                if (crystalGsWtTyp == 'KG') // CRYSTAL WEIGHT TYPE IN KG
+                    totalGSWTNRate = ((crystalRate / 0.0002) * crystalGsWt);
+                else if (crystalGsWtTyp == 'GM') // CRYSTAL WEIGHT TYPE IN GM
+                    totalGSWTNRate = ((crystalRate / 0.2) * crystalGsWt);
+                else if (crystalGsWtTyp == 'MG') // CRYSTAL WEIGHT TYPE IN MG
+                    totalGSWTNRate = ((crystalRate / 200) * crystalGsWt);
+                else
+                    totalGSWTNRate = crystalRate * crystalGsWt;
+            } else if (crystalRateType == 'PP') { // CRYSTAL RATE TYPE IN PP @PRIYANKA-13MAR18
+                totalGSWTNRate = crystalRate * crystalQTY; // CRYSTAL VAL @PRIYANKA-13MAR18
             } else {
                 totalGSWTNRate = crystalRate * crystalGsWt;
             }
-            document.getElementById('addItemCryVal' + dc).value = (totalGSWTNRate).toFixed(2);
-            if (document.getElementById('addItemCryVal' + dc).value == 'NaN') {
-                document.getElementById('addItemCryVal' + dc).value = 0;
+            // END CODE TO CALCULATE VALUATION ACCORDING TO CRYSTAL WEIGHT TYPE & CRYSTAL RATE TYPE @PRIYANKA-18FEB18
+
+            if (document.getElementById('sttr_purchase_rate_type' + dc).value != document.getElementById('sttr_sell_rate_type' + dc).value) {
+                document.getElementById('sttr_sell_rate_type' + dc).value = document.getElementById('sttr_purchase_rate_type' + dc).value;
             }
-            totalCryVal += parseFloat(document.getElementById('addItemCryVal' + dc).value);
-            document.getElementById('addItemCryFinVal').value = (parseFloat(totalCryVal)).toFixed(2);
+
+            // STONE CGST IN % @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_cgst_per' + dc).value == '' || document.getElementById('sttr_tot_price_cgst_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_cgst_per' + dc).value = 0;
+            }
+
+            // CALCULATE STONE CGST AMT => (STONE VAL * STONE CGST IN %) / 100 @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_cgst_per' + dc).value != '') {
+                document.getElementById('sttr_tot_price_cgst_chrg' + dc).value = (parseFloat(document.getElementById('sttr_valuation' + dc).value) * (parseFloat(document.getElementById('sttr_tot_price_cgst_per' + dc).value) / 100)).toFixed(2);
+            }
+
+            // STONE CGST CHRG @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_cgst_chrg' + dc).value == '' || document.getElementById('sttr_tot_price_cgst_chrg' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_cgst_chrg' + dc).value = 0;
+            }
+
+            // STONE SGST IN % @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_sgst_per' + dc).value == '' || document.getElementById('sttr_tot_price_sgst_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_sgst_per' + dc).value = 0;
+            }
+
+            // CALCULATE STONE SGST AMT => (STONE VAL * STONE SGST IN %) / 100 @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_sgst_per' + dc).value != '') {
+                document.getElementById('sttr_tot_price_sgst_chrg' + dc).value = (parseFloat(document.getElementById('sttr_valuation' + dc).value) * (parseFloat(document.getElementById('sttr_tot_price_sgst_per' + dc).value) / 100)).toFixed(2);
+            }
+
+            // STONE SGST CHRG @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_sgst_chrg' + dc).value == '' || document.getElementById('sttr_tot_price_sgst_chrg' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_sgst_chrg' + dc).value = 0;
+            }
+
+            // STONE IGST IN % @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_igst_per' + dc).value == '' || document.getElementById('sttr_tot_price_igst_per' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_igst_per' + dc).value = 0;
+            }
+
+            // CALCULATE MET IGST AMT => (STONE VAL * STONE IGST IN %) / 100 @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_igst_per' + dc).value != '') {
+                document.getElementById('sttr_tot_price_igst_chrg' + dc).value = (parseFloat(document.getElementById('sttr_valuation' + dc).value) * (parseFloat(document.getElementById('sttr_tot_price_igst_per' + dc).value) / 100)).toFixed(2);
+            }
+
+            // STONE IGST CHRG @PRIYANKA-24FEB18
+            if (document.getElementById('sttr_tot_price_igst_chrg' + dc).value == '' || document.getElementById('sttr_tot_price_igst_chrg' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_price_igst_chrg' + dc).value = 0;
+            }
+
+            // CALCULATE TOT TAX AMT =>  STONE CGST AMT + STONE SGST AMT + STONE IGST AMT @PRIYANKA-24FEB18
+            document.getElementById('sttr_tot_tax' + dc).value = (parseFloat(document.getElementById('sttr_tot_price_cgst_chrg' + dc).value) +
+                    parseFloat(document.getElementById('sttr_tot_price_sgst_chrg' + dc).value) +
+                    parseFloat(document.getElementById('sttr_tot_price_igst_chrg' + dc).value)).toFixed(2);
+
+            if (document.getElementById('sttr_tot_tax' + dc).value == '' || document.getElementById('sttr_tot_tax' + dc).value == 'NaN') {
+                document.getElementById('sttr_tot_tax' + dc).value = 0;
+            }
+
+            document.getElementById('sttr_valuation' + dc).value = (totalGSWTNRate).toFixed(2);
+
+            if (document.getElementById('sttr_valuation' + dc).value == 'NaN') {
+                document.getElementById('sttr_valuation' + dc).value = 0;
+            }
+
+            totalCryVal += parseFloat(document.getElementById('sttr_valuation' + dc).value);
+
+            cryGSWT += parseFloat(document.getElementById('sttr_gs_weight' + dc).value);
+
+            totCryTax += parseFloat(document.getElementById('sttr_tot_tax' + dc).value);
+
+            // CALCULATE FINAL VALUATION @PRIYANKA-23FEB18
+            document.getElementById('addItemCryFinVal').value = parseFloat(parseFloat(totalCryVal) + parseFloat(totCryTax)).toFixed(2);
+
+            if (document.getElementById('addItemCryFinVal').value == 'NaN') {
+                document.getElementById('addItemCryFinVal').value = 0;
+            }
+
+            document.getElementById('sttr_final_valuation' + dc).value = parseFloat(parseFloat(document.getElementById('sttr_valuation' + dc).value) + parseFloat(document.getElementById('sttr_tot_tax' + dc).value)).toFixed(2);
+
+            if (document.getElementById('sttr_final_valuation' + dc).value == 'NaN') {
+                document.getElementById('sttr_final_valuation' + dc).value = 0;
+            }
+
+            // document.getElementById('addItemCryFinVal').value = (parseFloat(totalCryVal)).toFixed(2);
+
             if (document.getElementById('addItemCryFinVal').value != '') {
-                calItemPrice();
+
+                if (document.getElementById('subPanel').value == 'SuppPurByInv') {
+                    document.getElementById('sttr_stone_wt').value = (parseFloat(cryGSWT)).toFixed(2);
+                    document.getElementById('sttr_stone_wt_type').value = document.getElementById('sttr_gs_weight_type' + dc).value;
+                    document.getElementById('sttr_stone_valuation').value = (parseFloat(totalCryVal)).toFixed(2);
+                    addInvoiceValue();
+                } else {
+                    calStockItemPrice();
+                }
             }
         }
         if (document.getElementById(delId).value == 'Deleted') {
             document.getElementById('addItemCryFinVal').value = 0 + totalCryVal;
-            calItemPrice();
+            if (document.getElementById('subPanel').value == 'SuppPurByInv') {
+                document.getElementById('sttr_stone_valuation').value = (parseFloat(totalCryVal)).toFixed(2);
+                addInvoiceValue();
+            } else {
+                calStockItemPrice();
+            }
         }
         crystalEntered++;
     }
     return false;
 }
+//*************** END code to add multiple crystal in supplier panel - @Author:PRIYANKA-13NOV17 ******************
 //*********End code to check condition for supplier deleivery panel add multiple crystal :Author:SANT14SEP16******
 //*********End code to check condition for supplier deleivery panel add multiple crystal :Author:SANT14SEP16******
 function calculateSellLotPrice() {
+
+
+
     if (document.getElementById('slPrItemWtBy').value == 'byNetWt') {
         var wt = document.getElementById('addItemNetWeight').value;
         var wtType = document.getElementById('addItemNetWeightType').value;
@@ -2177,45 +2893,49 @@ function calculateSellLotPrice() {
                 totalLabNOthCharges = labCharges * itemsQTY;
             }
             else if (labChargesType == 'per') {
+
+
                 var gsWt = document.getElementById('addItemGrossWeight').value;
                 var gsWtTyp = document.getElementById('addItemGrossWeightType').value;
+
+
                 var labNOthCharges = (labCharges * gsWt) / 100;
                 if (metalType == 'Gold') {
                     if (gsWtTyp == 'KG') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
                     } else if (gsWtTyp == 'GM') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
                     } else if (gsWtTyp == 'MG') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
                     }
                 } else if (metalType == 'Silver') {
                     if (gsWtTyp == 'KG') {
-                        totalLabNOthCharges = Math.round(labNOthCharges * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+                        totalLabNOthCharges = Math_round(labNOthCharges * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
                     } else if (gsWtTyp == 'GM') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
                     } else if (gsWtTyp == 'MG') {
-                        totalLabNOthCharges = Math.round((labNOthCharges * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                        totalLabNOthCharges = Math_round((labNOthCharges * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
                     }
                 }
             }
         }
-        document.getElementById('addItemLbNOthCh').value = Math.round(totalLabNOthCharges).toFixed(2);
+        document.getElementById('addItemLbNOthCh').value = Math_round(totalLabNOthCharges).toFixed(2);
         if (metalType == 'Gold') {
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) * document.getElementById('gmWtInKg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / document.getElementById('gmWtInGm').value).toFixed(2);
             } else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / document.getElementById('gmWtInMg').value).toFixed(2);
             }
         } else if (metalType == 'Silver') {
             if (wtType == 'KG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round(ffnWt * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round(ffnWt * metalRate * document.getElementById('srGmWtInKg').value).toFixed(2);
             } else if (wtType == 'GM') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
             }
             else if (wtType == 'MG') {
-                document.getElementById('addItemNTWNMetRate').value = Math.round((ffnWt * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+                document.getElementById('addItemNTWNMetRate').value = Math_round((ffnWt * metalRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
             }
         }
         else {
@@ -2224,20 +2944,20 @@ function calculateSellLotPrice() {
             document.getElementById('addItemFinalVal').value = 0;
         }
         if (metalType == 'Gold' || metalType == 'Silver') {
-            document.getElementById('addItemValuation').value = Math.round(parseFloat(document.getElementById('addItemNTWNMetRate').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+            document.getElementById('addItemValuation').value = Math_round(parseFloat(document.getElementById('addItemNTWNMetRate').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
 //            if (document.getElementById('valueAdd').value == 'false') {
-//                document.getElementById('slPrItemValueAdded').value = Math.round(parseFloat(document.getElementById('addItemNTWNMetRate').value * parseFloat(itemPurity)) / 100).toFixed(2);
+//                document.getElementById('slPrItemValueAdded').value = Math_round(parseFloat(document.getElementById('addItemNTWNMetRate').value * parseFloat(itemPurity)) / 100).toFixed(2);
 //            }
-//            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('slPrItemValueAdded').value)).toFixed(2);
-            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(document.getElementById('addItemValuation').value)).toFixed(2);
+//            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('slPrItemValueAdded').value)).toFixed(2);
+            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(document.getElementById('addItemValuation').value)).toFixed(2);
         }
         if (document.getElementById('addItemVATTax').value != '') {
-            document.getElementById('addItemTotTax').value = Math.round((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('addItemVATTax').value) / 100).toFixed(2);
-            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('addItemTotTax').value)).toFixed(2);
+            document.getElementById('addItemTotTax').value = Math_round((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('addItemVATTax').value) / 100).toFixed(2);
+            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('addItemTotTax').value)).toFixed(2);
         }
         var totVal = document.getElementById('addItemFinalVal').value;
         if (document.getElementById('addItemCryFinVal').value != '') {
-            document.getElementById('addItemFinalVal').value = Math.round(parseFloat(totVal) + parseFloat(document.getElementById('addItemCryFinVal').value)).toFixed(2);
+            document.getElementById('addItemFinalVal').value = Math_round(parseFloat(totVal) + parseFloat(document.getElementById('addItemCryFinVal').value)).toFixed(2);
         }
     }
     return false;
@@ -2260,10 +2980,26 @@ function getWeightFromWeighingScale(elementId, elementId2) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/omsswtsc.php", true);
+    xmlhttp.open("POST", "include/php/system/omsswtsc.php", true);
     xmlhttp.send();
 }
 //End Function to Get Weight from Weighing Scale
+function calcCustOrderFineWt() {
+    var metal = document.getElementById('custOrItemMetal').value;
+    if (metal == 'Gold') {
+        var goldNetWt = parseFloat(document.getElementById('spOrDvItemGdGSW1').value).toFixed(3);
+        var finalTunch = parseFloat(parseFloat(document.getElementById('custOrItemTunch').value) + parseFloat(document.getElementById('custOrItemWstg').value)).toFixed(2);
+        var itemFFNWT = parseFloat((goldNetWt * finalTunch) / 100).toFixed(3);
+        document.getElementById('spNwOrDvTotFineGd').value = parseFloat(parseFloat(itemFFNWT)).toFixed(3);
+    }
+    if (metal == 'Silver') {
+        document.getElementById('spOrDvItemSlNTFNW1').value = (parseFloat(document.getElementById('spOrDvItemSrGSW1').value)).toFixed(3);
+        var silverNetWt = document.getElementById('spOrDvItemSlNTFNW1').value;
+        var finalTunch = parseFloat(parseFloat(document.getElementById('custOrItemTunch').value) + parseFloat(document.getElementById('custOrItemWstg').value)).toFixed(2);
+        var itemFFNWT = ((silverNetWt * finalTunch) / 100).toFixed(3);
+        document.getElementById('spNwOrDvTotFineSr').value = (parseFloat(itemFFNWT)).toFixed(3);
+    }
+}
 function calcSuppItemDeliveryPrice() {
     var totalGdFnWt = 0;
     var totalSrFnWt = 0;
@@ -2431,11 +3167,11 @@ function showRateCutTotAmnt() {
     var prefix = document.getElementById('prefix').value;
 //    alert('prefix==' + prefix);
     if (gdWtType == 'KG') {
-        document.getElementById('wholeAdjGdVal').value = Math.round((gdWt * goldRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+        document.getElementById('wholeAdjGdVal').value = Math_round((gdWt * goldRate) * document.getElementById('gmWtInKg').value).toFixed(2);
     } else if (gdWtType == 'GM') {
-        document.getElementById('wholeAdjGdVal').value = Math.round((gdWt * goldRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+        document.getElementById('wholeAdjGdVal').value = Math_round((gdWt * goldRate) / document.getElementById('gmWtInGm').value).toFixed(2);
     } else if (gdWtType == 'MG') {
-        document.getElementById('wholeAdjGdVal').value = Math.round((gdWt * goldRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+        document.getElementById('wholeAdjGdVal').value = Math_round((gdWt * goldRate) / document.getElementById('gmWtInMg').value).toFixed(2);
     }
 
     var srWt = (document.getElementById('wholeAdSrPay').value);
@@ -2443,11 +3179,11 @@ function showRateCutTotAmnt() {
     var silverRate = document.getElementById('wholeAdjSrRate').value;
 //alert(srWt);
     if (srWtType == 'KG') {
-        document.getElementById('wholeAdjSrVal').value = Math.round(srWt * silverRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+        document.getElementById('wholeAdjSrVal').value = Math_round(srWt * silverRate * document.getElementById('srGmWtInKg').value).toFixed(2);
     } else if (srWtType == 'GM') {
-        document.getElementById('wholeAdjSrVal').value = Math.round((srWt * silverRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+        document.getElementById('wholeAdjSrVal').value = Math_round((srWt * silverRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
     } else if (srWtType == 'MG') {
-        document.getElementById('wholeAdjSrVal').value = Math.round((srWt * silverRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+        document.getElementById('wholeAdjSrVal').value = Math_round((srWt * silverRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
     }
     if (document.getElementById('wholeAdjSrVal').value == '')
     {
@@ -2489,11 +3225,11 @@ function wholeAdjCalc() {
     var prefix = document.getElementById('prefix').value;
 
     if (gdWtType == 'KG') {
-        document.getElementById('wholeAdjGdVal').value = Math.round((gdWt * goldRate) * document.getElementById('gmWtInKg').value).toFixed(2);
+        document.getElementById('wholeAdjGdVal').value = Math_round((gdWt * goldRate) * document.getElementById('gmWtInKg').value).toFixed(2);
     } else if (gdWtType == 'GM') {
-        document.getElementById('wholeAdjGdVal').value = Math.round((gdWt * goldRate) / document.getElementById('gmWtInGm').value).toFixed(2);
+        document.getElementById('wholeAdjGdVal').value = Math_round((gdWt * goldRate) / document.getElementById('gmWtInGm').value).toFixed(2);
     } else if (gdWtType == 'MG') {
-        document.getElementById('wholeAdjGdVal').value = Math.round((gdWt * goldRate) / document.getElementById('gmWtInMg').value).toFixed(2);
+        document.getElementById('wholeAdjGdVal').value = Math_round((gdWt * goldRate) / document.getElementById('gmWtInMg').value).toFixed(2);
     }
 
     var srWt = parseFloat(document.getElementById('wholeAdSrPay').value);//parseFloat added @OMMODTAG SHRI_23NOV15
@@ -2502,11 +3238,11 @@ function wholeAdjCalc() {
 
 //    alert(srWt + ' ' + srWtType + ' ' + silverRate);
     if (srWtType == 'KG') {
-        document.getElementById('wholeAdjSrVal').value = Math.round(srWt * silverRate * document.getElementById('srGmWtInKg').value).toFixed(2);
+        document.getElementById('wholeAdjSrVal').value = Math_round(srWt * silverRate * document.getElementById('srGmWtInKg').value).toFixed(2);
     } else if (srWtType == 'GM') {
-        document.getElementById('wholeAdjSrVal').value = Math.round((srWt * silverRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
+        document.getElementById('wholeAdjSrVal').value = Math_round((srWt * silverRate) / document.getElementById('srGmWtInGm').value).toFixed(2);
     } else if (srWtType == 'MG') {
-        document.getElementById('wholeAdjSrVal').value = Math.round((srWt * silverRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
+        document.getElementById('wholeAdjSrVal').value = Math_round((srWt * silverRate) / (document.getElementById('srGmWtInMg').value)).toFixed(2);
     }
 //    alert(document.getElementById('wholeAdjSrVal').value);
 
@@ -2605,3 +3341,56 @@ function wholeAdjCalc() {
 /***********Start Code To add metal1WtBal, metal2WtBal,metalGoldWtBal,metalSilverWtBal @Author:ANUJA20APR15***************/
 /***********End Code To add metal1WtFinalBal  metal2WtFinalBal @Author:ANUJA05MAY15***************/
 /***********End Code To add Math.abs @Author:ANUJA06MAY15***************/
+//
+/********************************************************************************************************/
+// START CODE TO CALCULATE CUSTOMER WASTAGE ACCORDING TO CUSTOMER WASTAGE WEIGHT @PRIYANKA-21MAR18
+/********************************************************************************************************/
+function calculateCustWastage() {
+
+    var wt = document.getElementById('slPrItemNTW').value; // NET WEIGHT
+
+    if (wt == '' || wt == 'NaN') {
+        wt = 0;
+    }
+
+    var finalFineWt = ((parseFloat(document.getElementById('slPrFinalTunch').value) * wt) / 100).toFixed(3);
+    //alert(finalFineWt);
+
+    var FFNWT = (parseFloat(finalFineWt) + parseFloat(document.getElementById('slPrCustWastageWt').value)).toFixed(3);
+    //alert(FFNWT);
+
+    document.getElementById('slPrItemFFineWeight').value = parseFloat(FFNWT).toFixed(3);
+
+    if (document.getElementById('slPrCustWastageWt').value > 0) { // CUSTOMER WASTAGE WEIGHT IS GREATER THAN ZERO
+        document.getElementById('slPrCustWastage').value = ((parseFloat(document.getElementById('slPrCustWastageWt').value) * 100) / parseFloat(finalFineWt)).toFixed(3); // CALCULATE CUSTOMER WASTAGE
+    } else {
+        //document.getElementById('slPrCustWastage').value = '0'; // CUSTOMER WASTAGE WEIGHT
+        document.getElementById('slPrItemValueAdded').value = '0'; // VALUE ADDED
+    }
+
+}
+
+function calculateCustWastageWt() {
+
+    var wt = document.getElementById('slPrItemNTW').value; // NET WEIGHT
+
+    if (wt == '' || wt == 'NaN') {
+        wt = 0;
+    }
+
+    var FFNWT = ((parseFloat(document.getElementById('slPrFinalTunch').value) * wt) / 100).toFixed(3);
+
+    if (document.getElementById('slPrCustWastage').value > 0) {
+
+        document.getElementById('slPrCustWastageWt').value = ((parseFloat(FFNWT) * parseFloat(document.getElementById('slPrCustWastage').value)) / 100).toFixed(3);
+        //alert(document.getElementById('slPrCustWastageWt').value);
+
+    } else {
+        document.getElementById('slPrCustWastageWt').value = '0'; // CUSTOMER WASTAGE WEIGHT
+        document.getElementById('slPrItemValueAdded').value = '0'; // VALUE ADDED
+    }
+
+}
+/********************************************************************************************************/
+// END CODE TO CALCULATE CUSTOMER WASTAGE ACCORDING TO CUSTOMER WASTAGE WEIGHT @PRIYANKA-21MAR18
+/********************************************************************************************************/

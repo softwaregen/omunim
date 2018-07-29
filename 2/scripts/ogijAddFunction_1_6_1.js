@@ -6,13 +6,17 @@
 /**********Start code to add function to get item pre id div @Author:ANUJA19JAN15*********/
 /**********ADD update @Author: GAUR05OCT16*********/
 function getAItemPreIdDiv(preId, div, id, keyCodeInput, mainPanel, stockType) {
+    documentRootPath = document.getElementById('documentRootPath').value;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var str = xmlhttp.responseText;
             if (str == '') {
                 document.getElementById(div).innerHTML = xmlhttp.responseText;
-                document.getElementById('addItemId').value = '1';
+                if (stockType == 'ImitationStock')
+                    document.getElementById('sttr_invoice_no').value = '1';////changed by @Author:SANT24JUN17
+                else
+                    document.getElementById('sttr_item_id').value = '1';////changed by @auth:athu6jun17
             } else {
                 document.getElementById(div).innerHTML = xmlhttp.responseText;
                 if (keyCodeInput == 40 || keyCodeInput == 38) {
@@ -23,7 +27,7 @@ function getAItemPreIdDiv(preId, div, id, keyCodeInput, mainPanel, stockType) {
         }
     };
     var itemPreId = preId;
-    xmlhttp.open("POST", "include/php/ogijaidsl.php?itemPreId=" + itemPreId + "&div=" + div + "&id=" + id + "&mainPanel=" + mainPanel + "&stockType=" + stockType, true);
+    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijaidsl.php?itemPreId=" + itemPreId + "&div=" + div + "&id=" + id + "&mainPanel=" + mainPanel + "&stockType=" + stockType, true);
     xmlhttp.send();
 }
 /**********END update @Author: GAUR05OCT16*********/
@@ -125,6 +129,24 @@ function showAddArtificialPanel(panel) {
     xmlhttp.open("POST", "include/php/ogijsdv.php?panel=" + panel, true);
     xmlhttp.send();
 }
+/***************Start cdoe to add panel @Author:LOVE01OCT17*************/
+function showAddRetailStockPanel(panel) {
+    loadXMLDoc();
+    //alert(panel);
+    xmlhttp.onreadystatechange = function () {
+
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+
+    xmlhttp.open("POST", "include/php/ogijsdv.php?panel=" + panel, true);
+    xmlhttp.send();
+}
 /***************End cdoe to add panel @Author:ANUJA12JAN15*************/
 
 /**********Start code to add function to get calc by for labour charges @Author:PRIYA07OCT14*********/
@@ -167,44 +189,48 @@ function getAItemDetailsByPreId(preId, mainPanel, stockPanel) {
 /**********Start code to add function to get calc by for labour charges @Author:ANUJA14JAN15*********/
 /**********Start code to add function to get calc by for labour charges @Author:ANUJA20FEB15*********/
 /**********Start code TO UPDATE THE MULTIFICATION OF QTY @Author: GAUR19SEP16*********/
+
+/**********Start code to change ID's @Author: PRIYANKA-03-06-17*********/
 function callItemPrice() {
-    var addprice = document.getElementById('addItemPurPrice').value;
-    var labCharges = document.getElementById('addItemLabCharges').value;
-    var itemqty = document.getElementById('addItemPieces').value;
-    var labChargesType = document.getElementById('addItemLabChargesType').value;
+    var addprice = document.getElementById('sttr_price').value;
+    var labCharges = document.getElementById('sttr_lab_charges').value;
+    var itemqty = document.getElementById('sttr_quantity').value;
+    var labChargesType = document.getElementById('sttr_lab_charges_type').value;
 
     if (labCharges == '') {
-        document.getElementById('addItemValuation').value = ((parseFloat(document.getElementById('addItemPurPrice').value)) * parseFloat(itemqty)).toFixed(2);
+        document.getElementById('sttr_valuation').value = ((parseFloat(document.getElementById('sttr_price').value)) * parseFloat(itemqty)).toFixed(2);
     } else if (labChargesType == 'PP') {
-        document.getElementById('addItemValuation').value = ((parseFloat(document.getElementById('addItemPurPrice').value) + parseFloat(labCharges)) * parseFloat(itemqty)).toFixed(2);
+        document.getElementById('sttr_valuation').value = ((parseFloat(document.getElementById('sttr_price').value) + parseFloat(labCharges)) * parseFloat(itemqty)).toFixed(2);
     } else {
-        document.getElementById('addItemValuation').value = ((parseFloat(document.getElementById('addItemPurPrice').value) + parseFloat(labCharges))).toFixed(2);
+        document.getElementById('sttr_valuation').value = ((parseFloat(document.getElementById('sttr_price').value) + parseFloat(labCharges))).toFixed(2);
 
     }
-    if (document.getElementById('addItemValuation').value == 'NaN') {
-        document.getElementById('addItemValuation').value = 0;
+    if (document.getElementById('sttr_valuation').value == 'NaN') {
+        document.getElementById('sttr_valuation').value = 0;
     }
-    if (document.getElementById('addItemValuation').value == '' || document.getElementById('addItemValuation').value == 'NaN') {
-        document.getElementById('addItemValuation').value = '';
+    if (document.getElementById('sttr_valuation').value == '' || document.getElementById('sttr_valuation').value == 'NaN') {
+        document.getElementById('sttr_valuation').value = '';
     }
-    if (document.getElementById('addItemTotTax').value == 'NaN') {
-        document.getElementById('addItemTotTax').value = 0;
+    if (document.getElementById('sttr_tot_tax').value == 'NaN') {
+        document.getElementById('sttr_tot_tax').value = 0;
     }
-    if (document.getElementById('addItemFinalVal').value == 'NaN') {
-        document.getElementById('addItemFinalVal').value = 0;
+    if (document.getElementById('sttr_final_valuation').value == 'NaN') {
+        document.getElementById('sttr_final_valuation').value = 0;
     }
 
     //document.getElementById('addItemValuation').value = ((parseFloat(document.getElementById('addItemPrice').value) + parseFloat(labCharges))).toFixed(2);
     //  alert(document.getElementById('addItemValuation').value );
-    if (document.getElementById('addItemVATTax').value != '') {
-        document.getElementById('addItemTotTax').value = ((parseFloat(document.getElementById('addItemValuation').value) * document.getElementById('addItemVATTax').value) / 100).toFixed(2);
-        document.getElementById('addItemFinalVal').value = (parseFloat(document.getElementById('addItemValuation').value) + parseFloat(document.getElementById('addItemTotTax').value)).toFixed(2);
+    if (document.getElementById('sttr_tax').value != '') {
+        document.getElementById('sttr_tot_tax').value = ((parseFloat(document.getElementById('sttr_valuation').value) * document.getElementById('sttr_tax').value) / 100).toFixed(2);
+        document.getElementById('sttr_final_valuation').value = (parseFloat(document.getElementById('sttr_valuation').value) + parseFloat(document.getElementById('sttr_tot_tax').value)).toFixed(2);
     }
     else {
-        document.getElementById('addItemFinalVal').value = ((parseFloat(document.getElementById('addItemValuation').value))).toFixed(2);
+        document.getElementById('sttr_final_valuation').value = ((parseFloat(document.getElementById('sttr_valuation').value))).toFixed(2);
     }
     return false;
 }
+/**********End code to change ID's @Author: PRIYANKA-03-06-17*********/
+
 /**********End code TO UPDATE THE MULTIFICATION OF QTY @Author: GAUR19SEP16*********/
 /**********End code to add function to get calc by for labour charges @Author:ANUJA20FEB15*********/
 /**********End code to add function to get calc by for labour charges @Author:ANUJA14JAN15*********/
@@ -216,11 +242,11 @@ function addAItemFormSubmit() {
 /**********   Start code to Validation of Item    @Author:ANUJA14JAN15*********/
 /**********   Start code to Validation of Item    @Author:ANUJA20FEB15*********/
 function addAItem() {
-//alert('hiee');
+    documentRootPath = document.getElementById('documentRootPath').value;
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
 
-    document.getElementById("addItemSubButtDiv").style.visibility = "hidden";
-    document.getElementById("addItemSimButtDiv").style.visibility = "hidden";
+    document.getElementById("addItemExItButtDiv").style.visibility = "hidden";
+//    document.getElementById("addItemSimButtDiv").style.visibility = "hidden";
     var itemDateDay = document.getElementById("addItemDOBDay").value;
     var itemDateMMM = document.getElementById("addItemDOBMonth").value;
     var itemDateYY = document.getElementById("addItemDOBYear").value;
@@ -235,8 +261,8 @@ function addAItem() {
         alert('Please Select the correct Date!');
         document.getElementById("addItemDOBDay").focus();
         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-        document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-        document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+        document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+//        document.getElementById("addItemSimButtDiv").style.visibility = "visible";
         return false;
     }
     else {
@@ -245,24 +271,24 @@ function addAItem() {
                 alert('Please select correct Date, Month ' + itemDateMMM + ' for this selected year has only max 29 days.');
                 document.getElementById("addItemDOBDay").focus();
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-                document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+                document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+//                document.getElementById("addItemSimButtDiv").style.visibility = "visible";
                 return false;
             }
             if (itemDateMMM == 'FEB' && itemDateDay > 28 && itemDateYY % 4 != 0) {
                 alert('Please select correct Date, Month ' + itemDateMMM + ' for this selected year has only max 28 days.');
                 document.getElementById("addItemDOBDay").focus();
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-                document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+                document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+//                document.getElementById("addItemSimButtDiv").style.visibility = "visible";
                 return false;
             }
             if (itemDateDay > 30) {
                 alert('Please select correct Date, Month ' + itemDateMMM + ' has only max 30 days.');
                 document.getElementById("addItemDOBDay").focus();
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-                document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+                document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+//                document.getElementById("addItemSimButtDiv").style.visibility = "visible";
                 return false;
             }
         }
@@ -278,8 +304,7 @@ function addAItem() {
             //  if (document.getElementById(prefix + 'PayTotAmt').value != 0)
             return true;
         } else {
-            var functionName = validateAddARItemInputs;
-            if (document.getElementById('stockType').value == 'wholeSaleStock') {
+            if (document.getElementById('stockType').value == 'wholesale') {
                 functionName = validateAddAWItemInputs;
             } else {
                 functionName = validateAddARItemInputs;
@@ -297,13 +322,14 @@ function addAItem() {
         }
     }
     document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-    document.getElementById("addItemSubButtDiv").style.visibility = "visible";
-    document.getElementById("addItemSimButtDiv").style.visibility = "visible";
+    document.getElementById("addItemExItButtDiv").style.visibility = "visible";
+//    document.getElementById("addItemSimButtDiv").style.visibility = "visible";
     return false;
 }
 
 /*******************Start code Add supplier field  @Author:ANUJA26FEB15***********************/
 /*******************Start UPDATE code REMOVE supplier field  @Author:GAUR16SEP16***********************/
+/*******************Start code to change ID's @Author:PRIYANKA-05-06-17***********************/
 function validateAddARItemInputs() {
     if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please select Day!") == false) {
         document.getElementById("addItemDOBDay").focus();
@@ -319,51 +345,51 @@ function validateAddARItemInputs() {
     } else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemId").value, "Please enter Item Id!") == false ||
-            validateNum(document.getElementById("addItemId").value, "Accept only numeric characters without space character!") == false) {
-        document.getElementById("addItemId").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_id").value, "Please enter Item Id!") == false) {
+        document.getElementById("sttr_item_id").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemCategory").value, "Please enter Item Category!") == false) {
-        document.getElementById("addItemCategory").focus();
-        return false;
-    }
-    else if (validateEmptyField(document.getElementById("addItemName").value, "Please enter Item Name!") == false) {
-        document.getElementById("addItemName").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_category").value, "Please enter Item Category!") == false) {
+        document.getElementById("sttr_item_category").focus();
         return false;
     }
-    else if (validateNumWithSpace(document.getElementById("addItemPieces").value, "Accept only numeric characters!") == false) {
-        document.getElementById("addItemPieces").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please enter Item Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemPurPrice").value, "Please enter Price!") == false ||
-            validateNumWithDot(document.getElementById("addItemPurPrice").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemPurPrice").focus();
-        return false;
-    } else if (validateEmptyField(document.getElementById("addItemCustItmCode").value, "Please enter Item Code!") == false) {
-        document.getElementById("addItemCustItmCode").focus();
-        return false;
-    } else if (validateEmptyField(document.getElementById("addItemCustItmNum").value, "Please enter Item Number!") == false) {
-        document.getElementById("addItemCustItmNum").focus();
-        return false;
-    } else if (validateEmptyField(document.getElementById("addItemCustPrice").value, "Please enter Customer Price!") == false ||
-            validateNumWithDot(document.getElementById("addItemCustPrice").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCustPrice").focus();
+    else if (validateNumWithSpace(document.getElementById("sttr_quantity").value, "Accept only numeric characters!") == false) {
+        document.getElementById("sttr_quantity").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemFinalVal").value, "Please enter Item Final Valuation!") == false ||
-            validateNumWithDot(document.getElementById("addItemFinalVal").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemFinalVal").focus();
+    else if (document.getElementById("sttr_quantity").value == 0 && document.getElementById('stockType').value == 'retail') {
+        alert("Please enter Item Quantity!");
+        document.getElementById("sttr_quantity").focus();
+        return false;
+    }
+    else if (validateEmptyField(document.getElementById("sttr_price").value, "Please enter Price!") == false ||
+            validateNumWithDot(document.getElementById("sttr_price").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_price").focus();
+        return false;
+    } else if (validateEmptyField(document.getElementById("sttr_cust_itmcode").value, "Please enter Item Code!") == false) {
+        document.getElementById("sttr_cust_itmcode").focus();
+        return false;
+    } else if (validateEmptyField(document.getElementById("sttr_cust_itmnum").value, "Please enter Item Number!") == false) {
+        document.getElementById("sttr_cust_itmnum").focus();
+        return false;
+    } else if (validateEmptyField(document.getElementById("sttr_cust_price").value, "Please enter Customer Price!") == false ||
+            validateNumWithDot(document.getElementById("sttr_cust_price").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_cust_price").focus();
+        return false;
+    }
+    else if (validateEmptyField(document.getElementById("sttr_final_valuation").value, "Please enter Item Final Valuation!") == false ||
+            validateNumWithDot(document.getElementById("sttr_final_valuation").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_final_valuation").focus();
         return false;
     }
     else
         return true;
-//    if (document.getElementById('mainPanel').value == 'StockPanel' && document.getElementById('autoBcPrint').value == 'YES') {
-//        document.getElementById("auto_barcode_label_print").style.visibility = "hidden";
-//        return true;
-//    } else {
-//        
-    //}
 }
+/*******************End code to change ID's @Author:PRIYANKA-05-06-17***********************/
+/*******************Start code to change ID's @Author:PRIYANKA-05-06-17***********************/
 function validateAddAWItemInputs() {
     if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please select Day!") == false) {
         document.getElementById("addItemDOBDay").focus();
@@ -379,65 +405,70 @@ function validateAddAWItemInputs() {
     } else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemPreId").value, "Please enter Item Id!") == false ||
-            validateAlphaNum(document.getElementById("addItemPreId").value, "Accept only alpha numeric characters without space character!") == false) {
-        document.getElementById("addItemPreId").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_pre_id").value, "Please enter Item Id!") == false) {
+        document.getElementById("sttr_item_pre_id").focus();
         return false;
-    } else if (validateEmptyField(document.getElementById("addItemCategory").value, "Please enter Item Category!") == false) {
-        document.getElementById("addItemCategory").focus();
-        return false;
-    }
-    else if (validateEmptyField(document.getElementById("addItemName").value, "Please enter Item Name!") == false) {
-        document.getElementById("addItemName").focus();
+    } else if (validateEmptyField(document.getElementById("sttr_item_category").value, "Please enter Item Category!") == false) {
+        document.getElementById("sttr_item_category").focus();
         return false;
     }
-    else if (validateNumWithSpace(document.getElementById("addItemPieces").value, "Accept only numeric characters!") == false) {
-        document.getElementById("addItemPieces").focus();
+    else if (validateEmptyField(document.getElementById("sttr_item_name").value, "Please enter Item Name!") == false) {
+        document.getElementById("sttr_item_name").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemPurPrice").value, "Please enter Price!") == false ||
-            validateNumWithDot(document.getElementById("addItemPurPrice").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemPurPrice").focus();
-        return false;
-    } else if (validateEmptyField(document.getElementById("addItemCustItmCode").value, "Please enter Item Code!") == false) {
-        document.getElementById("addItemCustItmCode").focus();
-        return false;
-    } else if (validateEmptyField(document.getElementById("addItemCustItmNum").value, "Please enter Item Number!") == false) {
-        document.getElementById("addItemCustItmNum").focus();
-        return false;
-    } else if (validateEmptyField(document.getElementById("addItemCustPrice").value, "Please enter Customer Price!") == false ||
-            validateNumWithDot(document.getElementById("addItemCustPrice").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemCustPrice").focus();
+    else if (validateNumWithSpace(document.getElementById("sttr_quantity").value, "Accept only numeric characters!") == false) {
+        document.getElementById("sttr_quantity").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("addItemFinalVal").value, "Please enter Item Final Valuation!") == false ||
-            validateNumWithDot(document.getElementById("addItemFinalVal").value, "Accept only numeric characters without space!") == false) {
-        document.getElementById("addItemFinalVal").focus();
+    else if (validateEmptyField(document.getElementById("sttr_price").value, "Please enter Price!") == false ||
+            validateNumWithDot(document.getElementById("sttr_price").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_price").focus();
+        return false;
+    } else if (validateEmptyField(document.getElementById("sttr_cust_itmcode").value, "Please enter Item Code!") == false) {
+        document.getElementById("sttr_cust_itmcode").focus();
+        return false;
+    } else if (validateEmptyField(document.getElementById("sttr_cust_itmnum").value, "Please enter Item Number!") == false) {
+        document.getElementById("sttr_cust_itmnum").focus();
+        return false;
+    } else if (validateEmptyField(document.getElementById("sttr_cust_price").value, "Please enter Customer Price!") == false ||
+            validateNumWithDot(document.getElementById("sttr_cust_price").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_cust_price").focus();
+        return false;
+    }
+    else if (validateEmptyField(document.getElementById("sttr_final_valuation").value, "Please enter Item Final Valuation!") == false ||
+            validateNumWithDot(document.getElementById("sttr_final_valuation").value, "Accept only numeric characters without space!") == false) {
+        document.getElementById("sttr_final_valuation").focus();
         return false;
     }
     else
         return true;
-//    if (document.getElementById('mainPanel').value == 'StockPanel' && document.getElementById('autoBcPrint').value == 'YES') {
-//        document.getElementById("auto_barcode_label_print").style.visibility = "hidden";
-//        return true;
-//    } else {
-//        
-    //}
+
 }
+/*******************End code to change ID's @Author:PRIYANKA-05-06-17***********************/
 /*******************End UPDATE code REMOVE supplier field  @Author:GAUR16SEP16***********************/
 /**********  End code to Add supplier field   @Author:ANUJA26FEB15*********/
 /**********   END code to Validation of Item    @Author:ANUJA20FEB15*********/
 /**********   End code to Validation of Item    @Author:ANUJA14JAN15*********/
 /**********   ADD code to UPDATE @Author:GAUR03OCT16*********/
-function showImitationStockDiv(documentRootPath, itprId, upPanelName, stockType) {
+function showImitationStockDiv(documentRootPath, sttrId, upPanelName, stockType, invPanelName, utransId, utransUserId) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
+            if (invPanelName == 'AddImitationByInv') {
+                document.getElementById("addStockPanelFormMainDiv").innerHTML = xmlhttp.responseText;
+            } else {
+                document.getElementById("mainBigMiddle").innerHTML = xmlhttp.responseText;
+            }
         }
     };
-    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiamndv.php?itprId=" + itprId + "&panelName=ImitationStock" +
-            "&updatePanelName=" + upPanelName + "&stockType=" + stockType, true);
+    if (invPanelName == 'AddImitationByInv') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijsdv.php?sttrId=" + sttrId + "&invPanel=AddImitationByInv" +
+                "&updatePanelName=" + upPanelName + "&stockType=" + stockType + "&invPanelName=" + invPanelName + "&utransInvId=" + utransId + "&utransUserId=" + utransUserId, true);
+    } else {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogiamndv.php?sttrId=" + sttrId + "&panelName=ImitationStock" +
+                "&updatePanelName=" + upPanelName + "&stockType=" + stockType + "&invPanelName=" + invPanelName + "&utransInvId=" + utransId + "&utransUserId=" + utransUserId, true);
+    }
+
     xmlhttp.send();
 }
 /**********END code to UPDATE @Author:GAUR03OCT16*********/
@@ -472,12 +503,21 @@ function calcImitationStockBalance(prefix) {
 }
 
 /************START code update function @Author:GAUR03OCT16**********/
-function deleteImitationStockList(itstId, itprId, panelName, mainPanel, pageNo, sellPresent, stockType, itemCategory) {
+
+function deleteImitationStockList(itstId, sttrId, panelName, mainPanel, pageNo, sellPresent, stockType, itemCategory, documentRootBSlash, utransId, divId) {
+//  alert(divId);
     if (sellPresent > 0) {
         alert('To Delete,First Delete This Item From Customer Purchase Panel!');
         return false;
     } else {
+
         confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?");//add variables of alert msgs @AUTHOR: SANDY29JAN14
+        if (confirm_box == true) {
+            confirm_box = confirm(deleteItemAlertMess + "\n\nDo you want to delete this Item from Stock?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
+            if (confirm_box == true) {
+                var delFromStock = 'delfromstock'; //add variables of to delete from stock: DISH14NOV16
+            }
+        }
         if (confirm_box == true)
         {
             loadXMLDoc();
@@ -496,8 +536,17 @@ function deleteImitationStockList(itstId, itprId, panelName, mainPanel, pageNo, 
                         if (panelName == 'ImitationPurchaseList') {
                             closeMessDiv('messDisplayDiv', 'DELETED');
                         }
-                    } else if (mainPanel == 'StockInvoice') {
-                        document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
+                    } else if (panelName == 'ItemDetailPanel') {
+                        document.getElementById("addStockItemDetails").innerHTML = xmlhttp.responseText;
+                        closeMessDiv('messDisplayDiv', 'DELETED');
+                    } else if (itstId != '') {
+                        document.getElementById("jewelleryPanel").innerHTML = xmlhttp.responseText;
+                        closeMessDiv('messDisplayDiv', 'DELETED');
+                    } else if (divId == 'imitationPurchaseList') {
+                        document.getElementById("stockListSubDiv").innerHTML = xmlhttp.responseText;
+                        closeMessDiv('messDisplayDiv', 'DELETED');
+                    } else if (panelName == 'ItemDelete') {
+                        document.getElementById("addStockPanelFormMainDiv").innerHTML = xmlhttp.responseText;
                         closeMessDiv('messDisplayDiv', 'DELETED');
                     } else if (pageNo == 'SuppPanel' || pageNo == 'addByItems') {
                         document.getElementById("suppPurchaseDivs").innerHTML = xmlhttp.responseText;
@@ -510,7 +559,41 @@ function deleteImitationStockList(itstId, itprId, panelName, mainPanel, pageNo, 
                     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
                 }
             };
-            xmlhttp.open("GET", "include/php/ogijiadel.php?itstId=" + itstId + "&itprId=" + itprId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&stockType=" + stockType + "&itemCategory=" + itemCategory, true);
+            xmlhttp.open("GET", "http://" + documentRootBSlash + "/include/php/ogijiadel.php?itstId=" + itstId + "&sttrId=" + sttrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&stockType=" + stockType + "&itemCategory=" + itemCategory + "&delFromStock=" + delFromStock + "&utransId=" + utransId + "&divId=" + divId, true);
+            xmlhttp.send();
+        }
+    }
+}
+function deleteDTImitationStockList(panelName, sttrId, itstId, mainPanel, pageNo, sellPresent, stockType, itemCategory) {
+//    alert(itstId + '-' + itprId + '-' + panelName);
+    if (sellPresent > 0) {
+        alert('To Delete,First Delete This Item From Customer Purchase Panel!');
+        return false;
+    } else {
+        confirm_box = confirm(deleteItemAlertMess + "\n\nDo you really want to delete this Item?");//add variables of alert msgs @AUTHOR: SANDY29JAN14
+        if (confirm_box == true) {
+            confirm_box = confirm(deleteItemAlertMess + "\n\nDo you want to delete this Item from Stock?"); //add variables of alert msgs @AUTHOR: SANDY29JAN14
+            if (confirm_box == true) {
+                var delFromStock = 'delfromstock'; //add variables of to delete from stock: DISH14NOV16
+            }
+        }
+        if (confirm_box == true)
+        {
+            loadXMLDoc();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+//                     if (panelName == 'ImitationPurchaseList' || panelName == 'ImitationStockList') {
+                    document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
+                    if (panelName == 'ImitationPurchaseList') {
+                        closeMessDiv('messDisplayDiv', 'DELETED');
+                    }
+//                    } 
+                } else {
+                    document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+                }
+            };
+            xmlhttp.open("GET", "include/php/ogijiadel.php?itstId=" + itstId + "&sttrId=" + sttrId + "&panelName=" + panelName + "&mainPanel=" + mainPanel + "&pageNo=" + pageNo + "&stockType=" + stockType + "&itemCategory=" + itemCategory + "&delFromStock=" + delFromStock, true);
             xmlhttp.send();
         }
     }
@@ -530,7 +613,8 @@ function deleteImitationStockList(itstId, itprId, panelName, mainPanel, pageNo, 
 /************End code To Add  Validn for BackSpace @Author:PRIYA18AUG13**********/
 /*************Start code to add function for Imitation item purchase panel @Author:ANUJA15MAR15*********************/
 /*************Start update @Author:GAUR19OCT16*********************/
-function searchImitationStockList(documentRootPath, searchColumn, searchValue, selFirmId, div, panel) {
+//**********Start code to add crystalPurchase in supplier panel:Author:SANT13JAN17
+function searchImitationStockList(documentRootPath, searchColumn, searchValue, selFirmId, div, panel, itemCategory, suppId) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
@@ -546,10 +630,16 @@ function searchImitationStockList(documentRootPath, searchColumn, searchValue, s
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     else if (panel == 'ImtSuppPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijpltd.php?searchColumn="
+                + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel + "&suppId=" + suppId, true);
+    else if (panel == 'CrySuppPurchaseList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijpltd.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     else if (panel == 'StockList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilsbdv.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
+    else if (panel == 'ImtStockList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijistlt.php?searchColumn="
+                + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel + "&itemCategory=" + itemCategory, true);
     else if (panel == 'ImitationStockList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijsbdv.php?searchColumn="
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel + "&stockPanel=ImitationStock", true);
@@ -558,7 +648,7 @@ function searchImitationStockList(documentRootPath, searchColumn, searchValue, s
                 + searchColumn + "&searchValue=" + searchValue + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     xmlhttp.send();
 }
-function sortImitationStockList(documentRootPath, sortKeyword, selFirmId, div, panel) {
+function sortImitationStockList(documentRootPath, sortKeyword, selFirmId, div, panel, itemCategory) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -570,10 +660,12 @@ function sortImitationStockList(documentRootPath, sortKeyword, selFirmId, div, p
     };
     if (panel == 'ImitationPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijaprlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
-    else if (panel == 'ImtSuppPurchaseList')
+    else if (panel == 'ImtSuppPurchaseList' || panel == 'CrySuppPurchaseList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijpltd.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     else if (panel == 'StockList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilsbdv.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
+    else if (panel == 'ImtStockList')
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijistlt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel + "&stockPanel=ImitationStock" + "&itemCategory=" + itemCategory, true);
     else if (panel == 'ImitationStockList')
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijsbdv.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel + "&stockPanel=ImitationStock", true);
     else if (panel == 'UdhaarEMIList')
@@ -582,32 +674,45 @@ function sortImitationStockList(documentRootPath, sortKeyword, selFirmId, div, p
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogspsblt.php?sortKeyword=" + sortKeyword + "&selFirmId=" + selFirmId + "&panel=" + panel, true);
     xmlhttp.send();
 }
+//**********End code to add crystalPurchase in supplier panel:Author:SANT13JAN17
 /*************Start update @Author:GAUR19OCT16*********************/
 /*************End code to add function for item purchase panel @Author:ANUJA15MAR15*********************/
 /***************Start cdoe to add panel @Author:PRIYA08OCT14*************/
 /***************Start update @Author:GAUR19OCT16*************/
-function showImitationStockPanel(panel) {
+//**********Start code to add crystalPurchase in supplier panel:Author:SANT13JAN17
+//**********Start code to IMITATION PURCHASELIST IN ADD STOCK PANEL:Author:ATHU2JUN17
+function showImitationStockPanel(panel, listType) {
+    //alert(panel);
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            if (panel == 'ImitationPurchaseList')
-                document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
-            else
-                document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
+            if (panel == 'Imitation' || panel == 'ImitationList')
+                document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;  //change in div name @AUTHOR: SANDY25SEP13
+//            else
+//                document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
         }
         else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    if (panel == 'ImitationPurchaseList')
-        xmlhttp.open("POST", "include/php/ogijaprlt.php?panel=" + panel, true);
+    if (panel == 'Imitation')
+        xmlhttp.open("POST", "include/php/ompurchase.php?panelName=" + panel + "&listType=" + listType, true);//Added by @auth:athu2jun17
     else if (panel == 'ImtSuppPurchaseList')
         xmlhttp.open("POST", "include/php/ogijpltd.php?panel=" + panel, true);
+    else if (panel == 'ImitationList') {
+        //alert(panel);
+        xmlhttp.open("POST", "include/php/ompurchaselist.php?panelName=" + panel + "&listType=" + listType, true);
+    }
+    else if (panel == 'CrySuppPurchaseList')
+        xmlhttp.open("POST", "include/php/ogijpltd.php?panel=" + panel, true);
+    else if (panel == 'StockDeletedList')
+        xmlhttp.open("POST", "include/php/ogwaprdlt.php?panel=" + panel, true);
     else
         xmlhttp.open("POST", "include/php/ogijsdv.php?panel=" + panel, true);
     xmlhttp.send();
 }
+//**********End code to add crystalPurchase in supplier panel:Author:SANT13JAN17
 /***************End update @Author:GAUR19OCT16*************/
 /***************End cdoe to add panel @Author:PRIYA08OCT14*************/
 /***************START cdoe UPDATE @Author:GAUR19OCT16*************/
@@ -628,7 +733,7 @@ function showImitationNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPan
                 document.getElementById("jewellerySubPanel").innerHTML = xmlhttp.responseText;
             } else if (nwOrPanel == 'ImitationPurchaseList') {
                 document.getElementById("stockPanelSubDiv").innerHTML = xmlhttp.responseText;
-            } else if (nwOrPanel == 'ImtSuppPurchaseList') {
+            } else if (nwOrPanel == 'ImtSuppPurchaseList' || nwOrPanel == 'CrySuppPurchaseList') {
                 document.getElementById("stockPanelPurchaseList").innerHTML = xmlhttp.responseText;
             } else if (upRowsPanel == 'UdhaarUpdateRows') {
                 document.getElementById("udhaarDetPanel").innerHTML = xmlhttp.responseText;
@@ -654,8 +759,8 @@ function showImitationNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPan
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogilimsd.php?rowsPerPage=" + rowsPerPage + "&panel=" + upRowsPanel, true);
     } else if (nwOrPanel == 'ImitationPurchaseList') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijaprlt.php?rowsPerPage=" + rowsPerPage + "&panel=" + nwOrPanel + "&stockUpdateRows=" + upRowsPanel, true);
-    } else if (nwOrPanel == 'ImtSuppPurchaseList') {
-        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijpltd.php?rowsPerPage=" + rowsPerPage + "&panel=" + nwOrPanel + "&stockUpdateRows=" + upRowsPanel, true);
+    } else if (nwOrPanel == 'ImtSuppPurchaseList' || nwOrPanel == 'CrySuppPurchaseList') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijpltd.php?rowsPerPage=" + rowsPerPage + "&panel=" + nwOrPanel + "&stockUpdateRows=" + upRowsPanel + "&custId=" + custId, true);
     } else if (upRowsPanel == 'UdhaarUpdateRows') {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omuupnal.php?rowsPerPage=" + rowsPerPage + "&udhaarUpdateRows=" + upRowsPanel + "&panelName=" + nwOrPanel, true);
     } else if (nwOrPanel == 'AdvanceMoney') {
@@ -674,7 +779,7 @@ function showImitationNoOfRows(documentRootPath, rowsPerPage, pageNum, upRowsPan
 /***************END cdoe UPDATE @Author:GAUR19OCT16*************/
 
 //START update function @Author:GAUR03OCT16
-function showImitationStockDetailsDiv(documentRootPath, itprId, panelName, stockType) {
+function showImitationStockDetailsDiv(itprId, stockType, panelName, documentRootPath) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -746,37 +851,214 @@ function showImitationSelectPage(pageNo, panel, rowsPerPage, noOfPagesAsLink, se
 /***********Start Code To Add Func For Add Sell Iteem Calcn @Author:ANUJA31JAN15***********/
 /************Start code to change value added option @Author:ANUJA31JAN15***************/
 /************Start code to UPDATE CODE @Author:GAUR19SEP16***************/
+function calculateImitationSellPriceTaxByVal(){
+    
+    var itemsQTY = parseInt(document.getElementById('slPrItemPieces').value);
+    
+    //alert('itemsQTY ==' + document.getElementById('slPrItemPieces').value);
+
+    if (itemsQTY == '' || itemsQTY == null || itemsQTY == '0') {
+        itemsQTY = 1;
+    }
+    
+    if (document.getElementById("sttr_taxincl_checked").checked == true) {
+        
+        if (document.getElementById('slPrItemPriMkgIgstPer').value != '0' && document.getElementById('slPrItemPriMkgIgstPer').value != '') {
+            
+            document.getElementById('slPrItemPriceQty').value = (((100 * parseFloat(document.getElementById('slPrItemCharges').value)) / (100 + parseFloat(document.getElementById('slPrItemPriMkgIgstPer').value))) * (parseFloat(itemsQTY))).toFixed(2);
+            
+            //alert('slPrItemPriceQty ==' +  document.getElementById('slPrItemPriceQty').value);
+            //document.getElementById('slPrItemCharges').value = document.getElementById('slPrItemPriceQty').value;
+            
+        } else {
+            
+            //alert('slPrItemCharges == ' + document.getElementById('slPrItemCharges').value);
+            //alert('slPrItemPriMkgCgstPer == ' + document.getElementById('slPrItemPriMkgCgstPer').value);
+            //alert('itemsQTY == ' + itemsQTY);
+            
+            document.getElementById('slPrItemPriceQty').value = (((100 * parseFloat(document.getElementById('slPrItemCharges').value)) / (100 + parseFloat(document.getElementById('slPrItemPriMkgCgstPer').value) * 2)) * (parseFloat(itemsQTY))).toFixed(2);
+           
+            //alert('slPrItemPriceQty ==' +  document.getElementById('slPrItemPriceQty').value);            
+            //document.getElementById('slPrItemCharges').value = document.getElementById('slPrItemPriceQty').value;
+        }
+        
+        document.getElementById('slPrItemValuation').value = ((parseFloat(document.getElementById('slPrItemPriceQty').value) + parseFloat(document.getElementById('slPrItemQtyMkgCharges').value))).toFixed(2);
+        
+        //alert('slPrItemValuation ==' +  document.getElementById('slPrItemValuation').value);
+    }
+    
+    if (document.getElementById("sttr_taxincl_checked").checked == false) {
+
+        document.getElementById('slPrItemPriceQty').value = ((parseFloat(document.getElementById('slPrItemFinalVal').value))).toFixed(2);
+    
+        //document.getElementById('slPrItemCharges').value = document.getElementById('slPrItemPriceQty').value;
+        //alert('slPrItemPriceQty ==' +  document.getElementById('slPrItemPriceQty').value);
+        
+        document.getElementById('slPrItemValuation').value = ((parseFloat(document.getElementById('slPrItemPriceQty').value)) + parseFloat(document.getElementById('slPrItemQtyMkgCharges').value)).toFixed(2);
+        
+        //alert('slPrItemValuation **==' +  document.getElementById('slPrItemValuation').value);
+        
+        document.getElementById('slPrItemQtyMkgCharges').value = ((parseFloat(document.getElementById('slPrItemMkgCharges').value))) * (parseFloat(itemsQTY)).toFixed(2);
+        
+    }
+   
+   //calculate CGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemQtyMkgCgstPer').value != '') {
+        document.getElementById('slPrItemMkgCgstChrg').value = (parseFloat(document.getElementById('slPrItemQtyMkgCharges').value) * (parseFloat(document.getElementById('slPrItemQtyMkgCgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate SGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemMkgSgstPer').value != '') {
+        document.getElementById('slPrItemMkgSgstChrg').value = (parseFloat(document.getElementById('slPrItemQtyMkgCharges').value) * (parseFloat(document.getElementById('slPrItemMkgSgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate IGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemMkgIgstPer').value != '') {
+        document.getElementById('slPrItemMkgIgstChrg').value = (parseFloat(document.getElementById('slPrItemQtyMkgCharges').value) * (parseFloat(document.getElementById('slPrItemMkgIgstPer').value) / 100)).toFixed(2);
+    }
+
+    //calculate CGST for QTY * PRICE
+    if (document.getElementById('slPrItemPriMkgCgstPer').value != '') {
+
+        document.getElementById('slPrItemPriMkgCgstChrg').value = (parseFloat(document.getElementById('slPrItemPriceQty').value) * (parseFloat(document.getElementById('slPrItemPriMkgCgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate SGST for QTY * PRICE
+    if (document.getElementById('slPrItemPriMkgSgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = (parseFloat(document.getElementById('slPrItemPriceQty').value) * (parseFloat(document.getElementById('slPrItemPriMkgSgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate IGST for QTY * PRICE
+    if (document.getElementById('slPrItemPriMkgIgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = (parseFloat(document.getElementById('slPrItemPriceQty').value) * (parseFloat(document.getElementById('slPrItemPriMkgIgstPer').value) / 100)).toFixed(2);
+    }
+
+    //Calculate Total Item Tax cgst+sgst+igst
+    document.getElementById('slPrItemTotTax').value = (parseFloat(document.getElementById('slPrItemMkgCgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemMkgSgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemMkgIgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgCgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgSgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgIgstChrg').value));
+    
+    var slPrItemFinalVal = (parseFloat(document.getElementById('slPrItemValuation').value)) + (parseFloat(document.getElementById('slPrItemTotTax').value));
+    document.getElementById('slPrItemFinalVal').value = Math_round(slPrItemFinalVal);
+    
+    return false;
+}
+
 function calculateImitationSellPrice() {
+
 
     var itemsQTY = parseInt(document.getElementById('slPrItemPieces').value);
 
     if (itemsQTY == '' || itemsQTY == null) {
-        itemsQTY = 0;
+        itemsQTY = 1;
     }
-    if (document.getElementById('slPrItemMkgCharges').value == '' || document.getElementById('slPrItemMkgCharges').value == 'NaN') {
-        document.getElementById('slPrItemMkgCharges').value = 0;
+
+//    if (document.getElementById('slPrItemMkgCharges').value == '' || document.getElementById('slPrItemMkgCharges').value == 'NaN') {
+//        document.getElementById('slPrItemMkgCharges').value = 0;
+//    }
+
+//    if (document.getElementById("sttr_taxincl_checked").checked == true) {
+//        //alert('check');
+//        document.getElementById('slPrItemCharges').value = ((100 * parseFloat(document.getElementById('slPrItemCharges').value)) / (100 + parseFloat(document.getElementById('slPrItemPriMkgCgstPer').value) * 2)).toFixed(2);
+//        document.getElementById('slPrItemPriceQty').value = document.getElementById('slPrItemCharges').value;
+//        document.getElementById('slPrItemValuation').value = ((parseFloat(document.getElementById('slPrItemCharges').value) + parseFloat(document.getElementById('slPrItemQtyMkgCharges').value))) * (parseFloat(itemsQTY)).toFixed(2);
+//
+//    }
+//    if (document.getElementById("sttr_taxincl_checked").checked == false && document.getElementById("slPrItemQtyMkgCharges").checked == 0)
+//    {
+//        document.getElementById('slPrItemValuation').value = parseFloat(document.getElementById('slPrItemFinalVal').value).toFixed(2);
+//        //amol
+//        document.getElementById('slPrItemQtyMkgCharges').value = ((parseFloat(document.getElementById('slPrItemMkgCharges').value))) * (parseFloat(itemsQTY)).toFixed(2);
+//        document.getElementById('slPrItemPriceQty').value = ((parseFloat(document.getElementById('slPrItemFinalVal').value))).toFixed(2);
+//        document.getElementById('slPrItemCharges').value = ((parseFloat(document.getElementById('slPrItemFinalVal').value))).toFixed(2);
+//    }
+
+    document.getElementById('sttr_total_lab_charges').value = parseFloat(parseFloat(document.getElementById('slPrItemMkgCharges').value) * parseFloat(itemsQTY)).toFixed(2);
+    document.getElementById('slPrItemValuation').value = ((parseFloat(document.getElementById('slPrItemCharges').value) + parseFloat(document.getElementById('slPrItemMkgCharges').value))) * (parseFloat(itemsQTY)).toFixed(2);
+
+    //amol
+    document.getElementById('slPrItemQtyMkgCharges').value = ((parseFloat(document.getElementById('slPrItemMkgCharges').value))) * (parseFloat(itemsQTY)).toFixed(2);
+    document.getElementById('slPrItemPriceQty').value = ((parseFloat(document.getElementById('slPrItemCharges').value))) * (parseFloat(itemsQTY)).toFixed(2);
+
+
+    if (document.getElementById('slPrItemQtyMkgCharges').value == 'NaN') {
+        document.getElementById('slPrItemQtyMkgCharges').value = 0;
     }
-    document.getElementById('slPrItemValuation').value = ((parseFloat(document.getElementById('slPrItemCharges').value) + parseFloat(document.getElementById('slPrItemMkgCharges').value)) * parseFloat(itemsQTY)).toFixed(2);
+    if (document.getElementById('slPrItemPriceQty').value == 'NaN') {
+        document.getElementById('slPrItemPriceQty').value = 0;
+    }
+
+    //calculate CGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemQtyMkgCgstPer').value != '') {
+        document.getElementById('slPrItemMkgCgstChrg').value = (parseFloat(document.getElementById('slPrItemQtyMkgCharges').value) * (parseFloat(document.getElementById('slPrItemQtyMkgCgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate SGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemMkgSgstPer').value != '') {
+        document.getElementById('slPrItemMkgSgstChrg').value = (parseFloat(document.getElementById('slPrItemQtyMkgCharges').value) * (parseFloat(document.getElementById('slPrItemMkgSgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate IGST for QTY * MKG CHRG
+    if (document.getElementById('slPrItemMkgIgstPer').value != '') {
+        document.getElementById('slPrItemMkgIgstChrg').value = (parseFloat(document.getElementById('slPrItemQtyMkgCharges').value) * (parseFloat(document.getElementById('slPrItemMkgIgstPer').value) / 100)).toFixed(2);
+    }
+
+    //calculate CGST for QTY * PRICE
+    if (document.getElementById('slPrItemPriMkgCgstPer').value != '') {
+
+        document.getElementById('slPrItemPriMkgCgstChrg').value = (parseFloat(document.getElementById('slPrItemPriceQty').value) * (parseFloat(document.getElementById('slPrItemPriMkgCgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate SGST for QTY * PRICE
+    if (document.getElementById('slPrItemPriMkgSgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = (parseFloat(document.getElementById('slPrItemPriceQty').value) * (parseFloat(document.getElementById('slPrItemPriMkgSgstPer').value) / 100)).toFixed(2);
+    }
+    //calculate IGST for QTY * PRICE
+    if (document.getElementById('slPrItemPriMkgIgstPer').value != '') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = (parseFloat(document.getElementById('slPrItemPriceQty').value) * (parseFloat(document.getElementById('slPrItemPriMkgIgstPer').value) / 100)).toFixed(2);
+    }
+
+    if (document.getElementById('slPrItemMkgCgstChrg').value == '') {
+        document.getElementById('slPrItemMkgCgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemMkgSgstChrg').value == '') {
+        document.getElementById('slPrItemMkgSgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemMkgIgstChrg').value == '') {
+        document.getElementById('slPrItemMkgIgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemPriMkgCgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgCgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemPriMkgSgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgSgstChrg').value = 0;
+    }
+    if (document.getElementById('slPrItemPriMkgIgstChrg').value == '') {
+        document.getElementById('slPrItemPriMkgIgstChrg').value = 0;
+    }
+
+    //Calculate Total Item Tax cgst+sgst+igst
+    document.getElementById('slPrItemTotTax').value = (parseFloat(document.getElementById('slPrItemMkgCgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemMkgSgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemMkgIgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgCgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgSgstChrg').value) +
+            parseFloat(document.getElementById('slPrItemPriMkgIgstChrg').value));
+
+
+//   total final valuation= (CUST.PRICE + MKG CHARGES )+total tax                                               
+//    document.getElementById('slPrItemFinalVal').value = (parseFloat(document.getElementById('slPrItemValuation').value)) +
+//            (parseFloat(document.getElementById('slPrItemTotTax').value));
+var slPrItemFinalVal = (parseFloat(document.getElementById('slPrItemValuation').value)) + (parseFloat(document.getElementById('slPrItemTotTax').value));
+    document.getElementById('slPrItemFinalVal').value = Math_round(slPrItemFinalVal);
+
 
     if (document.getElementById('slPrItemValuation').value == '' || document.getElementById('slPrItemValuation').value == 'NaN') {
         document.getElementById('slPrItemValuation').value = 0;
     }
-    if (document.getElementById('slPrItemTotTax').value == 'NaN') {
-        document.getElementById('slPrItemTotTax').value = 0;
-    }
+
     if (document.getElementById('slPrItemFinalVal').value == 'NaN') {
         document.getElementById('slPrItemFinalVal').value = 0;
     }
 
-    if (document.getElementById('slPrItemVATTax').value != '') {
-        document.getElementById('slPrItemTotTax').value = ((parseFloat(document.getElementById('slPrItemValuation').value) * document.getElementById('slPrItemVATTax').value) / 100).toFixed(2);
-        //document.getElementById('slPrMetalTotValuation').value = Math.round(parseFloat(sellItemTotValuation) + parseFloat(document.getElementById('slPrItemTotTax').value)).toFixed(2);
-        document.getElementById('slPrItemFinalVal').value = (parseFloat(document.getElementById('slPrItemValuation').value) + parseFloat(document.getElementById('slPrItemTotTax').value)).toFixed(2);
-    }
-    else {
-        document.getElementById('slPrItemFinalVal').value = (parseFloat(document.getElementById('slPrItemValuation').value));
-    }
     return false;
+
 }
 /************End code to UPDATE CODE @Author:GAUR19SEP16***************/
 /***********End code to change value added option @Author:ANUJA31JAN15***************/
@@ -828,10 +1110,10 @@ function sellImiPurchaseSubmit() {
     } else {
         document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         document.getElementById("slPrSubButtDiv").style.visibility = "hidden";
-        var stockDateDay = document.getElementById("slPrDOBDay").value;
-        var stockDateMMM = document.getElementById("slPrDOBMonth").value;
-        var stockDateYY = document.getElementById("slPrDOBYear").value;
-        var stockDateStr = document.getElementById("slPrDOBMonth").value + ' ' + document.getElementById("slPrDOBDay").value + ', ' + document.getElementById("slPrDOBYear").value;
+        var stockDateDay = document.getElementById("addItemDOBDay").value;
+        var stockDateMMM = document.getElementById("addItemDOBMonth").value;
+        var stockDateYY = document.getElementById("addItemDOBYear").value;
+        var stockDateStr = document.getElementById("addItemDOBMonth").value + ' ' + document.getElementById("addItemDOBDay").value + ', ' + document.getElementById("addItemDOBYear").value;
         var stockDate = new Date(stockDateStr); // stock Date
         var todayDate = new Date(); // Today Date
 
@@ -841,7 +1123,7 @@ function sellImiPurchaseSubmit() {
         if (validateImiItemInputs()) {
             if (datesDiff < 0) {
                 alert('Please Select the correct Date!');
-                document.getElementById("slPrDOBDay").focus();
+                document.getElementById("addItemDOBDay").focus();
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                 document.getElementById("slPrSubButtDiv").style.visibility = "visible";
                 return false;
@@ -849,21 +1131,21 @@ function sellImiPurchaseSubmit() {
                 if (stockDateMMM == 'FEB' || stockDateMMM == 'APR' || stockDateMMM == 'JUN' || stockDateMMM == 'SEP' || stockDateMMM == 'NOV') {
                     if (stockDateMMM == 'FEB' && stockDateDay > 29 && stockDateYY % 4 == 0) {
                         alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 29 days.');
-                        document.getElementById("slPrDOBDay").focus();
+                        document.getElementById("addItemDOBDay").focus();
                         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                         document.getElementById("slPrSubButtDiv").style.visibility = "visible";
                         return false;
                     }
                     if (stockDateMMM == 'FEB' && stockDateDay > 28 && stockDateYY % 4 != 0) {
                         alert('Please select correct Date, Month ' + stockDateMMM + ' for this selected year has only max 28 days.');
-                        document.getElementById("slPrDOBDay").focus();
+                        document.getElementById("addItemDOBDay").focus();
                         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                         document.getElementById("slPrSubButtDiv").style.visibility = "visible";
                         return false;
                     }
                     if (stockDateDay > 30) {
                         alert('Please select correct Date, Month ' + stockDateMMM + ' has only max 30 days.');
-                        document.getElementById("slPrDOBDay").focus();
+                        document.getElementById("addItemDOBDay").focus();
                         document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
                         document.getElementById("slPrSubButtDiv").style.visibility = "visible";
                         return false;
@@ -908,17 +1190,20 @@ function sellImiPurchaseSubmit() {
     }
 }
 function validateImiItemInputs() {
-    if (validateSelectField(document.getElementById("slPrDOBDay").value, "Please select Day!") == false) {
-        document.getElementById("slPrDOBDay").focus();
+
+    //alert('sttr_stock_type == ' + document.getElementById("sttr_stock_type").value);
+
+    if (validateSelectField(document.getElementById("addItemDOBDay").value, "Please select Day!") == false) {
+        document.getElementById("addItemDOBDay").focus();
         // alert('Hi');
         return false;
     }
-    else if (validateSelectField(document.getElementById("slPrDOBMonth").value, "Please select Month!") == false) {
-        document.getElementById("slPrDOBMonth").focus();
+    else if (validateSelectField(document.getElementById("addItemDOBMonth").value, "Please select Month!") == false) {
+        document.getElementById("addItemDOBMonth").focus();
         return false;
     }
-    else if (validateSelectField(document.getElementById("slPrDOBYear").value, "Please select Year!") == false) {
-        document.getElementById("slPrDOBYear").focus();
+    else if (validateSelectField(document.getElementById("addItemDOBYear").value, "Please select Year!") == false) {
+        document.getElementById("addItemDOBYear").focus();
         return false;
     }
 //    else if (validateEmptyField(document.getElementById("slPrPreInvoiceNo").value, "Please enter Invoice Number!") == false ||
@@ -926,18 +1211,15 @@ function validateImiItemInputs() {
 //        document.getElementById("slPrPreInvoiceNo").focus();
 //        return false;
 //    } 
+//amol123
     else if (validateSelectField(document.getElementById("firmId").value, "Please select Firm!") == false) {
         document.getElementById("firmId").focus();
         return false;
-    } else if (validateSelectField(document.getElementById("accountId").value, "Please select Account Name!") == false) {
-        document.getElementById("accountId").focus();
+    } else if (validateSelectField(document.getElementById("sttr_account_id").value, "Please select Account Name!") == false) {
+        document.getElementById("sttr_account_id").focus();
         return false;
     }
-    else if (validateEmptyField(document.getElementById("slPrItemPostId").value, "Please enter Item Id!") == false ||
-            validateNum(document.getElementById("slPrItemPostId").value, "Accept only numeric characters without space character!") == false) {
-        document.getElementById("slPrItemPostId").focus();
-        return false;
-    } else if (validateEmptyField(document.getElementById("slPrItemCategory").value, "Please enter Item Category!") == false) {
+     else if (validateEmptyField(document.getElementById("slPrItemCategory").value, "Please enter Item Category!") == false) {
         document.getElementById("slPrItemCategory").focus();
         return false;
     }
@@ -1301,8 +1583,8 @@ function navigateToJewelleryPanel(panel, divPanel, itemCategory, metalType) {
 }
 //add parameter last three Author:GAUR25JUL16
 /******************Start Code To Add Panel Name Imitation @AUTHOR:ANUJA25MAR15*************/
-function showImitationDetailsDiv(documentRootPath, itstId, panelName, page) {
-    // alert('hiee');
+function showImitationDetailsDiv(documentRootPath, sttrId, panelName, page, imiStockType) {
+    //alert(imiStockType);
     var panelNameItemDetails = panelName;
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
@@ -1318,7 +1600,11 @@ function showImitationDetailsDiv(documentRootPath, itstId, panelName, page) {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("POST", "include/php/ogijdsbdv.php?itstId=" + itstId + "&panelName=" + panelName + "&page=" + page, true);
+    //alert(imiStockType);
+    if (imiStockType == 'wholesale')
+        xmlhttp.open("POST", "include/php/ogijwsbdv.php?sttrId=" + sttrId + "&panelName=" + panelName + "&page=" + page, true);
+    else
+        xmlhttp.open("POST", "include/php/ogijdsbdv.php?sttrId=" + sttrId + "&panelName=" + panelName + "&page=" + page, true);
     xmlhttp.send();
 }
 /******************End Code To Add Panel Name Imitation @AUTHOR:ANUJA25MAR15*************/
@@ -1668,15 +1954,20 @@ function calcRateCutBal()
 }
 /********Start code to add if condition to check panelName @Author:ANUJA28MAY15********* */
 /********End code to change tofixed(2) values @Author:ANUJA21MAY15********* */
-function getImitationDetailsPanel(documentRootPath, preId, postId, panelName, page) {
+function getImitationDetailsPanel(documentRootPath, preId, postId, panelName, page, sttrId, stockType) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("itemDetails").innerHTML = xmlhttp.responseText;
         }
     };
-    xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijdsbdv.php?panelName=" + panelName + "&preId=" + preId + "&postId=" + postId +
-            "&page=" + page, true);
+    if (stockType == 'wholeSaleStock') {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijwsbdv.php?panelName=" + panelName + "&preId=" + preId + "&postId=" + postId +
+                "&page=" + page + "&sttrId=" + sttrId, true);
+    } else {
+        xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/ogijdsbdv.php?panelName=" + panelName + "&preId=" + preId + "&postId=" + postId +
+                "&page=" + page + "&sttrId=" + sttrId, true);
+    }
     xmlhttp.send();
 }
 function getEngDateOpt(divId) {
