@@ -23,7 +23,7 @@ input:focus, input:hover, select:focus, select:hover, textarea:focus, textarea:h
     color:#2cadff;	
 }
 #main_body{
-    width:1062px;
+    width:1160px;
     height:auto;
     margin: auto;
     vertical-align:middle;
@@ -35,7 +35,7 @@ input:focus, input:hover, select:focus, select:hover, textarea:focus, textarea:h
     margin-top: 62px;
 }
 #main_footer{
-    width:1062px;
+    width:1160px;
     height:auto;
     margin: auto;
     vertical-align:middle;
@@ -1300,6 +1300,9 @@ span.lightcyan {
 .marginLeft1{
     margin-left: 1px;
 }
+.marginLeft2{
+    margin-left: 2px;
+}
 .marginLeftMinus10{
     margin-left: -10px;
 }
@@ -1413,7 +1416,7 @@ p {
 /*--------------------------- Start Header ---------------------------*/
 .header {
     position: relative;
-    width:1062px;
+    width:1160px;
     height:96px;
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
@@ -1444,7 +1447,7 @@ p {
     vertical-align:top;			
 }
 .main_middle_own_list{
-    width:1062px;
+    width:1160px;
     height:595px;
     float:left;
     padding:0px;
@@ -1581,7 +1584,7 @@ p {
 }
 /*--------------------------- Start Index AboutUs Div ---------------------------*/
 .main_index_aboutUs{
-    width:1062px;
+    width:1160px;
     height:auto;
     margin:auto;
     text-align:left;
@@ -1596,7 +1599,7 @@ p {
 /*--------------------------- End Index AboutUs Div ---------------------------*/
 .display-girvi-info-popup {
     position: absolute; 
-    padding: 8px 0 0 -10px;
+    padding: 8px 0 0 -20px;
     margin: 0px;
     background: #FFFFFF; 
     text-align: left; 
@@ -2395,6 +2398,11 @@ p {
     width: 426px;
     height: 20px;
 }
+.selectField200x20 {
+    width: 276px;
+    height: 20px;
+    border: 1px solid #CCCCCC;
+}
 .selectField426x20 {
     width: 426px;
     height: 20px;
@@ -2996,6 +3004,17 @@ div.selectStyledBorderLess select {
     background:none;
     color:#800000;
 }
+.frm-btn-lnk-arial-Normal-right{
+    border:none;
+    font-family: calibri;
+    font-size:12px;
+    font-weight: normal;
+    cursor:pointer;
+    background:none;
+    color: #1b5fa8;
+    text-align:right;
+    vertical-align: bottom;
+}
 .frm-btn-lnk-arial-Normal{
     border:none;
     font-family: calibri;
@@ -3193,6 +3212,19 @@ div.selectStyledBorderLess select {
     -khtml-opacity: 0; 
     -moz-opacity: 0;
 }
+.file_stock_form_image_input_hidden
+{
+    font-size: 24px; 
+    position: absolute; 
+    right: 0px; 
+    top: 0px; 
+    opacity: 0; 
+
+    filter: alpha(opacity=0); 
+    -ms-filter: "alpha(opacity=0)"; 
+    -khtml-opacity: 0; 
+    -moz-opacity: 0;
+}
 /* -------------------------- Add Firm LOGO ---------------------------------*/
 .file_input_div_firm_logo
 {
@@ -3280,7 +3312,7 @@ div.selectStyledBorderLess select {
 }
 #main_container{
     background:none;
-    width:1062px;
+    width:1160px;
     height:auto;
     margin:auto;
 }
@@ -4060,7 +4092,7 @@ a:hover {
     width:20px;
     float:left;
     padding:0px;
-    margin:0 4px 0 14px;
+    margin:0 20px 0 20px;
     border: #000 0px solid;
 }
 .menu_headings:hover {
@@ -4068,7 +4100,7 @@ a:hover {
     width:20px;
     float:left;
     padding:0px;
-    margin:0 4px 0 14px;
+    margin:0 20px 0 20px;
     border:none;
 }
 .menu_headings:current {
@@ -4076,7 +4108,7 @@ a:hover {
     width:20px;
     float:left;
     padding:0px;
-    margin:0 4px 0 14px;
+    margin:0 20px 0 20px;
     border:none;
 }
 .menu_headings-og {
@@ -4104,7 +4136,7 @@ a:hover {
     border:none;
 }
 #first_main_div{
-    width:998px;
+    width:1088px;
     height:auto;
     margin: 0px 0px 0px 0px;
     padding:0px 0px 0px 0px;
@@ -7230,7 +7262,7 @@ a.goog-te-menu-value:focus{
     bottom: 0;
     left: 0;
     width: 700px;
-    height: 500px;
+    height: 570px;
     background: #f7f7f7;
     z-index: 999;
     border: #f0f0f0 solid 2px;
@@ -7415,3 +7447,71 @@ a.goog-te-menu-value:focus{
     border-top: #A4A4A4 1px solid;
 }
 /****End code for border show in suppHome:Author:SANT07NOV16****/
+.strike_line {
+    text-decoration: line-through;
+}
+.googleSuggestionDropdownDivClass {
+    position: absolute;
+    margin: 0px 0px 0px 0px;
+    text-align: left;
+    background-color: white;
+    z-index: 100;
+}
+.googleSuggestionDivClass {
+    min-width: 100px;
+    background-color: white;
+    z-index: 100;
+}
+.hidden_box{
+    min-width: 50px;
+    min-height: 24px;
+    visibility: hidden;
+    opacity: 1;
+    border: 1px solid #fba903;
+    border-radius: 5px;
+    margin-top: 26px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    position: absolute;
+    background-color: #FEFEFE;
+    z-index: 90;
+    color: #D76B00;
+    font-weight: bold;
+
+    -webkit-transition: 100ms;
+    -moz-transition: 100ms;
+    -ms-transition: 100ms;
+    -o-transition: 100ms;
+    transition: 100ms;  
+}
+.hidden_box_dropdown{
+    min-width: 50px;
+    min-height: 24px;
+    visibility: hidden;
+    opacity: 1;
+    border: 1px solid #fba903;
+    border-radius: 5px;
+    margin-top: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    position: absolute;
+    background-color: #FEFEFE;
+    z-index: 90;
+    color: #D76B00;
+    font-weight: bold;
+
+    -webkit-transition: 100ms;
+    -moz-transition: 100ms;
+    -ms-transition: 100ms;
+    -o-transition: 100ms;
+    transition: 100ms;  
+}
+.webcam_input_div_class {
+    position: absolute;
+    margin: 0px 0px 0px 0px;
+    text-align: left;
+    background-color: white;
+    z-index: 100;
+}

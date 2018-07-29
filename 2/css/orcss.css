@@ -370,7 +370,7 @@
     border-bottom:0px solid #FDD017; 
     position: relative;
     top: 0px;
-    z-index: 2000; 
+    //z-index: 2000; 
     // background:url('../images/gbxbg.png') top repeat;
 }
 /*************End code to change image @Author:PRIYA17FEB14*****************/
@@ -1169,7 +1169,7 @@
 }
 .acnt_det_heading{
     color: blue;
-    font-size:13px;
+    font-size:14px;
     font-weight:normal;
     font-family: Calibri;
 }

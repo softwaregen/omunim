@@ -120,11 +120,13 @@ body {
 }
 /* ---------------------------- End Ajax Loading Div ------------------------*/
 #cust_middle_body{
-    width:auto;
+    width:100%;
     min-height: 300px;
+    margin-top: 10px;
+    margin-left: 4px;
 }
 .main_center{
-    width:989px;
+    width:100%;
     height:auto;
     clear:both;
     margin:0px;
@@ -132,7 +134,7 @@ body {
     /*background:url(../images/bg.gif) top repeat;*/
 }
 .main_middle{
-    width:995px;
+    width:100%;
     min-height: 300px;
     text-align: left;
     float:left;
@@ -142,7 +144,7 @@ body {
     /*background:url(../images/bg_middle1.gif) top;*/
 }
 .main_middle_height_auto{
-    width:989px;
+    width:1080px;
     height:auto;
     text-align: left;
     float:left;
@@ -231,7 +233,7 @@ body {
     /*background:url(../images/silverPlate1.gif);*/
 }
 .main_middle_cust_list{
-    width:989px;
+    width:1080px;
     min-height: 300px;
     float:left;
     padding:0px;
@@ -239,7 +241,7 @@ body {
     border:#FD9A00 0px solid;
 }
 .main_middle_cust_header{
-    width:989px;
+    width:1080px;
     height:auto;
     float:left;
     padding:0px 0px 0px 10px;
@@ -544,7 +546,7 @@ body {
 }
 /* START CODE SUPPLIER LIST    PRIYA02 */
 .main_middle_supp_list{
-    width:978px;
+    width:1080px;
     height:auto;
     float:left;
     padding:0px;
@@ -554,7 +556,7 @@ body {
 /* END CODE SUPPLIER LIST    PRIYA02 */
 /* START CODE SUPPLIER LIST PRIYA02 */
 .main_middle_staff_list{
-    width:978px;
+    width:1080px;
     min-height: 300px;
     float:left;
     padding:0px;

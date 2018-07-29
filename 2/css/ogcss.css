@@ -16,6 +16,15 @@
     text-align: center;
     border:solid 0px #800000;
 }
+.file_stock_form_image_input_div
+{
+    position: relative; 
+    width: 32px; 
+    height: 20px; 
+    overflow: hidden;
+    text-align: center;
+    border:solid 0px #800000;
+}
 
 .frm-img-btn{
     width: 50px;
@@ -760,7 +769,7 @@
         vertical-align:middle;
         border: #000000 0px solid;
     }
-    /**********Start Code To Add Class In @media print @Author:PRIYA28DEC13**************/
+    /**********Start Code To Add Class In  @Author:PRIYA28DEC13**************/
     table.sell_Inv_table{
         width:80mm;
         border: #000000 0px solid;
@@ -771,7 +780,7 @@
         width:92.6mm;
         border: #000000 1px solid;
     }
-    /**********End Code To Add Class In @media print @Author:PRIYA28DEC13**************/
+    /**********End Code To Add Class In  @Author:PRIYA28DEC13**************/
     /**********Start Code To Add Class For Sell Invoice @Author:PRIYA28SEP13**************/
     table.sellInvA5-main-table{
         width: 134mm;
@@ -799,7 +808,7 @@
 } 
 .spaceRight30
 {
-    margin:0px 30px 0px 0px;
+    margin:0px 38px 0px 0px;
 }
 .spaceRight35
 {
@@ -992,7 +1001,7 @@
 /********Start code to add class for roi select list display @Author:PRIYA07SEP13*************/
 .roiListDivToAddroiSelect {
     position: absolute;
-    width:76px;
+    width:120px;
     height:100px;
     margin: 0px 0px 0px 0px;
     text-align: left;
@@ -1744,6 +1753,7 @@
 }
 .ff_calibri{
     font-family: Calibri;
+    color: #000;
 }
 /*.ff_arial{
     font-family: Calibri;
@@ -3148,7 +3158,7 @@ div.selectStyledBorderGrey select {
 /*****************End code to add class @Author:PRIYA27MAY14*********/
 /*****************Start code to add class @Author:PRIYA28MAY14*********/
 .width_627pr{
-    width:627px;  
+    width:727px;  
 }
 .width_120pr{
     width:120px;  
@@ -3265,13 +3275,13 @@ div.selectStyledBorderGrey select {
     width:132px;  
 }
 .width_627_dd{
-    width:627px;   
+    width:727px;   
 }
 .width_120_dd{
     width:120px;   
 }
 .width_300_dd{
-    width:300px;
+    width:400px;
 }
 .width_70_dd{
     width:70px;
@@ -3930,7 +3940,7 @@ div.selectStyledBorderLes select {
 /************End code to add class @Author:PRIYA10SEP14*************/
 /************Start code to add class @Author:PRIYA06OCT14***********/
 .main_middle_common{
-    width:995px;
+    width:1080px;
     text-align: left;
     float:left;
     padding:0px 0px 0px 5px;
@@ -4215,6 +4225,39 @@ div.selectStyledBorderLes select {
     }
     .green {
         color:  #000000;
+    }
+    .font_color_black{
+        color: #000000;
+    }
+    .font_color_blue{
+        color: #0000C8;
+    }
+    .font_color_lightBlue{
+        color: #059BD8;
+    }
+    .font_color_brightBlue{
+        color: #2E64FE;
+    }
+    .font_color_darkBlue{
+        color: #003366;
+    }
+    .font_color_maroon{
+        color: #800000;
+    }
+    .font_color_red{
+        color: #B80000;
+    }
+    .font_color_brown{
+        color: #804000;
+    }
+    .font_color_green{
+        color: #00A000;
+    }
+    .font_color_orange{
+        color: #D76B00;
+    }
+    .font_color_grey{
+        color: #444444;
     }
 }
 div.selectStyledNoBack select {
@@ -4672,6 +4715,14 @@ div.selectStyledNoBack select {
 .portlet.green-crusta {
     background-color: #77c130;
 }
+.portlet > .portlet-body.green-crusta,
+.portlet.blue-crusta {
+    background-color: #78C9EA;
+}
+.portlet > .portlet-body.green-crusta,
+.portlet.red-crusta {
+    background-color: #E08F8F;
+}
 .form-control-req-height20New{
     font-size: 13px;
     font-weight: bold;
@@ -4696,7 +4747,7 @@ div.selectStyledNoBack select {
 }*/
 /* start code for style packets @Author ATHU23nOV16 */
 .packets-lbr-charge-Div {
-     position: absolute; 
+    position: absolute; 
     padding: 1px 0 0 0px;
     margin: 0px 0px 0px 160px;
     text-align: left; 
@@ -4706,11 +4757,94 @@ div.selectStyledNoBack select {
 }
 /* start code for style packets @Author ATHU30NOV16 */
 .packets-lbr-charge-Div {
-     position: absolute; 
+    position: absolute; 
     padding: 1px 0 0 0px;
     margin: 0px 0px 0px 160px;
     text-align: left; 
     width:120px;
     height: 28px;
-/*    background-color: #FFF8C6; */
+    /*    background-color: #FFF8C6; */
+}
+.ontop {
+    z-index: 999;
+    width: 100%;
+    height: 176%;
+    top: 0;
+    left: 0;
+    display: none;
+    position: absolute;
+    background-color: #2F4F4F;
+    color: #aaaaaa;
+    /*    opacity: 0.9;*/
+}
+#popup {
+    position: fixed; 
+    margin: 0px 0px 0 0px;
+    text-align: left; 
+    color: #000000;
+    background-color: #ffffff;
+    top: 30%;
+    left: 2%;
+    width: 95%;
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0px;
+    top: 0px;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 1220px;
+    height: 500px; /* Full height */
+}
+
+/* The Close Button */
+.closeFinePopUp {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.closeFinePopUp:hover,
+.closeFinePopUp:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+::-moz-placeholder {
+    color: grey;
+    opacity: 1;
+}
+
+/* Modal Rem Content */
+.modalRem {
+    display: none;  
+    position: fixed;  
+    z-index: 1;  
+    padding-top: 100px;  
+    left: 16px;
+    top: 0px;
+    background-color: rgb(0,0,0);  
+    background-color: rgba(0,0,0,0.4);  
+}
+
+.modalRem-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 8px;
+    border: 1px solid #888;
+    width: 1090px;
+    height: 215px;  
 }

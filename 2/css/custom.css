@@ -30,8 +30,16 @@ and open the template in the editor.
     height: 170px;
 }
 .image-w165px-h165px {
-    width: 165px;
-    height: 165px;
+    width: auto;
+    max-width: 220px;
+    height: auto;
+    max-height: 165px;
+}
+.image-w300px-h300px {
+    width: auto;
+    max-width: 534px;
+    height: auto;
+    max-height: 300px;
 }
 .image-center {
     vertical-align: middle;
