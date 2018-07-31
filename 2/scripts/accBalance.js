@@ -4806,10 +4806,10 @@ function getKittyUpdateDiv(kittyId, panelName) {
 /************END code to add update kitty @Author:GAUR23AUG16************/
 /************ Start code to add function passKittyEMIValues @Author:GAUR26AUG16************/
 /******Start code to update function @Author:GAUR09SEP16********/
-function passKittyEMIValues(kittyNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, emiStatus, kPaidAmt, serialNo, custId, firmId, kittyId, kittyDOB, gDepId, gDepJrnlId, emiOccur, gEMIAmt, princAmt, dueDate, pageNo, kittyMetalType, kRateAmt, kWtAmt) {
-    //alert("kittyMetalType = "+kittyMetalType);
-//     alert(kRateAmt);
-//     alert(firmId);
+function passKittyEMIValues(kittyNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt,custStaffLoginId, emiStatus, kPaidAmt, serialNo, custId, firmId, kittyId, kittyDOB, gDepId, gDepJrnlId, emiOccur, gEMIAmt, princAmt, dueDate, pageNo, kittyStaffId,newKittyRecipitNo, kittyMetalType, kRateAmt, kWtAmt ) {
+//    alert(KittyRecipitNo );
+//     alert(custStaffLoginId);
+//     alert(kittyStaffId);
     if (validateSelectField(document.getElementById("DOBDay" + gDepId + kittyNo).value, "Please select Day!") == false) {
         document.getElementById("DOBDay" + gDepId + kittyNo).focus();
         return false;
@@ -4870,6 +4870,7 @@ function passKittyEMIValues(kittyNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, em
                 var poststr = "kittyNo=" + kittyNo
                         + "&emiPaidDate=" + emiPaidDate
                         + "&emiAmt=" + emiAmt
+                        + "&custStaffLoginId=" + custStaffLoginId
                         + "&emiStatus=" + emiStatus
                         + "&kPaidAmt=" + kPaidAmt
                         + "&custId=" + custId
@@ -4882,6 +4883,8 @@ function passKittyEMIValues(kittyNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, em
                         + "&princAmt=" + princAmt
                         + "&kittyEndDate=" + dueDate
                         + "&pageNo=" + pageNo
+                        + "&kittyStaffId=" + kittyStaffId
+                        + "&newKittyRecipitNo=" + newKittyRecipitNo
                         + "&kRateAmt=" + kRateAmt
                         + "&kWtAmt=" + kWtAmt;
                 if (kittyMetalType != 'CASH') {
@@ -4890,6 +4893,7 @@ function passKittyEMIValues(kittyNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, em
 
                 }
                 poststr = poststr + "&serialNo=" + serialNo
+//                        + "&custStaffLoginId=" + custStaffLoginId
                         + "&custId=" + custId
                         + "&firmId=" + firmId
                         + "&kittyId=" + kittyId
@@ -4900,7 +4904,9 @@ function passKittyEMIValues(kittyNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, em
                         + "&gEMIAmt=" + gEMIAmt
                         + "&princAmt=" + princAmt
                         + "&kittyEndDate=" + dueDate
-                        + "&pageNo=" + pageNo;
+                        + "&pageNo=" + pageNo
+                        + "&kittyStaffId=" + kittyStaffId
+                        + "&newKittyRecipitNo=" + newKittyRecipitNo;
                 //alert(poststr);
                 xmlhttp.open("POST", "include/php/omktemiin.php?" + poststr, true);
                 xmlhttp.send();
@@ -4914,10 +4920,12 @@ function passKittyEMIValues(kittyNo, emiPaidDD, emiPaidMM, emiPaidYY, emiAmt, em
 /******Start code to add function deleteCustKittyDetails @Author:GAUR26AUG16********/
 function deleteCustKittyDetails(kittyId, custId)
 {
+    
     document.getElementById("ajaxLoadUdhaarDepositMon" + kittyId).style.visibility = "visible";
     confirm_box = confirm("Do you really want to Permanent Delete this Kitty Details?");
     if (confirm_box == true)
     {
+        loadXMLDoc();
         var poststr = "kittyId=" + kittyId +
                 "&custId=" + custId;
         delete_girvi('include/php/omktgrdl.php', poststr); //change in filename @AUTHOR: SANDY20NOV13
@@ -4927,6 +4935,30 @@ function deleteCustKittyDetails(kittyId, custId)
     }
 }
 /******End code to add function deleteCustKittyDetails @Author:GAUR26AUG16********/
+
+
+/******Start code to add function deleteCustKittyDetails @Author:GAUR26AUG16********/
+function closeKittyDate(kittyId,kittyCustId,DOBClDay,DOBClMonth,DOBClYear)
+{     
+//    alert(kittyCustId)
+    confirm_box = confirm("Do you really want to Permanent Close this Kitty Details?");
+    if (confirm_box == true){
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("kittyFinDiv").innerHTML = xmlhttp.responseText;
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+        
+    };
+    }
+    xmlhttp.open("POST", "include/php/omktclosedate.php?kittyId=" + kittyId + "&kittyCustId=" + kittyCustId + "&DOBClDay=" + DOBClDay + "&DOBClMonth=" + DOBClMonth + "&DOBClYear=" + DOBClYear, true);
+    xmlhttp.send();
+}
+/******End code to add function deleteCustKittyDetails @Author:GAUR26AUG16********/
+
 
 /******START code to add function KITTY DETAILS @Author:GAUR26AUG16********/
 /******START code to UPDATE function KITTY DETAILS @Author:GAUR02SEP16********/
@@ -5265,6 +5297,46 @@ function updateSize55BarCode(omLayoutOptionTop, omLayFontSize1, fontSizeBarCode1
     xmlhttp.send();
 }
 /********END code to add updateSize55BarCode @Author:GAUR14SEP16**************/
+
+
+
+/********Strat code to add updateSize55BarCode @Author:GAUR14SEP16**************/
+function updateSize55imiBarCode(omLayoutOptionTop, omLayFontSize1, fontSizeBarCode1, omLayFontSize2, fontSizeBarCode2, omLayFontSize3, fontSizeBarCode3, omLayFontSize4, fontSizeBarCode4, omLayFontSize5, fontSizeBarCode5,
+        omLayFontSize6, fontSizeBarCode6, omLayFontSize7, fontSizeBarCode7, omLayFontSize8, fontSizeBarCode8, omLayFontSize9, fontSizeBarCode9, omLayFontSize10, fontSizeBarCode10, omLayFontSize11, fontSizeBarCode11,
+        caption1, caption2, caption3, caption4, caption5, caption6, caption7, caption8, caption9, caption10, caption11, panel) {
+    loadXMLDoc();
+
+    //alert(fontSizeBarCode1);
+
+//     alert(panel);
+
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("barCodePrintPanelDiv").innerHTML = xmlhttp.responseText;
+            document.getElementById("bcMessDisplayDiv").innerHTML = "<span class='fs_14 ff_calibri reddish'>UPDATED</span>";
+            window.setTimeout(closeBCMessDiv, 1500);
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    var postStr = 'omLayoutOptionTop=' + omLayoutOptionTop + '&fontSize1=' + omLayFontSize1 + '&fontSizeValue1=' + fontSizeBarCode1 + '&fontSize2=' + omLayFontSize2 + '&fontSizeValue2=' + fontSizeBarCode2 + '&fontSize3=' + omLayFontSize3 + '&fontSizeValue3=' + fontSizeBarCode3
+            + '&fontSize4=' + omLayFontSize4 + '&fontSizeValue4=' + fontSizeBarCode4 + '&fontSize5=' + omLayFontSize5 + '&fontSizeValue5=' + fontSizeBarCode5 + '&fontSize6=' + omLayFontSize6 + '&fontSizeValue6=' + fontSizeBarCode6 + '&fontSize7=' + omLayFontSize7 + '&fontSizeValue7=' + fontSizeBarCode7
+
+            + '&fontSize8=' + omLayFontSize8 + '&fontSizeValue8=' + fontSizeBarCode8 + '&fontSize9=' + omLayFontSize9 + '&fontSizeValue9=' + fontSizeBarCode9 + '&fontSize10=' + omLayFontSize10 + '&fontSizeValue10=' + fontSizeBarCode10 + '&fontSize11=' + omLayFontSize11 + '&fontSizeValue11=' + fontSizeBarCode11 + '&captionvalue1=' + caption1 +
+            '&captionvalue2=' + caption2 + '&captionvalue3=' + caption3 + '&captionvalue4=' + caption4 + '&captionvalue5=' + caption5 + '&captionvalue6=' + caption6
+            + '&captionvalue7=' + caption7 + '&captionvalue8=' + caption8 + '&captionvalue9=' + caption9 + '&captionvalue10=' + caption10 + '&captionvalue11=' + caption11 + '&panel=' + panel;
+
+
+
+    xmlhttp.open("POST", "include/php/ombcbcup.php?" + postStr, true);
+    xmlhttp.send();
+}
+/********END code to add updateSize55BarCode @Author:GAUR14SEP16**************/
+
+
 /****************************************START Add function for artifical amt @Author:GAUR16SEP16**********************************/
 
 /**********Start code to change ID's @Author: PRIYANKA-03-06-17*********/

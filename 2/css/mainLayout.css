@@ -140,8 +140,16 @@
     font-size: 24px;
     font-family: calibri;
 }
+.textCalibri20{
+    font-size: 20px;
+    font-family: calibri;
+}
 .textCalibri16{
     font-size: 16px;
+    font-family: calibri;
+}
+.textCalibri18{
+    font-size: 18px;
     font-family: calibri;
 }
 .textCalibri14{

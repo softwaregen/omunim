@@ -2814,6 +2814,23 @@ function sendProdId(ProdName, panel) {
     xmlhttp.send();
 }
 // End Code For Sort By Product Name On Multilable//////
+function directPRNPrint(panel, page)
+{
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //document.getElementById("mainSelectDiv").innerHTML = xmlhttp.responseText;
+            document.getElementById("ajax_loading_div").style.visibility = "hidden";
+        } else {
+            document.getElementById("ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    if (panel == 'Items55x13IMBarCodePanel')
+        xmlhttp.open("GET", "include/php/omstockTransibbc55x13imidv.php?printOption=directPRNPrint&panel=" + panel + "&page=" + page, true);
+    else
+        xmlhttp.open("GET", "include/php/omstockTransibbc55x13dv.php?printOption=directPRNPrint&panel=" + panel + "&page=" + page, true);
+    xmlhttp.send();
+}
 //****************************************************************************************************************
 //Print BarCode SLips A4 Sheet
 function printBarCodeA4Sheet(obj) {
@@ -3773,6 +3790,9 @@ function showBarCodePrintPanel(divPanel) {
     } else if (divPanel == 'Items55x13BarCodePanel') {
         document.getElementById("a4SheetsPrintButtonDiv").style.visibility = "hidden";
         xmlhttp.open("POST", "include/php/ogibbc55x13.php?panel=" + divPanel, true);
+    } else if (divPanel == 'Items55x13IMBarCodePanel') {
+        document.getElementById("a4SheetsPrintButtonDiv").style.visibility = "hidden";
+        xmlhttp.open("POST", "include/php/ogibbc55x13imi.php?panel=" + divPanel, true);
     } else if (divPanel == 'BarCodePrintHelp') {
         xmlhttp.open("POST", "include/php/ombchelp.php", true);
     } else if (divPanel == 'Items20x12BarCodePanel') {
@@ -4977,7 +4997,7 @@ function search_item_cat(url, parameters) {
 }
 //
 function alertSearchItemCat() {
-  if (panelNameForItemCat == 'jewelleryPanel') {
+    if (panelNameForItemCat == 'jewelleryPanel') {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
             document.getElementById("itemListCatDivToAddStock").innerHTML = xmlhttp.responseText;
@@ -4988,13 +5008,13 @@ function alertSearchItemCat() {
         } else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
-    }   
+    }
 }
 //
 function searchItemCatForPanelBlank(divNum) {
     if (divNum == 'stockItemCat') {
         document.getElementById("itemListCatDivToAddStock").innerHTML = '';
-    } 
+    }
 }
 //********************************************************************************************
 // End code to add for search by category @Author:PRIYANKA-10JULY18

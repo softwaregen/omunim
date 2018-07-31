@@ -146,7 +146,9 @@ function navigationToNextBarcodePanel(pagenum, panelName, serachprodname) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             if (panelName == 'label' || panelName=='Items55x13BarCodePanel') {
             //   alert(xmlhttp.responseText);
-                document.getElementById("ogibbc55x13SubDiv").innerHTML = xmlhttp.responseText;
+                document.getElementById("SortByProdName").innerHTML = xmlhttp.responseText;
+            }else if (panelName=='Items55x13IMBarCodePanel') {
+                document.getElementById("SortByProdName").innerHTML = xmlhttp.responseText;
             } else if (panelName == '65LPaging') {
                 document.getElementById("barCode65LDiv").innerHTML = xmlhttp.responseText;
             } else if (panelName == '84LPaging') {
@@ -167,7 +169,10 @@ function navigationToNextBarcodePanel(pagenum, panelName, serachprodname) {
     };
     if (panelName == 'label' || panelName == 'Items55x13BarCodePanel') {
        // alert("hi");
-        xmlhttp.open("POST", "include/php/ogibbc55x13.php?page=" + pagenum +"&panel="+ panelName + "&tags=true" +"&prodname=" + serachprodname,true);
+        xmlhttp.open("POST", "include/php/ogibbc55x13.php?page=" + pagenum +"&panel="+ panelName + "&tags=false" +"&prodname=" + serachprodname,true);
+    }else if (panelName == 'Items55x13IMBarCodePanel') {
+       // alert("hi");
+        xmlhttp.open("POST", "include/php/ogibbc55x13imi.php?page=" + pagenum +"&panel="+ panelName + "&tags=false" +"&prodname=" + serachprodname,true);
     } else if (panelName == '65LPaging') {
 //        xmlhttp.open("POST", "include/php/ogibbc65l.php?page=" + pagenum + "&tags=true", true);
         xmlhttp.open("POST", "include/php/omstockTransibbc65l.php?page=" + pagenum + "&tags=true", true);

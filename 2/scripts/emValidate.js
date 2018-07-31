@@ -658,6 +658,7 @@ function printDirectDiv(printpage) {
             /* Create a HTML document to go into the iFrame */
             /* The title will appear on the printed document */
             printDoc.write("<html><head><link href='css/index.css' rel='stylesheet' type='text/css' /><link href='css/barCodeLabel.css' rel='stylesheet' type='text/css' />");
+            printDoc.write("<link href='css/mainLayout.css' rel='stylesheet' type='text/css' />");
             printDoc.write("</head><body onload='this.focus(); this.print();'>");
             printDoc.write(content + "</body></html>");
             printDoc.close();
@@ -929,7 +930,7 @@ function printOneAllLabelBarcodeBySttrId(sttrId)
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            //  alert(xmlhttp.responseText);
+              //alert(xmlhttp.responseText);
             document.getElementById("AllLabelsDivs").innerHTML = xmlhttp.responseText;
             //printDirectDiv('allLabelsThermalDiv');
         }
@@ -938,3 +939,18 @@ function printOneAllLabelBarcodeBySttrId(sttrId)
     xmlhttp.send();
 }
 //End Code to add print all labels in one click @AUTH:ATHU5MAR17
+//
+// START CODE TO ADD FUNCTION FOR IMITATION AUTO BARCODE PRINT @PRIYANKA-30JULY18
+function printOneAllLabelImiBarcodeBySttrId(sttrId)
+{
+    var panel = 'Items55x13IMBarCodePanel';
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("AllLabelsDivs").innerHTML = xmlhttp.responseText;
+        }
+    };
+    xmlhttp.open("GET", "include/php/ogibbc55x13imi.php?sttrId=" + sttrId + "&panel=" + panel, true);
+    xmlhttp.send();
+}
+// END CODE TO ADD FUNCTION FOR IMITATION AUTO BARCODE PRINT @PRIYANKA-30JULY18

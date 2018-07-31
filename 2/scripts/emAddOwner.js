@@ -1417,7 +1417,10 @@ function addMetalRate(obj) {
                 + "&metalRateTaxIncludeCheck=" + encodeURIComponent(document.getElementById('metalRateTaxIncludeCheck').checked)
                 + "&metalRateTaxPrecent=" + encodeURIComponent(document.getElementById("metalRateTaxPrecent").value)
                 + "&metalRateWithTax=" + encodeURIComponent(document.getElementById("metalRateWithTax").value)
-                + "&metalRateTaxAmt=" + encodeURIComponent(document.getElementById("metalRateTaxAmt").value);
+                + "&metalRateTaxAmt=" + encodeURIComponent(document.getElementById("metalRateTaxAmt").value)
+                + "&metratemkgchrgs=" + encodeURIComponent(document.getElementById("metratemkgchrgs").value)
+                + "&mkgchrgPerWtType=" + encodeURIComponent(document.getElementById("mkgchrgPerWtType").value)
+                + "&metratepurity=" + encodeURIComponent(document.getElementById("metratepurity").value);
 
         add_metal_rate('include/php/ommradmr.php', poststr);
     }

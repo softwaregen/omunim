@@ -2858,9 +2858,9 @@ function releaseGirvi(custId, girviId, pageNo, totalPrincipalAmount, amountPaid,
         simpleOrCompIntOption, girviCompoundedOption, monthlyInterestType, interestType, girviFirmId, girviJrnlId, girviAccId,
         girviLoanAccId, girviCashRecAccId, girviIntRecAccId, girviDiscAccId, smsTemplateId, custIdOfFingerScanDetails, loanRelByFingerScanUserId) {
 //alert(ototalAmount);
-//alert(ototalInterest);
 //alert(itotalAmount);
 //alert(itotalInterest);
+//alert(ototalInterest);
     document.getElementById("girviReleaseButDiv").style.visibility = "hidden";
     document.getElementById("main_ajax_loading_div").style.visibility = "visible";
 

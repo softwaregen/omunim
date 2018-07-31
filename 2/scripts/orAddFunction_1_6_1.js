@@ -2750,6 +2750,63 @@ function showSchemeListStatus(user, status) {
 
 /************END TO ADD function TO SHOW SCHEME LIST  @AUTHOR: AMOL********************/
 
+
+function showSchemeReport() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omkittyreport.php", true);
+    xmlhttp.send();
+}
+
+function showSchemeCollectionList() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omcollectionlst.php", true);
+    xmlhttp.send();
+}
+
+function showSchemeNonCollectionList() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omnoncollectionlst.php", true);
+    xmlhttp.send();
+}
+
+function showSchemeGiftList() {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("customerListDiv").innerHTML = xmlhttp.responseText; //change in div @AUTHOR: SANDY23DEC13
+        } else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("GET", "include/php/omktgiftlst.php", true);
+    xmlhttp.send();
+}
+
 /************Start TO ADD function TO SHOW USER LIST @AUTHOR: SANDY13NOV13********************/
 function showUserList(user) {
     loadXMLDoc();
@@ -4957,7 +5014,7 @@ function usersuppiler() {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
         }
     };
-    xmlhttp.open("GET", "include/php/orbbblsd_2.php", true);
+    xmlhttp.open("GET", "include/php/ombbblsd_2.php", true);
     xmlhttp.send();
 }
 /* End code to get SELL REPORT in detail @AUTHOR: BAJRANG10NOV17*/

@@ -227,7 +227,7 @@ function showJournalEntryListDiv(documentRootPath, jrnlId, jrnlDrDesc, jrnlUserI
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + jrnlUserId + "&custPanelOption=" + 'CustHome', true);
     } else if (jrnlUserType == 'CUSTOMER' && (jrnlTransType == 'PAYMENT' || jrnlTransType == 'RECEIPT')) {
         xmlhttp.open("POST", "http://" + documentRootPath + "/include/php/omcdccdd.php?custId=" + jrnlUserId + "&custPanelOption=" + 'CustHome' + "&panelName=" + 'custAllTrans', true);
-    } 
+    }
     xmlhttp.send();
 }
 /***************End update code @Author:GAUR24OCT16************/
@@ -2966,7 +2966,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
     }
     var searchItemIdCharPart = searchItemId.substr(0, charLen);
     var searchItemIdNumPart = searchItemId.substr(charLen);
-    
+
     //alert('searchItemIdCharPart == ' + searchItemIdCharPart);
     //alert('searchItemIdNumPart == ' + searchItemIdNumPart);
 
@@ -2992,7 +2992,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-                 document.getElementById("slPrDiv").innerHTML = xmlhttp.responseText;
+                document.getElementById("slPrDiv").innerHTML = xmlhttp.responseText;
             } else {
                 document.getElementById("main_ajax_loading_div").style.visibility = "visible";
             }
@@ -3008,7 +3008,7 @@ function searchItemByItemId(searchItemId, autoEntryValue, custId) {
                     "&custId=" + custId + "&panelName=" + 'autoEntry' + "&autoEntry=" + autoEntryValue + "&charLen=" + charLen, true);
         }
         xmlhttp.send();
-        
+
     } else {
         return false;
     }
@@ -3208,9 +3208,9 @@ function searchItemByProdCode(searchItemId, custId) {
     var alphaExp = /^[a-zA-Z]+$/;
     while (tempLen > 0) {
 
-    var field = searchItemIdTemp.substr(0, 1);
-    searchItemIdTemp = searchItemIdTemp.substr(1);
-    
+        var field = searchItemIdTemp.substr(0, 1);
+        searchItemIdTemp = searchItemIdTemp.substr(1);
+
         if (field.match(alphaExp)) {
             charLen = charLen + 1;
         } else {
@@ -3218,7 +3218,7 @@ function searchItemByProdCode(searchItemId, custId) {
         }
         tempLen = tempLen - 1;
     }
-    
+
     var searchItemIdCharPart = searchItemId.substr(0, charLen);
     var searchItemIdNumPart = searchItemId.substr(charLen);
 
@@ -3244,12 +3244,12 @@ function searchItemByProdCode(searchItemId, custId) {
 
 }
 
-function showEstimateInvDiv(srchItemPreId, srchItemPostId, custId, panelName) { 
+function showEstimateInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
     loadXMLDoc();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
-            document.getElementById("estimateDetails").innerHTML = xmlhttp.responseText;    
+            document.getElementById("estimateDetails").innerHTML = xmlhttp.responseText;
         }
         else {
             document.getElementById("main_ajax_loading_div").style.visibility = "visible";
@@ -3257,5 +3257,20 @@ function showEstimateInvDiv(srchItemPreId, srchItemPostId, custId, panelName) {
     };
 
     xmlhttp.open("POST", "include/php/omestimate.php?srchItemPreId=" + srchItemPreId + "&srchItemPostId=" + srchItemPostId + "&custId=" + custId + "&panelName=" + panelName, true);
+    xmlhttp.send();
+}
+//
+function refreshXRFPaymentPanel(prod_total_amount,userId) {
+    loadXMLDoc();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("xrfPaymentDiv").innerHTML = xmlhttp.responseText;
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    xmlhttp.open("POST", "include/php/ompaymentxrf.php?prod_total_amount=" + prod_total_amount + "&userId=" + userId, true);
     xmlhttp.send();
 }

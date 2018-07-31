@@ -2465,11 +2465,21 @@ function calcTotTax(prefix, finalTotalAmnt) {
 
         //alert('finalTaxAmt == ' + finalTaxAmt);
 
-        document.getElementById('taxOnTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
-        document.getElementById('taxOnCGSTTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
-        document.getElementById('taxOnSGSTTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
-        document.getElementById('taxOnIGSTTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
-        document.getElementById('taxableAmount').value = parseFloat(finalTaxAmt).toFixed(2);
+        // START CODE TO APPLY DISCOUNT BEFORE GST ON TOTAL AMOUNT @PRIYANKA-24JULY18
+        if (document.getElementById('utin_discount_per_discup').value == '' && document.getElementById('utin_discount_amt_discup').value == '') {
+            document.getElementById('taxOnTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxOnCGSTTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxOnSGSTTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxOnIGSTTotAmt').value = parseFloat(finalTaxAmt).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxableAmount').value = parseFloat(finalTaxAmt).toFixed(2);
+        } else {
+            document.getElementById('taxOnTotAmt').value = (parseFloat(finalTaxAmt) - parseFloat(document.getElementById('utin_discount_amt_discup').value)).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxOnCGSTTotAmt').value = (parseFloat(finalTaxAmt) - parseFloat(document.getElementById('utin_discount_amt_discup').value)).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxOnSGSTTotAmt').value = (parseFloat(finalTaxAmt) - parseFloat(document.getElementById('utin_discount_amt_discup').value)).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxOnIGSTTotAmt').value = (parseFloat(finalTaxAmt) - parseFloat(document.getElementById('utin_discount_amt_discup').value)).toFixed(2); // Tax Apply on Total Amount
+            document.getElementById('taxableAmount').value = (parseFloat(finalTaxAmt)- parseFloat(document.getElementById('utin_discount_amt_discup').value)).toFixed(2); // Tax Apply on Total Amount
+        }
+        // END CODE TO APPLY DISCOUNT BEFORE GST ON TOTAL AMOUNT @PRIYANKA-24JULY18
     }
     // END CODE To Apply Tax on Total Amount (Metal Valuation + Other Charges + Crystal Charges) @PRIYANKA-01JAN18
 
@@ -3732,9 +3742,9 @@ function calcPaymentCashBalance(prefix) {
             }
             // END CODE FOR METAL RECEIVED CALCULATION ON PAYMENT PANEL @PRIYANKA-19JUNE18
             
-            document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayTotCashAmtDisp').value) + parseFloat(rndOffAmount)).toFixed(2);
-            document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math_round(Math.abs(parseFloat(finalCashBal) + parseFloat(rndOffAmount))).toFixed(2);
-            document.getElementById(prefix + 'PayTotAmtBal').value = Math_round(Math.abs(parseFloat(finalCashBal) + parseFloat(rndOffAmount))).toFixed(2);
+            document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayTotCashAmtDisp').value)).toFixed(2);
+            document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math_round(Math.abs(parseFloat(finalCashBal))).toFixed(2);
+            document.getElementById(prefix + 'PayTotAmtBal').value = Math_round(Math.abs(parseFloat(finalCashBal))).toFixed(2);
         } else {
             
             //document.getElementById(prefix + 'PayRoundOffDisplay').value = '- ' + parseFloat(roundOffAmount).toFixed(2);
@@ -3746,9 +3756,9 @@ function calcPaymentCashBalance(prefix) {
             }
             // END CODE FOR METAL RECEIVED CALCULATION ON PAYMENT PANEL @PRIYANKA-19JUNE18
             
-            document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayTotCashAmtDisp').value) - parseFloat(roundOffAmount)).toFixed(2);
-            document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math.abs(parseFloat(finalCashBal) - parseFloat(roundOffAmount)).toFixed(2);
-            document.getElementById(prefix + 'PayTotAmtBal').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotAmtBal').value) - parseFloat(roundOffAmount))).toFixed(2);
+            document.getElementById(prefix + 'PayTotCashAmtDisp').value = Math_round(parseFloat(document.getElementById(prefix + 'PayTotCashAmtDisp').value)).toFixed(2);
+            document.getElementById(prefix + 'PayFinAmtBalDisp').value = Math.abs(parseFloat(finalCashBal) ).toFixed(2);
+            document.getElementById(prefix + 'PayTotAmtBal').value = Math_round((parseFloat(document.getElementById(prefix + 'PayTotAmtBal').value))).toFixed(2);
         }
         
     } else if ((TotalAmount % 1).toFixed(2) == 0 || (TotalAmount % 1).toFixed(2) == '0.00') {
@@ -4123,6 +4133,7 @@ function calcTotalFinalAmount(prefix, totalCashNdChequeAmt, totalCardAmt, totalO
                  document.getElementById("payPanelName").value == 'ImitationSellPayUp' ||
                  document.getElementById("payPanelName").value == 'CrySellPayment' ||
                  document.getElementById("payPanelName").value == 'CrySellPayUp'  ||
+                 document.getElementById("payPanelName").value == 'XRF_PAYMENT'  ||
                  document.getElementById("transPanelName").value == 'MONEY' ||
                  document.getElementById('transPanelName').value == 'OnPurchase') &&
                 (document.getElementById(prefix + 'PayableCashCRDR').value == 'DR')) {

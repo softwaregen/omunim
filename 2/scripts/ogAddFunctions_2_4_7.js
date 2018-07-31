@@ -1005,6 +1005,39 @@ function update55BarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayoutOpti
 /********END code to add font size @Author:GAUR04MAY16**************/
 /********END update code to add barcodeSize @Author:GAUR09SEP16**************/
 /********END update code to remove fontSize @Author:GAUR14SEP16**************/
+
+
+
+function update55imiBarCode(omLayoutOptionTop, omLayoutOptionTopValue, omLayoutOptionLeft, omLayoutOptionLeftValue,
+        slipWidth, slipWidthValue, slipHeight, slipHeightValue, textAlign, textAlignValue, barcodeSize, barcodeSizeValue, tailLength, tailLengthValue,
+        caption1, caption2, caption3, caption4, caption5, caption6, caption7, caption8, caption9, caption10, panel) {
+    loadXMLDoc();
+    //alert(panel);
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("main_ajax_loading_div").style.visibility = "hidden";
+            document.getElementById("barCodePrintPanelDiv").innerHTML = xmlhttp.responseText;
+            document.getElementById("bcMessDisplayDiv").innerHTML = "<span class='fs_14 ff_calibri reddish'>UPDATED</span>";
+            window.setTimeout(closeBCMessDiv, 1500);
+        }
+        else {
+            document.getElementById("main_ajax_loading_div").style.visibility = "visible";
+        }
+    };
+    var postStr = 'omLayoutOptionTop=' + omLayoutOptionTop + '&omLayoutOptionTopValue=' + omLayoutOptionTopValue
+            + '&omLayoutOptionLeft=' + omLayoutOptionLeft + '&omLayoutOptionLeftValue=' + omLayoutOptionLeftValue
+            + '&slipWidth=' + slipWidth + '&slipWidthValue=' + slipWidthValue
+            + '&slipHeight=' + slipHeight + '&slipHeightValue=' + slipHeightValue
+            + '&textAlign=' + textAlign + '&textAlignValue=' + textAlignValue
+            + '&barcodeSize=' + barcodeSize + '&barcodeSizeValue=' + barcodeSizeValue
+            + '&tailLength=' + tailLength + '&tailLengthValue=' + tailLengthValue + '&captionvalue1=' + caption1 +
+            '&captionvalue2=' + caption2 + '&captionvalue3=' + caption3 + '&captionvalue4=' + caption4 + '&captionvalue5=' + caption5 + '&captionvalue6=' + caption6
+            + '&captionvalue7=' + caption7 + '&captionvalue8=' + caption8 + '&captionvalue9=' + caption9 + '&captionvalue10=' + caption10 + '&panel=' + panel;
+    xmlhttp.open("POST", "include/php/ombcbcup.php?" + postStr, true);
+    xmlhttp.send();
+}
+
+
 /*****************Start code to add function to update time period @Author:PRIYA03NOV14****************/
 function validateUpdateGirviOtherInfo() {
     if (validateEmptyField(document.getElementById("girviOtherInfo").value, "Please enter Girvi Other Info!") == false) {

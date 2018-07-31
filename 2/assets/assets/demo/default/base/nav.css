@@ -16,7 +16,7 @@ and open the template in the editor.
 }
 
 .nav li a{
-  color: #0000CC;  
+    color: #0000CC;  
 }
 
 .nav-link {
@@ -27,6 +27,32 @@ and open the template in the editor.
     font-variant-caps: all-small-caps;
     background-color: #ebedf2;
 }
+
+.nav-link-inline-block {
+    font-family: calibri;
+    font-weight: 500;
+    display: inline-block;
+    font-variant-caps: all-small-caps;
+    background-color: transparent;
+    color: #0000CC;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    background-image: none;
+    border: 0px solid transparent;
+    border-radius: 0px !important;
+    line-height: none !important;
+    padding: 0;
+    margin: 0;
+}
+
+
 
 .nav-link:focus,
 .nav-link:hover {
@@ -43,7 +69,7 @@ and open the template in the editor.
 
 .nav-tabs .nav-item {
     margin-bottom: -1px;
-        
+
 }
 
 .nav-tabs .nav-link {
@@ -68,7 +94,7 @@ and open the template in the editor.
     color: #495057;
     background-color: #fff;
     border-color: #dee2e6 #dee2e6 #fff;
-    
+
 }
 
 .nav-tabs .dropdown-menu {

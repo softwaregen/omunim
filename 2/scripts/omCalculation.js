@@ -2090,6 +2090,10 @@ function  calRawMetalFinVal() {
         } else {
             document.getElementById('sttr_total_lab_charges').value = 0;
         }
+        
+        //alert('srGmWtInKg == ' + document.getElementById('srGmWtInKg').value);
+        //alert('metalRate == ' + metalRate);
+        
         if (metalType == 'Gold') {
             if (wtType == 'MG') {
                 document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight) / document.getElementById('gmWtInMg').value).toFixed(2);
@@ -2111,11 +2115,13 @@ function  calRawMetalFinVal() {
                 document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInGm').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             } else {
                 document.getElementById('sttr_valuation').value = ((metalRate * finalFineWeight * document.getElementById('srGmWtInKg').value)).toFixed(2);
-                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) / document.getElementById('srGmWtInKg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
+                document.getElementById('sttr_valuation').value = (parseFloat((metalRate * finalFineWeight) * document.getElementById('srGmWtInKg').value) + parseFloat(totalLabNOthCharges)).toFixed(2);
             }
         }
+        
         document.getElementById('sttr_valuation').value = parseFloat(document.getElementById('sttr_valuation').value);
         document.getElementById('sttr_final_valuation').value = parseFloat(document.getElementById('sttr_valuation').value).toFixed(2);
+        
         if (document.getElementById('sttr_tax').value != '') {
             document.getElementById('sttr_tot_tax').value = (parseFloat(document.getElementById('sttr_valuation').value * document.getElementById('sttr_tax').value) / 100).toFixed(2);
             document.getElementById('sttr_final_valuation').value = (parseFloat(document.getElementById('sttr_valuation').value) + (parseFloat(document.getElementById('sttr_tax').value) / 100 * document.getElementById('sttr_valuation').value)).toFixed(2);

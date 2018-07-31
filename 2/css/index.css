@@ -7515,3 +7515,51 @@ a.goog-te-menu-value:focus{
     background-color: white;
     z-index: 100;
 }
+.default_hidden_box_dropdown{
+    min-width: 50px;
+    min-height: 24px;
+    visibility: hidden;
+    opacity: 1;
+    border: 1px solid #fba903;
+    border-radius: 5px;
+    margin-top: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    font-size: 14px;
+    position: absolute;
+    background-color: #FEFEFE;
+    z-index: 90;
+    color: #D76B00;
+    font-weight: bold;
+
+    -webkit-transition: 100ms;
+    -moz-transition: 100ms;
+    -ms-transition: 100ms;
+    -o-transition: 100ms;
+    transition: 100ms;  
+}
+.default_hidden_box_dropdown_top40{
+    min-width: 50px;
+    min-height: 24px;
+    visibility: hidden;
+    opacity: 1;
+    border: 1px solid #fba903;
+    border-radius: 5px;
+    margin-top: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    font-size: 14px;
+    position: absolute;
+    background-color: #FEFEFE;
+    z-index: 90;
+    color: #D76B00;
+    font-weight: bold;
+
+    -webkit-transition: 100ms;
+    -moz-transition: 100ms;
+    -ms-transition: 100ms;
+    -o-transition: 100ms;
+    transition: 100ms;  
+}
